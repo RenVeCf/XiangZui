@@ -1,0 +1,283 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.ipd.xiangzui.activity.WalletActivity">
+
+    <com.ipd.xiangzui.common.view.TopView
+        android:id="@+id/tv_wallet"
+        android:layout_width="0dp"
+        android:layout_height="?attr/actionBarSize"
+        android:background="@color/white"
+        android:gravity="bottom"
+        app:is_back="true"
+        app:is_customer_service="true"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:title="钱包" />
+
+    <com.ipd.xiangzui.common.view.BounceScrollView
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:scrollbars="none"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tv_wallet">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <LinearLayout
+                android:id="@+id/ll_account_balance"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:background="@color/white"
+                android:orientation="vertical"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/y450"
+                    android:layout_margin="@dimen/x50"
+                    android:background="@drawable/bg_wallet">
+
+                    <com.xuexiang.xui.widget.textview.supertextview.SuperTextView
+                        android:id="@+id/stv_account_balance_type"
+                        android:layout_width="@dimen/x350"
+                        android:layout_height="@dimen/y100"
+                        android:layout_marginStart="@dimen/x30"
+                        android:layout_marginTop="@dimen/y30"
+                        android:gravity="center_vertical"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:sBackgroundDrawableRes="@color/transparent"
+                        app:sDividerLineType="none"
+                        app:sIsChecked="true"
+                        app:sRightCheckBoxMarginRight="@dimen/x80"
+                        app:sRightCheckBoxRes="@drawable/select_wallet_check"
+                        app:sRightTextColor="@color/white"
+                        app:sRightTextSize="16sp"
+                        app:sRightTextString="账户余额"
+                        app:sRightViewGravity="left_center"
+                        app:sRightViewType="checkbox" />
+
+                    <com.xuexiang.xui.widget.textview.supertextview.SuperTextView
+                        android:id="@+id/stv_account_balance"
+                        android:layout_width="0dp"
+                        android:layout_height="@dimen/y100"
+                        android:layout_marginStart="@dimen/x30"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/stv_account_balance_type"
+                        app:sBackgroundDrawableRes="@color/transparent"
+                        app:sCenterTextColor="@color/white"
+                        app:sCenterTextIsBold="true"
+                        app:sCenterTextSize="30sp"
+                        app:sCenterViewGravity="left_center"
+                        app:sDividerLineType="none"
+                        app:sLeftTextColor="@color/white"
+                        app:sLeftTextString="¥ " />
+
+                    <com.xuexiang.xui.widget.textview.supertextview.SuperButton
+                        android:id="@+id/sb_refund_deposit"
+                        style="@style/SuperButton.Gray"
+                        android:layout_width="@dimen/x280"
+                        android:layout_height="@dimen/y90"
+                        android:layout_marginBottom="@dimen/y50"
+                        android:layout_marginStart="@dimen/x50"
+                        android:text="退还保证金"
+                        android:textColor="@color/tx_bottom_navigation_select"
+                        android:textSize="16sp"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:sSelectorNormalColor="@color/white"
+                        app:sSelectorPressedColor="@color/input_color" />
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+                <LinearLayout
+                    android:id="@+id/ll_consumer_details"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="@dimen/y50"
+                    android:layout_marginEnd="@dimen/x50"
+                    android:layout_marginStart="@dimen/x50"
+                    android:orientation="horizontal">
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginEnd="@dimen/x20"
+                        android:layout_weight="1"
+                        android:background="@drawable/bg_consumer_details_item"
+                        android:gravity="center"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="0dp"
+                            android:layout_marginTop="@dimen/y20"
+                            android:layout_weight="1"
+                            android:drawableEnd="@drawable/ic_earnest_money"
+                            android:drawablePadding="@dimen/x50"
+                            android:text="保证金"
+                            android:textColor="@color/black" />
+
+                        <TextView
+                            android:id="@+id/tv_earnest_money"
+                            android:layout_width="wrap_content"
+                            android:layout_height="0dp"
+                            android:layout_gravity="start"
+                            android:layout_marginBottom="@dimen/y20"
+                            android:layout_marginStart="@dimen/x40"
+                            android:layout_weight="1"
+                            android:textColor="@color/black"
+                            android:textSize="18sp" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginEnd="@dimen/x20"
+                        android:layout_weight="1"
+                        android:background="@drawable/bg_consumer_details_item"
+                        android:gravity="center"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="0dp"
+                            android:layout_marginTop="@dimen/y20"
+                            android:layout_weight="1"
+                            android:drawableEnd="@drawable/ic_sum_income"
+                            android:drawablePadding="@dimen/x50"
+                            android:text="累计收入"
+                            android:textColor="@color/black" />
+
+                        <TextView
+                            android:id="@+id/tv_sum_income"
+                            android:layout_width="wrap_content"
+                            android:layout_height="0dp"
+                            android:layout_gravity="start"
+                            android:layout_marginBottom="@dimen/y20"
+                            android:layout_marginStart="@dimen/x40"
+                            android:layout_weight="1"
+                            android:textColor="@color/black"
+                            android:textSize="18sp" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginEnd="@dimen/x20"
+                        android:layout_weight="1"
+                        android:background="@drawable/bg_consumer_details_item"
+                        android:gravity="center"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="0dp"
+                            android:layout_marginTop="@dimen/y20"
+                            android:layout_weight="1"
+                            android:drawableEnd="@drawable/ic_sum_expenditure"
+                            android:drawablePadding="@dimen/x50"
+                            android:text="累计支出"
+                            android:textColor="@color/black" />
+
+                        <TextView
+                            android:id="@+id/tv_sum_expenditure"
+                            android:layout_width="wrap_content"
+                            android:layout_height="0dp"
+                            android:layout_gravity="start"
+                            android:layout_marginBottom="@dimen/y20"
+                            android:layout_marginStart="@dimen/x40"
+                            android:layout_weight="1"
+                            android:textColor="@color/black"
+                            android:textSize="18sp" />
+                    </LinearLayout>
+                </LinearLayout>
+            </LinearLayout>
+
+            <com.xuexiang.xui.widget.textview.supertextview.SuperTextView
+                android:id="@+id/stv_consumer_details"
+                android:layout_width="0dp"
+                android:layout_height="@dimen/y100"
+                android:paddingEnd="@dimen/x30"
+                android:paddingStart="@dimen/x30"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/ll_account_balance"
+                app:sBackgroundDrawableRes="@color/transparent"
+                app:sDividerLineType="none"
+                app:sLeftTextColor="@color/tx_bottom_navigation"
+                app:sLeftTextString="收支明细"
+                app:sRightTextColor="@color/tx_bottom_navigation"
+                app:sRightTextString="更多" />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rv_consumer_details"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/stv_consumer_details" />
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="@dimen/y150"
+                android:layout_marginTop="@dimen/y100"
+                android:background="@color/white"
+                android:gravity="center"
+                android:orientation="horizontal"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/rv_consumer_details">
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:orientation="horizontal">
+
+                    <com.xuexiang.xui.widget.textview.supertextview.SuperButton
+                        android:id="@+id/sb_withdraw"
+                        style="@style/SuperButton.Blue"
+                        android:layout_width="@dimen/x400"
+                        android:layout_height="@dimen/y110"
+                        android:layout_marginStart="@dimen/x50"
+                        android:text="提现"
+                        android:textSize="16sp" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:orientation="horizontal">
+
+                    <com.xuexiang.xui.widget.textview.supertextview.SuperButton
+                        android:id="@+id/sb_recharge"
+                        style="@style/SuperButton.Gray"
+                        android:layout_width="@dimen/x400"
+                        android:layout_height="@dimen/y110"
+                        android:text="充值"
+                        android:textColor="@color/tx_bottom_navigation_select"
+                        android:textSize="16sp"
+                        app:sSelectorNormalColor="@color/white"
+                        app:sSelectorPressedColor="@color/input_color"
+                        app:sStrokeColor="@color/tx_bottom_navigation_select"
+                        app:sStrokeWidth="0.5dp" />
+                </LinearLayout>
+            </LinearLayout>
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </com.ipd.xiangzui.common.view.BounceScrollView>
+</androidx.constraintlayout.widget.ConstraintLayout>

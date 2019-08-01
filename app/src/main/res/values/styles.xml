@@ -1,0 +1,47 @@
+<resources>
+
+    <!-- Base application theme. -->
+    <style name="AppTheme" parent="XUITheme.Phone">
+        <!-- 自定义自己的主题样式 -->
+        <item name="colorPrimary">@color/colorAccent</item>
+        <item name="colorPrimaryDark">@color/colorAccent</item>
+        <item name="colorAccent">@color/colorAccent</item>
+    </style>
+
+    <style name="animTranslate">
+        <item name="android:windowEnterAnimation">@anim/pop_window_in</item>
+        <item name="android:windowExitAnimation">@anim/pop_window_out</item>
+    </style>
+
+    <style name="MyDialogTheme" parent="@android:style/Theme.Holo.Light">
+        <item name="android:windowBackground">@color/transparent
+        </item> <!--设置dialog的背景，此处为系统给定的透明值-->
+        <item name="android:windowFrame">@null</item><!-- 边框 -->
+        <item name="android:windowNoTitle">true</item><!-- 是否显示标题 -->
+        <item name="android:windowIsFloating">true</item><!-- 是否浮现在activity之上 -->
+        <item name="android:windowIsTranslucent">true</item><!-- 是否半透明 -->
+        <item name="android:backgroundDimEnabled">true</item><!-- 外部变灰 -->
+        <item name="android:windowContentOverlay">@null</item><!-- 内部阴影 -->
+        <item name="android:windowAnimationStyle">@style/dialog_animation</item>
+    </style>
+
+    <style name="dialog_animation" parent="@android:style/Animation.Dialog">
+        <item name="android:windowEnterAnimation">@anim/dialog_in</item>
+        <item name="android:windowExitAnimation">@anim/dialog_out</item>
+    </style>
+
+    <style name="SuperButton.Blue">
+        <item name="sSelectorNormalColor">@color/tx_bottom_navigation_select</item>
+        <item name="sSelectorPressedColor">@color/xui_btn_blue_select_color</item>
+        <item name="sCornersRadius">50dp</item>
+        <item name="android:text">@string/xui_lab_button_reset</item>
+    </style>
+
+    <style name="SuperButton.Gray">
+        <item name="sSelectorNormalColor">@color/xui_btn_gray_normal_color</item>
+        <item name="sSelectorPressedColor">@color/xui_btn_gray_select_color</item>
+        <item name="sCornersRadius">50dp</item>
+        <item name="android:text">@string/xui_lab_button_cancel</item>
+    </style>
+
+</resources>

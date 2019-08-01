@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    app:cardBackgroundColor="@color/xui_config_color_white"
+    app:cardCornerRadius="8dp"
+    app:cardElevation="4dp"
+    app:cardPreventCornerOverlap="true">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="@dimen/x50">
+
+        <com.xuexiang.xui.widget.textview.supertextview.SuperTextView
+            android:id="@+id/stv_lablel"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/y100"
+            app:sCenterTextColor="@color/black"
+            app:sCenterTextIsBold="true"
+            app:sCenterTextSize="16sp"
+            app:sCenterViewGravity="left_center"
+            app:sLeftTextBackground="@drawable/bg_label"
+            app:sLeftTextColor="@color/tx_bottom_navigation_select"
+            app:sLeftTextSize="12sp"
+            app:sRightTextColor="@color/orange"
+            app:sUseShape="true" />
+
+        <com.xuexiang.xui.widget.textview.supertextview.SuperTextView
+            android:id="@+id/stv_name"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/y60"
+            app:sCenterTextColor="@color/tx_bottom_navigation"
+            app:sCenterViewGravity="left_center"
+            app:sLeftTextColor="@color/tx_bottom_navigation"
+            app:sUseShape="true" />
+
+        <com.xuexiang.xui.widget.textview.supertextview.SuperTextView
+            android:id="@+id/stv_address"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/y60"
+            android:layout_marginTop="@dimen/y10"
+            app:sCenterTextColor="@color/tx_bottom_navigation"
+            app:sCenterViewGravity="left_center"
+            app:sLeftTextColor="@color/tx_bottom_navigation"
+            app:sUseShape="true" />
+
+        <com.xuexiang.xui.widget.textview.supertextview.SuperTextView
+            android:id="@+id/stv_start_time"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/y60"
+            android:layout_marginTop="@dimen/y10"
+            app:sCenterTextColor="@color/tx_bottom_navigation"
+            app:sCenterViewGravity="left_center"
+            app:sLeftTextColor="@color/tx_bottom_navigation"
+            app:sUseShape="true" />
+
+        <com.xuexiang.xui.widget.textview.supertextview.SuperTextView
+            android:id="@+id/stv_fee"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/y60"
+            android:layout_marginTop="@dimen/y10"
+            app:sCenterTextColor="@color/orangered"
+            app:sCenterViewGravity="left_center"
+            app:sLeftTextColor="@color/tx_bottom_navigation"
+            app:sUseShape="true" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/y30"
+            android:gravity="end"
+            android:orientation="horizontal">
+
+            <com.xuexiang.xui.widget.textview.supertextview.SuperButton
+                style="@style/SuperButton.Blue"
+                android:layout_width="@dimen/x200"
+                android:layout_height="@dimen/y90"
+                android:text="取消订单"
+                android:textColor="@color/black"
+                app:sSelectorNormalColor="@color/white"
+                app:sSelectorPressedColor="@color/input_color"
+                app:sStrokeColor="@color/tx_bottom_navigation"
+                app:sStrokeWidth="0.5dp" />
+
+            <com.xuexiang.xui.widget.textview.supertextview.SuperButton
+                style="@style/SuperButton.Blue"
+                android:layout_width="@dimen/x200"
+                android:layout_height="@dimen/y90"
+                android:layout_marginStart="@dimen/x20"
+                android:text="修改订单"
+                android:textColor="@color/black"
+                app:sSelectorNormalColor="@color/white"
+                app:sSelectorPressedColor="@color/input_color"
+                app:sStrokeColor="@color/tx_bottom_navigation"
+                app:sStrokeWidth="0.5dp" />
+
+            <com.xuexiang.xui.widget.textview.supertextview.SuperButton
+                style="@style/SuperButton.Blue"
+                android:layout_width="@dimen/x200"
+                android:layout_height="@dimen/y90"
+                android:layout_marginStart="@dimen/x20"
+                android:text="加价" />
+        </LinearLayout>
+    </LinearLayout>
+</androidx.cardview.widget.CardView>

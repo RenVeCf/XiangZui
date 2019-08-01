@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".fragment.OrderFragment">
+
+    <com.xuexiang.xui.widget.textview.supertextview.SuperTextView
+        android:id="@+id/stv_order_time"
+        android:layout_width="0dp"
+        android:layout_height="@dimen/y150"
+        app:layout_constraintEnd_toStartOf="@+id/stv_order_region"
+        app:layout_constraintHorizontal_chainStyle="spread"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:sCenterTextColor="@color/black"
+        app:sCenterTvDrawableRight="@drawable/ic_bottom_arrow"
+        app:sDividerLineType="none" />
+
+    <com.xuexiang.xui.widget.textview.supertextview.SuperTextView
+        android:id="@+id/stv_order_region"
+        android:layout_width="0dp"
+        android:layout_height="@dimen/y150"
+        app:layout_constraintEnd_toStartOf="@+id/stv_order_money"
+        app:layout_constraintHorizontal_chainStyle="spread"
+        app:layout_constraintStart_toEndOf="@+id/stv_order_time"
+        app:layout_constraintTop_toTopOf="parent"
+        app:sCenterTextColor="@color/black"
+        app:sCenterTvDrawableRight="@drawable/ic_bottom_arrow"
+        app:sDividerLineType="none" />
+
+    <com.xuexiang.xui.widget.textview.supertextview.SuperTextView
+        android:id="@+id/stv_order_money"
+        android:layout_width="0dp"
+        android:layout_height="@dimen/y150"
+        app:layout_constraintHorizontal_chainStyle="spread"
+        app:layout_constraintStart_toEndOf="@+id/stv_order_region"
+        app:layout_constraintTop_toTopOf="parent"
+        app:sCenterTextColor="@color/black"
+        app:sCenterTvDrawableRight="@drawable/ic_bottom_arrow"
+        app:sDividerLineType="none" />
+
+    <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+        android:id="@+id/srl_order"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:scrollbars="none"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/stv_order_money">
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rv_order"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+    </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

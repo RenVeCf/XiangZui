@@ -1,0 +1,278 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.ipd.xiangzui.activity.AuthenticationActivity">
+
+    <com.ipd.xiangzui.common.view.TopView
+        android:id="@+id/tv_authentication"
+        android:layout_width="0dp"
+        android:layout_height="?attr/actionBarSize"
+        android:background="@color/white"
+        android:gravity="bottom"
+        app:is_back="true"
+        app:is_customer_service="true"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:title="实名认证" />
+
+    <com.ipd.xiangzui.common.view.BounceScrollView
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:fillViewport="true"
+        android:scrollbars="none"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tv_authentication">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <TextView
+                android:id="@+id/stv_basic_information"
+                android:layout_width="0dp"
+                android:layout_height="@dimen/y100"
+                android:layout_marginStart="@dimen/x50"
+                android:gravity="center_vertical"
+                android:text="基本信息"
+                android:textColor="@color/tx_bottom_navigation"
+                android:textSize="12sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <LinearLayout
+                android:id="@+id/ll_name"
+                android:layout_width="0dp"
+                android:layout_height="@dimen/y150"
+                android:background="@color/white"
+                android:gravity="center_vertical"
+                android:paddingStart="@dimen/x50"
+                android:paddingEnd="@dimen/x50"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/stv_basic_information">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="医院名称"
+                    android:textColor="@color/black" />
+
+                <EditText
+                    android:id="@+id/et_name"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:background="@null"
+                    android:gravity="end|center_vertical"
+                    android:hint="请输入"
+                    android:textColor="@color/tx_bottom_navigation" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/ll_phone"
+                android:layout_width="0dp"
+                android:layout_height="@dimen/y150"
+                android:background="@color/white"
+                android:gravity="center_vertical"
+                android:paddingStart="@dimen/x50"
+                android:paddingEnd="@dimen/x50"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/ll_name">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="联系电话"
+                    android:textColor="@color/black" />
+
+                <EditText
+                    android:id="@+id/et_phone"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:background="@null"
+                    android:gravity="end|center_vertical"
+                    android:hint="请输入"
+                    android:textColor="@color/tx_bottom_navigation" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/ll_register_address"
+                android:layout_width="0dp"
+                android:layout_height="@dimen/y150"
+                android:background="@color/white"
+                android:gravity="center_vertical"
+                android:paddingStart="@dimen/x50"
+                android:paddingEnd="@dimen/x50"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/ll_phone">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="注册地址"
+                    android:textColor="@color/black" />
+
+                <EditText
+                    android:id="@+id/et_register_address"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:background="@null"
+                    android:gravity="end|center_vertical"
+                    android:hint="请输入"
+                    android:textColor="@color/tx_bottom_navigation" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/ll_real_address"
+                android:layout_width="0dp"
+                android:layout_height="@dimen/y150"
+                android:background="@color/white"
+                android:gravity="center_vertical"
+                android:paddingStart="@dimen/x50"
+                android:paddingEnd="@dimen/x50"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/ll_register_address">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="实际经营地址"
+                    android:textColor="@color/black" />
+
+                <EditText
+                    android:id="@+id/et_real_address"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:background="@null"
+                    android:gravity="end|center_vertical"
+                    android:hint="请输入"
+                    android:textColor="@color/tx_bottom_navigation" />
+            </LinearLayout>
+
+            <TextView
+                android:id="@+id/stv_card_information"
+                android:layout_width="0dp"
+                android:layout_height="@dimen/y100"
+                android:layout_marginStart="@dimen/x50"
+                android:gravity="center_vertical"
+                android:text="证件信息"
+                android:textColor="@color/tx_bottom_navigation"
+                android:textSize="12sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/ll_real_address" />
+
+            <com.xuexiang.xui.widget.textview.supertextview.SuperTextView
+                android:id="@+id/stv_head"
+                android:layout_width="0dp"
+                android:layout_height="@dimen/y150"
+                android:paddingStart="@dimen/x30"
+                android:paddingEnd="@dimen/x30"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/stv_card_information"
+                app:sDividerLineType="none"
+                app:sLeftTextColor="@color/black"
+                app:sLeftTextString="头像"
+                app:sRightIconRes="@drawable/ic_right_arrow"
+                app:sRightTextColor="@color/tx_bottom_navigation"
+                app:sRightTextString="未上传" />
+
+            <com.xuexiang.xui.widget.textview.supertextview.SuperTextView
+                android:id="@+id/stv_agent_card"
+                android:layout_width="0dp"
+                android:layout_height="@dimen/y150"
+                android:paddingStart="@dimen/x30"
+                android:paddingEnd="@dimen/x30"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/stv_head"
+                app:sDividerLineType="none"
+                app:sLeftTextColor="@color/black"
+                app:sLeftTextString="代理人身份证"
+                app:sRightIconRes="@drawable/ic_right_arrow"
+                app:sRightTextColor="@color/tx_bottom_navigation"
+                app:sRightTextString="未上传" />
+
+            <com.xuexiang.xui.widget.textview.supertextview.SuperTextView
+                android:id="@+id/stv_business_license"
+                android:layout_width="0dp"
+                android:layout_height="@dimen/y150"
+                android:paddingStart="@dimen/x30"
+                android:paddingEnd="@dimen/x30"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/stv_agent_card"
+                app:sDividerLineType="none"
+                app:sLeftTextColor="@color/black"
+                app:sLeftTextString="医院营业执照"
+                app:sRightIconRes="@drawable/ic_right_arrow"
+                app:sRightTextColor="@color/tx_bottom_navigation"
+                app:sRightTextString="未上传" />
+
+            <com.xuexiang.xui.widget.textview.supertextview.SuperTextView
+                android:id="@+id/stv_medical_institution_qualification_certificate"
+                android:layout_width="0dp"
+                android:layout_height="@dimen/y150"
+                android:paddingStart="@dimen/x30"
+                android:paddingEnd="@dimen/x30"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/stv_business_license"
+                app:sDividerLineType="none"
+                app:sLeftTextColor="@color/black"
+                app:sLeftTextString="医疗机构资格证"
+                app:sRightIconRes="@drawable/ic_right_arrow"
+                app:sRightTextColor="@color/tx_bottom_navigation"
+                app:sRightTextString="未上传" />
+
+            <com.xuexiang.xui.widget.textview.supertextview.SuperTextView
+                android:id="@+id/stv_agent_management_authorization"
+                android:layout_width="0dp"
+                android:layout_height="@dimen/y150"
+                android:paddingStart="@dimen/x30"
+                android:paddingEnd="@dimen/x30"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/stv_medical_institution_qualification_certificate"
+                app:sDividerLineType="none"
+                app:sLeftTextColor="@color/black"
+                app:sLeftTextString="医院代理人管理授权书"
+                app:sRightIconRes="@drawable/ic_right_arrow"
+                app:sRightTextColor="@color/tx_bottom_navigation"
+                app:sRightTextString="未上传" />
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="@dimen/y150"
+                android:layout_marginTop="@dimen/y100"
+                android:background="@color/white"
+                android:gravity="center"
+                android:orientation="horizontal"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/stv_agent_management_authorization">
+
+                <com.xuexiang.xui.widget.textview.supertextview.SuperButton
+                    android:id="@+id/sb_confirm"
+                    style="@style/SuperButton.Blue"
+                    android:layout_width="@dimen/x400"
+                    android:layout_height="@dimen/y110"
+                    android:text="确认" />
+            </LinearLayout>
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </com.ipd.xiangzui.common.view.BounceScrollView>
+</androidx.constraintlayout.widget.ConstraintLayout>

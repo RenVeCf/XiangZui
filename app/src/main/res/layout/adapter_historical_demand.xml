@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/white"
+    android:orientation="vertical">
+
+    <com.xuexiang.xui.widget.textview.supertextview.SuperTextView
+        android:id="@+id/stv_historical_demand_title"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/y150"
+        android:paddingStart="@dimen/x30"
+        android:paddingEnd="@dimen/x30"
+        app:sLeftTextColor="@color/black"
+        app:sLeftTextSize="16sp"
+        app:sRightTextColor="@color/orange"
+        app:sUseShape="true" />
+
+    <TextView
+        android:id="@+id/tv_historical_demand_content"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="start"
+        android:paddingStart="@dimen/x50"
+        android:paddingEnd="@dimen/x50"
+        android:paddingBottom="@dimen/y50"
+        android:textColor="@color/tx_bottom_navigation" />
+</LinearLayout>
