@@ -7,7 +7,6 @@ import android.graphics.Color;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
-import android.widget.CheckBox;
 import android.widget.TextView;
 
 import androidx.appcompat.widget.AppCompatEditText;
@@ -16,6 +15,7 @@ import com.bigkoo.pickerview.builder.OptionsPickerBuilder;
 import com.bigkoo.pickerview.listener.CustomListener;
 import com.bigkoo.pickerview.listener.OnOptionsSelectListener;
 import com.bigkoo.pickerview.view.OptionsPickerView;
+import com.google.android.material.checkbox.MaterialCheckBox;
 import com.google.gson.Gson;
 import com.gyf.immersionbar.ImmersionBar;
 import com.ipd.xiangzui.R;
@@ -54,16 +54,16 @@ public class ModifyAddressActivity extends BaseActivity {
 
     @BindView(R.id.tv_modify_address)
     TopView tvModifyAddress;
-    @BindView(R.id.bt_top_del_address)
-    Button btTopDelAddress;
     @BindView(R.id.tv_top_title)
     TextView tvTopTitle;
+    @BindView(R.id.bt_top_del_address)
+    Button btTopDelAddress;
     @BindView(R.id.stv_address)
     SuperTextView stvAddress;
     @BindView(R.id.et_detailed_address)
     AppCompatEditText etDetailedAddress;
     @BindView(R.id.cb_default_address)
-    CheckBox cbDefaultAddress;
+    MaterialCheckBox cbDefaultAddress;
 
     private OptionsPickerView pvOptions; //条件选择器
     private ArrayList<CityAddressBean> options1Items = new ArrayList<>();
@@ -271,14 +271,15 @@ public class ModifyAddressActivity extends BaseActivity {
                 rxPermissionLocation();
                 break;
             case R.id.sb_save_address:
-                switch (addressType) {
-                    case 1:
-                        setResult(RESULT_OK, new Intent().putExtra("add_address", 1));
-                        break;
-                    case 2:
-                        setResult(RESULT_OK, new Intent().putExtra("modify_address", 1));
-                        break;
-                }
+                if (isFastClick())
+                    switch (addressType) {
+                        case 1:
+                            setResult(RESULT_OK, new Intent().putExtra("add_address", 1));
+                            break;
+                        case 2:
+                            setResult(RESULT_OK, new Intent().putExtra("modify_address", 1));
+                            break;
+                    }
                 finish();
                 break;
         }

@@ -48,7 +48,7 @@ android {
             signingConfig signingConfigs.config
             applicationVariants.all { variant ->
                 variant.outputs.all {
-                    outputFileName = "allpeopledemand_${variant.versionCode}-${variant.versionName}-${releaseTime()}.apk"
+                    outputFileName = "xiangzui_${variant.versionCode}-${variant.versionName}-${releaseTime()}.apk"
                 }
             }
         }
@@ -61,7 +61,7 @@ android {
             signingConfig signingConfigs.test
             applicationVariants.all { variant ->
                 variant.outputs.all {
-                    outputFileName = "allpeopledemand_${variant.versionCode}-${variant.versionName}-${releaseTime()}.apk"
+                    outputFileName = "xiangzui_${variant.versionCode}-${variant.versionName}-${releaseTime()}.apk"
                 }
             }
         }
@@ -72,8 +72,8 @@ android {
         jumboMode = true
     }
     compileOptions {
-        targetCompatibility 1.8
-        sourceCompatibility 1.8
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
     }
     buildToolsVersion = '29.0.1'
 
@@ -87,10 +87,6 @@ android {
 //        qh360 {}
 //        pp {}
 //        vivo {}
-    }
-
-    productFlavors.all {
-        flavor -> flavor.manifestPlaceholders = [INSTALL_CHANNEL_VALUE: name]
     }
 
     lintOptions {

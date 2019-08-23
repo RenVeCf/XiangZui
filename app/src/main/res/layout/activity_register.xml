@@ -7,7 +7,7 @@
     tools:context="com.ipd.xiangzui.activity.RegisterActivity">
 
     <TextView
-        android:id="@+id/tv_login_title"
+        android:id="@+id/tv_register_title"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:background="@drawable/bg_login"
@@ -22,7 +22,7 @@
         app:layout_constraintVertical_weight="0.3" />
 
     <TextView
-        android:id="@+id/tv_login"
+        android:id="@+id/tv_register"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/y50"
@@ -33,55 +33,75 @@
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tv_login_title"
+        app:layout_constraintTop_toBottomOf="@+id/tv_register_title"
         app:layout_constraintWidth_percent="0.8" />
 
-    <EditText
-        android:id="@+id/et_phone"
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/input_phone"
         android:layout_width="0dp"
-        android:layout_height="@dimen/y150"
+        android:layout_height="wrap_content"
+        android:layout_margin="5dp"
         android:layout_marginTop="@dimen/y50"
-        android:background="@null"
-        android:gravity="center_vertical"
-        android:hint="手机号"
-        android:inputType="phone"
-        android:textColor="@color/black"
+        android:gravity="start"
+        android:textAlignment="viewStart"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tv_login"
-        app:layout_constraintWidth_percent="0.8" />
+        app:layout_constraintTop_toBottomOf="@+id/tv_register"
+        app:layout_constraintWidth_percent="0.8">
 
-    <View
-        android:id="@+id/view_phone_line"
-        android:layout_width="0dp"
-        android:layout_height="0.5dp"
-        android:background="@color/bg_fine_line"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/et_phone"
-        app:layout_constraintWidth_percent="0.8" />
+        <com.xuexiang.xui.widget.edittext.materialedittext.MaterialEditText
+            android:id="@+id/et_phone"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/y150"
+            android:hint="手机号"
+            android:inputType="phone"
+            app:met_allowEmpty="false"
+            app:met_clearButton="true"
+            app:met_errorMessage="请输入正确的电话号码"
+            app:met_floatingLabelAnimating="true"
+            app:met_maxCharacters="11"
+            app:met_regexp="@string/regex_phone_number"
+            app:met_textColor="@color/black"
+            app:met_textColorHint="@color/tx_bottom_navigation"
+            app:met_validateOnFocusLost="true" />
+    </com.google.android.material.textfield.TextInputLayout>
 
     <LinearLayout
         android:id="@+id/ll_captcha"
         android:layout_width="0dp"
-        android:layout_height="@dimen/y150"
-        android:gravity="center_vertical"
+        android:layout_height="wrap_content"
         android:orientation="horizontal"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/view_phone_line"
+        app:layout_constraintTop_toBottomOf="@+id/input_phone"
         app:layout_constraintWidth_percent="0.8">
 
-        <EditText
-            android:id="@+id/et_captcha"
+        <com.google.android.material.textfield.TextInputLayout
             android:layout_width="0dp"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="5dp"
+            android:layout_marginTop="@dimen/y50"
             android:layout_weight="1"
-            android:background="@null"
-            android:gravity="center_vertical"
-            android:hint="验证码"
-            android:inputType="number"
-            android:textColor="@color/black" />
+            android:gravity="start"
+            android:textAlignment="viewStart">
+
+            <com.xuexiang.xui.widget.edittext.materialedittext.MaterialEditText
+                android:id="@+id/et_captcha"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/y150"
+                android:hint="验证码"
+                android:inputType="number"
+                app:met_allowEmpty="false"
+                app:met_clearButton="true"
+                app:met_errorMessage="请输入正确的验证码"
+                app:met_floatingLabelAnimating="true"
+                app:met_hideUnderline="false"
+                app:met_maxCharacters="6"
+                app:met_regexp="@string/regex_captcha"
+                app:met_textColor="@color/black"
+                app:met_textColorHint="@color/tx_bottom_navigation"
+                app:met_validateOnFocusLost="true" />
+        </com.google.android.material.textfield.TextInputLayout>
 
         <com.xuexiang.xui.widget.textview.supertextview.SuperButton
             android:id="@+id/bt_captcha"
@@ -89,65 +109,64 @@
             android:text="获取" />
     </LinearLayout>
 
-    <View
-        android:id="@+id/view_captcha_line"
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/input_pwd"
         android:layout_width="0dp"
-        android:layout_height="0.5dp"
-        android:background="@color/bg_fine_line"
+        android:layout_height="wrap_content"
+        android:layout_margin="5dp"
+        android:layout_marginTop="@dimen/y50"
+        android:gravity="start"
+        android:textAlignment="viewStart"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/ll_captcha"
-        app:layout_constraintWidth_percent="0.8" />
+        app:layout_constraintWidth_percent="0.8">
 
-    <EditText
-        android:id="@+id/et_pwd"
+        <com.xuexiang.xui.widget.edittext.materialedittext.MaterialEditText
+            android:id="@+id/et_pwd"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/y150"
+            android:hint="密码"
+            android:inputType="textPassword"
+            app:met_allowEmpty="false"
+            app:met_clearButton="false"
+            app:met_errorMessage="请输入正确的密码"
+            app:met_floatingLabelAnimating="true"
+            app:met_passWordButton="true"
+            app:met_textColor="@color/black"
+            app:met_textColorHint="@color/tx_bottom_navigation"
+            app:met_validateOnFocusLost="true" />
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/input_invitation_code"
         android:layout_width="0dp"
-        android:layout_height="@dimen/y150"
+        android:layout_height="wrap_content"
+        android:layout_margin="5dp"
         android:layout_marginTop="@dimen/y50"
-        android:background="@null"
-        android:gravity="center_vertical"
-        android:hint="密码"
-        android:inputType="textPassword"
-        android:textColor="@color/black"
+        android:gravity="start"
+        android:textAlignment="viewStart"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/view_captcha_line"
-        app:layout_constraintWidth_percent="0.8" />
+        app:layout_constraintTop_toBottomOf="@+id/input_pwd"
+        app:layout_constraintWidth_percent="0.8">
 
-    <View
-        android:id="@+id/view_pwd_line"
-        android:layout_width="0dp"
-        android:layout_height="0.5dp"
-        android:background="@color/bg_fine_line"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/et_pwd"
-        app:layout_constraintWidth_percent="0.8" />
-
-    <EditText
-        android:id="@+id/et_invitation_code"
-        android:layout_width="0dp"
-        android:layout_height="@dimen/y150"
-        android:layout_marginTop="@dimen/y50"
-        android:background="@null"
-        android:gravity="center_vertical"
-        android:hint="邀请码（选填）"
-        android:inputType="number"
-        android:textColor="@color/black"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/view_pwd_line"
-        app:layout_constraintWidth_percent="0.8" />
-
-    <View
-        android:id="@+id/view_invitation_code_line"
-        android:layout_width="0dp"
-        android:layout_height="0.5dp"
-        android:background="@color/bg_fine_line"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/et_invitation_code"
-        app:layout_constraintWidth_percent="0.8" />
+        <com.xuexiang.xui.widget.edittext.materialedittext.MaterialEditText
+            android:id="@+id/et_invitation_code"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/y150"
+            android:hint="邀请码（选填）"
+            android:inputType="number"
+            app:met_allowEmpty="false"
+            app:met_clearButton="true"
+            app:met_errorMessage="请输入正确的邀请码"
+            app:met_floatingLabelAnimating="true"
+            app:met_maxCharacters="6"
+            app:met_regexp="@string/regex_captcha"
+            app:met_textColor="@color/black"
+            app:met_textColorHint="@color/tx_bottom_navigation"
+            app:met_validateOnFocusLost="true" />
+    </com.google.android.material.textfield.TextInputLayout>
 
     <LinearLayout
         android:id="@+id/ll_agreement"
@@ -157,7 +176,7 @@
         android:orientation="horizontal"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/view_invitation_code_line"
+        app:layout_constraintTop_toBottomOf="@+id/input_invitation_code"
         app:layout_constraintWidth_percent="0.8">
 
         <CheckBox
@@ -210,8 +229,8 @@
             android:layout_width="match_parent"
             android:layout_height="@dimen/y150"
             android:layout_gravity="center"
-            android:layout_marginEnd="?attr/xui_config_content_spacing_horizontal"
             android:layout_marginStart="?attr/xui_config_content_spacing_horizontal"
+            android:layout_marginEnd="?attr/xui_config_content_spacing_horizontal"
             android:gravity="center"
             android:text="注册"
             android:textColor="@color/xui_config_color_white"

@@ -8,31 +8,61 @@
     app:cardElevation="4dp"
     app:cardPreventCornerOverlap="true">
 
-    <LinearLayout
+    <androidx.appcompat.widget.LinearLayoutCompat
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
         android:padding="@dimen/x50">
 
-        <com.xuexiang.xui.widget.textview.supertextview.SuperTextView
-            android:id="@+id/stv_lablel"
+        <androidx.appcompat.widget.LinearLayoutCompat
             android:layout_width="match_parent"
             android:layout_height="@dimen/y100"
-            app:sCenterTextColor="@color/black"
-            app:sCenterTextIsBold="true"
-            app:sCenterTextSize="16sp"
-            app:sCenterViewGravity="left_center"
-            app:sLeftTextBackground="@drawable/bg_label"
-            app:sLeftTextColor="@color/tx_bottom_navigation_select"
-            app:sLeftTextSize="12sp"
-            app:sRightTextColor="@color/orange"
-            app:sUseShape="true" />
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/tv_lavlel1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/x30"
+                android:background="@drawable/bg_label1"
+                android:textColor="@color/tx_bottom_navigation_select"
+                android:textSize="10sp" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/tv_lavlel2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/x20"
+                android:background="@drawable/bg_label2"
+                android:textColor="@color/orange"
+                android:textSize="10sp"
+                android:visibility="gone" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/tv_name"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/x20"
+                android:layout_weight="1"
+                android:textColor="@color/black"
+                android:textSize="15sp"
+                android:textStyle="bold" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/tv_type"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/orange"
+                android:textSize="12sp" />
+        </androidx.appcompat.widget.LinearLayoutCompat>
 
         <com.xuexiang.xui.widget.textview.supertextview.SuperTextView
             android:id="@+id/stv_name"
             android:layout_width="match_parent"
             android:layout_height="@dimen/y60"
             app:sCenterTextColor="@color/tx_bottom_navigation"
+            app:sCenterTextSize="12sp"
             app:sCenterViewGravity="left_center"
             app:sLeftTextColor="@color/tx_bottom_navigation"
             app:sUseShape="true" />
@@ -43,6 +73,7 @@
             android:layout_height="@dimen/y60"
             android:layout_marginTop="@dimen/y10"
             app:sCenterTextColor="@color/tx_bottom_navigation"
+            app:sCenterTextSize="12sp"
             app:sCenterViewGravity="left_center"
             app:sLeftTextColor="@color/tx_bottom_navigation"
             app:sUseShape="true" />
@@ -53,6 +84,7 @@
             android:layout_height="@dimen/y60"
             android:layout_marginTop="@dimen/y10"
             app:sCenterTextColor="@color/tx_bottom_navigation"
+            app:sCenterTextSize="12sp"
             app:sCenterViewGravity="left_center"
             app:sLeftTextColor="@color/tx_bottom_navigation"
             app:sUseShape="true" />
@@ -63,6 +95,7 @@
             android:layout_height="@dimen/y60"
             android:layout_marginTop="@dimen/y10"
             app:sCenterTextColor="@color/orangered"
+            app:sCenterTextSize="12sp"
             app:sCenterViewGravity="left_center"
             app:sLeftTextColor="@color/tx_bottom_navigation"
             app:sUseShape="true" />
@@ -70,39 +103,45 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/y30"
+            android:layout_marginTop="@dimen/y20"
             android:gravity="end"
             android:orientation="horizontal">
 
             <com.xuexiang.xui.widget.textview.supertextview.SuperButton
+                android:id="@+id/bt_first"
                 style="@style/SuperButton.Blue"
                 android:layout_width="@dimen/x200"
                 android:layout_height="@dimen/y90"
                 android:text="取消订单"
                 android:textColor="@color/black"
+                android:textSize="12sp"
                 app:sSelectorNormalColor="@color/white"
                 app:sSelectorPressedColor="@color/input_color"
                 app:sStrokeColor="@color/tx_bottom_navigation"
                 app:sStrokeWidth="0.5dp" />
 
             <com.xuexiang.xui.widget.textview.supertextview.SuperButton
+                android:id="@+id/bt_second"
                 style="@style/SuperButton.Blue"
                 android:layout_width="@dimen/x200"
                 android:layout_height="@dimen/y90"
                 android:layout_marginStart="@dimen/x20"
                 android:text="修改订单"
                 android:textColor="@color/black"
+                android:textSize="12sp"
                 app:sSelectorNormalColor="@color/white"
                 app:sSelectorPressedColor="@color/input_color"
                 app:sStrokeColor="@color/tx_bottom_navigation"
                 app:sStrokeWidth="0.5dp" />
 
             <com.xuexiang.xui.widget.textview.supertextview.SuperButton
+                android:id="@+id/bt_third"
                 style="@style/SuperButton.Blue"
                 android:layout_width="@dimen/x200"
                 android:layout_height="@dimen/y90"
                 android:layout_marginStart="@dimen/x20"
-                android:text="加价" />
+                android:text="加价"
+                android:textSize="12sp" />
         </LinearLayout>
-    </LinearLayout>
+    </androidx.appcompat.widget.LinearLayoutCompat>
 </androidx.cardview.widget.CardView>

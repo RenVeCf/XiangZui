@@ -6,53 +6,67 @@
     android:layout_height="match_parent"
     tools:context=".fragment.OrderFragment">
 
-    <com.xuexiang.xui.widget.textview.supertextview.SuperTextView
-        android:id="@+id/stv_order_time"
+    <androidx.appcompat.widget.LinearLayoutCompat
+        android:id="@+id/ll_order"
         android:layout_width="0dp"
-        android:layout_height="@dimen/y150"
-        app:layout_constraintEnd_toStartOf="@+id/stv_order_region"
-        app:layout_constraintHorizontal_chainStyle="spread"
+        android:layout_height="@dimen/y100"
+        android:orientation="horizontal"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:sCenterTextColor="@color/black"
-        app:sCenterTvDrawableRight="@drawable/ic_bottom_arrow"
-        app:sDividerLineType="none" />
+        app:layout_constraintTop_toTopOf="parent">
 
-    <com.xuexiang.xui.widget.textview.supertextview.SuperTextView
-        android:id="@+id/stv_order_region"
-        android:layout_width="0dp"
-        android:layout_height="@dimen/y150"
-        app:layout_constraintEnd_toStartOf="@+id/stv_order_money"
-        app:layout_constraintHorizontal_chainStyle="spread"
-        app:layout_constraintStart_toEndOf="@+id/stv_order_time"
-        app:layout_constraintTop_toTopOf="parent"
-        app:sCenterTextColor="@color/black"
-        app:sCenterTvDrawableRight="@drawable/ic_bottom_arrow"
-        app:sDividerLineType="none" />
+        <com.xuexiang.xui.widget.textview.supertextview.SuperTextView
+            android:id="@+id/stv_order_time"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            app:sCenterTextColor="@color/black"
+            app:sCenterTextString="时间"
+            app:sCenterTvDrawableHeight="@dimen/y10"
+            app:sCenterTvDrawableRight="@drawable/ic_bottom_arrow"
+            app:sCenterTvDrawableWidth="@dimen/x10"
+            app:sDividerLineType="none" />
 
-    <com.xuexiang.xui.widget.textview.supertextview.SuperTextView
-        android:id="@+id/stv_order_money"
-        android:layout_width="0dp"
-        android:layout_height="@dimen/y150"
-        app:layout_constraintHorizontal_chainStyle="spread"
-        app:layout_constraintStart_toEndOf="@+id/stv_order_region"
-        app:layout_constraintTop_toTopOf="parent"
-        app:sCenterTextColor="@color/black"
-        app:sCenterTvDrawableRight="@drawable/ic_bottom_arrow"
-        app:sDividerLineType="none" />
+        <com.xuexiang.xui.widget.textview.supertextview.SuperTextView
+            android:id="@+id/stv_order_region"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            app:sCenterTextColor="@color/black"
+            app:sCenterTextString="区域"
+            app:sCenterTvDrawableHeight="@dimen/y10"
+            app:sCenterTvDrawableRight="@drawable/ic_bottom_arrow"
+            app:sCenterTvDrawableWidth="@dimen/x10"
+            app:sDividerLineType="none" />
+
+        <com.xuexiang.xui.widget.textview.supertextview.SuperTextView
+            android:id="@+id/stv_order_money"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            app:sCenterTextColor="@color/black"
+            app:sCenterTextString="金额"
+            app:sCenterTvDrawableHeight="@dimen/y10"
+            app:sCenterTvDrawableRight="@drawable/ic_bottom_arrow"
+            app:sCenterTvDrawableWidth="@dimen/x10"
+            app:sDividerLineType="none" />
+    </androidx.appcompat.widget.LinearLayoutCompat>
 
     <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
         android:id="@+id/srl_order"
         android:layout_width="0dp"
-        android:layout_height="wrap_content"
+        android:layout_height="0dp"
         android:scrollbars="none"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/stv_order_money">
+        app:layout_constraintTop_toBottomOf="@+id/ll_order">
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/rv_order"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:background="@color/white"
+            android:paddingTop="@dimen/y50" />
     </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

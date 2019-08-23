@@ -18,6 +18,7 @@ import com.ipd.xiangzui.activity.AuthenticationActivity;
 import com.ipd.xiangzui.activity.ExpertActivity;
 import com.ipd.xiangzui.activity.OrderActivity;
 import com.ipd.xiangzui.activity.RentEquipmentActivity;
+import com.ipd.xiangzui.activity.SendOrderActivity;
 import com.ipd.xiangzui.activity.VipActivity;
 import com.ipd.xiangzui.activity.WalletActivity;
 import com.ipd.xiangzui.adapter.MainGridAdapter;
@@ -33,6 +34,7 @@ import com.ipd.xiangzui.common.view.SimpleNoticeMFs;
 import com.ipd.xiangzui.common.view.SpacesItemDecoration;
 import com.ipd.xiangzui.common.view.TopView;
 import com.ipd.xiangzui.common.view.TwoBtDialog;
+import com.ipd.xiangzui.utils.SPUtil;
 import com.xuexiang.xui.widget.banner.recycler.BannerLayout;
 import com.xuexiang.xui.widget.textview.marqueen.MarqueeFactory;
 import com.xuexiang.xui.widget.textview.marqueen.MarqueeView;
@@ -43,6 +45,9 @@ import java.util.List;
 
 import butterknife.BindView;
 import butterknife.OnClick;
+
+import static com.ipd.xiangzui.common.config.IConstants.IS_SUPPLEMENT_INFO;
+import static com.ipd.xiangzui.utils.StringUtils.isEmpty;
 
 /**
  * Description ：首页
@@ -67,7 +72,7 @@ public class MainFragment extends BaseFragment {
     private List<TestMultiItemEntityBean> str1 = new ArrayList<>();//更多订单
     private MainGridAdapter mainGridAdapter;
     private MainOrderAdapter mainOrderAdapter;
-    final List<CharSequence> datas = Arrays.asList(Html.fromHtml("医生李**已完成订单<font color=\"#000000\">阑尾切除术</font>费用<font color=\"#FF5555\">¥" + 300 + "元</font>"), "test test test test test");
+    final List<CharSequence> datas = Arrays.asList(Html.fromHtml("医生李**已完成订单<font color=\"#000000\">阑尾切除术</font>费用<font color=\"#FF5555\">¥" + 300 + "元</font>"), Html.fromHtml("医生李**已完成订单<font color=\"#000000\">阑尾切除术</font>费用<font color=\"#FF5555\">¥" + 300 + "元</font>"));
 
     @Override
     public int getLayoutId() {
@@ -137,7 +142,10 @@ public class MainFragment extends BaseFragment {
                             @Override
                             public void confirm() {
                                 //认证
-                                startActivity(new Intent(getContext(), AuthenticationActivity.class));
+                                if (!isEmpty(SPUtil.get(getContext(), IS_SUPPLEMENT_INFO, "") + ""))
+                                    startActivity(new Intent(getContext(), AuthenticationActivity.class));
+                                else
+                                    startActivity(new Intent(getContext(), SendOrderActivity.class));
                             }
                         }.show();
                         break;
@@ -171,11 +179,13 @@ public class MainFragment extends BaseFragment {
 
     @Override
     public void initData() {
+        //轮播
         for (int i = 0; i < 4; i++) {
             str.add(new TestMultiItemEntityBean());
         }
         blBanner.setAdapter(new RecyclerViewBannerAdapter(str));
 
+        //大喇叭
         MarqueeFactory<TextView, CharSequence> marqueeFactory = new SimpleNoticeMFs(getContext());
         marqueeFactory.setData(datas);
         mvHorn.setAnimInAndOut(R.anim.marquee_top_in, R.anim.marquee_bottom_out);

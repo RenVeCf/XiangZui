@@ -1,5 +1,7 @@
 package com.ipd.xiangzui.activity;
 
+import android.os.Bundle;
+
 import androidx.fragment.app.Fragment;
 import androidx.viewpager.widget.ViewPager;
 
@@ -9,7 +11,7 @@ import com.ipd.xiangzui.adapter.ViewPagerAdapter;
 import com.ipd.xiangzui.base.BaseActivity;
 import com.ipd.xiangzui.base.BasePresenter;
 import com.ipd.xiangzui.base.BaseView;
-import com.ipd.xiangzui.common.view.NavitationFollowScrollLayoutText;
+import com.ipd.xiangzui.common.view.NavitationLayout;
 import com.ipd.xiangzui.common.view.TopView;
 import com.ipd.xiangzui.fragment.OrderFragment;
 import com.ipd.xiangzui.utils.ApplicationUtil;
@@ -30,12 +32,13 @@ public class OrderActivity extends BaseActivity {
     @BindView(R.id.tv_order)
     TopView tvOrder;
     @BindView(R.id.nfsl_order)
-    NavitationFollowScrollLayoutText nfslOrder;
+    NavitationLayout nfslOrder;
     @BindView(R.id.vp_order)
     ViewPager vpOrder;
 
     private String[] titles;
     private List<Fragment> fragments;
+    private OrderFragment orderFragment;
     private ViewPagerAdapter viewPagerAdapter;
 
     @Override
@@ -67,16 +70,20 @@ public class OrderActivity extends BaseActivity {
         //向集合添加Fragment
         fragments = new ArrayList<>();
         for (int i = 0; i < titles.length; i++) {
-            fragments.add(new OrderFragment());
+            orderFragment = new OrderFragment();
+            Bundle args = new Bundle();
+            args.putString("order_type", i + "");
+            orderFragment.setArguments(args);
+            fragments.add(orderFragment);
         }
         viewPagerAdapter = new ViewPagerAdapter(getSupportFragmentManager(), fragments);
         vpOrder.setAdapter(viewPagerAdapter);
         vpOrder.setOffscreenPageLimit(titles.length);
 
         //设置导航条
-        nfslOrder.setViewPager(this, titles, vpOrder, R.color.tx_bottom_navigation, R.color.white, 14, 14, 24, true, R.color.white, 0, 0, 0, 80);
-        nfslOrder.setBgLine(this, 1, R.color.whitesmoke);
-        nfslOrder.setNavLine(this, 1, R.color.whitesmoke);
+        nfslOrder.setViewPager(this, titles, vpOrder, R.color.tx_bottom_navigation, R.color.white, 12, 12, 0, 45, true);
+        nfslOrder.setBgLine(this, 1, R.color.white);
+        nfslOrder.setNavLine(this, 1, R.color.white, 0);
     }
 
     @Override

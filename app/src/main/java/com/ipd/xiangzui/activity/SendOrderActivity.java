@@ -29,8 +29,6 @@ public class SendOrderActivity extends BaseActivity {
     @BindView(R.id.rb_end)
     RadioButton rbEnd;
 
-    //    private Animation animOut;
-
     @Override
     public int getLayoutId() {
         return R.layout.activity_send_order;
@@ -52,11 +50,6 @@ public class SendOrderActivity extends BaseActivity {
         ApplicationUtil.getManager().addActivity(this);
         //防止状态栏和标题重叠
         ImmersionBar.setTitleBar(this, tvSendOrder);
-
-        //        // 加载动画资源
-        //        animOut = AnimationUtils.loadAnimation(this, R.anim.send_order_out);
-        //        //设置动画结束后保留结束状态
-        //        animOut.setFillAfter(false);
     }
 
     @Override

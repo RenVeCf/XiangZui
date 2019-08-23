@@ -2,7 +2,6 @@ package com.ipd.xiangzui.activity;
 
 import android.content.Intent;
 import android.view.View;
-import android.widget.EditText;
 
 import com.gyf.immersionbar.ImmersionBar;
 import com.ipd.xiangzui.R;
@@ -11,6 +10,7 @@ import com.ipd.xiangzui.base.BasePresenter;
 import com.ipd.xiangzui.base.BaseView;
 import com.ipd.xiangzui.utils.ApplicationUtil;
 import com.ipd.xiangzui.utils.ToastUtil;
+import com.xuexiang.xui.widget.edittext.materialedittext.MaterialEditText;
 
 import butterknife.BindView;
 import butterknife.OnClick;
@@ -24,9 +24,9 @@ import butterknife.OnClick;
 public class PwdLoginActivity extends BaseActivity {
 
     @BindView(R.id.et_phone)
-    EditText etPhone;
+    MaterialEditText etPhone;
     @BindView(R.id.et_pwd)
-    EditText etPwd;
+    MaterialEditText etPwd;
 
     private long firstTime = 0;
 

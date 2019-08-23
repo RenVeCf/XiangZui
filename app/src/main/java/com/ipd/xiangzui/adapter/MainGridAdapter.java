@@ -52,7 +52,7 @@ public class MainGridAdapter extends BaseQuickAdapter<Integer, BaseViewHolder> {
                         .setText(R.id.tv_main_grid_item, "麻醉筹建");
                 break;
             case 7:
-                helper.setImageResource(R.id.aciv_main_grid_item, R.drawable.ic_rent_equipment)
+                helper.setImageResource(R.id.aciv_main_grid_item, R.mipmap.ic_rent_equipment)
                         .setText(R.id.tv_main_grid_item, "设备租赁");
                 break;
         }

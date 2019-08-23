@@ -31,622 +31,641 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tv_send_order_medical_record_info" />
 
-    <LinearLayout
-        android:id="@+id/ll_upload_medical_record_type"
+    <com.ipd.xiangzui.common.view.BounceScrollView
         android:layout_width="0dp"
-        android:layout_height="@dimen/y150"
-        android:background="@color/white"
-        android:orientation="horizontal"
-        android:paddingEnd="@dimen/x50"
-        android:paddingStart="@dimen/x50"
+        android:layout_height="wrap_content"
+        android:scrollbars="none"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tv_medical_record">
 
-        <TextView
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:gravity="center_vertical"
-            android:text="病历上传方式"
-            android:textColor="@color/black" />
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
 
-        <RadioGroup
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:gravity="center_vertical"
-            android:orientation="horizontal">
-
-            <RadioButton
-                android:id="@+id/rb_none"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:button="@null"
-                android:checked="true"
-                android:drawableEnd="@drawable/select_radio_check"
-                android:drawablePadding="@dimen/x20"
-                android:text="暂无"
-                android:textColor="@color/tx_bottom_navigation" />
-
-            <RadioButton
-                android:id="@+id/rb_edit"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/x50"
-                android:button="@null"
-                android:drawableEnd="@drawable/select_radio_check"
-                android:drawablePadding="@dimen/x20"
-                android:text="填写上传"
-                android:textColor="@color/tx_bottom_navigation" />
-
-            <RadioButton
-                android:id="@+id/rb_img"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/x50"
-                android:button="@null"
-                android:drawableEnd="@drawable/select_radio_check"
-                android:drawablePadding="@dimen/x20"
-                android:text="图片上传"
-                android:textColor="@color/tx_bottom_navigation" />
-        </RadioGroup>
-    </LinearLayout>
-
-    <LinearLayout
-        android:id="@+id/ll_blood_pressure"
-        android:layout_width="0dp"
-        android:layout_height="@dimen/y150"
-        android:background="@color/white"
-        android:orientation="horizontal"
-        android:paddingEnd="@dimen/x50"
-        android:paddingStart="@dimen/x50"
-        android:visibility="gone"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/ll_upload_medical_record_type">
-
-        <TextView
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:gravity="center_vertical"
-            android:text="血压"
-            android:textColor="@color/black" />
-
-        <EditText
-            android:id="@+id/et_blood_pressure_start"
-            android:layout_width="@dimen/x200"
-            android:layout_height="match_parent"
-            android:background="@null"
-            android:gravity="center"
-            android:hint="请输入"
-            android:textColor="@color/black" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:layout_marginEnd="@dimen/x50"
-            android:layout_marginStart="@dimen/x50"
-            android:gravity="center_vertical"
-            android:text="/"
-            android:textColor="@color/black" />
-
-        <EditText
-            android:id="@+id/et_blood_pressure_end"
-            android:layout_width="@dimen/x200"
-            android:layout_height="match_parent"
-            android:background="@null"
-            android:gravity="center"
-            android:hint="请输入"
-            android:textColor="@color/black" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:layout_marginStart="@dimen/x50"
-            android:gravity="center_vertical"
-            android:text="mmHg"
-            android:textColor="@color/black" />
-    </LinearLayout>
-
-    <LinearLayout
-        android:id="@+id/ll_pulse"
-        android:layout_width="0dp"
-        android:layout_height="@dimen/y150"
-        android:background="@color/white"
-        android:orientation="horizontal"
-        android:paddingEnd="@dimen/x50"
-        android:paddingStart="@dimen/x50"
-        android:visibility="gone"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/ll_blood_pressure">
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:gravity="center_vertical"
-            android:text="脉搏"
-            android:textColor="@color/black" />
-
-        <EditText
-            android:id="@+id/et_pulse"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:background="@null"
-            android:gravity="end|center_vertical"
-            android:hint="请输入"
-            android:textColor="@color/black" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:layout_marginStart="@dimen/x50"
-            android:gravity="center_vertical"
-            android:text="次/分钟"
-            android:textColor="@color/black" />
-    </LinearLayout>
-
-    <LinearLayout
-        android:id="@+id/ll_breathe"
-        android:layout_width="0dp"
-        android:layout_height="@dimen/y150"
-        android:background="@color/white"
-        android:orientation="horizontal"
-        android:paddingEnd="@dimen/x50"
-        android:paddingStart="@dimen/x50"
-        android:visibility="gone"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/ll_pulse">
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:gravity="center_vertical"
-            android:text="呼吸"
-            android:textColor="@color/black" />
-
-        <EditText
-            android:id="@+id/et_breathe"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:background="@null"
-            android:gravity="end|center_vertical"
-            android:hint="请输入"
-            android:textColor="@color/black" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:layout_marginStart="@dimen/x50"
-            android:gravity="center_vertical"
-            android:text="次/分钟"
-            android:textColor="@color/black" />
-    </LinearLayout>
-
-    <LinearLayout
-        android:id="@+id/ll_body_temperature"
-        android:layout_width="0dp"
-        android:layout_height="@dimen/y150"
-        android:background="@color/white"
-        android:orientation="horizontal"
-        android:paddingEnd="@dimen/x50"
-        android:paddingStart="@dimen/x50"
-        android:visibility="gone"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/ll_breathe">
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:gravity="center_vertical"
-            android:text="体温"
-            android:textColor="@color/black" />
-
-        <EditText
-            android:id="@+id/et_body_temperature"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:background="@null"
-            android:gravity="end|center_vertical"
-            android:hint="请输入"
-            android:textColor="@color/black" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:layout_marginStart="@dimen/x50"
-            android:gravity="center_vertical"
-            android:text="      ℃"
-            android:textColor="@color/black" />
-    </LinearLayout>
-
-    <LinearLayout
-        android:id="@+id/ll_diabetes"
-        android:layout_width="0dp"
-        android:layout_height="@dimen/y150"
-        android:background="@color/white"
-        android:orientation="horizontal"
-        android:paddingEnd="@dimen/x50"
-        android:paddingStart="@dimen/x50"
-        android:visibility="gone"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/ll_body_temperature">
-
-        <TextView
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1.5"
-            android:gravity="center_vertical"
-            android:text="糖尿病"
-            android:textColor="@color/black" />
-
-        <RadioGroup
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:orientation="horizontal">
-
-            <RadioButton
-                android:id="@+id/rb_diabetes_start"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="start|center_vertical"
-                android:button="@null"
-                android:checked="true"
-                android:drawableEnd="@drawable/select_radio_check"
-                android:drawablePadding="@dimen/x20"
-                android:text="有"
-                android:textColor="@color/tx_bottom_navigation" />
-
-            <View
+            <LinearLayout
+                android:id="@+id/ll_upload_medical_record_type"
                 android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="1" />
+                android:layout_height="@dimen/y150"
+                android:background="@color/white"
+                android:orientation="horizontal"
+                android:paddingStart="@dimen/x50"
+                android:paddingEnd="@dimen/x50"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
 
-            <RadioButton
-                android:id="@+id/rb_diabetes_end"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="end|center_vertical"
-                android:layout_marginStart="@dimen/x50"
-                android:button="@null"
-                android:drawableEnd="@drawable/select_radio_check"
-                android:drawablePadding="@dimen/x20"
-                android:text="无"
-                android:textColor="@color/tx_bottom_navigation" />
-        </RadioGroup>
-    </LinearLayout>
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:gravity="center_vertical"
+                    android:text="病历上传方式"
+                    android:textColor="@color/black" />
 
-    <LinearLayout
-        android:id="@+id/ll_brain_stalk"
-        android:layout_width="0dp"
-        android:layout_height="@dimen/y150"
-        android:background="@color/white"
-        android:orientation="horizontal"
-        android:paddingEnd="@dimen/x50"
-        android:paddingStart="@dimen/x50"
-        android:visibility="gone"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/ll_diabetes">
+                <RadioGroup
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal">
 
-        <TextView
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1.5"
-            android:gravity="center_vertical"
-            android:text="脑梗"
-            android:textColor="@color/black" />
+                    <RadioButton
+                        android:id="@+id/rb_none"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:button="@null"
+                        android:checked="true"
+                        android:drawableEnd="@drawable/select_radio_check"
+                        android:drawablePadding="@dimen/x20"
+                        android:text="暂无"
+                        android:textColor="@color/tx_bottom_navigation" />
 
-        <RadioGroup
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:orientation="horizontal">
+                    <RadioButton
+                        android:id="@+id/rb_edit"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/x50"
+                        android:button="@null"
+                        android:drawableEnd="@drawable/select_radio_check"
+                        android:drawablePadding="@dimen/x20"
+                        android:text="填写上传"
+                        android:textColor="@color/tx_bottom_navigation" />
 
-            <RadioButton
-                android:id="@+id/rb_brain_stalk_start"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="start|center_vertical"
-                android:button="@null"
-                android:checked="true"
-                android:drawableEnd="@drawable/select_radio_check"
-                android:drawablePadding="@dimen/x20"
-                android:text="有"
-                android:textColor="@color/tx_bottom_navigation" />
+                    <RadioButton
+                        android:id="@+id/rb_img"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/x50"
+                        android:button="@null"
+                        android:drawableEnd="@drawable/select_radio_check"
+                        android:drawablePadding="@dimen/x20"
+                        android:text="图片上传"
+                        android:textColor="@color/tx_bottom_navigation" />
+                </RadioGroup>
+            </LinearLayout>
 
-            <View
+            <LinearLayout
+                android:id="@+id/ll_blood_pressure"
                 android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="1" />
+                android:layout_height="@dimen/y150"
+                android:background="@color/white"
+                android:orientation="horizontal"
+                android:paddingStart="@dimen/x50"
+                android:paddingEnd="@dimen/x50"
+                android:visibility="gone"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/ll_upload_medical_record_type">
 
-            <RadioButton
-                android:id="@+id/rb_brain_stalk_end"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="end|center_vertical"
-                android:layout_marginStart="@dimen/x50"
-                android:button="@null"
-                android:drawableEnd="@drawable/select_radio_check"
-                android:drawablePadding="@dimen/x20"
-                android:text="无"
-                android:textColor="@color/tx_bottom_navigation" />
-        </RadioGroup>
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:gravity="center_vertical"
+                    android:text="血压"
+                    android:textColor="@color/black" />
 
+                <EditText
+                    android:id="@+id/et_blood_pressure_start"
+                    android:layout_width="@dimen/x200"
+                    android:layout_height="match_parent"
+                    android:background="@null"
+                    android:gravity="center"
+                    android:hint="请输入"
+                    android:inputType="number"
+                    android:textColor="@color/black" />
 
-    </LinearLayout>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_marginStart="@dimen/x50"
+                    android:layout_marginEnd="@dimen/x50"
+                    android:gravity="center_vertical"
+                    android:text="/"
+                    android:textColor="@color/black" />
 
-    <LinearLayout
-        android:id="@+id/ll_heart_disease"
-        android:layout_width="0dp"
-        android:layout_height="@dimen/y150"
-        android:background="@color/white"
-        android:orientation="horizontal"
-        android:paddingEnd="@dimen/x50"
-        android:paddingStart="@dimen/x50"
-        android:visibility="gone"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/ll_brain_stalk">
+                <EditText
+                    android:id="@+id/et_blood_pressure_end"
+                    android:layout_width="@dimen/x200"
+                    android:layout_height="match_parent"
+                    android:background="@null"
+                    android:gravity="center"
+                    android:hint="请输入"
+                    android:inputType="number"
+                    android:textColor="@color/black" />
 
-        <TextView
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1.5"
-            android:gravity="center_vertical"
-            android:text="心脏疾病"
-            android:textColor="@color/black" />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_marginStart="@dimen/x50"
+                    android:gravity="center_vertical"
+                    android:text="mmHg"
+                    android:textColor="@color/black" />
+            </LinearLayout>
 
-        <RadioGroup
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:orientation="horizontal">
-
-            <RadioButton
-                android:id="@+id/rb_heart_disease_start"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="start|center_vertical"
-                android:button="@null"
-                android:checked="true"
-                android:drawableEnd="@drawable/select_radio_check"
-                android:drawablePadding="@dimen/x20"
-                android:text="有"
-                android:textColor="@color/tx_bottom_navigation" />
-
-            <View
+            <LinearLayout
+                android:id="@+id/ll_pulse"
                 android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="1" />
+                android:layout_height="@dimen/y150"
+                android:background="@color/white"
+                android:orientation="horizontal"
+                android:paddingStart="@dimen/x50"
+                android:paddingEnd="@dimen/x50"
+                android:visibility="gone"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/ll_blood_pressure">
 
-            <RadioButton
-                android:id="@+id/rb_heart_disease_end"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="end|center_vertical"
-                android:layout_marginStart="@dimen/x50"
-                android:button="@null"
-                android:drawableEnd="@drawable/select_radio_check"
-                android:drawablePadding="@dimen/x20"
-                android:text="无"
-                android:textColor="@color/tx_bottom_navigation" />
-        </RadioGroup>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:gravity="center_vertical"
+                    android:text="脉搏"
+                    android:textColor="@color/black" />
 
+                <EditText
+                    android:id="@+id/et_pulse"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:background="@null"
+                    android:gravity="end|center_vertical"
+                    android:hint="请输入"
+                    android:inputType="number"
+                    android:textColor="@color/black" />
 
-    </LinearLayout>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_marginStart="@dimen/x50"
+                    android:gravity="center_vertical"
+                    android:text="次/分钟"
+                    android:textColor="@color/black" />
+            </LinearLayout>
 
-    <LinearLayout
-        android:id="@+id/ll_infectious_disease"
-        android:layout_width="0dp"
-        android:layout_height="@dimen/y150"
-        android:background="@color/white"
-        android:orientation="horizontal"
-        android:paddingEnd="@dimen/x50"
-        android:paddingStart="@dimen/x50"
-        android:visibility="gone"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/ll_heart_disease">
-
-        <TextView
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1.5"
-            android:gravity="center_vertical"
-            android:text="传染性疾病"
-            android:textColor="@color/black" />
-
-        <RadioGroup
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:orientation="horizontal">
-
-            <RadioButton
-                android:id="@+id/rb_infectious_disease_start"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="start|center_vertical"
-                android:button="@null"
-                android:checked="true"
-                android:drawableEnd="@drawable/select_radio_check"
-                android:drawablePadding="@dimen/x20"
-                android:text="有"
-                android:textColor="@color/tx_bottom_navigation" />
-
-            <View
+            <LinearLayout
+                android:id="@+id/ll_breathe"
                 android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="1" />
+                android:layout_height="@dimen/y150"
+                android:background="@color/white"
+                android:orientation="horizontal"
+                android:paddingStart="@dimen/x50"
+                android:paddingEnd="@dimen/x50"
+                android:visibility="gone"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/ll_pulse">
 
-            <RadioButton
-                android:id="@+id/rb_infectious_disease_end"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="end|center_vertical"
-                android:layout_marginStart="@dimen/x50"
-                android:button="@null"
-                android:drawableEnd="@drawable/select_radio_check"
-                android:drawablePadding="@dimen/x20"
-                android:text="无"
-                android:textColor="@color/tx_bottom_navigation" />
-        </RadioGroup>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:gravity="center_vertical"
+                    android:text="呼吸"
+                    android:textColor="@color/black" />
 
-    </LinearLayout>
+                <EditText
+                    android:id="@+id/et_breathe"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:background="@null"
+                    android:gravity="end|center_vertical"
+                    android:hint="请输入"
+                    android:inputType="number"
+                    android:textColor="@color/black" />
 
-    <LinearLayout
-        android:id="@+id/ll_respiratory_dysfunction"
-        android:layout_width="0dp"
-        android:layout_height="@dimen/y150"
-        android:background="@color/white"
-        android:orientation="horizontal"
-        android:paddingEnd="@dimen/x50"
-        android:paddingStart="@dimen/x50"
-        android:visibility="gone"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/ll_infectious_disease">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_marginStart="@dimen/x50"
+                    android:gravity="center_vertical"
+                    android:text="次/分钟"
+                    android:textColor="@color/black" />
+            </LinearLayout>
 
-        <TextView
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1.5"
-            android:gravity="center_vertical"
-            android:text="呼吸功能障碍"
-            android:textColor="@color/black" />
-
-        <RadioGroup
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:orientation="horizontal">
-
-            <RadioButton
-                android:id="@+id/rb_respiratory_dysfunction_start"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="start|center_vertical"
-                android:button="@null"
-                android:checked="true"
-                android:drawableEnd="@drawable/select_radio_check"
-                android:drawablePadding="@dimen/x20"
-                android:text="有"
-                android:textColor="@color/tx_bottom_navigation" />
-
-            <View
+            <LinearLayout
+                android:id="@+id/ll_body_temperature"
                 android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="1" />
+                android:layout_height="@dimen/y150"
+                android:background="@color/white"
+                android:orientation="horizontal"
+                android:paddingStart="@dimen/x50"
+                android:paddingEnd="@dimen/x50"
+                android:visibility="gone"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/ll_breathe">
 
-            <RadioButton
-                android:id="@+id/rb_respiratory_dysfunction_end"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="end|center_vertical"
-                android:layout_marginStart="@dimen/x50"
-                android:button="@null"
-                android:drawableEnd="@drawable/select_radio_check"
-                android:drawablePadding="@dimen/x20"
-                android:text="无"
-                android:textColor="@color/tx_bottom_navigation" />
-        </RadioGroup>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:gravity="center_vertical"
+                    android:text="体温"
+                    android:textColor="@color/black" />
+
+                <EditText
+                    android:id="@+id/et_body_temperature"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:background="@null"
+                    android:gravity="end|center_vertical"
+                    android:hint="请输入"
+                    android:inputType="number"
+                    android:textColor="@color/black" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_marginStart="@dimen/x50"
+                    android:gravity="center_vertical"
+                    android:text="            ℃"
+                    android:textColor="@color/black" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/ll_diabetes"
+                android:layout_width="0dp"
+                android:layout_height="@dimen/y150"
+                android:background="@color/white"
+                android:orientation="horizontal"
+                android:paddingStart="@dimen/x50"
+                android:paddingEnd="@dimen/x50"
+                android:visibility="gone"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/ll_body_temperature">
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1.5"
+                    android:gravity="center_vertical"
+                    android:text="糖尿病"
+                    android:textColor="@color/black" />
+
+                <RadioGroup
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:orientation="horizontal">
+
+                    <RadioButton
+                        android:id="@+id/rb_diabetes_start"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="start|center_vertical"
+                        android:button="@null"
+                        android:checked="true"
+                        android:drawableEnd="@drawable/select_radio_check"
+                        android:drawablePadding="@dimen/x20"
+                        android:text="有"
+                        android:textColor="@color/tx_bottom_navigation" />
+
+                    <View
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1" />
+
+                    <RadioButton
+                        android:id="@+id/rb_diabetes_end"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="end|center_vertical"
+                        android:layout_marginStart="@dimen/x50"
+                        android:button="@null"
+                        android:drawableEnd="@drawable/select_radio_check"
+                        android:drawablePadding="@dimen/x20"
+                        android:text="无"
+                        android:textColor="@color/tx_bottom_navigation" />
+                </RadioGroup>
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/ll_brain_stalk"
+                android:layout_width="0dp"
+                android:layout_height="@dimen/y150"
+                android:background="@color/white"
+                android:orientation="horizontal"
+                android:paddingStart="@dimen/x50"
+                android:paddingEnd="@dimen/x50"
+                android:visibility="gone"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/ll_diabetes">
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1.5"
+                    android:gravity="center_vertical"
+                    android:text="脑梗"
+                    android:textColor="@color/black" />
+
+                <RadioGroup
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:orientation="horizontal">
+
+                    <RadioButton
+                        android:id="@+id/rb_brain_stalk_start"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="start|center_vertical"
+                        android:button="@null"
+                        android:checked="true"
+                        android:drawableEnd="@drawable/select_radio_check"
+                        android:drawablePadding="@dimen/x20"
+                        android:text="有"
+                        android:textColor="@color/tx_bottom_navigation" />
+
+                    <View
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1" />
+
+                    <RadioButton
+                        android:id="@+id/rb_brain_stalk_end"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="end|center_vertical"
+                        android:layout_marginStart="@dimen/x50"
+                        android:button="@null"
+                        android:drawableEnd="@drawable/select_radio_check"
+                        android:drawablePadding="@dimen/x20"
+                        android:text="无"
+                        android:textColor="@color/tx_bottom_navigation" />
+                </RadioGroup>
 
 
-    </LinearLayout>
+            </LinearLayout>
 
-    <com.xuexiang.xui.widget.textview.supertextview.SuperTextView
-        android:id="@+id/stv_surgery_about_medical_record"
-        android:layout_width="0dp"
-        android:layout_height="@dimen/y150"
-        android:paddingEnd="@dimen/x30"
-        android:paddingStart="@dimen/x30"
-        android:visibility="gone"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/ll_upload_medical_record_type"
-        app:sDividerLineType="none"
-        app:sLeftTextColor="@color/black"
-        app:sLeftTextString="手术相关病历"
-        app:sRightIconRes="@drawable/ic_right_arrow"
-        app:sRightTextColor="@color/tx_bottom_navigation"
-        app:sRightTextString="未上传" />
+            <LinearLayout
+                android:id="@+id/ll_heart_disease"
+                android:layout_width="0dp"
+                android:layout_height="@dimen/y150"
+                android:background="@color/white"
+                android:orientation="horizontal"
+                android:paddingStart="@dimen/x50"
+                android:paddingEnd="@dimen/x50"
+                android:visibility="gone"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/ll_brain_stalk">
 
-    <com.xuexiang.xui.widget.textview.supertextview.SuperTextView
-        android:id="@+id/stv_blood_routine"
-        android:layout_width="0dp"
-        android:layout_height="@dimen/y150"
-        android:paddingEnd="@dimen/x30"
-        android:paddingStart="@dimen/x30"
-        android:visibility="gone"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/stv_surgery_about_medical_record"
-        app:sDividerLineType="none"
-        app:sLeftTextColor="@color/black"
-        app:sLeftTextString="血常规"
-        app:sRightIconRes="@drawable/ic_right_arrow"
-        app:sRightTextColor="@color/tx_bottom_navigation"
-        app:sRightTextString="未上传" />
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1.5"
+                    android:gravity="center_vertical"
+                    android:text="心脏疾病"
+                    android:textColor="@color/black" />
 
-    <com.xuexiang.xui.widget.textview.supertextview.SuperTextView
-        android:id="@+id/stv_electrocardiogram"
-        android:layout_width="0dp"
-        android:layout_height="@dimen/y150"
-        android:paddingEnd="@dimen/x30"
-        android:paddingStart="@dimen/x30"
-        android:visibility="gone"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/stv_blood_routine"
-        app:sDividerLineType="none"
-        app:sLeftTextColor="@color/black"
-        app:sLeftTextString="心电图"
-        app:sRightIconRes="@drawable/ic_right_arrow"
-        app:sRightTextColor="@color/tx_bottom_navigation"
-        app:sRightTextString="未上传" />
+                <RadioGroup
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:orientation="horizontal">
 
-    <com.xuexiang.xui.widget.textview.supertextview.SuperTextView
-        android:id="@+id/stv_coagulation"
-        android:layout_width="0dp"
-        android:layout_height="@dimen/y150"
-        android:paddingEnd="@dimen/x30"
-        android:paddingStart="@dimen/x30"
-        android:visibility="gone"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/stv_electrocardiogram"
-        app:sDividerLineType="none"
-        app:sLeftTextColor="@color/black"
-        app:sLeftTextString="凝血功能"
-        app:sRightIconRes="@drawable/ic_right_arrow"
-        app:sRightTextColor="@color/tx_bottom_navigation"
-        app:sRightTextString="未上传" />
+                    <RadioButton
+                        android:id="@+id/rb_heart_disease_start"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="start|center_vertical"
+                        android:button="@null"
+                        android:checked="true"
+                        android:drawableEnd="@drawable/select_radio_check"
+                        android:drawablePadding="@dimen/x20"
+                        android:text="有"
+                        android:textColor="@color/tx_bottom_navigation" />
 
-    <com.xuexiang.xui.widget.textview.supertextview.SuperTextView
-        android:id="@+id/stv_infectious_disease_index"
-        android:layout_width="0dp"
-        android:layout_height="@dimen/y150"
-        android:paddingEnd="@dimen/x30"
-        android:paddingStart="@dimen/x30"
-        android:visibility="gone"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/stv_coagulation"
-        app:sDividerLineType="none"
-        app:sLeftTextColor="@color/black"
-        app:sLeftTextString="传染病指标"
-        app:sRightIconRes="@drawable/ic_right_arrow"
-        app:sRightTextColor="@color/tx_bottom_navigation"
-        app:sRightTextString="未上传" />
+                    <View
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1" />
+
+                    <RadioButton
+                        android:id="@+id/rb_heart_disease_end"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="end|center_vertical"
+                        android:layout_marginStart="@dimen/x50"
+                        android:button="@null"
+                        android:drawableEnd="@drawable/select_radio_check"
+                        android:drawablePadding="@dimen/x20"
+                        android:text="无"
+                        android:textColor="@color/tx_bottom_navigation" />
+                </RadioGroup>
+
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/ll_infectious_disease"
+                android:layout_width="0dp"
+                android:layout_height="@dimen/y150"
+                android:background="@color/white"
+                android:orientation="horizontal"
+                android:paddingStart="@dimen/x50"
+                android:paddingEnd="@dimen/x50"
+                android:visibility="gone"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/ll_heart_disease">
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1.5"
+                    android:gravity="center_vertical"
+                    android:text="传染性疾病"
+                    android:textColor="@color/black" />
+
+                <RadioGroup
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:orientation="horizontal">
+
+                    <RadioButton
+                        android:id="@+id/rb_infectious_disease_start"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="start|center_vertical"
+                        android:button="@null"
+                        android:checked="true"
+                        android:drawableEnd="@drawable/select_radio_check"
+                        android:drawablePadding="@dimen/x20"
+                        android:text="有"
+                        android:textColor="@color/tx_bottom_navigation" />
+
+                    <View
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1" />
+
+                    <RadioButton
+                        android:id="@+id/rb_infectious_disease_end"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="end|center_vertical"
+                        android:layout_marginStart="@dimen/x50"
+                        android:button="@null"
+                        android:drawableEnd="@drawable/select_radio_check"
+                        android:drawablePadding="@dimen/x20"
+                        android:text="无"
+                        android:textColor="@color/tx_bottom_navigation" />
+                </RadioGroup>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/ll_respiratory_dysfunction"
+                android:layout_width="0dp"
+                android:layout_height="@dimen/y150"
+                android:background="@color/white"
+                android:orientation="horizontal"
+                android:paddingStart="@dimen/x50"
+                android:paddingEnd="@dimen/x50"
+                android:visibility="gone"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/ll_infectious_disease">
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1.5"
+                    android:gravity="center_vertical"
+                    android:text="呼吸功能障碍"
+                    android:textColor="@color/black" />
+
+                <RadioGroup
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:orientation="horizontal">
+
+                    <RadioButton
+                        android:id="@+id/rb_respiratory_dysfunction_start"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="start|center_vertical"
+                        android:button="@null"
+                        android:checked="true"
+                        android:drawableEnd="@drawable/select_radio_check"
+                        android:drawablePadding="@dimen/x20"
+                        android:text="有"
+                        android:textColor="@color/tx_bottom_navigation" />
+
+                    <View
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1" />
+
+                    <RadioButton
+                        android:id="@+id/rb_respiratory_dysfunction_end"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="end|center_vertical"
+                        android:layout_marginStart="@dimen/x50"
+                        android:button="@null"
+                        android:drawableEnd="@drawable/select_radio_check"
+                        android:drawablePadding="@dimen/x20"
+                        android:text="无"
+                        android:textColor="@color/tx_bottom_navigation" />
+                </RadioGroup>
+
+
+            </LinearLayout>
+
+            <com.xuexiang.xui.widget.textview.supertextview.SuperTextView
+                android:id="@+id/stv_surgery_about_medical_record"
+                android:layout_width="0dp"
+                android:layout_height="@dimen/y150"
+                android:paddingStart="@dimen/x30"
+                android:paddingEnd="@dimen/x30"
+                android:visibility="gone"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/ll_upload_medical_record_type"
+                app:sDividerLineType="none"
+                app:sLeftTextColor="@color/black"
+                app:sLeftTextString="手术相关病历"
+                app:sRightIconRes="@drawable/ic_right_arrow"
+                app:sRightTextColor="@color/tx_bottom_navigation"
+                app:sRightTextString="未上传" />
+
+            <com.xuexiang.xui.widget.textview.supertextview.SuperTextView
+                android:id="@+id/stv_blood_routine"
+                android:layout_width="0dp"
+                android:layout_height="@dimen/y150"
+                android:paddingStart="@dimen/x30"
+                android:paddingEnd="@dimen/x30"
+                android:visibility="gone"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/stv_surgery_about_medical_record"
+                app:sDividerLineType="none"
+                app:sLeftTextColor="@color/black"
+                app:sLeftTextString="血常规"
+                app:sRightIconRes="@drawable/ic_right_arrow"
+                app:sRightTextColor="@color/tx_bottom_navigation"
+                app:sRightTextString="未上传" />
+
+            <com.xuexiang.xui.widget.textview.supertextview.SuperTextView
+                android:id="@+id/stv_electrocardiogram"
+                android:layout_width="0dp"
+                android:layout_height="@dimen/y150"
+                android:paddingStart="@dimen/x30"
+                android:paddingEnd="@dimen/x30"
+                android:visibility="gone"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/stv_blood_routine"
+                app:sDividerLineType="none"
+                app:sLeftTextColor="@color/black"
+                app:sLeftTextString="心电图"
+                app:sRightIconRes="@drawable/ic_right_arrow"
+                app:sRightTextColor="@color/tx_bottom_navigation"
+                app:sRightTextString="未上传" />
+
+            <com.xuexiang.xui.widget.textview.supertextview.SuperTextView
+                android:id="@+id/stv_coagulation"
+                android:layout_width="0dp"
+                android:layout_height="@dimen/y150"
+                android:paddingStart="@dimen/x30"
+                android:paddingEnd="@dimen/x30"
+                android:visibility="gone"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/stv_electrocardiogram"
+                app:sDividerLineType="none"
+                app:sLeftTextColor="@color/black"
+                app:sLeftTextString="凝血功能"
+                app:sRightIconRes="@drawable/ic_right_arrow"
+                app:sRightTextColor="@color/tx_bottom_navigation"
+                app:sRightTextString="未上传" />
+
+            <com.xuexiang.xui.widget.textview.supertextview.SuperTextView
+                android:id="@+id/stv_infectious_disease_index"
+                android:layout_width="0dp"
+                android:layout_height="@dimen/y150"
+                android:paddingStart="@dimen/x30"
+                android:paddingEnd="@dimen/x30"
+                android:visibility="gone"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/stv_coagulation"
+                app:sDividerLineType="none"
+                app:sLeftTextColor="@color/black"
+                app:sLeftTextString="传染病指标"
+                app:sRightIconRes="@drawable/ic_right_arrow"
+                app:sRightTextColor="@color/tx_bottom_navigation"
+                app:sRightTextString="未上传" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </com.ipd.xiangzui.common.view.BounceScrollView>
 
     <LinearLayout
         android:layout_width="0dp"

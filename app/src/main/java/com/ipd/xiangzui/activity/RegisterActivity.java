@@ -3,7 +3,6 @@ package com.ipd.xiangzui.activity;
 import android.content.Intent;
 import android.view.View;
 import android.widget.CheckBox;
-import android.widget.EditText;
 
 import com.gyf.immersionbar.ImmersionBar;
 import com.ipd.xiangzui.R;
@@ -12,6 +11,7 @@ import com.ipd.xiangzui.base.BasePresenter;
 import com.ipd.xiangzui.base.BaseView;
 import com.ipd.xiangzui.utils.ApplicationUtil;
 import com.xuexiang.xui.utils.CountDownButtonHelper;
+import com.xuexiang.xui.widget.edittext.materialedittext.MaterialEditText;
 import com.xuexiang.xui.widget.textview.supertextview.SuperButton;
 
 import butterknife.BindView;
@@ -26,15 +26,15 @@ import butterknife.OnClick;
 public class RegisterActivity extends BaseActivity {
 
     @BindView(R.id.et_phone)
-    EditText etPhone;
+    MaterialEditText etPhone;
     @BindView(R.id.et_captcha)
-    EditText etCaptcha;
+    MaterialEditText etCaptcha;
     @BindView(R.id.bt_captcha)
     SuperButton btCaptcha;
     @BindView(R.id.et_pwd)
-    EditText etPwd;
+    MaterialEditText etPwd;
     @BindView(R.id.et_invitation_code)
-    EditText etInvitationCode;
+    MaterialEditText etInvitationCode;
     @BindView(R.id.cb_register)
     CheckBox cbRegister;
 

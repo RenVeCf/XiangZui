@@ -2,7 +2,7 @@ package com.ipd.xiangzui.adapter;
 
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentStatePagerAdapter;
+import androidx.fragment.app.FragmentPagerAdapter;
 
 import java.util.List;
 
@@ -12,7 +12,7 @@ import java.util.List;
  * Email ： 942685687@qq.com
  * Time ： 2019/6/22.
  */
-public class ViewPagerAdapter extends FragmentStatePagerAdapter {
+public class ViewPagerAdapter extends FragmentPagerAdapter {
     private List<Fragment> fragments;
 
     public ViewPagerAdapter(FragmentManager fm, List<Fragment> fragments) {

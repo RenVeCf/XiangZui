@@ -2,7 +2,6 @@ package com.ipd.xiangzui.activity;
 
 import android.content.Intent;
 import android.view.View;
-import android.widget.EditText;
 
 import com.gyf.immersionbar.ImmersionBar;
 import com.ipd.xiangzui.R;
@@ -12,6 +11,7 @@ import com.ipd.xiangzui.base.BaseView;
 import com.ipd.xiangzui.utils.ApplicationUtil;
 import com.ipd.xiangzui.utils.ToastUtil;
 import com.xuexiang.xui.utils.CountDownButtonHelper;
+import com.xuexiang.xui.widget.edittext.materialedittext.MaterialEditText;
 import com.xuexiang.xui.widget.textview.supertextview.SuperButton;
 
 import butterknife.BindView;
@@ -26,8 +26,7 @@ import butterknife.OnClick;
 public class CaptchaLoginActivity extends BaseActivity {
 
     /**
-     *
-     *----------Dragon be here!----------/
+     * ----------Dragon be here!----------/
      * 　　　┏┓　　　┏┓
      * 　　┏┛┻━━━┛┻┓
      * 　　┃　　　　　　　┃
@@ -49,9 +48,9 @@ public class CaptchaLoginActivity extends BaseActivity {
      */
 
     @BindView(R.id.et_phone)
-    EditText etPhone;
+    MaterialEditText etPhone;
     @BindView(R.id.et_captcha)
-    EditText etCaptcha;
+    MaterialEditText etCaptcha;
     @BindView(R.id.bt_captcha)
     SuperButton btCaptcha;
 

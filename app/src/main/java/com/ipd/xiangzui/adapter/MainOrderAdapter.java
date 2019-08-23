@@ -18,7 +18,6 @@ import java.util.List;
  */
 public class MainOrderAdapter extends BaseQuickAdapter<TestMultiItemEntityBean, BaseViewHolder> {
 
-    private SuperTextView stvLablel;
     private SuperTextView stvName;
     private SuperTextView stvAddress;
     private SuperTextView stvStartTime;
@@ -30,15 +29,45 @@ public class MainOrderAdapter extends BaseQuickAdapter<TestMultiItemEntityBean, 
 
     @Override
     protected void convert(BaseViewHolder helper, TestMultiItemEntityBean item) {
-        stvLablel = helper.getView(R.id.stv_lablel);
+        String orderType = "";
+
+        switch (item.getOrderType()) {
+            case "0":
+                orderType = "待接单";
+                helper.setText(R.id.bt_first, "取消订单")
+                        .setText(R.id.bt_second, "修改订单")
+                        .setText(R.id.bt_third, "加价");
+                break;
+            case "1":
+                orderType = "待开始";
+                helper.setText(R.id.bt_first, "取消订单")
+                        .setText(R.id.bt_second, "补充病历")
+                        .setText(R.id.bt_third, "联系医生");
+                break;
+            case "2":
+                orderType = "进行中";
+                helper.setText(R.id.bt_first, "查看详情")
+                        .setText(R.id.bt_second, "异议")
+                        .setText(R.id.bt_third, "确认");
+                break;
+            case "3":
+                orderType = 1 == 1 ? "已结算" : "未结算";
+                helper.setText(R.id.bt_first, "查看详情")
+                        .setGone(R.id.bt_second, false)
+                        .setGone(R.id.bt_third, false);
+                break;
+        }
+        helper.setText(R.id.tv_lavlel1, "    " + "单台" + "   ")
+                .setGone(R.id.tv_lavlel2, item.isAddFee() ? true : false)
+                .setText(R.id.tv_lavlel2, "    " + "加价" + "   ")
+                .setText(R.id.tv_name, "阑尾切除术")
+                .setText(R.id.tv_type, orderType);
+
         stvName = helper.getView(R.id.stv_name);
         stvAddress = helper.getView(R.id.stv_address);
         stvStartTime = helper.getView(R.id.stv_start_time);
         stvFee = helper.getView(R.id.stv_fee);
 
-        stvLablel.setLeftString("    " + "单台" + "   ")
-                .setCenterString("阑尾切除术")
-                .setRightString("待接单");
         stvName.setLeftString("医院名称:")
                 .setCenterString("上海市第一人民医院");
         stvAddress.setLeftString("医院地址:")

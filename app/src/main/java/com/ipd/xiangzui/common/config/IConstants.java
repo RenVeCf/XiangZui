@@ -18,13 +18,12 @@ public interface IConstants {
      */
     String FIRST_APP = "is_first"; //第一次进应用
     String IS_LOGIN = "is_login"; //已经登录
-    String IS_SUPPLEMENT_INFO = "is_supplement_info"; //已经认证
+    String IS_SUPPLEMENT_INFO = "is_supplement_info"; //认证
     String USER_ID = "user_id"; //用户标识
     String NAME = "name"; //用户真实姓名
     String PHONE = "phone"; //用户手机号码
     String SERVICE_PHONE = "service_phone"; //咨询客服号码
     String AVATAR = "avatar"; //头像
-    String INVITAION_CODE = "invitation_code"; //邀请码
     String LATIUDE = "latitude"; //经度
     String LONGTITUDE = "longtitude"; //纬度
     String CITY = "city"; //城市

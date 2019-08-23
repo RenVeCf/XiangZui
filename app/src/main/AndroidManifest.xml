@@ -14,7 +14,7 @@
     <uses-permission
         android:name="android.permission.MOUNT_UNMOUNT_FILESYSTEMS"
         tools:ignore="ProtectedPermissions" /> <!-- SD卡读取权限，用户写入离线定位数据 -->
-    <uses-permission android:name="android.permission.FOREGROUND_SERVICE" /> <!-- 9.0后前台服务需要申请权限 -->
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
 
     <application
         android:name=".utils.ApplicationUtil"
@@ -29,7 +29,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:replace="android:icon, android:allowBackup, theme, label">
-
+        <activity android:name=".activity.OrderDetailsActivity"></activity>
         <activity
             android:name=".activity.CaptchaLoginActivity"
             android:configChanges="screenSize|keyboardHidden|orientation|keyboard"
@@ -54,17 +54,21 @@
             android:value="true" /> <!-- 适配小米（xiaomi）刘海屏 -->
         <meta-data
             android:name="notch.config"
-            android:value="portrait|landscape" />
+            android:value="portrait|landscape" /> <!-- 屏幕自适应设计图 -->
+        <meta-data
+            android:name="design_width_in_dp"
+            android:value="360" />
+        <meta-data
+            android:name="design_height_in_dp"
+            android:value="640" />
 
         <service
             android:name="com.baidu.location.f"
             android:enabled="true"
             android:process=":remote" /> <!-- 百度定位 -->
-
         <meta-data
             android:name="com.baidu.lbsapi.API_KEY"
             android:value="3j64Bs4Fpd9Ca9CfuIUe6rQakrEuQMcj" /> <!-- 百度地图KAY -->
-
         <activity
             android:name=".activity.MainActivity"
             android:configChanges="screenSize|keyboardHidden|orientation|keyboard"

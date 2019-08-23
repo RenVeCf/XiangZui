@@ -71,8 +71,8 @@
                 android:layout_height="@dimen/y150"
                 android:background="@color/white"
                 android:gravity="center_vertical"
-                android:paddingEnd="@dimen/x50"
                 android:paddingStart="@dimen/x50"
+                android:paddingEnd="@dimen/x50"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/tv_add_patient">
@@ -100,8 +100,8 @@
                 android:layout_height="@dimen/y150"
                 android:background="@color/white"
                 android:gravity="center_vertical"
-                android:paddingEnd="@dimen/x50"
                 android:paddingStart="@dimen/x50"
+                android:paddingEnd="@dimen/x50"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/ll_surgical_name">
@@ -127,8 +127,8 @@
                 android:id="@+id/stv_patient_sex"
                 android:layout_width="0dp"
                 android:layout_height="@dimen/y150"
-                android:paddingEnd="@dimen/x30"
                 android:paddingStart="@dimen/x30"
+                android:paddingEnd="@dimen/x30"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/ll_patient_name"
@@ -143,8 +143,8 @@
                 android:id="@+id/stv_patient_age"
                 android:layout_width="0dp"
                 android:layout_height="@dimen/y150"
-                android:paddingEnd="@dimen/x30"
                 android:paddingStart="@dimen/x30"
+                android:paddingEnd="@dimen/x30"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/stv_patient_sex"
@@ -161,8 +161,8 @@
                 android:layout_height="@dimen/y150"
                 android:background="@color/white"
                 android:gravity="center_vertical"
-                android:paddingEnd="@dimen/x50"
                 android:paddingStart="@dimen/x50"
+                android:paddingEnd="@dimen/x50"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/stv_patient_age">
@@ -181,6 +181,7 @@
                     android:background="@null"
                     android:gravity="end|center_vertical"
                     android:hint="请输入"
+                    android:inputType="number"
                     android:textColor="@color/black" />
 
                 <TextView
@@ -197,8 +198,8 @@
                 android:layout_height="@dimen/y150"
                 android:background="@color/white"
                 android:gravity="center_vertical"
-                android:paddingEnd="@dimen/x50"
                 android:paddingStart="@dimen/x50"
+                android:paddingEnd="@dimen/x50"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/ll_patient_height">
@@ -217,6 +218,7 @@
                     android:background="@null"
                     android:gravity="end|center_vertical"
                     android:hint="请输入"
+                    android:inputType="number"
                     android:textColor="@color/black" />
 
                 <TextView
@@ -231,8 +233,8 @@
                 android:id="@+id/stv_anesthesia_type"
                 android:layout_width="0dp"
                 android:layout_height="@dimen/y150"
-                android:paddingEnd="@dimen/x30"
                 android:paddingStart="@dimen/x30"
+                android:paddingEnd="@dimen/x30"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/ll_patient_body_weight"
@@ -247,8 +249,8 @@
                 android:id="@+id/stv_id_card"
                 android:layout_width="0dp"
                 android:layout_height="@dimen/y150"
-                android:paddingEnd="@dimen/x30"
                 android:paddingStart="@dimen/x30"
+                android:paddingEnd="@dimen/x30"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/stv_anesthesia_type"
@@ -263,8 +265,8 @@
                 android:id="@+id/stv_insurance_consent"
                 android:layout_width="0dp"
                 android:layout_height="@dimen/y150"
-                android:paddingEnd="@dimen/x30"
                 android:paddingStart="@dimen/x30"
+                android:paddingEnd="@dimen/x30"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/stv_id_card"
@@ -278,8 +280,8 @@
             <LinearLayout
                 android:layout_width="0dp"
                 android:layout_height="@dimen/y150"
-                android:layout_marginBottom="@dimen/y200"
                 android:layout_marginTop="@dimen/y100"
+                android:layout_marginBottom="@dimen/y200"
                 android:background="@color/white"
                 android:gravity="center"
                 android:orientation="horizontal"

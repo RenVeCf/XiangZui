@@ -91,6 +91,8 @@
     <string name="now_login"><u>立即登录</u></string>
     <string name="agreement"><u>《用户协议》</u></string>
     <string name="title_activity_main">11111111111111111111111111111</string>
+    <string name="regex_captcha">[0-9]*</string>
+    <string name="regex_phone_number">^((13[0-9])|(14[5,7])|(15[0-3,5-9])|(16[6])|(17[0,1,3,5-8])|(18[0-9])|(19[8,9]))\\d{8}$</string>
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
