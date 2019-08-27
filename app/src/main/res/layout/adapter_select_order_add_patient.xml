@@ -3,6 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:gravity="center_vertical"
     android:orientation="horizontal">
 
     <com.xuexiang.xui.widget.textview.supertextview.SuperTextView
@@ -10,6 +11,8 @@
         android:layout_width="match_parent"
         android:layout_height="@dimen/y150"
         app:sLeftTextColor="@color/black"
+        android:paddingStart="@dimen/x30"
+        android:paddingEnd="@dimen/x30"
         app:sRightIconRes="@drawable/ic_right_arrow"
         app:sRightTextColor="@color/black" />
 </LinearLayout>

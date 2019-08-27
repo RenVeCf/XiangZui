@@ -61,7 +61,12 @@ public class MainOrderAdapter extends BaseQuickAdapter<TestMultiItemEntityBean, 
                 .setGone(R.id.tv_lavlel2, item.isAddFee() ? true : false)
                 .setText(R.id.tv_lavlel2, "    " + "加价" + "   ")
                 .setText(R.id.tv_name, "阑尾切除术")
-                .setText(R.id.tv_type, orderType);
+                .setText(R.id.tv_type, orderType)
+                .addOnClickListener(R.id.cv_order_item)
+                .addOnClickListener(R.id.stv_start_time)
+                .addOnClickListener(R.id.stv_fee)
+                .addOnClickListener(R.id.stv_name)
+                .addOnClickListener(R.id.stv_address);
 
         stvName = helper.getView(R.id.stv_name);
         stvAddress = helper.getView(R.id.stv_address);

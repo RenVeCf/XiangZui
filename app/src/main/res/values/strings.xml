@@ -46,6 +46,7 @@
     <string name="error_login">请选择正确的格式！</string>
     <string name="error_check_box">请勾选用户协议！</string>
     <string name="out">退出登录</string>
+    <string name="is_upload"><u>已上传</u></string>
     <string name="error_name">用户名格式不正确！</string>
     <string name="click_out_again">再按一次退出程序</string>
     <string name="email_error">请输入正确的电子邮箱！</string>

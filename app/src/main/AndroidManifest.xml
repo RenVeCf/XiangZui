@@ -78,7 +78,7 @@
             android:name=".activity.PwdLoginActivity"
             android:configChanges="screenSize|keyboardHidden|orientation|keyboard"
             android:exported="false"
-            android:launchMode="singleTask" />
+            android:launchMode="singleTask" />qqqqq2
         <activity
             android:name=".activity.RegisterActivity"
             android:configChanges="screenSize|keyboardHidden|orientation|keyboard"

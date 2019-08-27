@@ -17,6 +17,7 @@ import com.ipd.xiangzui.R;
 import com.ipd.xiangzui.activity.AuthenticationActivity;
 import com.ipd.xiangzui.activity.ExpertActivity;
 import com.ipd.xiangzui.activity.OrderActivity;
+import com.ipd.xiangzui.activity.OrderDetailsActivity;
 import com.ipd.xiangzui.activity.RentEquipmentActivity;
 import com.ipd.xiangzui.activity.SendOrderActivity;
 import com.ipd.xiangzui.activity.VipActivity;
@@ -89,6 +90,12 @@ public class MainFragment extends BaseFragment {
         return null;
     }
 
+    @Override
+    public void onHiddenChanged(boolean hidden) {
+        if (!hidden)
+            ImmersionBar.with(this).statusBarDarkFont(true).init();
+    }
+
     @SuppressLint("WrongConstant")
     @Override
     public void init(View view) {
@@ -119,6 +126,7 @@ public class MainFragment extends BaseFragment {
 
         for (int i = 0; i < 2; i++) {
             TestMultiItemEntityBean testData = new TestMultiItemEntityBean();
+            testData.setOrderType("0");
             str1.add(testData);
         }
         rvMoreOrder.setAdapter(mainOrderAdapter = new MainOrderAdapter(str1));
@@ -171,6 +179,29 @@ public class MainFragment extends BaseFragment {
                     case 7:
                         //设备租赁
                         startActivity(new Intent(getContext(), RentEquipmentActivity.class));
+                        break;
+                }
+            }
+        });
+
+        mainOrderAdapter.setOnItemChildClickListener(new BaseQuickAdapter.OnItemChildClickListener() {
+            @Override
+            public void onItemChildClick(BaseQuickAdapter adapter, View view, int position) {
+                switch (view.getId()) {
+                    case R.id.cv_order_item:
+                        startActivity(new Intent(getContext(), OrderDetailsActivity.class).putExtra("surgery_type", 1).putExtra("order_type", "0"));
+                        break;
+                    case R.id.stv_start_time:
+                        startActivity(new Intent(getContext(), OrderDetailsActivity.class).putExtra("surgery_type", 1).putExtra("order_type", "0"));
+                        break;
+                    case R.id.stv_fee:
+                        startActivity(new Intent(getContext(), OrderDetailsActivity.class).putExtra("surgery_type", 1).putExtra("order_type", "0"));
+                        break;
+                    case R.id.stv_name:
+                        startActivity(new Intent(getContext(), OrderDetailsActivity.class).putExtra("surgery_type", 1).putExtra("order_type", "0"));
+                        break;
+                    case R.id.stv_address:
+                        startActivity(new Intent(getContext(), OrderDetailsActivity.class).putExtra("surgery_type", 1).putExtra("order_type", "0"));
                         break;
                 }
             }

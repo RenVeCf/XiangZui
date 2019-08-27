@@ -114,7 +114,7 @@ public class SendOrderAddPatientActivity extends BaseActivity {
             TestMultiItemEntityBean testData = new TestMultiItemEntityBean();
             str1.add(testData);
         }
-        rvSendOrderAddPatient.setAdapter(selectOrderAddPatientAdapter = new SelectOrderAddPatientAdapter(str1));
+        rvSendOrderAddPatient.setAdapter(selectOrderAddPatientAdapter = new SelectOrderAddPatientAdapter(str1, 1));
         selectOrderAddPatientAdapter.bindToRecyclerView(rvSendOrderAddPatient);
         selectOrderAddPatientAdapter.openLoadAnimation();
     }

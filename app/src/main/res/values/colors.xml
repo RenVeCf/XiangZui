@@ -158,5 +158,6 @@
     <color name="tx_link">#FF406FCF</color><!--超链接字体色 -->
     <color name="bg_crude_line">#F5F5F5</color><!--粗线色 -->
     <color name="bg_fine_line">#CCCCCC</color><!--细线色 -->
+    <color name="tx_fee">#FF5555</color><!--金额 -->
 
 </resources>

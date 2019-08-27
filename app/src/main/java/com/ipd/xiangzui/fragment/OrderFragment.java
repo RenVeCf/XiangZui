@@ -115,10 +115,26 @@ public class OrderFragment extends BaseFragment {
                 mainOrderAdapter.openLoadAnimation();
                 mainOrderAdapter.disableLoadMoreIfNotFullPage();
 
-                mainOrderAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
+                mainOrderAdapter.setOnItemChildClickListener(new BaseQuickAdapter.OnItemChildClickListener() {
                     @Override
-                    public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
-                        startActivity(new Intent(getContext(), OrderDetailsActivity.class));
+                    public void onItemChildClick(BaseQuickAdapter adapter, View view, int position) {
+                        switch (view.getId()) {
+                            case R.id.cv_order_item:
+                                startActivity(new Intent(getContext(), OrderDetailsActivity.class).putExtra("surgery_type", 1).putExtra("order_type", orderType));
+                                break;
+                            case R.id.stv_start_time:
+                                startActivity(new Intent(getContext(), OrderDetailsActivity.class).putExtra("surgery_type", 1).putExtra("order_type", orderType));
+                                break;
+                            case R.id.stv_fee:
+                                startActivity(new Intent(getContext(), OrderDetailsActivity.class).putExtra("surgery_type", 1).putExtra("order_type", orderType));
+                                break;
+                            case R.id.stv_name:
+                                startActivity(new Intent(getContext(), OrderDetailsActivity.class).putExtra("surgery_type", 1).putExtra("order_type", orderType));
+                                break;
+                            case R.id.stv_address:
+                                startActivity(new Intent(getContext(), OrderDetailsActivity.class).putExtra("surgery_type", 1).putExtra("order_type", orderType));
+                                break;
+                        }
                     }
                 });
 

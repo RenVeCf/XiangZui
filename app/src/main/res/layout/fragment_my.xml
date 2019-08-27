@@ -1,13 +1,191 @@
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context="com.ipd.xiangzui.fragment.MyFragment">
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="111111111111111111111" />
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/cl_hospital_info"
+        android:layout_width="0dp"
+        android:layout_height="@dimen/y500"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
 
-</FrameLayout>
+        <androidx.appcompat.widget.AppCompatImageView
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:scaleType="fitXY"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:srcCompat="@drawable/bg_my" />
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="@dimen/x50"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.8"
+            app:srcCompat="@drawable/ic_right_arrow_white" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tv_is_certification"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/x50"
+            android:layout_marginTop="@dimen/y50"
+            android:background="@drawable/bg_gradient_white_bt"
+            android:paddingStart="@dimen/x30"
+            android:paddingTop="@dimen/y5"
+            android:paddingEnd="@dimen/x30"
+            android:paddingBottom="@dimen/y5"
+            android:textColor="@color/tx_bottom_navigation_select"
+            android:textSize="10sp"
+            app:layout_constraintStart_toEndOf="@+id/iv_hospital_head"
+            app:layout_constraintTop_toBottomOf="@+id/tv_hospital_name" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tv_hospital_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/x50"
+            android:textColor="@color/white"
+            android:textSize="15sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/iv_hospital_head"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.6" />
+
+        <com.ipd.xiangzui.common.view.TopView
+            android:id="@+id/tv_my"
+            android:layout_width="0dp"
+            android:layout_height="?attr/actionBarSize"
+            android:gravity="bottom"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:title="我的"
+            app:title_color="@color/white" />
+
+        <com.xuexiang.xui.widget.imageview.RadiusImageView
+            android:id="@+id/iv_hospital_head"
+            android:layout_width="@dimen/x150"
+            android:layout_height="@dimen/y150"
+            android:layout_marginStart="@dimen/x50"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.8"
+            app:riv_is_circle="true" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <com.xuexiang.xui.widget.textview.supertextview.SuperTextView
+        android:id="@+id/tv_wallet"
+        android:layout_width="0dp"
+        android:layout_height="@dimen/y150"
+        android:layout_marginTop="@dimen/y10"
+        android:paddingStart="@dimen/x30"
+        android:paddingEnd="@dimen/x30"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/cl_hospital_info"
+        app:sLeftIconRes="@drawable/ic_wallet"
+        app:sLeftTextColor="@color/black"
+        app:sLeftTextString="钱包"
+        app:sRightIconRes="@drawable/ic_right_arrow" />
+
+    <com.xuexiang.xui.widget.textview.supertextview.SuperTextView
+        android:id="@+id/tv_address"
+        android:layout_width="0dp"
+        android:layout_height="@dimen/y150"
+        android:layout_marginTop="@dimen/y10"
+        android:paddingStart="@dimen/x30"
+        android:paddingEnd="@dimen/x30"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tv_wallet"
+        app:sLeftIconRes="@drawable/ic_address_config"
+        app:sLeftTextColor="@color/black"
+        app:sLeftTextString="地址管理"
+        app:sRightIconRes="@drawable/ic_right_arrow" />
+
+    <com.xuexiang.xui.widget.textview.supertextview.SuperTextView
+        android:id="@+id/tv_account"
+        android:layout_width="0dp"
+        android:layout_height="@dimen/y150"
+        android:layout_marginTop="@dimen/y10"
+        android:paddingStart="@dimen/x30"
+        android:paddingEnd="@dimen/x30"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tv_address"
+        app:sLeftIconRes="@drawable/ic_account"
+        app:sLeftTextColor="@color/black"
+        app:sLeftTextString="对公账户"
+        app:sRightIconRes="@drawable/ic_right_arrow" />
+
+    <com.xuexiang.xui.widget.textview.supertextview.SuperTextView
+        android:id="@+id/tv_msg"
+        android:layout_width="0dp"
+        android:layout_height="@dimen/y150"
+        android:layout_marginTop="@dimen/y10"
+        android:paddingStart="@dimen/x30"
+        android:paddingEnd="@dimen/x30"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tv_account"
+        app:sLeftIconRes="@drawable/ic_msg"
+        app:sLeftTextColor="@color/black"
+        app:sLeftTextString="我的消息"
+        app:sRightIconRes="@drawable/ic_right_arrow" />
+
+    <com.xuexiang.xui.widget.textview.supertextview.SuperTextView
+        android:id="@+id/tv_invoice"
+        android:layout_width="0dp"
+        android:layout_height="@dimen/y150"
+        android:layout_marginTop="@dimen/y10"
+        android:paddingStart="@dimen/x30"
+        android:paddingEnd="@dimen/x30"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tv_msg"
+        app:sLeftIconRes="@drawable/ic_invoice"
+        app:sLeftTextColor="@color/black"
+        app:sLeftTextString="申请开票"
+        app:sRightIconRes="@drawable/ic_right_arrow" />
+
+    <com.xuexiang.xui.widget.textview.supertextview.SuperTextView
+        android:id="@+id/tv_about"
+        android:layout_width="0dp"
+        android:layout_height="@dimen/y150"
+        android:layout_marginTop="@dimen/y10"
+        android:paddingStart="@dimen/x30"
+        android:paddingEnd="@dimen/x30"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tv_invoice"
+        app:sLeftIconRes="@drawable/ic_about"
+        app:sLeftTextColor="@color/black"
+        app:sLeftTextString="关于平台"
+        app:sRightIconRes="@drawable/ic_right_arrow" />
+
+    <com.xuexiang.xui.widget.textview.supertextview.SuperTextView
+        android:id="@+id/tv_setting"
+        android:layout_width="0dp"
+        android:layout_height="@dimen/y150"
+        android:layout_marginTop="@dimen/y10"
+        android:paddingStart="@dimen/x30"
+        android:paddingEnd="@dimen/x30"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tv_about"
+        app:sLeftIconRes="@drawable/ic_setting"
+        app:sLeftTextColor="@color/black"
+        app:sLeftTextString="设置"
+        app:sRightIconRes="@drawable/ic_right_arrow" />
+</androidx.constraintlayout.widget.ConstraintLayout>
