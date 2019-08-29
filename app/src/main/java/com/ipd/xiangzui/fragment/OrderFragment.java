@@ -12,13 +12,19 @@ import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.ipd.xiangzui.R;
+import com.ipd.xiangzui.activity.AuthenticationActivity;
+import com.ipd.xiangzui.activity.ModifyMedicalRecordActivity;
 import com.ipd.xiangzui.activity.OrderDetailsActivity;
+import com.ipd.xiangzui.activity.SendOrderActivity;
 import com.ipd.xiangzui.adapter.MainOrderAdapter;
 import com.ipd.xiangzui.base.BaseFragment;
 import com.ipd.xiangzui.base.BasePresenter;
 import com.ipd.xiangzui.base.BaseView;
 import com.ipd.xiangzui.bean.TestMultiItemEntityBean;
+import com.ipd.xiangzui.common.view.CallPhoneDialog;
 import com.ipd.xiangzui.common.view.SpacesItemDecoration;
+import com.ipd.xiangzui.common.view.TwoBtDialog;
+import com.ipd.xiangzui.utils.SPUtil;
 import com.xuexiang.xui.widget.textview.supertextview.SuperTextView;
 
 import java.util.ArrayList;
@@ -26,6 +32,10 @@ import java.util.List;
 
 import butterknife.BindView;
 import butterknife.OnClick;
+
+import static com.ipd.xiangzui.common.config.IConstants.IS_SUPPLEMENT_INFO;
+import static com.ipd.xiangzui.utils.StringUtils.isEmpty;
+import static com.ipd.xiangzui.utils.isClickUtil.isFastClick;
 
 /**
  * Description ：订单
@@ -45,9 +55,9 @@ public class OrderFragment extends BaseFragment {
     @BindView(R.id.srl_order)
     SwipeRefreshLayout srlOrder;
 
-    private int pageNum = 1;//页数
     private List<TestMultiItemEntityBean> str1 = new ArrayList<>();
     private MainOrderAdapter mainOrderAdapter;
+    private int pageNum = 1;//页数
     private String orderType;//订单状态 0:待接单， 1:已接单， 2:进行中， 3:已完成
 
     @Override
@@ -133,6 +143,82 @@ public class OrderFragment extends BaseFragment {
                                 break;
                             case R.id.stv_address:
                                 startActivity(new Intent(getContext(), OrderDetailsActivity.class).putExtra("surgery_type", 1).putExtra("order_type", orderType));
+                                break;
+                            case R.id.bt_first:
+                                switch (str1.get(position).getOrderType()) {
+                                    case "0":
+                                        if (isFastClick())
+                                            new TwoBtDialog(getActivity(), "确认取消订单？", "确认") {
+                                                @Override
+                                                public void confirm() {
+                                                    str1.remove(position);
+                                                    mainOrderAdapter.notifyDataSetChanged();
+                                                    mainOrderAdapter.setEmptyView(R.layout.null_data, rvOrder);
+                                                }
+                                            }.show();
+                                        break;
+                                    case "1":
+                                        if (isFastClick())
+                                            new TwoBtDialog(getActivity(), "确认取消订单？", "确认") {
+                                                @Override
+                                                public void confirm() {
+                                                    str1.remove(position);
+                                                    mainOrderAdapter.notifyDataSetChanged();
+                                                    mainOrderAdapter.setEmptyView(R.layout.null_data, rvOrder);
+                                                }
+                                            }.show();
+                                        break;
+                                    case "2":
+                                        startActivity(new Intent(getContext(), OrderDetailsActivity.class).putExtra("surgery_type", 1).putExtra("order_type", orderType));
+                                        break;
+                                    case "3":
+                                        startActivity(new Intent(getContext(), OrderDetailsActivity.class).putExtra("surgery_type", 1).putExtra("order_type", orderType));
+                                        break;
+                                }
+                                break;
+                            case R.id.bt_second:
+                                switch (str1.get(position).getOrderType()) {
+                                    case "0":
+                                        if (isFastClick())
+                                            startActivity(new Intent(getContext(), SendOrderActivity.class));
+                                        break;
+                                    case "1":
+                                        if (isFastClick())
+                                            startActivity(new Intent(getContext(), ModifyMedicalRecordActivity.class));
+                                        break;
+                                    case "2":
+                                        if (isFastClick())
+                                            new TwoBtDialog(getActivity(), "对此订单有异议，是否进行电话咨询？", "确认") {
+                                                @Override
+                                                public void confirm() {
+                                                    new CallPhoneDialog(getActivity()) {
+                                                    }.show();
+                                                }
+                                            }.show();
+                                        break;
+                                }
+                                break;
+                            case R.id.bt_third:
+                                switch (str1.get(position).getOrderType()) {
+                                    case "0":
+                                        if (isFastClick())
+                                            //TODO 加价
+                                        break;
+                                    case "1":
+                                        if (isFastClick())
+                                            new CallPhoneDialog(getActivity()) {
+                                            }.show();
+                                        break;
+                                    case "2":
+                                        if (isFastClick())
+                                            new TwoBtDialog(getActivity(), "是否确认手术结束？", "确认") {
+                                                @Override
+                                                public void confirm() {
+                                                    startActivity(new Intent(getContext(), OrderDetailsActivity.class).putExtra("surgery_type", 1).putExtra("order_type", orderType));
+                                                }
+                                            }.show();
+                                        break;
+                                }
                                 break;
                         }
                     }

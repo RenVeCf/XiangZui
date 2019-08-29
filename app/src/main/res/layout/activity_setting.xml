@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".activity.SettingActivity">
+
+    <LinearLayout
+        android:layout_width="0dp"
+        android:layout_height="@dimen/y150"
+        android:background="@color/white"
+        android:gravity="center"
+        android:orientation="horizontal"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent">
+
+        <com.xuexiang.xui.widget.textview.supertextview.SuperButton
+            android:id="@+id/bt_sign_out"
+            style="@style/SuperButton.Blue"
+            android:layout_width="@dimen/x400"
+            android:layout_height="@dimen/y110"
+            android:text="退出登录"
+            app:sGradientEndColor="#4088FE"
+            app:sGradientOrientation="LEFT_RIGHT"
+            app:sGradientStartColor="#6BB6FF"
+            app:sGradientType="linear" />
+    </LinearLayout>
+
+    <com.ipd.xiangzui.common.view.TopView
+        android:id="@+id/tv_setting"
+        android:layout_width="0dp"
+        android:layout_height="?attr/actionBarSize"
+        android:background="@color/white"
+        android:gravity="bottom"
+        app:is_back="true"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:title="设置" />
+
+    <com.xuexiang.xui.widget.textview.supertextview.SuperTextView
+        android:id="@+id/tv_feedback"
+        android:layout_width="0dp"
+        android:layout_height="@dimen/y150"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tv_platform_agreement"
+        app:sDividerLineType="bottom"
+        app:sLeftTextColor="@color/black"
+        app:sLeftTextString="意见反馈"
+        app:sRightIconRes="@drawable/ic_right_arrow" />
+
+    <com.xuexiang.xui.widget.textview.supertextview.SuperTextView
+        android:id="@+id/tv_msg_remind"
+        android:layout_width="0dp"
+        android:layout_height="@dimen/y150"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tv_feedback"
+        app:sDividerLineType="bottom"
+        app:sLeftTextColor="@color/black"
+        app:sLeftTextString="新消息提醒"
+        app:sRightIconRes="@drawable/ic_right_arrow" />
+
+    <com.xuexiang.xui.widget.textview.supertextview.SuperTextView
+        android:id="@+id/tv_update_version"
+        android:layout_width="0dp"
+        android:layout_height="@dimen/y150"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tv_msg_remind"
+        app:sDividerLineType="bottom"
+        app:sLeftTextColor="@color/black"
+        app:sLeftTextString="APP升级"
+        app:sRightIconRes="@drawable/ic_right_arrow"
+        app:sRightTextColor="@color/tx_bottom_navigation" />
+
+    <com.xuexiang.xui.widget.textview.supertextview.SuperTextView
+        android:id="@+id/tv_clear_cache"
+        android:layout_width="0dp"
+        android:layout_height="@dimen/y150"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tv_update_version"
+        app:sDividerLineType="bottom"
+        app:sLeftTextColor="@color/black"
+        app:sLeftTextString="清除缓存"
+        app:sRightIconRes="@drawable/ic_right_arrow"
+        app:sRightTextColor="@color/tx_bottom_navigation" />
+
+    <com.xuexiang.xui.widget.textview.supertextview.SuperTextView
+        android:id="@+id/tv_platform_agreement"
+        android:layout_width="0dp"
+        android:layout_height="@dimen/y150"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tv_setting"
+        app:sDividerLineType="bottom"
+        app:sLeftTextColor="@color/black"
+        app:sLeftTextString="平台协议"
+        app:sRightIconRes="@drawable/ic_right_arrow" />
+</androidx.constraintlayout.widget.ConstraintLayout>

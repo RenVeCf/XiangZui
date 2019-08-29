@@ -45,11 +45,15 @@ public interface IConstants {
     int REQUEST_CODE_98 = 98;//连台新增患者保险同意书上传
     int REQUEST_CODE_99 = 99;//地址的增删改
     int REQUEST_CODE_100 = 100;//地址选中
-    int REQUEST_CODE_101 = 101;
-    int REQUEST_CODE_102 = 102;
-    int REQUEST_CODE_103 = 103;
-    int REQUEST_CODE_104 = 104;
-    int REQUEST_CODE_105 = 105;
+    int REQUEST_CODE_101 = 101;//医院信息回跳
+    int REQUEST_CODE_102 = 102;//账户的增删改
+    int REQUEST_CODE_103 = 103;//手术相关病历上传回跳
+    int REQUEST_CODE_104 = 104;//血常规上传回跳
+    int REQUEST_CODE_105 = 105;//心电图上传回跳
+    int REQUEST_CODE_106 = 106;//凝血功能上传回跳
+    int REQUEST_CODE_107 = 107;//传染病指标上传回跳
+    int REQUEST_CODE_108 = 108;
+    int REQUEST_CODE_109 = 109;
 
     /**
      * resultCode

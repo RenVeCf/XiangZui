@@ -53,6 +53,10 @@
         <com.xuexiang.xui.widget.textview.supertextview.SuperButton
             android:id="@+id/sb_confirm"
             style="@style/SuperButton.Blue"
+            app:sGradientType="linear"
+            app:sGradientStartColor="#6BB6FF"
+            app:sGradientEndColor="#4088FE"
+            app:sGradientOrientation="LEFT_RIGHT"
             android:layout_width="@dimen/x400"
             android:layout_height="@dimen/y110"
             android:text="确认" />

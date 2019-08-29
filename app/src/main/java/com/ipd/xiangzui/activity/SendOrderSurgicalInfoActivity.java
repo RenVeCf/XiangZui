@@ -99,7 +99,7 @@ public class SendOrderSurgicalInfoActivity extends BaseActivity {
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.stv_surgical_address: //手术地点
-                startActivityForResult(new Intent(this, SelectAddressActivity.class), REQUEST_CODE_100);
+                startActivityForResult(new Intent(this, SelectAddressActivity.class).putExtra("address_type", 1), REQUEST_CODE_100);
                 break;
             case R.id.stv_surgical_time: //手术开始时间
                 break;

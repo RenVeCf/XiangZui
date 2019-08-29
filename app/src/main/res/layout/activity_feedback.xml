@@ -1,0 +1,166 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".activity.FeedbackActivity">
+
+    <RadioGroup
+        android:id="@+id/rg_feedback"
+        android:layout_width="0dp"
+        android:layout_height="@dimen/y150"
+        android:layout_marginTop="@dimen/y20"
+        android:background="@color/white"
+        android:orientation="horizontal"
+        android:gravity="center_vertical"
+        android:paddingStart="@dimen/x50"
+        android:paddingEnd="@dimen/x50"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tv_feedback">
+
+        <RadioButton
+            android:id="@+id/rb_product_suggestion"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:button="@null"
+            android:checked="true"
+            android:drawableEnd="@drawable/select_radio_check"
+            android:drawablePadding="@dimen/x10"
+            android:text="产品建议"
+            android:textColor="@color/tx_bottom_navigation" />
+
+        <RadioButton
+            android:id="@+id/rb_other_suggestion"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:layout_marginStart="@dimen/x30"
+            android:button="@null"
+            android:drawableEnd="@drawable/select_radio_check"
+            android:drawablePadding="@dimen/x10"
+            android:text="其他建议"
+            android:textColor="@color/tx_bottom_navigation" />
+
+        <RadioButton
+            android:id="@+id/rb_abnormal_function"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:layout_marginStart="@dimen/x30"
+            android:button="@null"
+            android:drawableEnd="@drawable/select_radio_check"
+            android:drawablePadding="@dimen/x10"
+            android:text="功能异常"
+            android:textColor="@color/tx_bottom_navigation" />
+
+        <RadioButton
+            android:id="@+id/rb_safe_question"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/x30"
+            android:layout_weight="1"
+            android:button="@null"
+            android:drawableEnd="@drawable/select_radio_check"
+            android:drawablePadding="@dimen/x10"
+            android:text="安全问题"
+            android:textColor="@color/tx_bottom_navigation" />
+    </RadioGroup>
+
+    <LinearLayout
+        android:id="@+id/ll_demand_content"
+        android:layout_width="0dp"
+        android:layout_height="@dimen/y270"
+        android:background="@color/white"
+        android:orientation="vertical"
+        android:paddingStart="@dimen/x50"
+        android:paddingEnd="@dimen/x50"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/rg_feedback">
+
+        <androidx.appcompat.widget.AppCompatEditText
+            android:id="@+id/acet_demand_content"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@drawable/bg_input"
+            android:gravity="top"
+            android:hint="请输入反馈内容"
+            android:padding="@dimen/x30"
+            android:textColor="@color/black" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="0dp"
+        android:layout_height="@dimen/y150"
+        android:background="@color/white"
+        android:orientation="horizontal"
+        android:paddingStart="@dimen/x50"
+        android:paddingEnd="@dimen/x50"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/ll_demand_content">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:gravity="center_vertical"
+            android:text="联系信息"
+            android:textColor="@color/black" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:gravity="center_vertical"
+            android:text="(选填)"
+            android:textColor="@color/tx_bottom_navigation" />
+
+        <androidx.appcompat.widget.AppCompatEditText
+            android:id="@+id/acet_contact_info"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="@null"
+            android:gravity="center_vertical|end"
+            android:hint="请输入"
+            android:textColor="@color/black" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="0dp"
+        android:layout_height="@dimen/y150"
+        android:layout_marginTop="@dimen/y100"
+        android:background="@color/white"
+        android:gravity="center"
+        android:orientation="horizontal"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent">
+
+        <com.xuexiang.xui.widget.textview.supertextview.SuperButton
+            android:id="@+id/sb_confirm"
+            style="@style/SuperButton.Blue"
+            android:layout_width="@dimen/x400"
+            android:layout_height="@dimen/y110"
+            app:sGradientType="linear"
+            app:sGradientStartColor="#6BB6FF"
+            app:sGradientEndColor="#4088FE"
+            app:sGradientOrientation="LEFT_RIGHT"
+            android:text="确认" />
+    </LinearLayout>
+
+    <com.ipd.xiangzui.common.view.TopView
+        android:id="@+id/tv_feedback"
+        android:layout_width="0dp"
+        android:layout_height="?attr/actionBarSize"
+        android:background="@color/white"
+        android:gravity="bottom"
+        app:is_back="true"
+        app:is_customer_service="true"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:title="意见反馈" />
+</androidx.constraintlayout.widget.ConstraintLayout>

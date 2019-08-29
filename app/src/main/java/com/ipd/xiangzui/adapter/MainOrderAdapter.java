@@ -66,7 +66,10 @@ public class MainOrderAdapter extends BaseQuickAdapter<TestMultiItemEntityBean, 
                 .addOnClickListener(R.id.stv_start_time)
                 .addOnClickListener(R.id.stv_fee)
                 .addOnClickListener(R.id.stv_name)
-                .addOnClickListener(R.id.stv_address);
+                .addOnClickListener(R.id.stv_address)
+                .addOnClickListener(R.id.bt_first)
+                .addOnClickListener(R.id.bt_second)
+                .addOnClickListener(R.id.bt_third);
 
         stvName = helper.getView(R.id.stv_name);
         stvAddress = helper.getView(R.id.stv_address);

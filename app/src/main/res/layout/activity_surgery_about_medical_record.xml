@@ -16,16 +16,40 @@
         app:is_customer_service="true"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:title="手术相关病历" />
+        app:layout_constraintTop_toTopOf="parent" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rv_surgery_about_medical_record"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/y20"
+        android:padding="@dimen/x50"
         android:background="@color/white"
+        app:layout_constraintBottom_toBottomOf="@+id/ll_confirm"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tv_surgery_about_medical_record" />
+
+    <LinearLayout
+        android:id="@+id/ll_confirm"
+        android:layout_width="0dp"
+        android:layout_height="@dimen/y150"
+        android:background="@color/white"
+        android:gravity="center"
+        android:orientation="horizontal"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent">
+
+        <com.xuexiang.xui.widget.textview.supertextview.SuperButton
+            android:id="@+id/bt_confirm"
+            style="@style/SuperButton.Blue"
+            android:layout_width="@dimen/x400"
+            android:layout_height="@dimen/y110"
+            android:text="确认"
+            app:sGradientEndColor="#4088FE"
+            app:sGradientOrientation="LEFT_RIGHT"
+            app:sGradientStartColor="#6BB6FF"
+            app:sGradientType="linear" />
+    </LinearLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

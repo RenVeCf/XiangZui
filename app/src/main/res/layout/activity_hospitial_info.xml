@@ -1,0 +1,145 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".activity.HospitialInfoActivity">
+
+    <androidx.appcompat.widget.LinearLayoutCompat
+        android:id="@+id/ll_head"
+        android:layout_width="0dp"
+        android:layout_height="@dimen/y200"
+        android:background="@color/white"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:paddingStart="@dimen/x50"
+        android:paddingEnd="@dimen/x50"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tv_hospitial_info">
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:gravity="start|center_vertical"
+            android:text="头像"
+            android:textColor="@color/black" />
+
+        <com.xuexiang.xui.widget.imageview.RadiusImageView
+            android:id="@+id/riv_head"
+            android:layout_width="@dimen/x100"
+            android:layout_height="@dimen/y100"
+            android:layout_marginEnd="@dimen/x50"
+            app:riv_is_circle="true" />
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:srcCompat="@drawable/ic_right_arrow" />
+    </androidx.appcompat.widget.LinearLayoutCompat>
+
+    <com.ipd.xiangzui.common.view.TopView
+        android:id="@+id/tv_hospitial_info"
+        android:layout_width="0dp"
+        android:layout_height="?attr/actionBarSize"
+        android:background="@color/white"
+        android:gravity="bottom"
+        app:is_back="true"
+        app:is_customer_service="true"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:title="医院信息" />
+
+    <androidx.appcompat.widget.LinearLayoutCompat
+        android:id="@+id/ll_phone"
+        android:layout_width="0dp"
+        android:layout_height="@dimen/y150"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        android:paddingStart="@dimen/x50"
+        android:background="@color/white"
+        android:paddingEnd="@dimen/x50"
+        app:layout_constraintTop_toBottomOf="@+id/ll_nickname"
+        android:orientation="horizontal">
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:gravity="start|center_vertical"
+            android:text="手机号"
+            android:textColor="@color/black" />
+
+        <androidx.appcompat.widget.AppCompatEditText
+            android:id="@+id/et_phone"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="@null"
+            android:gravity="center_vertical|end"
+            android:hint="请输入"
+            android:textColor="@color/black"
+            android:textColorHint="@color/tx_bottom_navigation" />
+    </androidx.appcompat.widget.LinearLayoutCompat>
+
+    <androidx.appcompat.widget.LinearLayoutCompat
+        android:id="@+id/ll_nickname"
+        android:layout_width="0dp"
+        android:layout_height="@dimen/y150"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:background="@color/white"
+        app:layout_constraintStart_toStartOf="parent"
+        android:paddingStart="@dimen/x50"
+        android:paddingEnd="@dimen/x50"
+        app:layout_constraintTop_toBottomOf="@+id/ll_head"
+        android:orientation="horizontal">
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:gravity="start|center_vertical"
+            android:text="昵称"
+            android:textColor="@color/black" />
+
+        <androidx.appcompat.widget.AppCompatEditText
+            android:id="@+id/et_nickname"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="@null"
+            android:gravity="center_vertical|end"
+            android:hint="请输入"
+            android:textColor="@color/black"
+            android:textColorHint="@color/tx_bottom_navigation" />
+    </androidx.appcompat.widget.LinearLayoutCompat>
+
+    <com.xuexiang.xui.widget.textview.supertextview.SuperTextView
+        android:id="@+id/tv_certification"
+        android:layout_width="0dp"
+        android:layout_height="@dimen/y150"
+        android:paddingStart="@dimen/x30"
+        android:paddingEnd="@dimen/x30"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/ll_phone"
+        app:sDividerLineType="bottom"
+        app:sLeftTextColor="@color/black"
+        app:sLeftTextString="资质认证"
+        app:sRightIconRes="@drawable/ic_right_arrow" />
+
+    <com.xuexiang.xui.widget.textview.supertextview.SuperTextView
+        android:id="@+id/tv_modify_pwd"
+        android:layout_width="0dp"
+        android:layout_height="@dimen/y150"
+        android:paddingStart="@dimen/x30"
+        android:paddingEnd="@dimen/x30"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tv_certification"
+        app:sDividerLineType="none"
+        app:sLeftTextColor="@color/black"
+        app:sLeftTextString="修改密码"
+        app:sRightIconRes="@drawable/ic_right_arrow" />
+</androidx.constraintlayout.widget.ConstraintLayout>

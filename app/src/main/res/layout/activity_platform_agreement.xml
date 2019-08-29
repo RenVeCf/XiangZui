@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".activity.PlatformAgreementActivity">
+
+    <AutoCompleteTextView
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginTop="@dimen/y20"
+        android:layout_marginBottom="@dimen/y50"
+        android:background="@color/white"
+        android:gravity="top"
+        android:padding="@dimen/x50"
+        android:text="在您提交订单之后，“普通产品”、“周租/月租”、“工作日套餐”将不能互调，请您预订前做好选择。 订单一旦修改，原订单的用车报价将重新计算，请您慎重考虑。 为不影响您和其他客户的既定行程，在您决定修改或取消订单时，请提前致电400 616 6666：取车时间在10:00-20:00时，请您提前2个小时提出申 请；取车时间在10:00-20:00之外，请您尽早致电申请。感谢您的配合！ 在您提交订单之后，“普通产品”、“周租/月租”、“工作日套餐”将不能互调，请您预订前做好选择。 订单一旦修改，原订单的用车报价将重新计算，请您慎重考虑。 为不影响您和其他客户的既定行程，在您决定修改或取消订单时，请提前致电400 616 6666：取车时间在10:00-20:00时，请您提前2个小时提出申 请；取车时间在10:00-20:00之外，请您尽早致电申请。感谢您的配合！ 在您提交订单之后，“普通产品”、“周租/月租”、“工作日套餐”将不能互调，请您预订前做好选择。 订单一旦修改，原订单的用车报价将重新计算，请您慎重考虑。 为不影响您和其他客户的既定行程，在您决定修改或取消订单时，请提前致电400 616 6666：取车时间在10:00-20:00时，请您提前2个小时提出申 请；取车时间在10:00-20:00之外，请您尽早致电申请。感谢您的配合！ "
+        android:textColor="@color/black"
+        android:textSize="12sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tv_platform_agreement" />
+
+    <com.ipd.xiangzui.common.view.TopView
+        android:id="@+id/tv_platform_agreement"
+        android:layout_width="0dp"
+        android:layout_height="?attr/actionBarSize"
+        android:background="@color/white"
+        android:gravity="bottom"
+        app:is_back="true"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:title="平台协议" />
+</androidx.constraintlayout.widget.ConstraintLayout>

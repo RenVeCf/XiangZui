@@ -1,11 +1,13 @@
 package com.ipd.xiangzui.activity;
 
 import android.content.Intent;
+import android.view.View;
+import android.widget.TextView;
+
 import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-import android.view.View;
 
 import com.gyf.immersionbar.ImmersionBar;
 import com.ipd.xiangzui.R;
@@ -21,6 +23,7 @@ import com.luck.picture.lib.config.PictureMimeType;
 import com.luck.picture.lib.entity.LocalMedia;
 
 import butterknife.BindView;
+import butterknife.OnClick;
 
 /**
  * Description ：发单-手术相关病历
@@ -32,6 +35,8 @@ public class SurgeryAboutMedicalRecordActivity extends BaseActivity implements I
 
     @BindView(R.id.tv_surgery_about_medical_record)
     TopView tvSurgeryAboutMedicalRecord;
+    @BindView(R.id.tv_top_title)
+    TextView tvTopTitle;
     @BindView(R.id.rv_surgery_about_medical_record)
     RecyclerView rvSurgeryAboutMedicalRecord;
 
@@ -58,6 +63,8 @@ public class SurgeryAboutMedicalRecordActivity extends BaseActivity implements I
         ApplicationUtil.getManager().addActivity(this);
         //防止状态栏和标题重叠
         ImmersionBar.setTitleBar(this, tvSurgeryAboutMedicalRecord);
+
+        tvTopTitle.setText(getIntent().getStringExtra("title"));
 
         //设置RecyclerView方向和是否反转
         GridLayoutManager NotUseList = new GridLayoutManager(this, 4);
@@ -112,5 +119,11 @@ public class SurgeryAboutMedicalRecordActivity extends BaseActivity implements I
                 .compress(true)
                 .minimumCompressSize(100)
                 .forResult(PictureConfig.CHOOSE_REQUEST);
+    }
+
+    @OnClick(R.id.bt_confirm)
+    public void onViewClicked() {
+        setResult(RESULT_OK, new Intent().putExtra("is_upload", 1));
+        finish();
     }
 }

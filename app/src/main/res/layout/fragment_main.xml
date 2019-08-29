@@ -43,7 +43,7 @@
                 app:bl_indicatorUnselectedColor="@color/input_color"
                 app:bl_interval="2000"
                 app:bl_itemSpace="15dp"
-                app:bl_moveSpeed="1.0" />
+                app:bl_moveSpeed="0.23" />
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/rv_grid_main"

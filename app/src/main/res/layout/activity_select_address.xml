@@ -13,8 +13,7 @@
         android:layout_height="?attr/actionBarSize"
         android:background="@color/white"
         android:gravity="bottom"
-        app:is_back="true"
-        app:title="选择地址" />
+        app:is_back="true" />
 
     <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
         android:id="@+id/srl_select_address"
@@ -42,6 +41,10 @@
             style="@style/SuperButton.Blue"
             android:layout_width="@dimen/x400"
             android:layout_height="@dimen/y110"
+            app:sGradientType="linear"
+            app:sGradientStartColor="#6BB6FF"
+            app:sGradientEndColor="#4088FE"
+            app:sGradientOrientation="LEFT_RIGHT"
             android:text="添加地址" />
     </LinearLayout>
 </LinearLayout>

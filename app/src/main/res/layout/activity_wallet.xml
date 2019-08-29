@@ -71,7 +71,7 @@
                     <com.xuexiang.xui.widget.textview.supertextview.SuperTextView
                         android:id="@+id/stv_account_balance"
                         android:layout_width="0dp"
-                        android:layout_height="@dimen/y100"
+                        android:layout_height="wrap_content"
                         android:layout_marginStart="@dimen/x30"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toBottomOf="@+id/stv_account_balance_type"
@@ -253,6 +253,10 @@
                         android:layout_width="@dimen/x400"
                         android:layout_height="@dimen/y110"
                         android:layout_marginStart="@dimen/x50"
+                        app:sGradientType="linear"
+                        app:sGradientStartColor="#6BB6FF"
+                        app:sGradientEndColor="#4088FE"
+                        app:sGradientOrientation="LEFT_RIGHT"
                         android:text="提现"
                         android:textSize="16sp" />
                 </LinearLayout>

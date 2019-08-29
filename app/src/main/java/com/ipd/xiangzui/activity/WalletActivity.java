@@ -20,6 +20,7 @@ import com.ipd.xiangzui.bean.TestMultiItemEntityBean;
 import com.ipd.xiangzui.common.view.CustomLinearLayoutManager;
 import com.ipd.xiangzui.common.view.TopView;
 import com.ipd.xiangzui.utils.ApplicationUtil;
+import com.ipd.xiangzui.utils.L;
 import com.xuexiang.xui.widget.textview.supertextview.SuperTextView;
 
 import java.util.ArrayList;
@@ -110,6 +111,7 @@ public class WalletActivity extends BaseActivity {
             @Override
             public void onClickListener() {
                 //更多收支明细
+
             }
         });
 

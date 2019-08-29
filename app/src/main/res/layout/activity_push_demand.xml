@@ -50,7 +50,7 @@
             android:id="@+id/acet_demand_content"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:background="@color/input_color"
+            android:background="@drawable/bg_input"
             android:gravity="top"
             android:hint="请输入需求内容"
             android:padding="@dimen/x30"
@@ -109,6 +109,10 @@
             style="@style/SuperButton.Blue"
             android:layout_width="@dimen/x400"
             android:layout_height="@dimen/y110"
+            app:sGradientType="linear"
+            app:sGradientStartColor="#6BB6FF"
+            app:sGradientEndColor="#4088FE"
+            app:sGradientOrientation="LEFT_RIGHT"
             android:text="确认" />
     </LinearLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

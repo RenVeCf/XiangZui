@@ -150,7 +150,7 @@ public class MainFragment extends BaseFragment {
                             @Override
                             public void confirm() {
                                 //认证
-                                if (!isEmpty(SPUtil.get(getContext(), IS_SUPPLEMENT_INFO, "") + ""))
+                                if (isEmpty(SPUtil.get(getContext(), IS_SUPPLEMENT_INFO, "") + ""))
                                     startActivity(new Intent(getContext(), AuthenticationActivity.class));
                                 else
                                     startActivity(new Intent(getContext(), SendOrderActivity.class));
@@ -219,13 +219,13 @@ public class MainFragment extends BaseFragment {
         //大喇叭
         MarqueeFactory<TextView, CharSequence> marqueeFactory = new SimpleNoticeMFs(getContext());
         marqueeFactory.setData(datas);
-        mvHorn.setAnimInAndOut(R.anim.marquee_top_in, R.anim.marquee_bottom_out);
+//        mvHorn.setAnimInAndOut(R.anim.marquee_top_in, R.anim.marquee_bottom_out);
         mvHorn.setMarqueeFactory(marqueeFactory);
         mvHorn.startFlipping();
     }
 
     @OnClick(R.id.bt_more_order)
     public void onViewClicked() {
-
+        startActivity(new Intent(getContext(), OrderActivity.class));
     }
 }

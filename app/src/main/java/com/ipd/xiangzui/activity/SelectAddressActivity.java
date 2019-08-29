@@ -4,6 +4,7 @@ import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Handler;
 import android.view.View;
+import android.widget.TextView;
 
 import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.DefaultItemAnimator;
@@ -41,6 +42,8 @@ public class SelectAddressActivity extends BaseActivity {
 
     @BindView(R.id.tv_select_address)
     TopView tvSelectAddress;
+    @BindView(R.id.tv_top_title)
+    TextView tvTopTitle;
     @BindView(R.id.rv_select_address)
     RecyclerView rvSelectAddress;
     @BindView(R.id.srl_select_address)
@@ -51,6 +54,7 @@ public class SelectAddressActivity extends BaseActivity {
     private SelectAddressAdapter selectAddressAdapter;
     private int pageNum = 1;//页数
     private int removePosition;//删除时用到的下标
+    private int addressType;//1: 选择地址, 2: 地址管理
 
     @Override
     public int getLayoutId() {
@@ -75,6 +79,9 @@ public class SelectAddressActivity extends BaseActivity {
         //防止状态栏和标题重叠
         ImmersionBar.setTitleBar(this, tvSelectAddress);
 
+        addressType = getIntent().getIntExtra("address_type", 0);
+        tvTopTitle.setText(addressType == 1 ? "选择地址" : "地址管理");
+
         // 设置管理器
         LinearLayoutManager layoutManager = new LinearLayoutManager(this);
         layoutManager.setOrientation(LinearLayoutManager.VERTICAL);//方向
@@ -94,7 +101,7 @@ public class SelectAddressActivity extends BaseActivity {
                     list.add(new TestMultiItemEntityBean());
                 }
 //                list.addAll(data.getData().getRoomList()); //TODO 暂用假数据代替
-                selectAddressAdapter = new SelectAddressAdapter(list);
+                selectAddressAdapter = new SelectAddressAdapter(list, addressType);
                 rvSelectAddress.setAdapter(selectAddressAdapter);
                 selectAddressAdapter.bindToRecyclerView(rvSelectAddress);
                 selectAddressAdapter.setEnableLoadMore(true);
@@ -106,26 +113,28 @@ public class SelectAddressActivity extends BaseActivity {
                     public void onItemChildClick(BaseQuickAdapter adapter, View view, int position) {
                         switch (view.getId()) {
                             case R.id.stv_select_address_item: //选中地址
-                                for (int i = 0; i < list.size(); i++) {
-                                    list.get(i).setShow(false);
-                                }
-                                list.get(position).setShow(true);
-                                selectAddressAdapter.notifyDataSetChanged();
-
-                                new Thread(new Runnable() {
-                                    @Override
-                                    public void run() {
-                                        // 使用postDelayed方式修改UI组件tvMessage的Text属性值
-                                        // 并且延迟执行
-                                        handler.postDelayed(new Runnable() {
-                                            @Override
-                                            public void run() {
-                                                setResult(RESULT_OK, new Intent().putExtra("select_top_address", "上海市 青浦区").putExtra("select_bottom_address", "华徐公路888号1号楼2楼IPD"));
-                                                finish();
-                                            }
-                                        }, 500);
+                                if (addressType == 1) {
+                                    new Thread(new Runnable() {
+                                        @Override
+                                        public void run() {
+                                            // 使用postDelayed方式修改UI组件tvMessage的Text属性值
+                                            // 并且延迟执行
+                                            handler.postDelayed(new Runnable() {
+                                                @Override
+                                                public void run() {
+                                                    setResult(RESULT_OK, new Intent().putExtra("select_top_address", "上海市 青浦区").putExtra("select_bottom_address", "华徐公路888号1号楼2楼IPD"));
+                                                    finish();
+                                                }
+                                            }, 500);
+                                        }
+                                    }).start();
+                                } else {
+                                    for (int i = 0; i < list.size(); i++) {
+                                        list.get(i).setShow(false);
                                     }
-                                }).start();
+                                    list.get(position).setShow(true);
+                                    selectAddressAdapter.notifyDataSetChanged();
+                                }
                                 break;
                             case R.id.ib_edit_address: //编辑地址
                                 removePosition = position;
@@ -168,7 +177,7 @@ public class SelectAddressActivity extends BaseActivity {
             }
         } else {
             list.clear();
-            selectAddressAdapter = new SelectAddressAdapter(list);
+            selectAddressAdapter = new SelectAddressAdapter(list, addressType);
             rvSelectAddress.setAdapter(selectAddressAdapter);
             selectAddressAdapter.loadMoreEnd(); //完成所有加载
             selectAddressAdapter.setEmptyView(R.layout.null_data, rvSelectAddress);

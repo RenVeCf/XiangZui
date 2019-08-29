@@ -55,6 +55,10 @@
             style="@style/SuperButton.Blue"
             android:layout_width="@dimen/x400"
             android:layout_height="@dimen/y110"
+            app:sGradientType="linear"
+            app:sGradientStartColor="#6BB6FF"
+            app:sGradientEndColor="#4088FE"
+            app:sGradientOrientation="LEFT_RIGHT"
             android:text="确认" />
     </LinearLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

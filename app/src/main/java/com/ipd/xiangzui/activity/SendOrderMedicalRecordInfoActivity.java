@@ -6,6 +6,8 @@ import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.RadioButton;
 
+import androidx.annotation.Nullable;
+
 import com.gyf.immersionbar.ImmersionBar;
 import com.ipd.xiangzui.R;
 import com.ipd.xiangzui.base.BaseActivity;
@@ -17,6 +19,12 @@ import com.xuexiang.xui.widget.textview.supertextview.SuperTextView;
 
 import butterknife.BindView;
 import butterknife.OnClick;
+
+import static com.ipd.xiangzui.common.config.IConstants.REQUEST_CODE_103;
+import static com.ipd.xiangzui.common.config.IConstants.REQUEST_CODE_104;
+import static com.ipd.xiangzui.common.config.IConstants.REQUEST_CODE_105;
+import static com.ipd.xiangzui.common.config.IConstants.REQUEST_CODE_106;
+import static com.ipd.xiangzui.common.config.IConstants.REQUEST_CODE_107;
 
 /**
  * Description ：发单-病历信息
@@ -128,6 +136,35 @@ public class SendOrderMedicalRecordInfoActivity extends BaseActivity {
 
     }
 
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (data != null) {
+            switch (requestCode) {
+                case REQUEST_CODE_103:
+                    stvSurgeryAboutMedicalRecord.setRightString("已上传")
+                            .setRightTextColor(getResources().getColor(R.color.tx_bottom_navigation_select));
+                    break;
+                case REQUEST_CODE_104:
+                    stvBloodRoutine.setRightString("已上传")
+                            .setRightTextColor(getResources().getColor(R.color.tx_bottom_navigation_select));
+                    break;
+                case REQUEST_CODE_105:
+                    stvElectrocardiogram.setRightString("已上传")
+                            .setRightTextColor(getResources().getColor(R.color.tx_bottom_navigation_select));
+                    break;
+                case REQUEST_CODE_106:
+                    stvCoagulation.setRightString("已上传")
+                            .setRightTextColor(getResources().getColor(R.color.tx_bottom_navigation_select));
+                    break;
+                case REQUEST_CODE_107:
+                    stvInfectiousDiseaseIndex.setRightString("已上传")
+                            .setRightTextColor(getResources().getColor(R.color.tx_bottom_navigation_select));
+                    break;
+            }
+        }
+    }
+
     @OnClick({R.id.rb_none, R.id.rb_edit, R.id.rb_img, R.id.stv_surgery_about_medical_record, R.id.stv_blood_routine, R.id.stv_electrocardiogram, R.id.stv_coagulation, R.id.stv_infectious_disease_index, R.id.sb_add_patient, R.id.sb_next})
     public void onViewClicked(View view) {
         switch (view.getId()) {
@@ -186,19 +223,19 @@ public class SendOrderMedicalRecordInfoActivity extends BaseActivity {
                 stvInfectiousDiseaseIndex.setVisibility(View.VISIBLE);
                 break;
             case R.id.stv_surgery_about_medical_record:
-                startActivity(new Intent(this, SurgeryAboutMedicalRecordActivity.class));
+                startActivityForResult(new Intent(this, SurgeryAboutMedicalRecordActivity.class).putExtra("title", "手术相关病历"), REQUEST_CODE_103);
                 break;
             case R.id.stv_blood_routine:
-                startActivity(new Intent(this, SurgeryAboutMedicalRecordActivity.class));
+                startActivityForResult(new Intent(this, SurgeryAboutMedicalRecordActivity.class).putExtra("title", "血常规"), REQUEST_CODE_104);
                 break;
             case R.id.stv_electrocardiogram:
-                startActivity(new Intent(this, SurgeryAboutMedicalRecordActivity.class));
+                startActivityForResult(new Intent(this, SurgeryAboutMedicalRecordActivity.class).putExtra("title", "心电图"), REQUEST_CODE_105);
                 break;
             case R.id.stv_coagulation:
-                startActivity(new Intent(this, SurgeryAboutMedicalRecordActivity.class));
+                startActivityForResult(new Intent(this, SurgeryAboutMedicalRecordActivity.class).putExtra("title", "凝血功能"), REQUEST_CODE_106);
                 break;
             case R.id.stv_infectious_disease_index:
-                startActivity(new Intent(this, SurgeryAboutMedicalRecordActivity.class));
+                startActivityForResult(new Intent(this, SurgeryAboutMedicalRecordActivity.class).putExtra("title", "传染病指标"), REQUEST_CODE_107);
                 break;
             case R.id.sb_add_patient:
                 startActivity(new Intent(this, SendOrderAddPatientActivity.class));

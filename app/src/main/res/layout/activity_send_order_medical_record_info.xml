@@ -576,8 +576,6 @@
                         android:text="无"
                         android:textColor="@color/tx_bottom_navigation" />
                 </RadioGroup>
-
-
             </LinearLayout>
 
             <com.xuexiang.xui.widget.textview.supertextview.SuperTextView
@@ -712,6 +710,10 @@
                 android:layout_width="@dimen/x400"
                 android:layout_height="@dimen/y110"
                 android:layout_marginStart="@dimen/x50"
+                app:sGradientType="linear"
+                app:sGradientStartColor="#6BB6FF"
+                app:sGradientEndColor="#4088FE"
+                app:sGradientOrientation="LEFT_RIGHT"
                 android:text="下一步" />
         </LinearLayout>
     </LinearLayout>
