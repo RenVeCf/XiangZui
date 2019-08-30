@@ -24,7 +24,7 @@
     <string name="Dialog_Multi_Permission">多个权限</string>
     <string name="permission_illegal_code">非法权限</string>
 
-    <string name="app_name">享醉</string>
+    <string name="app_name">享醉-医院端</string>
     <string name="register">注册</string>
     <string name="input_phone">请输入手机号码</string>
     <string name="input_captcha">请输入验证码</string>
