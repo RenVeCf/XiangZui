@@ -25,7 +25,6 @@
         android:layout_marginTop="@dimen/y20"
         android:padding="@dimen/x50"
         android:background="@color/white"
-        app:layout_constraintBottom_toBottomOf="@+id/ll_confirm"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tv_surgery_about_medical_record" />

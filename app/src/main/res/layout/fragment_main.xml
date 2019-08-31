@@ -39,6 +39,7 @@
                 app:bl_autoPlaying="true"
                 app:bl_centerScale="1.3"
                 app:bl_indicatorGravity="center"
+                app:bl_indicatorMarginBottom="@dimen/y10"
                 app:bl_indicatorSelectedColor="@color/tx_bottom_navigation"
                 app:bl_indicatorUnselectedColor="@color/input_color"
                 app:bl_interval="2000"

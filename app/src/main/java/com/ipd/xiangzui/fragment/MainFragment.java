@@ -49,6 +49,7 @@ import butterknife.OnClick;
 
 import static com.ipd.xiangzui.common.config.IConstants.IS_SUPPLEMENT_INFO;
 import static com.ipd.xiangzui.utils.StringUtils.isEmpty;
+import static com.ipd.xiangzui.utils.isClickUtil.isFastClick;
 
 /**
  * Description ：首页
@@ -203,6 +204,25 @@ public class MainFragment extends BaseFragment {
                     case R.id.stv_address:
                         startActivity(new Intent(getContext(), OrderDetailsActivity.class).putExtra("surgery_type", 1).putExtra("order_type", "0"));
                         break;
+                    case R.id.bt_first:
+                        if (isFastClick())
+                            new TwoBtDialog(getActivity(), "确认取消订单？", "确认") {
+                                @Override
+                                public void confirm() {
+                                    str1.remove(position);
+                                    mainOrderAdapter.notifyDataSetChanged();
+                                    mainOrderAdapter.setEmptyView(R.layout.null_data, rvMoreOrder);
+                                }
+                            }.show();
+                        break;
+                    case R.id.bt_second:
+                        if (isFastClick())
+                            startActivity(new Intent(getContext(), SendOrderActivity.class));
+                        break;
+                    case R.id.bt_third:
+                        if (isFastClick())
+                            //TODO 加价
+                            break;
                 }
             }
         });
@@ -211,7 +231,7 @@ public class MainFragment extends BaseFragment {
     @Override
     public void initData() {
         //轮播
-        for (int i = 0; i < 4; i++) {
+        for (int i = 0; i < 3; i++) {
             str.add(new TestMultiItemEntityBean());
         }
         blBanner.setAdapter(new RecyclerViewBannerAdapter(str));

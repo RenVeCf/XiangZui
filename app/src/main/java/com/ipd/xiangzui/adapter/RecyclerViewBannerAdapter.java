@@ -29,6 +29,6 @@ public class RecyclerViewBannerAdapter extends BaseQuickAdapter<TestMultiItemEnt
 
     @Override
     protected void convert(BaseViewHolder helper, TestMultiItemEntityBean s) {
-        Glide.with(ApplicationUtil.getContext()).load(BASE_LOCAL_URL + "").apply(new RequestOptions().placeholder(R.mipmap.ic_launcher)).into((AppCompatImageView) helper.getView(R.id.aciv_banner_item));
+        Glide.with(ApplicationUtil.getContext()).load(BASE_LOCAL_URL + "").apply(new RequestOptions().placeholder(R.mipmap.bg_test_banner)).into((AppCompatImageView) helper.getView(R.id.aciv_banner_item));
     }
 }

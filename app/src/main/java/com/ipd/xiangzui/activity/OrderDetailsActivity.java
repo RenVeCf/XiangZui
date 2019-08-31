@@ -17,8 +17,10 @@ import com.ipd.xiangzui.base.BaseActivity;
 import com.ipd.xiangzui.base.BasePresenter;
 import com.ipd.xiangzui.base.BaseView;
 import com.ipd.xiangzui.bean.TestMultiItemEntityBean;
+import com.ipd.xiangzui.common.view.CallPhoneDialog;
 import com.ipd.xiangzui.common.view.CustomLinearLayoutManager;
 import com.ipd.xiangzui.common.view.TopView;
+import com.ipd.xiangzui.common.view.TwoBtDialog;
 import com.ipd.xiangzui.utils.ApplicationUtil;
 import com.xuexiang.xui.widget.textview.supertextview.SuperTextView;
 
@@ -27,6 +29,8 @@ import java.util.List;
 
 import butterknife.BindView;
 import butterknife.OnClick;
+
+import static com.ipd.xiangzui.utils.isClickUtil.isFastClick;
 
 /**
  * Description ：订单详情
@@ -295,18 +299,45 @@ public class OrderDetailsActivity extends BaseActivity {
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.bt_cancel:
+                if (isFastClick())
+                    new TwoBtDialog(this, "确认取消订单？", "确认") {
+                        @Override
+                        public void confirm() {
+                            finish();
+                        }
+                    }.show();
                 break;
             case R.id.bt_modify:
+                if (isFastClick())
+                    startActivity(new Intent(this, SendOrderActivity.class));
                 break;
             case R.id.bt_quicken:
                 break;
             case R.id.bt_add_fee:
                 break;
             case R.id.bt_cancel_1:
+                if (isFastClick())
+                    new TwoBtDialog(this, "确认取消订单？", "确认") {
+                        @Override
+                        public void confirm() {
+                            finish();
+                        }
+                    }.show();
                 break;
             case R.id.bt_medical_record:
+                if (isFastClick())
+                    new TwoBtDialog(this, "对此订单有异议，是否进行电话咨询？", "确认") {
+                        @Override
+                        public void confirm() {
+                            new CallPhoneDialog(OrderDetailsActivity.this) {
+                            }.show();
+                        }
+                    }.show();
                 break;
             case R.id.bt_call_doctor:
+                if (isFastClick())
+                    new CallPhoneDialog(this) {
+                    }.show();
                 break;
         }
     }
