@@ -30,6 +30,7 @@ import com.ipd.xiangzui.base.BasePresenter;
 import com.ipd.xiangzui.base.BaseView;
 import com.ipd.xiangzui.bean.TestMultiItemEntityBean;
 import com.ipd.xiangzui.common.view.CustomLinearLayoutManager;
+import com.ipd.xiangzui.common.view.EditDialog;
 import com.ipd.xiangzui.common.view.GridSpacingItemDecoration;
 import com.ipd.xiangzui.common.view.SimpleNoticeMFs;
 import com.ipd.xiangzui.common.view.SpacesItemDecoration;
@@ -221,7 +222,12 @@ public class MainFragment extends BaseFragment {
                         break;
                     case R.id.bt_third:
                         if (isFastClick())
-                            //TODO 加价
+                            new EditDialog(getActivity()){
+                                @Override
+                                public void confirm(String content) {
+
+                                }
+                            }.show();
                             break;
                 }
             }

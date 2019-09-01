@@ -22,6 +22,7 @@ import com.ipd.xiangzui.base.BasePresenter;
 import com.ipd.xiangzui.base.BaseView;
 import com.ipd.xiangzui.bean.TestMultiItemEntityBean;
 import com.ipd.xiangzui.common.view.CallPhoneDialog;
+import com.ipd.xiangzui.common.view.EditDialog;
 import com.ipd.xiangzui.common.view.SpacesItemDecoration;
 import com.ipd.xiangzui.common.view.TwoBtDialog;
 import com.ipd.xiangzui.utils.SPUtil;
@@ -202,7 +203,12 @@ public class OrderFragment extends BaseFragment {
                                 switch (str1.get(position).getOrderType()) {
                                     case "0":
                                         if (isFastClick())
-                                            //TODO 加价
+                                            new EditDialog(getActivity()){
+                                                @Override
+                                                public void confirm(String content) {
+
+                                                }
+                                            }.show();
                                         break;
                                     case "1":
                                         if (isFastClick())
