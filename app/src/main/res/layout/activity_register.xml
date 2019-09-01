@@ -119,10 +119,6 @@
         <com.xuexiang.xui.widget.textview.supertextview.SuperButton
             android:id="@+id/bt_captcha"
             style="@style/SuperButton.Blue"
-            app:sGradientType="linear"
-            app:sGradientStartColor="#6BB6FF"
-            app:sGradientEndColor="#4088FE"
-            app:sGradientOrientation="LEFT_RIGHT"
             android:text="获取" />
     </LinearLayout>
 
