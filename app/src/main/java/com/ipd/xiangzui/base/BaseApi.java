@@ -5,6 +5,7 @@ import android.text.TextUtils;
 import com.ipd.xiangzui.bean.NullDataBean;
 import com.ipd.xiangzui.utils.ApplicationUtil;
 import com.ipd.xiangzui.utils.NetWorkUtil;
+import com.ipd.xiangzui.utils.SPUtil;
 import com.jakewharton.retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
 
 import java.io.File;
@@ -26,6 +27,8 @@ import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 import retrofit2.converter.scalars.ScalarsConverterFactory;
 
+import static com.ipd.xiangzui.common.config.IConstants.TOKEN;
+
 /**
  * Description ：网络对象层
  * Author ： MengYang
@@ -36,9 +39,9 @@ import retrofit2.converter.scalars.ScalarsConverterFactory;
 public class BaseApi {
 
     //读超时长，单位：毫秒
-    public static final int READ_TIME_OUT = 7676;
+    public static final int READ_TIME_OUT = 15000;
     //连接时长，单位：毫秒
-    public static final int CONNECT_TIME_OUT = 7676;
+    public static final int CONNECT_TIME_OUT = 15000;
 
     /**
      * 无超时及缓存策略的Retrofit
@@ -70,12 +73,26 @@ public class BaseApi {
         //缓存
         File cacheFile = new File(ApplicationUtil.getContext().getCacheDir(), "cache");
         Cache cache = new Cache(cacheFile, 1024 * 1024 * 100); //100Mb
+        //增加头部信息
+        Interceptor headerInterceptor = new Interceptor() {
+            @Override
+            public Response intercept(Chain chain) throws IOException {
+                Request build = chain.request();
+                //请求头
+                build = build.newBuilder()
+                        .addHeader("Content-Type", "application/json; charset=utf-8")
+                        .addHeader("token", SPUtil.get(ApplicationUtil.getContext(), TOKEN, "") + "")
+                        .build();
+                return chain.proceed(build);
+            }
+        };
         //创建一个OkHttpClient并设置超时时间
         OkHttpClient client = new OkHttpClient.Builder()
                 .readTimeout(READ_TIME_OUT, TimeUnit.MILLISECONDS)
                 .connectTimeout(CONNECT_TIME_OUT, TimeUnit.MILLISECONDS)
                 .addInterceptor(mRewriteCacheControlInterceptor)//没网的情况下
                 .addNetworkInterceptor(mRewriteCacheControlInterceptor)//有网的情况下
+                .addInterceptor(headerInterceptor)
                 .addInterceptor(logInterceptor)
                 .cache(cache)
                 .build();

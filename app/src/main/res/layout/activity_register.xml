@@ -171,6 +171,7 @@
             app:met_errorMessage="请输入正确的邀请码"
             app:met_floatingLabelAnimating="true"
             app:met_maxCharacters="6"
+            android:visibility="gone"
             app:met_regexp="@string/regex_captcha"
             app:met_textColor="@color/black"
             app:met_textColorHint="@color/tx_bottom_navigation"

@@ -115,9 +115,9 @@ public class WalletActivity extends BaseActivity {
             }
         });
 
-        stvAccountBalanceType.setCheckBoxCheckedChangeListener(new SuperTextView.OnCheckBoxCheckedChangeListener() {
+        stvAccountBalanceType.setCheckBoxCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+            public void onCheckedChanged(CompoundButton compoundButton, boolean isChecked) {
                 if (isChecked)
                     stvAccountBalance.setCenterString("500.00");
                 else
@@ -130,7 +130,7 @@ public class WalletActivity extends BaseActivity {
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.stv_account_balance_type: //隐藏or显示金额
-                stvAccountBalanceType.setCbChecked(!stvAccountBalanceType.getCbisChecked());
+                stvAccountBalanceType.setCheckBoxChecked(!stvAccountBalanceType.getCheckBoxIsChecked());
                 break;
             case R.id.sb_refund_deposit: //退还保证金
                 break;

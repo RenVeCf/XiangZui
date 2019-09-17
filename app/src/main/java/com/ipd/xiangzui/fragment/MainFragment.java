@@ -15,19 +15,21 @@ import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.gyf.immersionbar.ImmersionBar;
 import com.ipd.xiangzui.R;
 import com.ipd.xiangzui.activity.AuthenticationActivity;
+import com.ipd.xiangzui.activity.CaptchaLoginActivity;
 import com.ipd.xiangzui.activity.ExpertActivity;
+import com.ipd.xiangzui.activity.MainActivity;
 import com.ipd.xiangzui.activity.OrderActivity;
 import com.ipd.xiangzui.activity.OrderDetailsActivity;
 import com.ipd.xiangzui.activity.RentEquipmentActivity;
 import com.ipd.xiangzui.activity.SendOrderActivity;
 import com.ipd.xiangzui.activity.VipActivity;
 import com.ipd.xiangzui.activity.WalletActivity;
+import com.ipd.xiangzui.activity.WebViewActivity;
 import com.ipd.xiangzui.adapter.MainGridAdapter;
 import com.ipd.xiangzui.adapter.MainOrderAdapter;
 import com.ipd.xiangzui.adapter.RecyclerViewBannerAdapter;
 import com.ipd.xiangzui.base.BaseFragment;
-import com.ipd.xiangzui.base.BasePresenter;
-import com.ipd.xiangzui.base.BaseView;
+import com.ipd.xiangzui.bean.HomeBean;
 import com.ipd.xiangzui.bean.TestMultiItemEntityBean;
 import com.ipd.xiangzui.common.view.CustomLinearLayoutManager;
 import com.ipd.xiangzui.common.view.EditDialog;
@@ -36,19 +38,29 @@ import com.ipd.xiangzui.common.view.SimpleNoticeMFs;
 import com.ipd.xiangzui.common.view.SpacesItemDecoration;
 import com.ipd.xiangzui.common.view.TopView;
 import com.ipd.xiangzui.common.view.TwoBtDialog;
+import com.ipd.xiangzui.contract.HomeContract;
+import com.ipd.xiangzui.presenter.HomePresenter;
+import com.ipd.xiangzui.utils.ApplicationUtil;
+import com.ipd.xiangzui.utils.MD5Utils;
 import com.ipd.xiangzui.utils.SPUtil;
+import com.ipd.xiangzui.utils.StringUtils;
+import com.ipd.xiangzui.utils.ToastUtil;
+import com.trello.rxlifecycle2.android.FragmentEvent;
 import com.xuexiang.xui.widget.banner.recycler.BannerLayout;
 import com.xuexiang.xui.widget.textview.marqueen.MarqueeFactory;
 import com.xuexiang.xui.widget.textview.marqueen.MarqueeView;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
+import java.util.TreeMap;
 
 import butterknife.BindView;
 import butterknife.OnClick;
+import io.reactivex.ObservableTransformer;
 
 import static com.ipd.xiangzui.common.config.IConstants.IS_SUPPLEMENT_INFO;
+import static com.ipd.xiangzui.common.config.IConstants.SIGN;
+import static com.ipd.xiangzui.common.config.IConstants.USER_ID;
 import static com.ipd.xiangzui.utils.StringUtils.isEmpty;
 import static com.ipd.xiangzui.utils.isClickUtil.isFastClick;
 
@@ -58,7 +70,7 @@ import static com.ipd.xiangzui.utils.isClickUtil.isFastClick;
  * Email ： 942685687@qq.com
  * Time ： 2019/7/1.
  */
-public class MainFragment extends BaseFragment {
+public class MainFragment extends BaseFragment<HomeContract.View, HomeContract.Presenter> implements HomeContract.View {
     @BindView(R.id.tv_main)
     TopView tvMain;
     @BindView(R.id.bl_banner)
@@ -75,7 +87,8 @@ public class MainFragment extends BaseFragment {
     private List<TestMultiItemEntityBean> str1 = new ArrayList<>();//更多订单
     private MainGridAdapter mainGridAdapter;
     private MainOrderAdapter mainOrderAdapter;
-    final List<CharSequence> datas = Arrays.asList(Html.fromHtml("医生李**已完成订单<font color=\"#000000\">阑尾切除术</font>费用<font color=\"#FF5555\">¥" + 300 + "元</font>"), Html.fromHtml("医生李**已完成订单<font color=\"#000000\">阑尾切除术</font>费用<font color=\"#FF5555\">¥" + 300 + "元</font>"));
+    private RecyclerViewBannerAdapter recyclerViewBannerAdapter;
+    private List<CharSequence> hornList = new ArrayList<>();//广播
 
     @Override
     public int getLayoutId() {
@@ -83,13 +96,13 @@ public class MainFragment extends BaseFragment {
     }
 
     @Override
-    public BasePresenter createPresenter() {
-        return null;
+    public HomeContract.Presenter createPresenter() {
+        return new HomePresenter(mContext);
     }
 
     @Override
-    public BaseView createView() {
-        return null;
+    public HomeContract.View createView() {
+        return this;
     }
 
     @Override
@@ -191,17 +204,9 @@ public class MainFragment extends BaseFragment {
             public void onItemChildClick(BaseQuickAdapter adapter, View view, int position) {
                 switch (view.getId()) {
                     case R.id.cv_order_item:
-                        startActivity(new Intent(getContext(), OrderDetailsActivity.class).putExtra("surgery_type", 1).putExtra("order_type", "0"));
-                        break;
                     case R.id.stv_start_time:
-                        startActivity(new Intent(getContext(), OrderDetailsActivity.class).putExtra("surgery_type", 1).putExtra("order_type", "0"));
-                        break;
                     case R.id.stv_fee:
-                        startActivity(new Intent(getContext(), OrderDetailsActivity.class).putExtra("surgery_type", 1).putExtra("order_type", "0"));
-                        break;
                     case R.id.stv_name:
-                        startActivity(new Intent(getContext(), OrderDetailsActivity.class).putExtra("surgery_type", 1).putExtra("order_type", "0"));
-                        break;
                     case R.id.stv_address:
                         startActivity(new Intent(getContext(), OrderDetailsActivity.class).putExtra("surgery_type", 1).putExtra("order_type", "0"));
                         break;
@@ -236,22 +241,66 @@ public class MainFragment extends BaseFragment {
 
     @Override
     public void initData() {
-        //轮播
-        for (int i = 0; i < 3; i++) {
-            str.add(new TestMultiItemEntityBean());
-        }
-        blBanner.setAdapter(new RecyclerViewBannerAdapter(str));
-
-        //大喇叭
-        MarqueeFactory<TextView, CharSequence> marqueeFactory = new SimpleNoticeMFs(getContext());
-        marqueeFactory.setData(datas);
-//        mvHorn.setAnimInAndOut(R.anim.marquee_top_in, R.anim.marquee_bottom_out);
-        mvHorn.setMarqueeFactory(marqueeFactory);
-        mvHorn.startFlipping();
+        TreeMap<String, String> homeMap = new TreeMap<>();
+        homeMap.put("userId", SPUtil.get(getContext(), USER_ID, "") + "");
+        homeMap.put("sign", StringUtils.toUpperCase(MD5Utils.encodeMD5(homeMap.toString().replaceAll(" ", "") + SIGN)));
+        getPresenter().getHome(homeMap, true, false);
     }
 
     @OnClick(R.id.bt_more_order)
     public void onViewClicked() {
         startActivity(new Intent(getContext(), OrderActivity.class));
+    }
+
+    @Override
+    public void resultHome(HomeBean data) {
+        switch (data.getCode()) {
+            case 200:
+                //轮播
+                recyclerViewBannerAdapter = new RecyclerViewBannerAdapter(data.getData().getPictureList());
+                blBanner.setAdapter(recyclerViewBannerAdapter);
+
+                recyclerViewBannerAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
+                    @Override
+                    public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
+                        switch (data.getData().getPictureList().get(position).getType()) {
+                            case "1"://无链接
+                                break;
+                            case "2"://有链接
+                                startActivity(new Intent(getContext(), WebViewActivity.class).putExtra("h5Type", 5).putExtra("h5Url", data.getData().getPictureList().get(position).getUrl()));
+                                break;
+                            case "3"://文本内容
+                                startActivity(new Intent(getContext(), WebViewActivity.class).putExtra("h5Type", 6).putExtra("h5_url", data.getData().getPictureList().get(position).getContent()));
+                                break;
+                        }
+                    }
+                });
+
+                //大喇叭
+                for (int i = 0; i < data.getData().getInfoList().size(); i++) {
+                    hornList.add(Html.fromHtml("医生" + data.getData().getInfoList().get(i).getNickname() + "已完成订单<font color=\"#000000\">" + data.getData().getInfoList().get(i).getSurgeryName() + "</font>费用<font color=\"#FF5555\">¥" + data.getData().getInfoList().get(i).getOrderCost() + "元</font>"));
+                }
+                MarqueeFactory<TextView, CharSequence> marqueeFactory = new SimpleNoticeMFs(getContext());
+                marqueeFactory.setData(hornList);
+//        mvHorn.setAnimInAndOut(R.anim.marquee_top_in, R.anim.marquee_bottom_out);
+                mvHorn.setMarqueeFactory(marqueeFactory);
+                mvHorn.startFlipping();
+
+
+                break;
+            case 900:
+                ToastUtil.showLongToast(data.getMsg());
+                //清除所有临时储存
+                SPUtil.clear(ApplicationUtil.getContext());
+                ApplicationUtil.getManager().finishActivity(MainActivity.class);
+                startActivity(new Intent(getContext(), CaptchaLoginActivity.class));
+                getActivity().finish();
+                break;
+        }
+    }
+
+    @Override
+    public <T> ObservableTransformer<T, T> bindLifecycle() {
+        return this.bindUntilEvent(FragmentEvent.PAUSE);
     }
 }

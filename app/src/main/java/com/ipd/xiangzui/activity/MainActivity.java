@@ -105,7 +105,6 @@ public class MainActivity extends BaseActivity {
             firstTime = secondTime;
         } else {
             ApplicationUtil.getManager().exitApp();
-
         }
     }
 

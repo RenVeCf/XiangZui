@@ -138,7 +138,7 @@ public class SendOrderFeeInfoActivity extends BaseActivity {
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.stv_surgery:
-                stvSurgery.setCbChecked(!stvSurgery.getCbisChecked());
+                stvSurgery.setCheckBoxChecked(!stvSurgery.getCheckBoxIsChecked());
                 break;
             case R.id.stv_surgery_num:
                 showPickerView();
