@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
+    android:layout_height="@dimen/y680"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:background="@color/white"
     android:orientation="vertical">
@@ -15,27 +15,73 @@
         android:textSize="12sp" />
 
     <LinearLayout
-        android:id="@+id/optionspicker"
+        android:id="@+id/timepicker"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="0dp"
         android:layout_gravity="center_vertical"
+        android:layout_weight="1"
         android:background="@android:color/white"
         android:orientation="horizontal">
 
         <com.contrarywind.view.WheelView
-            android:id="@+id/options1"
+            android:id="@+id/year"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_marginTop="@dimen/y30"
+            android:textStyle="bold"
+            android:textColor="@color/black"
+            android:gravity="center"
+            android:text="—"/>
+
+        <com.contrarywind.view.WheelView
+            android:id="@+id/month"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_marginTop="@dimen/y30"
+            android:textStyle="bold"
+            android:textColor="@color/black"
+            android:gravity="center"
+            android:text="—"/>
+
+        <com.contrarywind.view.WheelView
+            android:id="@+id/day"
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_weight="1" />
 
         <com.contrarywind.view.WheelView
-            android:id="@+id/options2"
+            android:id="@+id/hour"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_marginTop="@dimen/y30"
+            android:textStyle="bold"
+            android:textColor="@color/black"
+            android:gravity="center"
+            android:text=":"/>
+
+        <com.contrarywind.view.WheelView
+            android:id="@+id/min"
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_weight="1" />
 
         <com.contrarywind.view.WheelView
-            android:id="@+id/options3"
+            android:id="@+id/second"
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_weight="1" />

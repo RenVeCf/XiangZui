@@ -1,6 +1,7 @@
 package com.ipd.xiangzui.activity;
 
 import android.content.Intent;
+import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -12,9 +13,9 @@ import com.ipd.xiangzui.base.BasePresenter;
 import com.ipd.xiangzui.base.BaseView;
 import com.ipd.xiangzui.common.view.TopView;
 import com.ipd.xiangzui.utils.ApplicationUtil;
-import com.xuexiang.xui.widget.textview.supertextview.SuperTextView;
 
 import butterknife.BindView;
+import butterknife.ButterKnife;
 import butterknife.OnClick;
 
 /**
@@ -31,10 +32,12 @@ public class WithdrawActivity extends BaseActivity {
     TextView tvServiceFee;
     @BindView(R.id.et_service_fee)
     EditText etServiceFee;
-    @BindView(R.id.stv_wechat_withdraw)
-    SuperTextView stvWechatWithdraw;
-    @BindView(R.id.stv_ali_withdraw)
-    SuperTextView stvAliWithdraw;
+    @BindView(R.id.et_name)
+    EditText etName;
+    @BindView(R.id.et_open_bank)
+    EditText etOpenBank;
+    @BindView(R.id.et_bank_code)
+    EditText etBankCode;
 
     @Override
     public int getLayoutId() {
@@ -69,17 +72,9 @@ public class WithdrawActivity extends BaseActivity {
 
     }
 
-    @OnClick({R.id.stv_wechat_withdraw, R.id.stv_ali_withdraw, R.id.sb_confirm})
+    @OnClick({R.id.sb_confirm})
     public void onViewClicked(View view) {
         switch (view.getId()) {
-            case R.id.stv_wechat_withdraw:
-                stvWechatWithdraw.setRightIcon(R.drawable.ic_check_blue);
-                stvAliWithdraw.setRightIcon(R.drawable.ic_check_gray);
-                break;
-            case R.id.stv_ali_withdraw:
-                stvAliWithdraw.setRightIcon(R.drawable.ic_check_blue);
-                stvWechatWithdraw.setRightIcon(R.drawable.ic_check_gray);
-                break;
             case R.id.sb_confirm:
                 startActivity(new Intent(this, WithdrawSuccessActivity.class));
                 break;

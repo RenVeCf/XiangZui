@@ -46,7 +46,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="手术名称"
+            android:text="拟手术名称"
             android:textColor="@color/black" />
 
         <EditText
@@ -116,8 +116,9 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/stv_surgical_address"
         app:sDividerLineType="none"
+        app:sRightMaxEms="20"
         app:sLeftTextColor="@color/black"
-        app:sLeftTextString="手术开始时间"
+        app:sLeftTextString="拟手术开始时间"
         app:sRightIconRes="@drawable/ic_right_arrow"
         app:sRightTextColor="@color/tx_bottom_navigation"
         app:sRightTextString="请选择" />
@@ -133,7 +134,7 @@
         app:layout_constraintTop_toBottomOf="@+id/stv_surgical_time"
         app:sDividerLineType="none"
         app:sLeftTextColor="@color/black"
-        app:sLeftTextString="预计手术时长"
+        app:sLeftTextString="拟手术预计时长"
         app:sRightIconRes="@drawable/ic_right_arrow"
         app:sRightTextColor="@color/tx_bottom_navigation"
         app:sRightTextString="请选择" />

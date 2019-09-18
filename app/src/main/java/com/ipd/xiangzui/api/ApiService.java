@@ -3,23 +3,37 @@ package com.ipd.xiangzui.api;
 import com.ipd.xiangzui.bean.CaptchaBean;
 import com.ipd.xiangzui.bean.CaptchaLoginBean;
 import com.ipd.xiangzui.bean.HomeBean;
+import com.ipd.xiangzui.bean.HospitalNameBean;
+import com.ipd.xiangzui.bean.NarcosisListBean;
 import com.ipd.xiangzui.bean.PwdLoginBean;
 import com.ipd.xiangzui.bean.RegistsBean;
 import com.ipd.xiangzui.bean.ResetPwdBean;
+import com.ipd.xiangzui.bean.UploadImgBean;
+import com.ipd.xiangzui.bean.VerifiedBean;
+import com.ipd.xiangzui.bean.VerifiedTypeBean;
 
 import java.util.Map;
 
 import io.reactivex.Observable;
+import okhttp3.RequestBody;
 import retrofit2.http.FieldMap;
 import retrofit2.http.FormUrlEncoded;
+import retrofit2.http.Multipart;
 import retrofit2.http.POST;
+import retrofit2.http.PartMap;
+import retrofit2.http.Query;
 
 import static com.ipd.xiangzui.common.config.UrlConfig.CAPTCHA;
 import static com.ipd.xiangzui.common.config.UrlConfig.CAPTCHA_LOGIN;
 import static com.ipd.xiangzui.common.config.UrlConfig.HOME;
+import static com.ipd.xiangzui.common.config.UrlConfig.HOSPITAL_NAME;
+import static com.ipd.xiangzui.common.config.UrlConfig.NARCASIS_LIST;
 import static com.ipd.xiangzui.common.config.UrlConfig.PWD_LOGIN;
 import static com.ipd.xiangzui.common.config.UrlConfig.REGISTER;
 import static com.ipd.xiangzui.common.config.UrlConfig.RESET_PWD;
+import static com.ipd.xiangzui.common.config.UrlConfig.UPLOAD_IMG;
+import static com.ipd.xiangzui.common.config.UrlConfig.VERIFIED;
+import static com.ipd.xiangzui.common.config.UrlConfig.VERIFIED_TYPE;
 
 /**
  * Description ：请求配置
@@ -58,22 +72,37 @@ public interface ApiService {
     @FormUrlEncoded
     @POST(HOME)
     Observable<HomeBean> getHome(@FieldMap Map<String, String> map);
-//
+
 //    //职称-列表
 //    @FormUrlEncoded
 //    @POST(TITLE_LIST)
 //    Observable<TitleListBean> getTitleList(@FieldMap Map<String, String> map);
-//
-//    //用户信息认证-修改保存
-//    @FormUrlEncoded
-//    @POST(VERIFIED)
-//    Observable<VerifiedBean> getVerified(@FieldMap Map<String, String> map);
-//
-//    //上传图片
-//    @Multipart
-//    @POST(UPLOAD_IMG)
-//    Observable<UploadImgBean> getUploadImg(@Query("sign") String sign, @PartMap Map<String, RequestBody> map);
-//
+
+    //用户信息认证-修改保存
+    @FormUrlEncoded
+    @POST(VERIFIED)
+    Observable<VerifiedBean> getVerified(@FieldMap Map<String, String> map);
+
+    //通过id查询用户是否认证信息
+    @FormUrlEncoded
+    @POST(VERIFIED_TYPE)
+    Observable<VerifiedTypeBean> getVerifiedType(@FieldMap Map<String, String> map);
+
+    //通过id查询用户是否医院地址、名称
+    @FormUrlEncoded
+    @POST(HOSPITAL_NAME)
+    Observable<HospitalNameBean> getHospitalName(@FieldMap Map<String, String> map);
+
+    //麻醉方式列表
+    @FormUrlEncoded
+    @POST(NARCASIS_LIST)
+    Observable<NarcosisListBean> getNarcosisList(@FieldMap Map<String, String> map);
+
+    //上传图片
+    @Multipart
+    @POST(UPLOAD_IMG)
+    Observable<UploadImgBean> getUploadImg(@Query("sign") String sign, @PartMap Map<String, RequestBody> map);
+
 //    //医生端订单-列表-详情
 //    @FormUrlEncoded
 //    @POST(ORDER_DETAILS)

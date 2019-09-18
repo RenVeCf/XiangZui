@@ -134,34 +134,21 @@
                     android:textColor="@color/tx_bottom_navigation" />
             </LinearLayout>
 
-            <LinearLayout
-                android:id="@+id/ll_real_address"
+            <com.xuexiang.xui.widget.textview.supertextview.SuperTextView
+                android:id="@+id/stv_real_address"
                 android:layout_width="0dp"
                 android:layout_height="@dimen/y150"
-                android:background="@color/white"
-                android:gravity="center_vertical"
-                android:paddingStart="@dimen/x50"
-                android:paddingEnd="@dimen/x50"
+                android:paddingStart="@dimen/x30"
+                android:paddingEnd="@dimen/x30"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/ll_register_address">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="实际经营地址"
-                    android:textColor="@color/black" />
-
-                <EditText
-                    android:id="@+id/et_real_address"
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_weight="1"
-                    android:background="@null"
-                    android:gravity="end|center_vertical"
-                    android:hint="请输入"
-                    android:textColor="@color/tx_bottom_navigation" />
-            </LinearLayout>
+                app:layout_constraintTop_toBottomOf="@+id/ll_register_address"
+                app:sDividerLineType="none"
+                app:sLeftTextColor="@color/black"
+                app:sLeftTextString="实际经营地址"
+                app:sRightIconRes="@drawable/ic_right_arrow"
+                app:sRightTextColor="@color/tx_bottom_navigation"
+                app:sRightTextString="请选择" />
 
             <TextView
                 android:id="@+id/stv_card_information"
@@ -174,7 +161,7 @@
                 android:textSize="12sp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/ll_real_address" />
+                app:layout_constraintTop_toBottomOf="@+id/stv_real_address" />
 
             <com.xuexiang.xui.widget.textview.supertextview.SuperTextView
                 android:id="@+id/stv_head"
@@ -187,7 +174,7 @@
                 app:layout_constraintTop_toBottomOf="@+id/stv_card_information"
                 app:sDividerLineType="none"
                 app:sLeftTextColor="@color/black"
-                app:sLeftTextString="头像"
+                app:sLeftTextString="LOGO"
                 app:sRightIconRes="@drawable/ic_right_arrow"
                 app:sRightTextColor="@color/tx_bottom_navigation"
                 app:sRightTextString="未上传" />

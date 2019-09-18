@@ -30,7 +30,9 @@ import com.ipd.xiangzui.adapter.MainOrderAdapter;
 import com.ipd.xiangzui.adapter.RecyclerViewBannerAdapter;
 import com.ipd.xiangzui.base.BaseFragment;
 import com.ipd.xiangzui.bean.HomeBean;
+import com.ipd.xiangzui.bean.HospitalNameBean;
 import com.ipd.xiangzui.bean.TestMultiItemEntityBean;
+import com.ipd.xiangzui.bean.VerifiedTypeBean;
 import com.ipd.xiangzui.common.view.CustomLinearLayoutManager;
 import com.ipd.xiangzui.common.view.EditDialog;
 import com.ipd.xiangzui.common.view.GridSpacingItemDecoration;
@@ -58,10 +60,11 @@ import butterknife.BindView;
 import butterknife.OnClick;
 import io.reactivex.ObservableTransformer;
 
+import static com.ipd.xiangzui.common.config.IConstants.HOSPTIAL_NAME;
 import static com.ipd.xiangzui.common.config.IConstants.IS_SUPPLEMENT_INFO;
 import static com.ipd.xiangzui.common.config.IConstants.SIGN;
+import static com.ipd.xiangzui.common.config.IConstants.SURGICAL_ADDRESS;
 import static com.ipd.xiangzui.common.config.IConstants.USER_ID;
-import static com.ipd.xiangzui.utils.StringUtils.isEmpty;
 import static com.ipd.xiangzui.utils.isClickUtil.isFastClick;
 
 /**
@@ -157,20 +160,27 @@ public class MainFragment extends BaseFragment<HomeContract.View, HomeContract.P
                 switch (position) {
                     case 0:
                         //订单
-                        startActivity(new Intent(getContext(), OrderActivity.class));
+                        if ("1".equals(SPUtil.get(getContext(), IS_SUPPLEMENT_INFO, ""))) {
+                            new TwoBtDialog(getActivity(), "请先实名认证后才可以发单", "去认证") {
+                                @Override
+                                public void confirm() {
+                                    startActivity(new Intent(getContext(), AuthenticationActivity.class));
+                                }
+                            }.show();
+                        } else
+                            startActivity(new Intent(getContext(), OrderActivity.class));
                         break;
                     case 1:
                         //发单
-                        new TwoBtDialog(getActivity(), "请先实名认证后才可以发单", "去认证") {
-                            @Override
-                            public void confirm() {
-                                //认证
-                                if (isEmpty(SPUtil.get(getContext(), IS_SUPPLEMENT_INFO, "") + ""))
+                        if ("1".equals(SPUtil.get(getContext(), IS_SUPPLEMENT_INFO, ""))) {
+                            new TwoBtDialog(getActivity(), "请先实名认证后才可以发单", "去认证") {
+                                @Override
+                                public void confirm() {
                                     startActivity(new Intent(getContext(), AuthenticationActivity.class));
-                                else
-                                    startActivity(new Intent(getContext(), SendOrderActivity.class));
-                            }
-                        }.show();
+                                }
+                            }.show();
+                        } else
+                            startActivity(new Intent(getContext(), SendOrderActivity.class));
                         break;
                     case 2:
                         //钱包
@@ -227,13 +237,13 @@ public class MainFragment extends BaseFragment<HomeContract.View, HomeContract.P
                         break;
                     case R.id.bt_third:
                         if (isFastClick())
-                            new EditDialog(getActivity()){
+                            new EditDialog(getActivity()) {
                                 @Override
                                 public void confirm(String content) {
 
                                 }
                             }.show();
-                            break;
+                        break;
                 }
             }
         });
@@ -241,6 +251,16 @@ public class MainFragment extends BaseFragment<HomeContract.View, HomeContract.P
 
     @Override
     public void initData() {
+        TreeMap<String, String> verifiedTypeMap = new TreeMap<>();
+        verifiedTypeMap.put("userId", SPUtil.get(getContext(), USER_ID, "") + "");
+        verifiedTypeMap.put("sign", StringUtils.toUpperCase(MD5Utils.encodeMD5(verifiedTypeMap.toString().replaceAll(" ", "") + SIGN)));
+        getPresenter().getVerifiedType(verifiedTypeMap, false, false);
+
+        TreeMap<String, String> hospitalNameMap = new TreeMap<>();
+        hospitalNameMap.put("userId", SPUtil.get(getContext(), USER_ID, "") + "");
+        hospitalNameMap.put("sign", StringUtils.toUpperCase(MD5Utils.encodeMD5(hospitalNameMap.toString().replaceAll(" ", "") + SIGN)));
+        getPresenter().getHospitalName(hospitalNameMap, false, false);
+
         TreeMap<String, String> homeMap = new TreeMap<>();
         homeMap.put("userId", SPUtil.get(getContext(), USER_ID, "") + "");
         homeMap.put("sign", StringUtils.toUpperCase(MD5Utils.encodeMD5(homeMap.toString().replaceAll(" ", "") + SIGN)));
@@ -285,8 +305,41 @@ public class MainFragment extends BaseFragment<HomeContract.View, HomeContract.P
 //        mvHorn.setAnimInAndOut(R.anim.marquee_top_in, R.anim.marquee_bottom_out);
                 mvHorn.setMarqueeFactory(marqueeFactory);
                 mvHorn.startFlipping();
+                break;
+            case 900:
+                ToastUtil.showLongToast(data.getMsg());
+                //清除所有临时储存
+                SPUtil.clear(ApplicationUtil.getContext());
+                ApplicationUtil.getManager().finishActivity(MainActivity.class);
+                startActivity(new Intent(getContext(), CaptchaLoginActivity.class));
+                getActivity().finish();
+                break;
+        }
+    }
 
+    @Override
+    public void resultVerifiedType(VerifiedTypeBean data) {
+        switch (data.getCode()) {
+            case 200:
+                SPUtil.put(getContext(), IS_SUPPLEMENT_INFO, data.getData().getApproveStatus() + "");
+                break;
+            case 900:
+                ToastUtil.showLongToast(data.getMsg());
+                //清除所有临时储存
+                SPUtil.clear(ApplicationUtil.getContext());
+                ApplicationUtil.getManager().finishActivity(MainActivity.class);
+                startActivity(new Intent(getContext(), CaptchaLoginActivity.class));
+                getActivity().finish();
+                break;
+        }
+    }
 
+    @Override
+    public void resultHospitalName(HospitalNameBean data) {
+        switch (data.getCode()) {
+            case 200:
+                SPUtil.put(getContext(), HOSPTIAL_NAME, data.getData().getApprove().getTruename());
+                SPUtil.put(getContext(), SURGICAL_ADDRESS, data.getData().getApprove().getProv() + data.getData().getApprove().getCity() + data.getData().getApprove().getDist() + data.getData().getApprove().getAddress());
                 break;
             case 900:
                 ToastUtil.showLongToast(data.getMsg());

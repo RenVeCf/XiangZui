@@ -12,7 +12,6 @@ import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.ipd.xiangzui.R;
-import com.ipd.xiangzui.activity.AuthenticationActivity;
 import com.ipd.xiangzui.activity.ModifyMedicalRecordActivity;
 import com.ipd.xiangzui.activity.OrderDetailsActivity;
 import com.ipd.xiangzui.activity.SendOrderActivity;
@@ -25,7 +24,6 @@ import com.ipd.xiangzui.common.view.CallPhoneDialog;
 import com.ipd.xiangzui.common.view.EditDialog;
 import com.ipd.xiangzui.common.view.SpacesItemDecoration;
 import com.ipd.xiangzui.common.view.TwoBtDialog;
-import com.ipd.xiangzui.utils.SPUtil;
 import com.xuexiang.xui.widget.textview.supertextview.SuperTextView;
 
 import java.util.ArrayList;
@@ -34,8 +32,6 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.OnClick;
 
-import static com.ipd.xiangzui.common.config.IConstants.IS_SUPPLEMENT_INFO;
-import static com.ipd.xiangzui.utils.StringUtils.isEmpty;
 import static com.ipd.xiangzui.utils.isClickUtil.isFastClick;
 
 /**

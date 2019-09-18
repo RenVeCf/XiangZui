@@ -123,6 +123,22 @@
             app:sLeftTextSize="16sp"
             app:sLeftTextString="支付宝支付"
             app:sRightIconRes="@drawable/select_radio_check" />
+
+        <com.xuexiang.xui.widget.textview.supertextview.SuperTextView
+            android:id="@+id/stv_account"
+            android:layout_width="0dp"
+            android:layout_height="@dimen/y150"
+            android:paddingStart="@dimen/x30"
+            android:paddingEnd="@dimen/x30"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/stv_ali_withdraw"
+            app:sDividerLineType="none"
+            app:sLeftIconRes="@drawable/ic_account"
+            app:sLeftTextColor="@color/black"
+            app:sLeftTextSize="16sp"
+            app:sLeftTextString="对公转账"
+            app:sRightIconRes="@drawable/select_radio_check" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <LinearLayout

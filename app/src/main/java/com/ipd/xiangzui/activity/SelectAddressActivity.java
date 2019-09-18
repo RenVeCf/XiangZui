@@ -122,7 +122,7 @@ public class SelectAddressActivity extends BaseActivity {
                                             handler.postDelayed(new Runnable() {
                                                 @Override
                                                 public void run() {
-                                                    setResult(RESULT_OK, new Intent().putExtra("select_top_address", "上海市 青浦区").putExtra("select_bottom_address", "华徐公路888号1号楼2楼IPD"));
+                                                    setResult(RESULT_OK, new Intent().putExtra("prov", "上海").putExtra("city", "上海市").putExtra("dist", "青浦区").putExtra("address", "发发发发发发发发"));
                                                     finish();
                                                 }
                                             }, 500);

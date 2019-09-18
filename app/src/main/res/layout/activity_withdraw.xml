@@ -84,45 +84,98 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/x50"
             android:layout_marginTop="@dimen/y50"
-            android:text="选择提现方式"
+            android:text="提现方式（对公账户）"
             android:textColor="@color/black"
             android:textSize="16sp"
-            android:textStyle="bold"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
-        <com.xuexiang.xui.widget.textview.supertextview.SuperTextView
-            android:id="@+id/stv_wechat_withdraw"
+        <LinearLayout
+            android:id="@+id/ll_name"
             android:layout_width="0dp"
             android:layout_height="@dimen/y150"
-            android:paddingStart="@dimen/x30"
-            android:paddingEnd="@dimen/x30"
+            android:background="@color/white"
+            android:gravity="center_vertical"
+            android:paddingStart="@dimen/x50"
+            android:paddingEnd="@dimen/x50"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/tv_withdraw_type"
-            app:sDividerLineType="none"
-            app:sIsChecked="true"
-            app:sLeftIconRes="@drawable/ic_wechat_pay"
-            app:sLeftTextColor="@color/black"
-            app:sLeftTextSize="16sp"
-            app:sLeftTextString="微信"
-            app:sRightIconRes="@drawable/select_radio_check" />
+            app:layout_constraintTop_toBottomOf="@+id/tv_withdraw_type">
 
-        <com.xuexiang.xui.widget.textview.supertextview.SuperTextView
-            android:id="@+id/stv_ali_withdraw"
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="公司名称"
+                android:textColor="@color/black" />
+
+            <EditText
+                android:id="@+id/et_name"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:background="@null"
+                android:gravity="end|center_vertical"
+                android:hint="请输入"
+                android:textColor="@color/tx_bottom_navigation" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/ll_open_bank"
             android:layout_width="0dp"
             android:layout_height="@dimen/y150"
-            android:paddingStart="@dimen/x30"
-            android:paddingEnd="@dimen/x30"
+            android:background="@color/white"
+            android:gravity="center_vertical"
+            android:paddingStart="@dimen/x50"
+            android:paddingEnd="@dimen/x50"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/stv_wechat_withdraw"
-            app:sDividerLineType="none"
-            app:sLeftIconRes="@drawable/ic_ali_pay"
-            app:sLeftTextColor="@color/black"
-            app:sLeftTextSize="16sp"
-            app:sLeftTextString="支付宝"
-            app:sRightIconRes="@drawable/select_radio_check" />
+            app:layout_constraintTop_toBottomOf="@+id/ll_name">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="开户行"
+                android:textColor="@color/black" />
+
+            <EditText
+                android:id="@+id/et_open_bank"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:background="@null"
+                android:gravity="end|center_vertical"
+                android:hint="请输入"
+                android:textColor="@color/tx_bottom_navigation" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/ll_bank_code"
+            android:layout_width="0dp"
+            android:layout_height="@dimen/y150"
+            android:background="@color/white"
+            android:gravity="center_vertical"
+            android:paddingStart="@dimen/x50"
+            android:paddingEnd="@dimen/x50"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/ll_open_bank">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="银行账号"
+                android:textColor="@color/black" />
+
+            <EditText
+                android:id="@+id/et_bank_code"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:background="@null"
+                android:gravity="end|center_vertical"
+                android:hint="请输入"
+                android:textColor="@color/tx_bottom_navigation" />
+        </LinearLayout>
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <LinearLayout

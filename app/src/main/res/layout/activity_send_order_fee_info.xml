@@ -49,6 +49,20 @@
         app:sRightCheckBoxRes="@drawable/select_radio_check"
         app:sRightViewType="checkbox" />
 
+    <com.xuexiang.xui.widget.textview.supertextview.SuperTextView
+        android:id="@+id/stv_surgery_num"
+        android:layout_width="0dp"
+        android:layout_height="@dimen/y150"
+        android:paddingEnd="@dimen/x30"
+        android:paddingStart="@dimen/x30"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/stv_surgery"
+        app:sDividerLineType="none"
+        app:sLeftTextColor="@color/black"
+        app:sLeftTextString="连台手术数量"
+        app:sRightTextColor="@color/black" />
+
     <LinearLayout
         android:id="@+id/ll_add_fee"
         android:layout_width="0dp"
@@ -59,38 +73,25 @@
         android:paddingStart="@dimen/x50"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/stv_surgery">
+        app:layout_constraintTop_toBottomOf="@+id/stv_surgery_num">
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:gravity="center_vertical"
-            android:text="加价"
+            android:text="预计费用"
             android:textColor="@color/black" />
 
         <EditText
             android:id="@+id/et_add_fee"
             android:layout_width="0dp"
             android:layout_height="match_parent"
+            android:layout_weight="1"
             android:background="@null"
-            android:gravity="center_vertical"
-            android:hint="请输入"
+            android:gravity="center_vertical|end"
+            android:hint="请输入预计费用"
             android:textColor="@color/black" />
     </LinearLayout>
-
-    <com.xuexiang.xui.widget.textview.supertextview.SuperTextView
-        android:id="@+id/stv_surgery_num"
-        android:layout_width="0dp"
-        android:layout_height="@dimen/y150"
-        android:paddingEnd="@dimen/x30"
-        android:paddingStart="@dimen/x30"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/ll_add_fee"
-        app:sDividerLineType="none"
-        app:sLeftTextColor="@color/black"
-        app:sLeftTextString="连台手术数量"
-        app:sRightTextColor="@color/black" />
 
     <com.xuexiang.xui.widget.textview.supertextview.SuperTextView
         android:id="@+id/stv_add_fee"
@@ -103,9 +104,18 @@
         app:layout_constraintTop_toBottomOf="@+id/stv_surgery_num"
         app:sDividerLineType="none"
         app:sLeftTextColor="@color/black"
-        app:sLeftTextString="预计费用"
+        app:sLeftTextString="总计费用"
         app:sRightTextColor="@color/orangered"
         app:sUseShape="true" />
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/x50"
+        android:textColor="@color/black"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/stv_add_fee"
+        android:text="注: 总计费用包含平台服务费" />
 
     <LinearLayout
         android:layout_width="0dp"

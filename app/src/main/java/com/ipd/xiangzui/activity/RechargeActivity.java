@@ -32,6 +32,8 @@ public class RechargeActivity extends BaseActivity {
     SuperTextView stvWechatWithdraw;
     @BindView(R.id.stv_ali_withdraw)
     SuperTextView stvAliWithdraw;
+    @BindView(R.id.stv_account)
+    SuperTextView stvAccount;
 
     @Override
     public int getLayoutId() {
@@ -66,16 +68,23 @@ public class RechargeActivity extends BaseActivity {
 
     }
 
-    @OnClick({R.id.stv_wechat_withdraw, R.id.stv_ali_withdraw, R.id.sb_confirm})
+    @OnClick({R.id.stv_wechat_withdraw, R.id.stv_ali_withdraw, R.id.stv_account, R.id.sb_confirm})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.stv_wechat_withdraw:
                 stvWechatWithdraw.setRightIcon(R.drawable.ic_check_blue);
                 stvAliWithdraw.setRightIcon(R.drawable.ic_check_gray);
+                stvAccount.setRightIcon(R.drawable.ic_check_gray);
                 break;
             case R.id.stv_ali_withdraw:
                 stvAliWithdraw.setRightIcon(R.drawable.ic_check_blue);
                 stvWechatWithdraw.setRightIcon(R.drawable.ic_check_gray);
+                stvAccount.setRightIcon(R.drawable.ic_check_gray);
+                break;
+            case R.id.stv_account:
+                stvWechatWithdraw.setRightIcon(R.drawable.ic_check_gray);
+                stvAliWithdraw.setRightIcon(R.drawable.ic_check_gray);
+                stvAccount.setRightIcon(R.drawable.ic_check_blue);
                 break;
             case R.id.sb_confirm:
                 startActivity(new Intent(this, RechargeSuccessActivity.class));

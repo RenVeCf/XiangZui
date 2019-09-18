@@ -3,6 +3,8 @@ package com.ipd.xiangzui.presenter;
 import android.content.Context;
 
 import com.ipd.xiangzui.bean.HomeBean;
+import com.ipd.xiangzui.bean.HospitalNameBean;
+import com.ipd.xiangzui.bean.VerifiedTypeBean;
 import com.ipd.xiangzui.contract.HomeContract;
 import com.ipd.xiangzui.model.HomeModel;
 import com.ipd.xiangzui.progress.ObserverResponseListener;
@@ -35,6 +37,48 @@ public class HomePresenter extends HomeContract.Presenter {
                 //这一步是必须的，判断view是否已经被销毁
                 if (getView() != null) {
                     getView().resultHome((HomeBean) o);
+                }
+            }
+
+            @Override
+            public void onError(ExceptionHandle.ResponeThrowable e) {
+                if (getView() != null) {
+                    //// TODO: 2017/12/28 自定义处理异常
+                    ToastUtil.showShortToast(ExceptionHandle.handleException(e).message);
+                }
+            }
+        });
+    }
+
+    @Override
+    public void getVerifiedType(TreeMap<String, String> map, boolean isDialog, boolean cancelable) {
+        model.getVerifiedType(context, map, isDialog, cancelable, getView().bindLifecycle(), new ObserverResponseListener() {
+            @Override
+            public void onNext(Object o) {
+                //这一步是必须的，判断view是否已经被销毁
+                if (getView() != null) {
+                    getView().resultVerifiedType((VerifiedTypeBean) o);
+                }
+            }
+
+            @Override
+            public void onError(ExceptionHandle.ResponeThrowable e) {
+                if (getView() != null) {
+                    //// TODO: 2017/12/28 自定义处理异常
+                    ToastUtil.showShortToast(ExceptionHandle.handleException(e).message);
+                }
+            }
+        });
+    }
+
+    @Override
+    public void getHospitalName(TreeMap<String, String> map, boolean isDialog, boolean cancelable) {
+        model.getHospitalName(context, map, isDialog, cancelable, getView().bindLifecycle(), new ObserverResponseListener() {
+            @Override
+            public void onNext(Object o) {
+                //这一步是必须的，判断view是否已经被销毁
+                if (getView() != null) {
+                    getView().resultHospitalName((HospitalNameBean) o);
                 }
             }
 

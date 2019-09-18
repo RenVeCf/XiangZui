@@ -29,6 +29,11 @@ public interface IConstants {
     String LONGTITUDE = "longtitude"; //纬度
     String CITY = "city"; //城市
     String TOKEN = "is_token"; //token
+    String HOSPTIAL_NAME = "hospital_name"; //医院名称
+    String SURGICAL_ADDRESS = "surgical_address"; //手术地点
+    String SURGICAL_NAME = "surgical_name"; //拟手术名称
+    String SURGICAL_TIME = "surgical_time"; //拟手术开始时间
+    String SURGICAL_DURATION = "surgical_duration"; //拟手术预计时长
     String SIGN = "40777B235DFE79175B6D921D1B7536C4"; //签名后缀
     int JPUSH_SEQUENCE = 100; //极光精准推送序列
 
@@ -55,7 +60,7 @@ public interface IConstants {
     int REQUEST_CODE_105 = 105;//心电图上传回跳
     int REQUEST_CODE_106 = 106;//凝血功能上传回跳
     int REQUEST_CODE_107 = 107;//传染病指标上传回跳
-    int REQUEST_CODE_108 = 108;
+    int REQUEST_CODE_108 = 108;//资质认证地址的选择
     int REQUEST_CODE_109 = 109;
 
     /**

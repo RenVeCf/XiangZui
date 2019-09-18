@@ -26,10 +26,12 @@ public interface UrlConfig {
      * 首页
      */
     String HOME = "ah/index/indexData"; //首页数据
-    String TITLE_LIST = "ad/user/titleList"; //职称-列表
-    String VERIFIED = "ad/user/userApprove"; //用户信息认证-修改保存
+    String VERIFIED = "ah/user/userApprove"; //用户信息认证-修改保存
+    String VERIFIED_TYPE = "ah/user/approveStatus"; //通过id查询用户是否认证信息
+    String HOSPITAL_NAME = "ah/user/invoiceData"; //通过id查询用户是否医院地址、名称
+    String NARCASIS_LIST = "ah/order/narcosisList"; //麻醉方式列表
     String UPLOAD_IMG = "ah/util/upload"; //上传图片
-    String UPLOAD_IMGS = "ah/util/arrUpload"; //上传图片
+    String UPLOAD_IMGS = "ah/util/arrUpload"; //上传多图片
 
     /**
      * 订单
@@ -43,26 +45,6 @@ public interface UrlConfig {
     String ORDER_CANCEL = "ad/order/alreadyCancel"; //医生端订单-已接单-取消订单
     String GET_ORDER = "ad/order/receipt"; //医生端订单-接单
     String ANESTHESIA_LIST = "ah/order/narcosisList"; //麻醉方式列表
-
-    /**
-     * 医学专栏
-     */
-    String SPECIAL_COLUMN = "ad/medical/medicalList"; //医学专栏-列表
-    String SPECIAL_COLUMN_DETAILS = "ad/medical/medicalDetails"; //专栏详情
-    String SPECIAL_COLUMN_COLLECTION = "ad/medical/collection"; //医院专栏点击收藏
-
-    /**
-     * 线下活动
-     */
-    String OFFLINE_ACTIVITES_LIST = "ad/activity/activityList"; //线下活动-列表
-    String OFFLINE_ACTIVITES_DETAILS = "ad/activity/activityDetails"; //活动详情
-    String OFFLINE_ACTIVITES_DETAILS_PAY = "ad/activity/activityPayDetails"; //活动详情--购买页面
-    String OFFLINE_ACTIVITES_FREE = "ad/activityRegist/freeRegist"; //免费报名
-    String OFFLINE_ACTIVITES_ALI_PAY = "ad/activityRegist/alipay"; //支付包报名
-    String OFFLINE_ACTIVITES_WECHAT_PAY = "ad/activityRegist/wechatPay"; //微信报名
-    String OFFLINE_ACTIVITES_BALANCE_PAY = "ad/activityRegist/payBalance"; //余额报名
-    String OFFLINE_ACTIVITES_MY = "ad/activity/myActivityList"; //我的活动列表
-    String OFFLINE_ACTIVITES_CANCEL = "ad/activity/cancelRegist"; //活动-取消报名
 
     /**
      * 我的
