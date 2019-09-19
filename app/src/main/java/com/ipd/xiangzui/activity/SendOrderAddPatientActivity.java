@@ -26,7 +26,7 @@ import com.ipd.xiangzui.adapter.SelectOrderAddPatientAdapter;
 import com.ipd.xiangzui.base.BaseActivity;
 import com.ipd.xiangzui.base.BasePresenter;
 import com.ipd.xiangzui.base.BaseView;
-import com.ipd.xiangzui.bean.TestMultiItemEntityBean;
+import com.ipd.xiangzui.bean.SendOrderDataBean;
 import com.ipd.xiangzui.common.view.CustomLinearLayoutManager;
 import com.ipd.xiangzui.common.view.TopView;
 import com.ipd.xiangzui.common.view.TwoBtDialog;
@@ -74,10 +74,10 @@ public class SendOrderAddPatientActivity extends BaseActivity {
     @BindView(R.id.stv_insurance_consent)
     SuperTextView stvInsuranceConsent;
 
+    private SendOrderDataBean sendOrderData;
     private List<String> listData;
     private OptionsPickerView pvOptions; //条件选择器
     private SelectOrderAddPatientAdapter selectOrderAddPatientAdapter;
-    private List<TestMultiItemEntityBean> str1 = new ArrayList<>();
 
     @Override
     public int getLayoutId() {
@@ -102,6 +102,8 @@ public class SendOrderAddPatientActivity extends BaseActivity {
         //防止状态栏和标题重叠
         ImmersionBar.setTitleBar(this, tvSendOrderAddPatient);
 
+        sendOrderData = getIntent().getParcelableExtra("sendOrderData");
+
         //更多订单
         CustomLinearLayoutManager layoutManager = new CustomLinearLayoutManager(this);
         layoutManager.setOrientation(LinearLayoutManager.VERTICAL);//方向
@@ -109,19 +111,13 @@ public class SendOrderAddPatientActivity extends BaseActivity {
         rvSendOrderAddPatient.setNestedScrollingEnabled(false);
         rvSendOrderAddPatient.setHasFixedSize(true);// 如果可以确定每个item的高度是固定的，设置这个选项可以提高性能
         rvSendOrderAddPatient.setItemAnimator(new DefaultItemAnimator());//加载动画
-
-        for (int i = 0; i < 2; i++) {
-            TestMultiItemEntityBean testData = new TestMultiItemEntityBean();
-            str1.add(testData);
-        }
-        rvSendOrderAddPatient.setAdapter(selectOrderAddPatientAdapter = new SelectOrderAddPatientAdapter(str1, 1));
-        selectOrderAddPatientAdapter.bindToRecyclerView(rvSendOrderAddPatient);
-        selectOrderAddPatientAdapter.openLoadAnimation();
     }
 
     @Override
     public void initData() {
-
+        rvSendOrderAddPatient.setAdapter(selectOrderAddPatientAdapter = new SelectOrderAddPatientAdapter(sendOrderData.getTwoOrderBean(), 1));
+        selectOrderAddPatientAdapter.bindToRecyclerView(rvSendOrderAddPatient);
+        selectOrderAddPatientAdapter.openLoadAnimation();
     }
 
     @Override

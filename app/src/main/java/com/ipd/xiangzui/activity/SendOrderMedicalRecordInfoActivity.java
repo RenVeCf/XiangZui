@@ -13,6 +13,7 @@ import com.ipd.xiangzui.R;
 import com.ipd.xiangzui.base.BaseActivity;
 import com.ipd.xiangzui.base.BasePresenter;
 import com.ipd.xiangzui.base.BaseView;
+import com.ipd.xiangzui.bean.SendOrderDataBean;
 import com.ipd.xiangzui.common.view.TopView;
 import com.ipd.xiangzui.utils.ApplicationUtil;
 import com.xuexiang.xui.widget.textview.supertextview.SuperTextView;
@@ -97,7 +98,10 @@ public class SendOrderMedicalRecordInfoActivity extends BaseActivity {
     @BindView(R.id.ll_add_patient)
     LinearLayout llAddPatient;
 
+    private SendOrderDataBean sendOrderData;
     private int sendOrderType; //1: 单台, 2: 连台
+    private int selectRb = 0; //1: 图片上传, 2: 填写上传, 3: 暂无
+    private String surgeryAboutMedicalRecordUrl = "", bloodRoutineUrl = "", electrocardiogramUrl = "", coagulationUrl = "", infectiousDiseaseIndexUrl = "";
 
     @Override
     public int getLayoutId() {
@@ -121,7 +125,8 @@ public class SendOrderMedicalRecordInfoActivity extends BaseActivity {
         //防止状态栏和标题重叠
         ImmersionBar.setTitleBar(this, tvSendOrderMedicalRecordInfo);
 
-        sendOrderType = getIntent().getIntExtra("sendOrderType", 0);
+        sendOrderData = getIntent().getParcelableExtra("sendOrderData");
+        sendOrderType = sendOrderData.getSendOrderType();
         if (sendOrderType == 1)
             llAddPatient.setVisibility(View.GONE);
     }
@@ -142,22 +147,27 @@ public class SendOrderMedicalRecordInfoActivity extends BaseActivity {
         if (data != null) {
             switch (requestCode) {
                 case REQUEST_CODE_103:
+                    surgeryAboutMedicalRecordUrl = data.getStringExtra("imgUrl");
                     stvSurgeryAboutMedicalRecord.setRightString("已上传")
                             .setRightTextColor(getResources().getColor(R.color.tx_bottom_navigation_select));
                     break;
                 case REQUEST_CODE_104:
+                    bloodRoutineUrl = data.getStringExtra("imgUrl");
                     stvBloodRoutine.setRightString("已上传")
                             .setRightTextColor(getResources().getColor(R.color.tx_bottom_navigation_select));
                     break;
                 case REQUEST_CODE_105:
+                    electrocardiogramUrl = data.getStringExtra("imgUrl");
                     stvElectrocardiogram.setRightString("已上传")
                             .setRightTextColor(getResources().getColor(R.color.tx_bottom_navigation_select));
                     break;
                 case REQUEST_CODE_106:
+                    coagulationUrl = data.getStringExtra("imgUrl");
                     stvCoagulation.setRightString("已上传")
                             .setRightTextColor(getResources().getColor(R.color.tx_bottom_navigation_select));
                     break;
                 case REQUEST_CODE_107:
+                    infectiousDiseaseIndexUrl = data.getStringExtra("imgUrl");
                     stvInfectiousDiseaseIndex.setRightString("已上传")
                             .setRightTextColor(getResources().getColor(R.color.tx_bottom_navigation_select));
                     break;
@@ -170,6 +180,7 @@ public class SendOrderMedicalRecordInfoActivity extends BaseActivity {
         switch (view.getId()) {
             case R.id.rb_none://暂无
                 //填写上传
+                selectRb = 3;
                 llBloodPressure.setVisibility(View.GONE);
                 llPulse.setVisibility(View.GONE);
                 llBreathe.setVisibility(View.GONE);
@@ -188,6 +199,7 @@ public class SendOrderMedicalRecordInfoActivity extends BaseActivity {
                 break;
             case R.id.rb_edit://填写上传
                 //填写上传
+                selectRb = 2;
                 llBloodPressure.setVisibility(View.VISIBLE);
                 llPulse.setVisibility(View.VISIBLE);
                 llBreathe.setVisibility(View.VISIBLE);
@@ -205,7 +217,8 @@ public class SendOrderMedicalRecordInfoActivity extends BaseActivity {
                 stvInfectiousDiseaseIndex.setVisibility(View.GONE);
                 break;
             case R.id.rb_img://图片上传
-                //填写上传
+                //图片上传
+                selectRb = 1;
                 llBloodPressure.setVisibility(View.GONE);
                 llPulse.setVisibility(View.GONE);
                 llBreathe.setVisibility(View.GONE);
@@ -238,10 +251,59 @@ public class SendOrderMedicalRecordInfoActivity extends BaseActivity {
                 startActivityForResult(new Intent(this, SurgeryAboutMedicalRecordActivity.class).putExtra("title", "传染病指标"), REQUEST_CODE_107);
                 break;
             case R.id.sb_add_patient:
-                startActivity(new Intent(this, SendOrderAddPatientActivity.class));
+                startActivity(new Intent(this, SendOrderAddPatientActivity.class).putExtra("sendOrderData", sendOrderData));
                 break;
             case R.id.sb_next:
-                startActivity(new Intent(this, SendOrderFeeInfoActivity.class).putExtra("sendOrderType", sendOrderType));
+                if (sendOrderType == 1) {
+                    switch (selectRb) {
+                        case 1:
+                            sendOrderData.getOneOrderBean().setSurgeryRelated(surgeryAboutMedicalRecordUrl);
+                            sendOrderData.getOneOrderBean().setRoutineBlood(bloodRoutineUrl);
+                            sendOrderData.getOneOrderBean().setEcg(electrocardiogramUrl);
+                            sendOrderData.getOneOrderBean().setCruor(coagulationUrl);
+                            sendOrderData.getOneOrderBean().setContagion(infectiousDiseaseIndexUrl);
+                            break;
+                        case 2:
+                            sendOrderData.getOneOrderBean().setMinBloodPressure(etBloodPressureStart.getText().toString().trim());
+                            sendOrderData.getOneOrderBean().setMaxBloodPressure(etBloodPressureEnd.getText().toString().trim());
+                            sendOrderData.getOneOrderBean().setPulse(etPulse.getText().toString().trim());
+                            sendOrderData.getOneOrderBean().setBreathe(etBreathe.getText().toString().trim());
+                            sendOrderData.getOneOrderBean().setAnimalHeat(etBodyTemperature.getText().toString().trim());
+                            sendOrderData.getOneOrderBean().setDiabetes(rbDiabetesStart.isChecked() ? "2" : "1");
+                            sendOrderData.getOneOrderBean().setCerebralInfarction(rbBrainStalkStart.isChecked() ? "2" : "1");
+                            sendOrderData.getOneOrderBean().setHeartDisease(rbHeartDiseaseStart.isChecked() ? "2" : "1");
+                            sendOrderData.getOneOrderBean().setInfectDisease(rbInfectiousDiseaseStart.isChecked() ? "2" : "1");
+                            sendOrderData.getOneOrderBean().setBreatheFunction(rbRespiratoryDysfunctionStart.isChecked() ? "2" : "1");
+                            break;
+                        case 3:
+                            break;
+                    }
+                } else {
+                    switch (selectRb) {
+                        case 1:
+                            sendOrderData.getTwoOrderBean().get(0).setSurgeryRelated(surgeryAboutMedicalRecordUrl);
+                            sendOrderData.getTwoOrderBean().get(0).setRoutineBlood(bloodRoutineUrl);
+                            sendOrderData.getTwoOrderBean().get(0).setEcg(electrocardiogramUrl);
+                            sendOrderData.getTwoOrderBean().get(0).setCruor(coagulationUrl);
+                            sendOrderData.getTwoOrderBean().get(0).setContagion(infectiousDiseaseIndexUrl);
+                            break;
+                        case 2:
+                            sendOrderData.getTwoOrderBean().get(0).setMinBloodPressure(etBloodPressureStart.getText().toString().trim());
+                            sendOrderData.getTwoOrderBean().get(0).setMaxBloodPressure(etBloodPressureEnd.getText().toString().trim());
+                            sendOrderData.getTwoOrderBean().get(0).setPulse(etPulse.getText().toString().trim());
+                            sendOrderData.getTwoOrderBean().get(0).setBreathe(etBreathe.getText().toString().trim());
+                            sendOrderData.getTwoOrderBean().get(0).setAnimalHeat(etBodyTemperature.getText().toString().trim());
+                            sendOrderData.getTwoOrderBean().get(0).setDiabetes(rbDiabetesStart.isChecked() ? "2" : "1");
+                            sendOrderData.getTwoOrderBean().get(0).setCerebralInfarction(rbBrainStalkStart.isChecked() ? "2" : "1");
+                            sendOrderData.getTwoOrderBean().get(0).setHeartDisease(rbHeartDiseaseStart.isChecked() ? "2" : "1");
+                            sendOrderData.getTwoOrderBean().get(0).setInfectDisease(rbInfectiousDiseaseStart.isChecked() ? "2" : "1");
+                            sendOrderData.getTwoOrderBean().get(0).setBreatheFunction(rbRespiratoryDysfunctionStart.isChecked() ? "2" : "1");
+                            break;
+                        case 3:
+                            break;
+                    }
+                }
+                startActivity(new Intent(this, SendOrderFeeInfoActivity.class).putExtra("sendOrderData", sendOrderData));
                 break;
         }
     }

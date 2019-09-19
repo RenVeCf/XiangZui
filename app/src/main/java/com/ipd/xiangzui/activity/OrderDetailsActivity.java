@@ -230,13 +230,13 @@ public class OrderDetailsActivity extends BaseActivity {
         rvPatientList.setHasFixedSize(true);// 如果可以确定每个item的高度是固定的，设置这个选项可以提高性能
         rvPatientList.setItemAnimator(new DefaultItemAnimator());//加载动画
 
-        for (int i = 0; i < 2; i++) {
-            TestMultiItemEntityBean testData = new TestMultiItemEntityBean();
-            str1.add(testData);
-        }
-        rvPatientList.setAdapter(selectOrderAddPatientAdapter = new SelectOrderAddPatientAdapter(str1, 2));
-        selectOrderAddPatientAdapter.bindToRecyclerView(rvPatientList);
-        selectOrderAddPatientAdapter.openLoadAnimation();
+//        for (int i = 0; i < 2; i++) {
+//            TestMultiItemEntityBean testData = new TestMultiItemEntityBean();
+//            str1.add(testData);
+//        }
+//        rvPatientList.setAdapter(selectOrderAddPatientAdapter = new SelectOrderAddPatientAdapter(str1, 2));
+//        selectOrderAddPatientAdapter.bindToRecyclerView(rvPatientList);
+//        selectOrderAddPatientAdapter.openLoadAnimation();
     }
 
     @Override

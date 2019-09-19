@@ -32,6 +32,8 @@ public interface UrlConfig {
     String NARCASIS_LIST = "ah/order/narcosisList"; //麻醉方式列表
     String UPLOAD_IMG = "ah/util/upload"; //上传图片
     String UPLOAD_IMGS = "ah/util/arrUpload"; //上传多图片
+    String SELECT_FEE = "ah/order/urgentMoney"; //加急费-取消费用用信息查询
+    String SEND_ORDER = "ah/order/invoice"; //医院端-首页-发单 -正式
 
     /**
      * 订单

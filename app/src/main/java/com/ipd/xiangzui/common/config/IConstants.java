@@ -27,13 +27,12 @@ public interface IConstants {
     String AVATAR = "avatar"; //头像
     String LATIUDE = "latitude"; //经度
     String LONGTITUDE = "longtitude"; //纬度
-    String CITY = "city"; //城市
     String TOKEN = "is_token"; //token
     String HOSPTIAL_NAME = "hospital_name"; //医院名称
-    String SURGICAL_ADDRESS = "surgical_address"; //手术地点
-    String SURGICAL_NAME = "surgical_name"; //拟手术名称
-    String SURGICAL_TIME = "surgical_time"; //拟手术开始时间
-    String SURGICAL_DURATION = "surgical_duration"; //拟手术预计时长
+    String PROV = "prov"; //省
+    String CITY = "city"; //市
+    String DIST = "dist"; //区
+    String ADDRESS = "address"; //详细地址
     String SIGN = "40777B235DFE79175B6D921D1B7536C4"; //签名后缀
     int JPUSH_SEQUENCE = 100; //极光精准推送序列
 

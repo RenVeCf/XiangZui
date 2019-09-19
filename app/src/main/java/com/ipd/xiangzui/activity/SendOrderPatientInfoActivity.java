@@ -19,6 +19,7 @@ import com.gyf.immersionbar.ImmersionBar;
 import com.ipd.xiangzui.R;
 import com.ipd.xiangzui.base.BaseActivity;
 import com.ipd.xiangzui.bean.NarcosisListBean;
+import com.ipd.xiangzui.bean.SendOrderDataBean;
 import com.ipd.xiangzui.common.view.TopView;
 import com.ipd.xiangzui.common.view.TwoBtDialog;
 import com.ipd.xiangzui.contract.NarcosisListContract;
@@ -77,9 +78,12 @@ public class SendOrderPatientInfoActivity extends BaseActivity<NarcosisListContr
 
     private List<String> listData;
     private List<String> narcosisDataList = new ArrayList<>();//麻醉方式
+    private List<NarcosisListBean.DataBean.NarcosisListsBean> narcosisLists = new ArrayList<>();//选择麻醉(取ID用)
+    private int narcosisId = 0; //麻醉ID
     private OptionsPickerView pvOptions; //条件选择器
     private int sendOrderType; //1: 单台, 2: 连台
-    private String positiveUrl, negativeUrl, imgUrl;
+    private SendOrderDataBean sendOrderData;
+    private String positiveUrl = "", negativeUrl = "", imgUrl = "";
 
     @Override
     public int getLayoutId() {
@@ -103,7 +107,8 @@ public class SendOrderPatientInfoActivity extends BaseActivity<NarcosisListContr
         //防止状态栏和标题重叠
         ImmersionBar.setTitleBar(this, tvSendOrderPatientInfo);
 
-        sendOrderType = getIntent().getIntExtra("sendOrderType", 0);
+        sendOrderData = getIntent().getParcelableExtra("sendOrderData");
+        sendOrderType = sendOrderData.getSendOrderType();
         if (sendOrderType == 1)
             llSurgicalName.setVisibility(View.GONE);
     }
@@ -150,6 +155,10 @@ public class SendOrderPatientInfoActivity extends BaseActivity<NarcosisListContr
                         stvPatientAge.setRightTextColor(getResources().getColor(R.color.black));
                         break;
                     case 3:
+                        for (int i = 0; i < narcosisLists.size(); i++) {
+                            if (narcosisLists.get(i).getNarcosisTypeName().equals(listData.get(options1)))
+                                narcosisId = narcosisLists.get(i).getNarcosisTypeId();
+                        }
                         stvAnesthesiaType.setRightString(listData.get(options1));
                         stvAnesthesiaType.setRightTextColor(getResources().getColor(R.color.black));
                         break;
@@ -250,20 +259,42 @@ public class SendOrderPatientInfoActivity extends BaseActivity<NarcosisListContr
                 break;
             case R.id.sb_next:
                 if (!isEmpty(etPatientName.toString().trim()) && !"请选择".equals(stvPatientSex.getRightString()) && !"请选择".equals(stvPatientAge.getRightString())) {
-                    if (sendOrderType == 2)
+                    if (sendOrderType == 2) {
                         if (isEmpty(etSurgicalName.toString().trim())) {
                             ToastUtil.showShortToast("请将信息填写完整！");
                             return;
+                        } else {
+                            sendOrderData.getTwoOrderBean().get(0).setSurgicalName(etSurgicalName.getText().toString().trim());
+                            sendOrderData.getTwoOrderBean().get(0).setPatientName(etPatientName.getText().toString().trim());
+                            sendOrderData.getTwoOrderBean().get(0).setPatientSex(stvPatientSex.getRightString());
+                            sendOrderData.getTwoOrderBean().get(0).setPatientAge(stvPatientAge.getRightString());
+                            sendOrderData.getTwoOrderBean().get(0).setPatientHeight(etPatientHeight.getText().toString().trim());
+                            sendOrderData.getTwoOrderBean().get(0).setPatientBodyWeight(etPatientBodyWeight.getText().toString().trim());
+                            sendOrderData.getTwoOrderBean().get(0).setNarcosisId(narcosisId + "");
+                            sendOrderData.getTwoOrderBean().get(0).setPositiveUrl(positiveUrl);
+                            sendOrderData.getTwoOrderBean().get(0).setNegativeUrl(negativeUrl);
+                            sendOrderData.getTwoOrderBean().get(0).setInsuranceConsentUrl(imgUrl);
                         }
+                    } else {
+                        sendOrderData.getOneOrderBean().setPatientName(etPatientName.getText().toString().trim());
+                        sendOrderData.getOneOrderBean().setPatientSex(stvPatientSex.getRightString());
+                        sendOrderData.getOneOrderBean().setPatientAge(stvPatientAge.getRightString());
+                        sendOrderData.getOneOrderBean().setPatientHeight(etPatientHeight.getText().toString().trim());
+                        sendOrderData.getOneOrderBean().setPatientBodyWeight(etPatientBodyWeight.getText().toString().trim());
+                        sendOrderData.getOneOrderBean().setNarcosisId(narcosisId + "");
+                        sendOrderData.getOneOrderBean().setPositiveUrl(positiveUrl);
+                        sendOrderData.getOneOrderBean().setNegativeUrl(negativeUrl);
+                        sendOrderData.getOneOrderBean().setInsuranceConsentUrl(imgUrl);
+                    }
                     if (("未上传").equals(stvInsuranceConsent.getRightString())) {
                         new TwoBtDialog(this, "不上传保险同意书，将不能顺利投保，发生意外由院方承担", "确认") {
                             @Override
                             public void confirm() {
-                                startActivity(new Intent(SendOrderPatientInfoActivity.this, SendOrderMedicalRecordInfoActivity.class).putExtra("sendOrderType", sendOrderType));
+                                startActivity(new Intent(SendOrderPatientInfoActivity.this, SendOrderMedicalRecordInfoActivity.class).putExtra("sendOrderData", sendOrderData));
                             }
                         }.show();
                     } else
-                        startActivity(new Intent(this, SendOrderMedicalRecordInfoActivity.class).putExtra("sendOrderType", sendOrderType));
+                        startActivity(new Intent(this, SendOrderMedicalRecordInfoActivity.class).putExtra("sendOrderData", sendOrderData));
                 } else
                     ToastUtil.showShortToast("请将信息填写完整！");
                 break;
@@ -274,6 +305,8 @@ public class SendOrderPatientInfoActivity extends BaseActivity<NarcosisListContr
     public void resultNarcosisList(NarcosisListBean data) {
         switch (data.getCode()) {
             case 200:
+                narcosisLists.clear();
+                narcosisLists.addAll(data.getData().getNarcosisList());
                 for (NarcosisListBean.DataBean.NarcosisListsBean datas : data.getData().getNarcosisList()) {
                     narcosisDataList.add(datas.getNarcosisTypeName());
                 }

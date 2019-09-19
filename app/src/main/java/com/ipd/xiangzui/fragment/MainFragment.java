@@ -60,10 +60,13 @@ import butterknife.BindView;
 import butterknife.OnClick;
 import io.reactivex.ObservableTransformer;
 
+import static com.ipd.xiangzui.common.config.IConstants.ADDRESS;
+import static com.ipd.xiangzui.common.config.IConstants.CITY;
+import static com.ipd.xiangzui.common.config.IConstants.DIST;
 import static com.ipd.xiangzui.common.config.IConstants.HOSPTIAL_NAME;
 import static com.ipd.xiangzui.common.config.IConstants.IS_SUPPLEMENT_INFO;
+import static com.ipd.xiangzui.common.config.IConstants.PROV;
 import static com.ipd.xiangzui.common.config.IConstants.SIGN;
-import static com.ipd.xiangzui.common.config.IConstants.SURGICAL_ADDRESS;
 import static com.ipd.xiangzui.common.config.IConstants.USER_ID;
 import static com.ipd.xiangzui.utils.isClickUtil.isFastClick;
 
@@ -339,7 +342,10 @@ public class MainFragment extends BaseFragment<HomeContract.View, HomeContract.P
         switch (data.getCode()) {
             case 200:
                 SPUtil.put(getContext(), HOSPTIAL_NAME, data.getData().getApprove().getTruename());
-                SPUtil.put(getContext(), SURGICAL_ADDRESS, data.getData().getApprove().getProv() + data.getData().getApprove().getCity() + data.getData().getApprove().getDist() + data.getData().getApprove().getAddress());
+                SPUtil.put(getContext(), PROV, data.getData().getApprove().getProv());
+                SPUtil.put(getContext(), CITY, data.getData().getApprove().getCity());
+                SPUtil.put(getContext(), DIST, data.getData().getApprove().getDist());
+                SPUtil.put(getContext(), ADDRESS, data.getData().getApprove().getAddress());
                 break;
             case 900:
                 ToastUtil.showLongToast(data.getMsg());

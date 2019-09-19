@@ -61,6 +61,7 @@
         app:sDividerLineType="none"
         app:sLeftTextColor="@color/black"
         app:sLeftTextString="连台手术数量"
+        app:sUseShape="true"
         app:sRightTextColor="@color/black" />
 
     <LinearLayout
@@ -88,31 +89,48 @@
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:background="@null"
+            android:inputType="number"
             android:gravity="center_vertical|end"
             android:hint="请输入预计费用"
-            android:textColor="@color/black" />
+            android:textColor="@color/tx_fee" />
     </LinearLayout>
 
-    <com.xuexiang.xui.widget.textview.supertextview.SuperTextView
+    <LinearLayout
         android:id="@+id/stv_add_fee"
         android:layout_width="0dp"
         android:layout_height="@dimen/y150"
-        android:paddingEnd="@dimen/x30"
-        android:paddingStart="@dimen/x30"
+        android:paddingEnd="@dimen/x50"
+        android:orientation="horizontal"
         app:layout_constraintEnd_toEndOf="parent"
+        android:background="@color/white"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/stv_surgery_num"
-        app:sDividerLineType="none"
-        app:sLeftTextColor="@color/black"
-        app:sLeftTextString="总计费用"
-        app:sRightTextColor="@color/orangered"
-        app:sUseShape="true" />
+        app:layout_constraintTop_toBottomOf="@+id/ll_add_fee"
+        android:paddingStart="@dimen/x50">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/black"
+            android:layout_gravity="center_vertical|start"
+            android:text="总计费用"/>
+
+        <TextView
+            android:id="@+id/tv_add_fee"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical|end"
+            android:gravity="end"
+            android:layout_weight="1"
+            android:text="¥ 0.00元"
+            android:textColor="@color/tx_fee" />
+    </LinearLayout>
 
     <androidx.appcompat.widget.AppCompatTextView
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_margin="@dimen/x50"
         android:textColor="@color/black"
+        android:textSize="12sp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/stv_add_fee"
         android:text="注: 总计费用包含平台服务费" />

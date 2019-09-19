@@ -205,6 +205,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/ll_patient_body_weight"
         app:sDividerLineType="none"
+        app:sRightMaxEms="20"
         app:sLeftTextColor="@color/black"
         app:sLeftTextString="拟麻醉方式"
         app:sRightIconRes="@drawable/ic_right_arrow"

@@ -8,6 +8,8 @@ import com.ipd.xiangzui.bean.NarcosisListBean;
 import com.ipd.xiangzui.bean.PwdLoginBean;
 import com.ipd.xiangzui.bean.RegistsBean;
 import com.ipd.xiangzui.bean.ResetPwdBean;
+import com.ipd.xiangzui.bean.SelectFeeBean;
+import com.ipd.xiangzui.bean.SendOrderBean;
 import com.ipd.xiangzui.bean.UploadImgBean;
 import com.ipd.xiangzui.bean.VerifiedBean;
 import com.ipd.xiangzui.bean.VerifiedTypeBean;
@@ -31,6 +33,8 @@ import static com.ipd.xiangzui.common.config.UrlConfig.NARCASIS_LIST;
 import static com.ipd.xiangzui.common.config.UrlConfig.PWD_LOGIN;
 import static com.ipd.xiangzui.common.config.UrlConfig.REGISTER;
 import static com.ipd.xiangzui.common.config.UrlConfig.RESET_PWD;
+import static com.ipd.xiangzui.common.config.UrlConfig.SELECT_FEE;
+import static com.ipd.xiangzui.common.config.UrlConfig.SEND_ORDER;
 import static com.ipd.xiangzui.common.config.UrlConfig.UPLOAD_IMG;
 import static com.ipd.xiangzui.common.config.UrlConfig.VERIFIED;
 import static com.ipd.xiangzui.common.config.UrlConfig.VERIFIED_TYPE;
@@ -97,6 +101,16 @@ public interface ApiService {
     @FormUrlEncoded
     @POST(NARCASIS_LIST)
     Observable<NarcosisListBean> getNarcosisList(@FieldMap Map<String, String> map);
+
+    //加急费-取消费用用信息查询
+    @FormUrlEncoded
+    @POST(SELECT_FEE)
+    Observable<SelectFeeBean> getSelectFee(@FieldMap Map<String, String> map);
+
+    //加急费-取消费用用信息查询
+    @FormUrlEncoded
+    @POST(SEND_ORDER)
+    Observable<SendOrderBean> getSendOrder(@FieldMap Map<String, String> map);
 
     //上传图片
     @Multipart

@@ -109,15 +109,6 @@ public class HeadActivity extends BaseActivity<UploadImgContract.View, UploadImg
         if (data != null) {
             switch (requestCode) {
                 case PictureConfig.CHOOSE_REQUEST:
-                    Glide.with(this)
-                            .load(PictureSelector.obtainMultipleResult(data).get(0).getCompressPath())
-                            .into(new SimpleTarget<Drawable>() {
-                                @Override
-                                public void onResourceReady(Drawable resource, Transition<? super Drawable> transition) {
-                                    rivHead.setImageDrawable(resource);
-                                }
-                            });
-
                     String picturePath = PictureSelector.obtainMultipleResult(data).get(0).getCompressPath();
                     TreeMap<String, RequestBody> map = new TreeMap<>();
                     map.put("file\";filename=\"" + ".jpeg", getImageRequestBody(picturePath));

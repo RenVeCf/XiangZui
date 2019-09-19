@@ -12,6 +12,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.annotation.Nullable;
+import androidx.appcompat.widget.AppCompatEditText;
 
 import com.bigkoo.pickerview.builder.OptionsPickerBuilder;
 import com.bigkoo.pickerview.builder.TimePickerBuilder;
@@ -25,9 +26,9 @@ import com.ipd.xiangzui.R;
 import com.ipd.xiangzui.base.BaseActivity;
 import com.ipd.xiangzui.base.BasePresenter;
 import com.ipd.xiangzui.base.BaseView;
+import com.ipd.xiangzui.bean.SendOrderDataBean;
 import com.ipd.xiangzui.common.view.TopView;
 import com.ipd.xiangzui.utils.ApplicationUtil;
-import com.ipd.xiangzui.utils.L;
 import com.ipd.xiangzui.utils.SPUtil;
 import com.ipd.xiangzui.utils.ToastUtil;
 import com.xuexiang.xui.widget.textview.supertextview.SuperTextView;
@@ -40,12 +41,12 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.OnClick;
 
+import static com.ipd.xiangzui.common.config.IConstants.ADDRESS;
+import static com.ipd.xiangzui.common.config.IConstants.CITY;
+import static com.ipd.xiangzui.common.config.IConstants.DIST;
 import static com.ipd.xiangzui.common.config.IConstants.HOSPTIAL_NAME;
+import static com.ipd.xiangzui.common.config.IConstants.PROV;
 import static com.ipd.xiangzui.common.config.IConstants.REQUEST_CODE_100;
-import static com.ipd.xiangzui.common.config.IConstants.SURGICAL_ADDRESS;
-import static com.ipd.xiangzui.common.config.IConstants.SURGICAL_DURATION;
-import static com.ipd.xiangzui.common.config.IConstants.SURGICAL_NAME;
-import static com.ipd.xiangzui.common.config.IConstants.SURGICAL_TIME;
 import static com.ipd.xiangzui.utils.DateUtils.timedate1;
 import static com.ipd.xiangzui.utils.StringUtils.isEmpty;
 import static com.ipd.xiangzui.utils.isClickUtil.isFastClick;
@@ -63,7 +64,7 @@ public class SendOrderSurgicalInfoActivity extends BaseActivity {
     @BindView(R.id.ll_surgical_name)
     LinearLayout llSurgicalName;
     @BindView(R.id.et_surgical_name)
-    EditText etSurgicalName;
+    AppCompatEditText etSurgicalName;
     @BindView(R.id.et_hospital_name)
     EditText etHospitalName;
     @BindView(R.id.stv_surgical_address)
@@ -108,7 +109,7 @@ public class SendOrderSurgicalInfoActivity extends BaseActivity {
     @Override
     public void initData() {
         etHospitalName.setText(SPUtil.get(this, HOSPTIAL_NAME, "") + "");
-        stvSurgicalAddress.setRightString(SPUtil.get(this, SURGICAL_ADDRESS, "") + "");
+        stvSurgicalAddress.setRightString(SPUtil.get(this, PROV, "") + "" + SPUtil.get(this, CITY, "") + SPUtil.get(this, DIST, "") + SPUtil.get(this, ADDRESS, ""));
     }
 
     @Override
@@ -233,6 +234,10 @@ public class SendOrderSurgicalInfoActivity extends BaseActivity {
         if (data != null) {
             switch (requestCode) {
                 case REQUEST_CODE_100:
+                    SPUtil.put(this, PROV, data.getStringExtra("prov"));
+                    SPUtil.put(this, CITY, data.getStringExtra("city"));
+                    SPUtil.put(this, DIST, data.getStringExtra("dist"));
+                    SPUtil.put(this, ADDRESS, data.getStringExtra("address"));
                     stvSurgicalAddress.setRightString(data.getStringExtra("prov") + data.getStringExtra("city") + data.getStringExtra("dist") + data.getStringExtra("address"));
                     break;
             }
@@ -253,16 +258,36 @@ public class SendOrderSurgicalInfoActivity extends BaseActivity {
                 break;
             case R.id.sb_next:
                 if (!isEmpty(etSurgicalName.getText().toString().trim()) && !isEmpty(etHospitalName.getText().toString().trim()) && !"请选择".equals(stvSurgicalAddress.getRightString()) && !"请选择".equals(stvSurgicalTime.getRightString()) && !"请选择".equals(stvSurgicalDuration.getRightString()) && sendOrderType == 1) {
-                    SPUtil.put(this, SURGICAL_NAME, etSurgicalName.getText().toString().trim());
-                    SPUtil.put(this, SURGICAL_TIME, stvSurgicalTime.getRightString());
-                    SPUtil.put(this, SURGICAL_DURATION, stvSurgicalDuration.getRightString().replaceAll("小时", ""));
+                    SendOrderDataBean sendOrderData = new SendOrderDataBean();
+                    SendOrderDataBean.OneOrderBean oneOrder = new SendOrderDataBean.OneOrderBean();
+                    oneOrder.setSurgicalName(etSurgicalName.getText().toString().trim());
+                    oneOrder.setHospitalName(etHospitalName.getText().toString().trim());
+                    oneOrder.setProv(SPUtil.get(this, PROV, "") + "");
+                    oneOrder.setCity(SPUtil.get(this, CITY, "") + "");
+                    oneOrder.setDist(SPUtil.get(this, DIST, "") + "");
+                    oneOrder.setAddress(SPUtil.get(this, ADDRESS, "") + "");
+                    oneOrder.setSurgicalTime(stvSurgicalTime.getRightString());
+                    oneOrder.setSurgicalDuration(stvSurgicalDuration.getRightString().replaceAll("小时", ""));
+                    sendOrderData.setSendOrderType(sendOrderType);
+                    sendOrderData.setOneOrderBean(oneOrder);
 
-                    startActivity(new Intent(this, SendOrderPatientInfoActivity.class).putExtra("sendOrderType", sendOrderType));
+                    startActivity(new Intent(this, SendOrderPatientInfoActivity.class).putExtra("sendOrderData", sendOrderData));
                 } else if (!isEmpty(etHospitalName.getText().toString().trim()) && !"请选择".equals(stvSurgicalAddress.getRightString()) && !"请选择".equals(stvSurgicalTime.getRightString()) && !"请选择".equals(stvSurgicalDuration.getRightString()) && sendOrderType == 2) {
-                    SPUtil.put(this, SURGICAL_TIME, stvSurgicalTime.getRightString());
-                    SPUtil.put(this, SURGICAL_DURATION, stvSurgicalDuration.getRightString().replaceAll("小时", ""));
+                    SendOrderDataBean sendOrderData = new SendOrderDataBean();
+                    List<SendOrderDataBean.TwoOrderBean> oneOrderList = new ArrayList<>();
+                    SendOrderDataBean.TwoOrderBean oneOrder = new SendOrderDataBean.TwoOrderBean();
+                    oneOrder.setHospitalName(etHospitalName.getText().toString().trim());
+                    oneOrder.setProv(SPUtil.get(this, PROV, "") + "");
+                    oneOrder.setCity(SPUtil.get(this, CITY, "") + "");
+                    oneOrder.setDist(SPUtil.get(this, DIST, "") + "");
+                    oneOrder.setAddress(SPUtil.get(this, ADDRESS, "") + "");
+                    oneOrder.setSurgicalTime(stvSurgicalTime.getRightString());
+                    oneOrder.setSurgicalDuration(stvSurgicalDuration.getRightString().replaceAll("小时", ""));
+                    oneOrderList.add(oneOrder);
+                    sendOrderData.setSendOrderType(sendOrderType);
+                    sendOrderData.setTwoOrderBean(oneOrderList);
 
-                    startActivity(new Intent(this, SendOrderPatientInfoActivity.class).putExtra("sendOrderType", sendOrderType));
+                    startActivity(new Intent(this, SendOrderPatientInfoActivity.class).putExtra("sendOrderData", sendOrderData));
                 } else
                     ToastUtil.showShortToast("请将资料填写完整!");
                 break;

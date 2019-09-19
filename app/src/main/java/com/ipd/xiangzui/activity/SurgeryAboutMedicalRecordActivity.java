@@ -9,21 +9,46 @@ import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.gson.Gson;
 import com.gyf.immersionbar.ImmersionBar;
 import com.ipd.xiangzui.R;
 import com.ipd.xiangzui.adapter.ImageSelectGridAdapter;
 import com.ipd.xiangzui.base.BaseActivity;
 import com.ipd.xiangzui.base.BasePresenter;
 import com.ipd.xiangzui.base.BaseView;
+import com.ipd.xiangzui.bean.UploadImgBean;
 import com.ipd.xiangzui.common.view.TopView;
 import com.ipd.xiangzui.utils.ApplicationUtil;
+import com.ipd.xiangzui.utils.MD5Utils;
+import com.ipd.xiangzui.utils.SPUtil;
+import com.ipd.xiangzui.utils.StringUtils;
+import com.ipd.xiangzui.utils.ToastUtil;
 import com.luck.picture.lib.PictureSelector;
 import com.luck.picture.lib.config.PictureConfig;
 import com.luck.picture.lib.config.PictureMimeType;
 import com.luck.picture.lib.entity.LocalMedia;
+import com.tbruyelle.rxpermissions2.RxPermissions;
+
+import java.io.File;
+import java.io.IOException;
 
 import butterknife.BindView;
 import butterknife.OnClick;
+import io.reactivex.functions.Consumer;
+import okhttp3.Call;
+import okhttp3.Callback;
+import okhttp3.MultipartBody;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.Response;
+
+import static android.Manifest.permission.CAMERA;
+import static android.Manifest.permission.WRITE_EXTERNAL_STORAGE;
+import static com.ipd.xiangzui.activity.HeadActivity.getImageRequestBody;
+import static com.ipd.xiangzui.common.config.IConstants.SIGN;
+import static com.ipd.xiangzui.common.config.UrlConfig.BASE_URL;
+import static com.ipd.xiangzui.common.config.UrlConfig.UPLOAD_IMGS;
+import static com.ipd.xiangzui.utils.isClickUtil.isFastClick;
 
 /**
  * Description ：发单-手术相关病历
@@ -73,7 +98,7 @@ public class SurgeryAboutMedicalRecordActivity extends BaseActivity implements I
         rvSurgeryAboutMedicalRecord.setItemAnimator(new DefaultItemAnimator()); //默认动画
 
         mAdapter = new ImageSelectGridAdapter(this, this);
-        mAdapter.setSelectMax(9);
+        mAdapter.setSelectMax(5);
         rvSurgeryAboutMedicalRecord.setAdapter(mAdapter);
     }
 
@@ -112,18 +137,71 @@ public class SurgeryAboutMedicalRecordActivity extends BaseActivity implements I
 
     @Override
     public void onAddPicClick() {
-        PictureSelector.create(SurgeryAboutMedicalRecordActivity.this)
-                .openGallery(PictureMimeType.ofImage())
-                .maxSelectNum(9)// 最大图片选择数量 int
-                .isCamera(true)
-                .compress(true)
-                .minimumCompressSize(100)
-                .forResult(PictureConfig.CHOOSE_REQUEST);
+        RxPermissions rxPermissions = new RxPermissions(this);
+        rxPermissions.request(CAMERA, WRITE_EXTERNAL_STORAGE).subscribe(new Consumer<Boolean>() {
+            @Override
+            public void accept(Boolean granted) throws Exception {
+                if (granted) {
+                    PictureSelector.create(SurgeryAboutMedicalRecordActivity.this)
+                            .openGallery(PictureMimeType.ofImage())
+                            .maxSelectNum(5)// 最大图片选择数量 int
+                            .isCamera(true)
+                            .compress(true)
+                            .minimumCompressSize(100)
+                            .forResult(PictureConfig.CHOOSE_REQUEST);
+                } else {
+                    // 权限被拒绝
+                    ToastUtil.showLongToast(R.string.permission_rejected);
+                }
+            }
+        });
     }
 
     @OnClick(R.id.bt_confirm)
     public void onViewClicked() {
-        setResult(RESULT_OK, new Intent().putExtra("is_upload", 1));
-        finish();
+        if (isFastClick()) {
+            MultipartBody.Builder bbb = new MultipartBody.Builder().setType(MultipartBody.FORM);
+            for (int i = 0; i < mAdapter.mList.size(); i++) {
+                File f = new File(mAdapter.mList.get(i).getCompressPath());
+                if (f != null) {
+                    bbb.addFormDataPart("file", f.getName(), getImageRequestBody(mAdapter.mList.get(i).getCompressPath()));
+                }
+            }
+            String sign = StringUtils.toUpperCase(MD5Utils.encodeMD5("{}" + SIGN));
+            bbb.addFormDataPart("sign", sign);
+
+            MultipartBody rrr = bbb.build();
+            Request r = new Request.Builder()
+                    .url(BASE_URL + UPLOAD_IMGS)
+                    .post(rrr)
+                    .build();
+            OkHttpClient client = new OkHttpClient();
+            client.newCall(r).enqueue(new Callback() {
+                @Override
+                public void onFailure(Call call, IOException e) {
+                    ToastUtil.showShortToast(e + "");
+//                dismissProgressDialog();
+                }
+
+                @Override
+                public void onResponse(Call call, Response response) throws IOException {
+                    UploadImgBean jsonTopicsBean = new Gson().fromJson(response.body().string(), UploadImgBean.class);
+                    ToastUtil.showLongToast(jsonTopicsBean.getMsg());
+                    switch (jsonTopicsBean.getCode()) {
+                        case 200:
+                            setResult(RESULT_OK, new Intent().putExtra("imgUrl", jsonTopicsBean.getFileName()));
+                            break;
+                        case 900:
+                            ToastUtil.showShortToast(jsonTopicsBean.getMsg());
+                            //清除所有临时储存
+                            SPUtil.clear(ApplicationUtil.getContext());
+                            ApplicationUtil.getManager().finishActivity(MainActivity.class);
+                            startActivity(new Intent(SurgeryAboutMedicalRecordActivity.this, CaptchaLoginActivity.class));
+                            finish();
+                            break;
+                    }
+                }
+            });
+        }
     }
 }
