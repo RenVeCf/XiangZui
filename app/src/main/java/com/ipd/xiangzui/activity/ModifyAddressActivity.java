@@ -20,11 +20,19 @@ import com.google.gson.Gson;
 import com.gyf.immersionbar.ImmersionBar;
 import com.ipd.xiangzui.R;
 import com.ipd.xiangzui.base.BaseActivity;
-import com.ipd.xiangzui.base.BasePresenter;
-import com.ipd.xiangzui.base.BaseView;
+import com.ipd.xiangzui.bean.AddAddressBean;
+import com.ipd.xiangzui.bean.AddressListBean;
 import com.ipd.xiangzui.bean.CityAddressBean;
+import com.ipd.xiangzui.bean.DelAddressBean;
+import com.ipd.xiangzui.bean.ModifyAddressBean;
 import com.ipd.xiangzui.common.view.TopView;
+import com.ipd.xiangzui.common.view.TwoBtDialog;
+import com.ipd.xiangzui.contract.AddressContract;
+import com.ipd.xiangzui.presenter.AddressPresenter;
 import com.ipd.xiangzui.utils.ApplicationUtil;
+import com.ipd.xiangzui.utils.MD5Utils;
+import com.ipd.xiangzui.utils.SPUtil;
+import com.ipd.xiangzui.utils.StringUtils;
 import com.ipd.xiangzui.utils.ToastUtil;
 import com.tbruyelle.rxpermissions2.RxPermissions;
 import com.xuexiang.xui.widget.textview.supertextview.SuperTextView;
@@ -35,13 +43,17 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
+import java.util.TreeMap;
 
 import butterknife.BindView;
 import butterknife.OnClick;
+import io.reactivex.ObservableTransformer;
 import io.reactivex.functions.Consumer;
 
 import static android.Manifest.permission.ACCESS_COARSE_LOCATION;
 import static android.Manifest.permission.ACCESS_FINE_LOCATION;
+import static com.ipd.xiangzui.common.config.IConstants.SIGN;
+import static com.ipd.xiangzui.common.config.IConstants.USER_ID;
 import static com.ipd.xiangzui.utils.isClickUtil.isFastClick;
 
 /**
@@ -50,7 +62,7 @@ import static com.ipd.xiangzui.utils.isClickUtil.isFastClick;
  * Email ： 942685687@qq.com
  * Time ： 2019/7/9.
  */
-public class ModifyAddressActivity extends BaseActivity {
+public class ModifyAddressActivity extends BaseActivity<AddressContract.View, AddressContract.Presenter> implements AddressContract.View {
 
     @BindView(R.id.tv_modify_address)
     TopView tvModifyAddress;
@@ -70,6 +82,8 @@ public class ModifyAddressActivity extends BaseActivity {
     private ArrayList<ArrayList<String>> options2Items = new ArrayList<>();
     private ArrayList<ArrayList<ArrayList<String>>> options3Items = new ArrayList<>();
     private int addressType; //1: 添加地址, 2:修改地址
+    private int addressId;
+    private String prov, city, dist;
 
     @Override
     public int getLayoutId() {
@@ -77,13 +91,13 @@ public class ModifyAddressActivity extends BaseActivity {
     }
 
     @Override
-    public BasePresenter createPresenter() {
-        return null;
+    public AddressContract.Presenter createPresenter() {
+        return new AddressPresenter(this);
     }
 
     @Override
-    public BaseView createView() {
-        return null;
+    public AddressContract.View createView() {
+        return this;
     }
 
     @Override
@@ -95,6 +109,7 @@ public class ModifyAddressActivity extends BaseActivity {
 
         initJsonData(); //加载地区选择器数据源
 
+        addressId = getIntent().getIntExtra("addressId", 0);
         addressType = getIntent().getIntExtra("addressType", 0);
         switch (addressType) {
             case 1:
@@ -103,6 +118,12 @@ public class ModifyAddressActivity extends BaseActivity {
                 break;
             case 2:
                 tvTopTitle.setText("修改地址");
+                prov = getIntent().getStringExtra("prov");
+                city = getIntent().getStringExtra("city");
+                dist = getIntent().getStringExtra("dist");
+                stvAddress.setCenterString(prov + " " + city + " " + dist);
+                etDetailedAddress.setText(getIntent().getStringExtra("address"));
+                cbDefaultAddress.setChecked("2".equals(getIntent().getStringExtra("defaultType")) ? true : false);
                 break;
         }
     }
@@ -143,10 +164,13 @@ public class ModifyAddressActivity extends BaseActivity {
             @Override
             public void onOptionsSelect(int options1, int options2, int options3, View v) {
                 //返回的分别是三个级别的选中位置
-                String city = options1Items.get(options1).getPickerViewText().replaceAll("市", "") + "  " +
-                        options2Items.get(options1).get(options2) + "  " +
-                        options3Items.get(options1).get(options2).get(options3);
-                stvAddress.setCenterString(city);
+                prov = options1Items.get(options1).getPickerViewText().replaceAll("市", "");
+                city = options2Items.get(options1).get(options2);
+                dist = options3Items.get(options1).get(options2).get(options3);
+                String citys = prov + "  " +
+                        city + "  " +
+                        dist;
+                stvAddress.setCenterString(citys);
             }
         })
                 .setLayoutRes(R.layout.pickerview_custom_options, new CustomListener() {
@@ -264,8 +288,16 @@ public class ModifyAddressActivity extends BaseActivity {
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.bt_top_del_address:
-                setResult(RESULT_OK, new Intent().putExtra("del_address", 1));
-                finish();
+                new TwoBtDialog(this, "确认删除地址？", "确认") {
+                    @Override
+                    public void confirm() {
+                        TreeMap<String, String> delAddressMap = new TreeMap<>();
+                        delAddressMap.put("userId", SPUtil.get(ModifyAddressActivity.this, USER_ID, "") + "");
+                        delAddressMap.put("addressId", addressId + "");
+                        delAddressMap.put("sign", StringUtils.toUpperCase(MD5Utils.encodeMD5(delAddressMap.toString().replaceAll(" ", "") + SIGN)));
+                        getPresenter().getDelAddress(delAddressMap, false, false);
+                    }
+                }.show();
                 break;
             case R.id.stv_address:
                 rxPermissionLocation();
@@ -274,14 +306,94 @@ public class ModifyAddressActivity extends BaseActivity {
                 if (isFastClick())
                     switch (addressType) {
                         case 1:
-                            setResult(RESULT_OK, new Intent().putExtra("add_address", 1));
+                            TreeMap<String, String> addAddressMap = new TreeMap<>();
+                            addAddressMap.put("userId", SPUtil.get(this, USER_ID, "") + "");
+                            addAddressMap.put("prov", prov);
+                            addAddressMap.put("city", city);
+                            addAddressMap.put("dist", dist);
+                            addAddressMap.put("detail", etDetailedAddress.getText().toString().trim());
+                            addAddressMap.put("defaultAddress", cbDefaultAddress.isChecked() ? "2" : "1");
+                            addAddressMap.put("sign", StringUtils.toUpperCase(MD5Utils.encodeMD5(addAddressMap.toString().replaceAll(" ", "") + SIGN)));
+                            getPresenter().getAddAddress(addAddressMap, false, false);
                             break;
                         case 2:
-                            setResult(RESULT_OK, new Intent().putExtra("modify_address", 1));
+                            TreeMap<String, String> modifyAddressMap = new TreeMap<>();
+                            modifyAddressMap.put("userId", SPUtil.get(this, USER_ID, "") + "");
+                            modifyAddressMap.put("prov", prov);
+                            modifyAddressMap.put("city", city);
+                            modifyAddressMap.put("dist", dist);
+                            modifyAddressMap.put("detail", etDetailedAddress.getText().toString().trim());
+                            modifyAddressMap.put("defaultAddress", cbDefaultAddress.isChecked() ? "2" : "1");
+                            modifyAddressMap.put("addressId", addressId + "");
+                            modifyAddressMap.put("sign", StringUtils.toUpperCase(MD5Utils.encodeMD5(modifyAddressMap.toString().replaceAll(" ", "") + SIGN)));
+                            getPresenter().getModifyAddress(modifyAddressMap, false, false);
                             break;
                     }
+                break;
+        }
+    }
+
+    @Override
+    public void resultAddressList(AddressListBean data) {
+
+    }
+
+    @Override
+    public void resultAddAddress(AddAddressBean data) {
+        switch (data.getCode()) {
+            case 200:
+                setResult(RESULT_OK, new Intent().putExtra("add_address", 1));
+                finish();
+                break;
+            case 900:
+                ToastUtil.showShortToast(data.getMsg());
+                //清除所有临时储存
+                SPUtil.clear(ApplicationUtil.getContext());
+                ApplicationUtil.getManager().finishActivity(MainActivity.class);
+                startActivity(new Intent(this, CaptchaLoginActivity.class));
                 finish();
                 break;
         }
+    }
+
+    @Override
+    public void resultModifyAddress(ModifyAddressBean data) {
+        switch (data.getCode()) {
+            case 200:
+                setResult(RESULT_OK, new Intent().putExtra("modify_address", 1));
+                finish();
+                break;
+            case 900:
+                ToastUtil.showShortToast(data.getMsg());
+                //清除所有临时储存
+                SPUtil.clear(ApplicationUtil.getContext());
+                ApplicationUtil.getManager().finishActivity(MainActivity.class);
+                startActivity(new Intent(this, CaptchaLoginActivity.class));
+                finish();
+                break;
+        }
+    }
+
+    @Override
+    public void resultDelAddress(DelAddressBean data) {
+        switch (data.getCode()) {
+            case 200:
+                setResult(RESULT_OK, new Intent().putExtra("del_address", 1));
+                finish();
+                break;
+            case 900:
+                ToastUtil.showShortToast(data.getMsg());
+                //清除所有临时储存
+                SPUtil.clear(ApplicationUtil.getContext());
+                ApplicationUtil.getManager().finishActivity(MainActivity.class);
+                startActivity(new Intent(this, CaptchaLoginActivity.class));
+                finish();
+                break;
+        }
+    }
+
+    @Override
+    public <T> ObservableTransformer<T, T> bindLifecycle() {
+        return this.bindToLifecycle();
     }
 }

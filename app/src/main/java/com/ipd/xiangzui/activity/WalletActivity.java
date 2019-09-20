@@ -14,20 +14,28 @@ import com.gyf.immersionbar.ImmersionBar;
 import com.ipd.xiangzui.R;
 import com.ipd.xiangzui.adapter.ConsumerDetailsAdapter;
 import com.ipd.xiangzui.base.BaseActivity;
-import com.ipd.xiangzui.base.BasePresenter;
-import com.ipd.xiangzui.base.BaseView;
-import com.ipd.xiangzui.bean.TestMultiItemEntityBean;
+import com.ipd.xiangzui.bean.WalletBean;
 import com.ipd.xiangzui.common.view.CustomLinearLayoutManager;
 import com.ipd.xiangzui.common.view.TopView;
+import com.ipd.xiangzui.contract.WalletContract;
+import com.ipd.xiangzui.presenter.WalletPresenter;
 import com.ipd.xiangzui.utils.ApplicationUtil;
-import com.ipd.xiangzui.utils.L;
+import com.ipd.xiangzui.utils.MD5Utils;
+import com.ipd.xiangzui.utils.SPUtil;
+import com.ipd.xiangzui.utils.StringUtils;
+import com.ipd.xiangzui.utils.ToastUtil;
 import com.xuexiang.xui.widget.textview.supertextview.SuperTextView;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.TreeMap;
 
 import butterknife.BindView;
 import butterknife.OnClick;
+import io.reactivex.ObservableTransformer;
+
+import static com.ipd.xiangzui.common.config.IConstants.SIGN;
+import static com.ipd.xiangzui.common.config.IConstants.USER_ID;
 
 /**
  * Description ：钱包
@@ -35,7 +43,7 @@ import butterknife.OnClick;
  * Email ： 942685687@qq.com
  * Time ： 2019/7/1.
  */
-public class WalletActivity extends BaseActivity {
+public class WalletActivity extends BaseActivity<WalletContract.View, WalletContract.Presenter> implements WalletContract.View {
 
     @BindView(R.id.tv_wallet)
     TopView tvWallet;
@@ -54,8 +62,9 @@ public class WalletActivity extends BaseActivity {
     @BindView(R.id.rv_consumer_details)
     RecyclerView rvConsumerDetails;
 
-    private List<TestMultiItemEntityBean> list = new ArrayList<>();
+    private List<WalletBean.DataBean.BalaListBean> balaList = new ArrayList<>();
     private ConsumerDetailsAdapter consumerDetailsAdapter;
+    private String balance; //余额
 
     @Override
     public int getLayoutId() {
@@ -63,13 +72,13 @@ public class WalletActivity extends BaseActivity {
     }
 
     @Override
-    public BasePresenter createPresenter() {
-        return null;
+    public WalletContract.Presenter createPresenter() {
+        return new WalletPresenter(this);
     }
 
     @Override
-    public BaseView createView() {
-        return null;
+    public WalletContract.View createView() {
+        return this;
     }
 
     @SuppressLint("WrongConstant")
@@ -87,22 +96,14 @@ public class WalletActivity extends BaseActivity {
         rvConsumerDetails.setNestedScrollingEnabled(false);
         rvConsumerDetails.setHasFixedSize(true);// 如果可以确定每个item的高度是固定的，设置这个选项可以提高性能
         rvConsumerDetails.setItemAnimator(new DefaultItemAnimator());//加载动画
-
-        for (int i = 0; i < 4; i++) {
-            TestMultiItemEntityBean testData = new TestMultiItemEntityBean();
-            list.add(testData);
-        }
-        rvConsumerDetails.setAdapter(consumerDetailsAdapter = new ConsumerDetailsAdapter(list));
-        consumerDetailsAdapter.bindToRecyclerView(rvConsumerDetails);
-        consumerDetailsAdapter.openLoadAnimation();
     }
 
     @Override
     public void initData() {
-        stvAccountBalance.setCenterString("500.00");
-        tvEarnestMoney.setText("500.00");
-        tvSumIncome.setText("500.00");
-        tvSumExpenditure.setText("500.00");
+        TreeMap<String, String> walletMap = new TreeMap<>();
+        walletMap.put("userId", SPUtil.get(this, USER_ID, "") + "");
+        walletMap.put("sign", StringUtils.toUpperCase(MD5Utils.encodeMD5(walletMap.toString().replaceAll(" ", "") + SIGN)));
+        getPresenter().getWallet(walletMap, false, false);
     }
 
     @Override
@@ -111,7 +112,7 @@ public class WalletActivity extends BaseActivity {
             @Override
             public void onClickListener() {
                 //更多收支明细
-
+                startActivity(new Intent(WalletActivity.this, MoveConsumerActivity.class));
             }
         });
 
@@ -119,9 +120,9 @@ public class WalletActivity extends BaseActivity {
             @Override
             public void onCheckedChanged(CompoundButton compoundButton, boolean isChecked) {
                 if (isChecked)
-                    stvAccountBalance.setCenterString("500.00");
+                    stvAccountBalance.setCenterString(balance);
                 else
-                    stvAccountBalance.setCenterString(stvAccountBalance.getCenterString().replaceAll("500.00", "******"));
+                    stvAccountBalance.setCenterString(stvAccountBalance.getCenterString().replaceAll(balance, "******"));
             }
         });
     }
@@ -131,6 +132,10 @@ public class WalletActivity extends BaseActivity {
         switch (view.getId()) {
             case R.id.stv_account_balance_type: //隐藏or显示金额
                 stvAccountBalanceType.setCheckBoxChecked(!stvAccountBalanceType.getCheckBoxIsChecked());
+                if (stvAccountBalanceType.getCheckBoxIsChecked())
+                    stvAccountBalance.setCenterString(balance);
+                else
+                    stvAccountBalance.setCenterString(stvAccountBalance.getCenterString().replaceAll(balance, "******"));
                 break;
             case R.id.sb_refund_deposit: //退还保证金
                 break;
@@ -141,5 +146,35 @@ public class WalletActivity extends BaseActivity {
                 startActivity(new Intent(this, RechargeActivity.class));
                 break;
         }
+    }
+
+    @Override
+    public void resultWallet(WalletBean data) {
+        switch (data.getCode()) {
+            case 200:
+                balance = data.getData().getBalance() + "";
+                stvAccountBalance.setCenterString(data.getData().getBalance() + "");
+                tvEarnestMoney.setText(data.getData().getMargin() + "");
+                tvSumIncome.setText(data.getData().getIncome() + "");
+                tvSumExpenditure.setText(data.getData().getExpend() + "");
+
+                rvConsumerDetails.setAdapter(consumerDetailsAdapter = new ConsumerDetailsAdapter(balaList));
+                consumerDetailsAdapter.bindToRecyclerView(rvConsumerDetails);
+                consumerDetailsAdapter.openLoadAnimation();
+                break;
+            case 900:
+                ToastUtil.showShortToast(data.getMsg());
+                //清除所有临时储存
+                SPUtil.clear(ApplicationUtil.getContext());
+                ApplicationUtil.getManager().finishActivity(MainActivity.class);
+                startActivity(new Intent(this, CaptchaLoginActivity.class));
+                finish();
+                break;
+        }
+    }
+
+    @Override
+    public <T> ObservableTransformer<T, T> bindLifecycle() {
+        return this.bindToLifecycle();
     }
 }

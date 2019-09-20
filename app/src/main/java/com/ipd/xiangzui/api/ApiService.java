@@ -1,11 +1,29 @@
 package com.ipd.xiangzui.api;
 
+import com.ipd.xiangzui.bean.AccountListBean;
+import com.ipd.xiangzui.bean.AddAccountBean;
+import com.ipd.xiangzui.bean.AddAddressBean;
+import com.ipd.xiangzui.bean.AddressListBean;
 import com.ipd.xiangzui.bean.CaptchaBean;
 import com.ipd.xiangzui.bean.CaptchaLoginBean;
+import com.ipd.xiangzui.bean.DelAccountBean;
+import com.ipd.xiangzui.bean.DelAddressBean;
+import com.ipd.xiangzui.bean.FeeRecordBean;
+import com.ipd.xiangzui.bean.FeedBackBean;
+import com.ipd.xiangzui.bean.GetUserInfoBean;
 import com.ipd.xiangzui.bean.HomeBean;
 import com.ipd.xiangzui.bean.HospitalNameBean;
+import com.ipd.xiangzui.bean.ModifyAccountBean;
+import com.ipd.xiangzui.bean.ModifyAddressBean;
+import com.ipd.xiangzui.bean.ModifyUserInfoBean;
+import com.ipd.xiangzui.bean.ModifyUserPwdBean;
+import com.ipd.xiangzui.bean.MsgListBean;
 import com.ipd.xiangzui.bean.NarcosisListBean;
+import com.ipd.xiangzui.bean.OpenInvoiceBean;
 import com.ipd.xiangzui.bean.PwdLoginBean;
+import com.ipd.xiangzui.bean.RechargeAccountPayBean;
+import com.ipd.xiangzui.bean.RechargeAliPayBean;
+import com.ipd.xiangzui.bean.RechargeWechatPayBean;
 import com.ipd.xiangzui.bean.RegistsBean;
 import com.ipd.xiangzui.bean.ResetPwdBean;
 import com.ipd.xiangzui.bean.SelectFeeBean;
@@ -13,6 +31,8 @@ import com.ipd.xiangzui.bean.SendOrderBean;
 import com.ipd.xiangzui.bean.UploadImgBean;
 import com.ipd.xiangzui.bean.VerifiedBean;
 import com.ipd.xiangzui.bean.VerifiedTypeBean;
+import com.ipd.xiangzui.bean.WalletBean;
+import com.ipd.xiangzui.bean.WithdrawAccountBean;
 
 import java.util.Map;
 
@@ -25,12 +45,30 @@ import retrofit2.http.POST;
 import retrofit2.http.PartMap;
 import retrofit2.http.Query;
 
+import static com.ipd.xiangzui.common.config.UrlConfig.ACCOUNT_LIST;
+import static com.ipd.xiangzui.common.config.UrlConfig.ADDRESS_LIST;
+import static com.ipd.xiangzui.common.config.UrlConfig.ADD_ACCOUNT;
+import static com.ipd.xiangzui.common.config.UrlConfig.ADD_ADDRESS;
 import static com.ipd.xiangzui.common.config.UrlConfig.CAPTCHA;
 import static com.ipd.xiangzui.common.config.UrlConfig.CAPTCHA_LOGIN;
+import static com.ipd.xiangzui.common.config.UrlConfig.DEL_ACCOUNT;
+import static com.ipd.xiangzui.common.config.UrlConfig.DEL_ADDRESS;
+import static com.ipd.xiangzui.common.config.UrlConfig.FEED_BACK;
+import static com.ipd.xiangzui.common.config.UrlConfig.FEE_RECORD;
+import static com.ipd.xiangzui.common.config.UrlConfig.GET_USER_INFO;
 import static com.ipd.xiangzui.common.config.UrlConfig.HOME;
 import static com.ipd.xiangzui.common.config.UrlConfig.HOSPITAL_NAME;
+import static com.ipd.xiangzui.common.config.UrlConfig.MODIFY_ACCOUNT;
+import static com.ipd.xiangzui.common.config.UrlConfig.MODIFY_ADDRESS;
+import static com.ipd.xiangzui.common.config.UrlConfig.MODIFY_USER_INFO;
+import static com.ipd.xiangzui.common.config.UrlConfig.MODIFY_USER_PWD;
+import static com.ipd.xiangzui.common.config.UrlConfig.MSG_LIST;
 import static com.ipd.xiangzui.common.config.UrlConfig.NARCASIS_LIST;
+import static com.ipd.xiangzui.common.config.UrlConfig.OPEN_INVOICE;
 import static com.ipd.xiangzui.common.config.UrlConfig.PWD_LOGIN;
+import static com.ipd.xiangzui.common.config.UrlConfig.RECHARGE_ACCOUNT_PAY;
+import static com.ipd.xiangzui.common.config.UrlConfig.RECHARGE_ALI_PAY;
+import static com.ipd.xiangzui.common.config.UrlConfig.RECHARGE_WECHAT_PAY;
 import static com.ipd.xiangzui.common.config.UrlConfig.REGISTER;
 import static com.ipd.xiangzui.common.config.UrlConfig.RESET_PWD;
 import static com.ipd.xiangzui.common.config.UrlConfig.SELECT_FEE;
@@ -38,6 +76,8 @@ import static com.ipd.xiangzui.common.config.UrlConfig.SEND_ORDER;
 import static com.ipd.xiangzui.common.config.UrlConfig.UPLOAD_IMG;
 import static com.ipd.xiangzui.common.config.UrlConfig.VERIFIED;
 import static com.ipd.xiangzui.common.config.UrlConfig.VERIFIED_TYPE;
+import static com.ipd.xiangzui.common.config.UrlConfig.WALLET;
+import static com.ipd.xiangzui.common.config.UrlConfig.WITHDRAW_ACCOUNT;
 
 /**
  * Description ：请求配置
@@ -216,37 +256,87 @@ public interface ApiService {
 //    @FormUrlEncoded
 //    @POST(GET_ORDER)
 //    Observable<GetOrderBean> getGetOrder(@FieldMap Map<String, String> map);
-//
-//    //修改用户信息----两个端通用
-//    @FormUrlEncoded
-//    @POST(MODIFY_USER_INFO)
-//    Observable<ModifyUserInfoBean> getModifyUserInfo(@FieldMap Map<String, String> map);
-//
-//    //修改密码--两个端通用
-//    @FormUrlEncoded
-//    @POST(MODIFY_USER_PWD)
-//    Observable<ModifyUserPwdBean> getModifyUserPwd(@FieldMap Map<String, String> map);
-//
-//    //钱包--列表--通用
-//    @FormUrlEncoded
-//    @POST(WALLET)
-//    Observable<WalletBean> getWallet(@FieldMap Map<String, String> map);
-//
-//    //充值-提现记录记录
-//    @FormUrlEncoded
-//    @POST(FEE_RECORD)
-//    Observable<FeeRecordBean> getFeeRecord(@FieldMap Map<String, String> map);
-//
-//    //充值-支付包
-//    @FormUrlEncoded
-//    @POST(RECHARGE_ALI_PAY)
-//    Observable<RechargeAliPayBean> getRechargeAliPay(@FieldMap Map<String, String> map);
-//
-//    //充值-微信充值
-//    @FormUrlEncoded
-//    @POST(RECHARGE_WECHAT_PAY)
-//    Observable<RechargeWechatPayBean> getRechargeWechatPay(@FieldMap Map<String, String> map);
-//
+
+    //修改用户信息----两个端通用
+    @FormUrlEncoded
+    @POST(MODIFY_USER_INFO)
+    Observable<ModifyUserInfoBean> getModifyUserInfo(@FieldMap Map<String, String> map);
+
+    //修改密码--两个端通用
+    @FormUrlEncoded
+    @POST(MODIFY_USER_PWD)
+    Observable<ModifyUserPwdBean> getModifyUserPwd(@FieldMap Map<String, String> map);
+
+    //钱包--列表--通用
+    @FormUrlEncoded
+    @POST(WALLET)
+    Observable<WalletBean> getWallet(@FieldMap Map<String, String> map);
+
+    //充值-提现记录记录
+    @FormUrlEncoded
+    @POST(FEE_RECORD)
+    Observable<FeeRecordBean> getFeeRecord(@FieldMap Map<String, String> map);
+
+    //医院端-地址列表
+    @FormUrlEncoded
+    @POST(ADDRESS_LIST)
+    Observable<AddressListBean> getAddressList(@FieldMap Map<String, String> map);
+
+    //医院端-添加地址
+    @FormUrlEncoded
+    @POST(ADD_ADDRESS)
+    Observable<AddAddressBean> getAddAddress(@FieldMap Map<String, String> map);
+
+    //医院端-修改地址
+    @FormUrlEncoded
+    @POST(MODIFY_ADDRESS)
+    Observable<ModifyAddressBean> getModifyAddress(@FieldMap Map<String, String> map);
+
+    //医院端-删除地址
+    @FormUrlEncoded
+    @POST(DEL_ADDRESS)
+    Observable<DelAddressBean> getDelAddress(@FieldMap Map<String, String> map);
+
+    //医院端-对公账户列表
+    @FormUrlEncoded
+    @POST(ACCOUNT_LIST)
+    Observable<AccountListBean> getAccountList(@FieldMap Map<String, String> map);
+
+    //医院端-对公账户添加
+    @FormUrlEncoded
+    @POST(ADD_ACCOUNT)
+    Observable<AddAccountBean> getAddAccount(@FieldMap Map<String, String> map);
+
+    //医院端-对公账户修改
+    @FormUrlEncoded
+    @POST(MODIFY_ACCOUNT)
+    Observable<ModifyAccountBean> getModifyAccount(@FieldMap Map<String, String> map);
+
+    //医院端-对公账户删除
+    @FormUrlEncoded
+    @POST(DEL_ACCOUNT)
+    Observable<DelAccountBean> getDelAccount(@FieldMap Map<String, String> map);
+
+    //提现-对公转账
+    @FormUrlEncoded
+    @POST(WITHDRAW_ACCOUNT)
+    Observable<WithdrawAccountBean> getWithdrawAccount(@FieldMap Map<String, String> map);
+
+    //充值-支付包
+    @FormUrlEncoded
+    @POST(RECHARGE_ALI_PAY)
+    Observable<RechargeAliPayBean> getRechargeAliPay(@FieldMap Map<String, String> map);
+
+    //充值-微信充值
+    @FormUrlEncoded
+    @POST(RECHARGE_WECHAT_PAY)
+    Observable<RechargeWechatPayBean> getRechargeWechatPay(@FieldMap Map<String, String> map);
+
+    //充值-对公转账
+    @FormUrlEncoded
+    @POST(RECHARGE_ACCOUNT_PAY)
+    Observable<RechargeAccountPayBean> getRechargeAccountPay(@FieldMap Map<String, String> map);
+
 //    //提现-支付包
 //    @FormUrlEncoded
 //    @POST(WITHDRAW_ALI_PAY)
@@ -256,22 +346,27 @@ public interface ApiService {
 //    @FormUrlEncoded
 //    @POST(COLLECTION_LIST)
 //    Observable<CollectionListBean> getCollectionList(@FieldMap Map<String, String> map);
-//
-//    //我的消息
-//    @FormUrlEncoded
-//    @POST(MSG_LIST)
-//    Observable<MsgListBean> getMsgList(@FieldMap Map<String, String> map);
-//
-//    //意见反馈
-//    @FormUrlEncoded
-//    @POST(FEED_BACK)
-//    Observable<FeedBackBean> getFeedBack(@FieldMap Map<String, String> map);
-//
-//    //通过用户id查询用户信息--两个端通用
-//    @FormUrlEncoded
-//    @POST(GET_USER_INFO)
-//    Observable<GetUserInfoBean> getGetUserInfo(@FieldMap Map<String, String> map);
-//
+
+    //我的消息
+    @FormUrlEncoded
+    @POST(MSG_LIST)
+    Observable<MsgListBean> getMsgList(@FieldMap Map<String, String> map);
+
+    //医生端-申请开票
+    @FormUrlEncoded
+    @POST(OPEN_INVOICE)
+    Observable<OpenInvoiceBean> getOpenInvoice(@FieldMap Map<String, String> map);
+
+    //意见反馈
+    @FormUrlEncoded
+    @POST(FEED_BACK)
+    Observable<FeedBackBean> getFeedBack(@FieldMap Map<String, String> map);
+
+    //通过用户id查询用户信息--两个端通用
+    @FormUrlEncoded
+    @POST(GET_USER_INFO)
+    Observable<GetUserInfoBean> getGetUserInfo(@FieldMap Map<String, String> map);
+
 //    //麻醉方式列表
 //    @FormUrlEncoded
 //    @POST(ANESTHESIA_LIST)

@@ -34,6 +34,7 @@ import java.io.IOException;
 
 import butterknife.BindView;
 import butterknife.OnClick;
+import cn.pedant.SweetAlert.SweetAlertDialog;
 import io.reactivex.functions.Consumer;
 import okhttp3.Call;
 import okhttp3.Callback;
@@ -65,6 +66,7 @@ public class SurgeryAboutMedicalRecordActivity extends BaseActivity implements I
     @BindView(R.id.rv_surgery_about_medical_record)
     RecyclerView rvSurgeryAboutMedicalRecord;
 
+    private SweetAlertDialog sad;
     private ImageSelectGridAdapter mAdapter;
 
     @Override
@@ -157,9 +159,29 @@ public class SurgeryAboutMedicalRecordActivity extends BaseActivity implements I
         });
     }
 
+    private void show() {
+        if (sad == null) {
+            sad = new SweetAlertDialog(this);
+            sad.changeAlertType(SweetAlertDialog.PROGRESS_TYPE);
+            sad.setTitleText(getResources().getString(R.string.loading));
+
+            if (!sad.isShowing()) {
+                sad.show();
+            }
+        }
+    }
+
+    private void dismissProgressDialog() {
+        if (sad != null) {
+            sad.dismiss();
+            sad = null;
+        }
+    }
+
     @OnClick(R.id.bt_confirm)
     public void onViewClicked() {
         if (isFastClick()) {
+            show();
             MultipartBody.Builder bbb = new MultipartBody.Builder().setType(MultipartBody.FORM);
             for (int i = 0; i < mAdapter.mList.size(); i++) {
                 File f = new File(mAdapter.mList.get(i).getCompressPath());
@@ -180,16 +202,18 @@ public class SurgeryAboutMedicalRecordActivity extends BaseActivity implements I
                 @Override
                 public void onFailure(Call call, IOException e) {
                     ToastUtil.showShortToast(e + "");
-//                dismissProgressDialog();
+                    dismissProgressDialog();
                 }
 
                 @Override
                 public void onResponse(Call call, Response response) throws IOException {
                     UploadImgBean jsonTopicsBean = new Gson().fromJson(response.body().string(), UploadImgBean.class);
                     ToastUtil.showLongToast(jsonTopicsBean.getMsg());
+                    dismissProgressDialog();
                     switch (jsonTopicsBean.getCode()) {
                         case 200:
                             setResult(RESULT_OK, new Intent().putExtra("imgUrl", jsonTopicsBean.getFileName()));
+                            finish();
                             break;
                         case 900:
                             ToastUtil.showShortToast(jsonTopicsBean.getMsg());

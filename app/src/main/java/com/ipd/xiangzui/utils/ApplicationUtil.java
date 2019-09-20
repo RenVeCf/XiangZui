@@ -4,7 +4,6 @@ import android.app.Activity;
 import android.app.Application;
 import android.content.Context;
 
-import com.ipd.xiangzui.common.view.LocationService;
 import com.xuexiang.xui.XUI;
 
 import java.lang.ref.WeakReference;
@@ -25,8 +24,6 @@ public class ApplicationUtil extends Application {
         super.onCreate();
         XUI.init(this); //初始化UI框架
         XUI.debug(true);  //开启UI框架调试日志
-        //百度定位
-        LocationService.get().init(this);
         mContext = getApplicationContext();
     }
 

@@ -229,11 +229,6 @@
             android:exported="false"
             android:launchMode="singleTask" />
         <activity
-            android:name=".activity.ConsumerDetailsActivity"
-            android:configChanges="screenSize|keyboardHidden|orientation|keyboard"
-            android:exported="false"
-            android:launchMode="singleTask" />
-        <activity
             android:name=".activity.FeedbackActivity"
             android:configChanges="screenSize|keyboardHidden|orientation|keyboard"
             android:exported="false"
@@ -275,6 +270,11 @@
             android:launchMode="singleTask" />
         <activity
             android:name=".activity.WebViewActivity"
+            android:configChanges="screenSize|keyboardHidden|orientation|keyboard"
+            android:exported="false"
+            android:launchMode="singleTask" />
+        <activity
+            android:name=".activity.MoveConsumerActivity"
             android:configChanges="screenSize|keyboardHidden|orientation|keyboard"
             android:exported="false"
             android:launchMode="singleTask" />

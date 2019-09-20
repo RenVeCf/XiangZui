@@ -57,9 +57,20 @@ public interface UrlConfig {
     String FEE_RECORD = "ah/wallet/recordList"; //充值-提现记录记录
     String RECHARGE_ALI_PAY = "ah/rechargePay/alipay"; //充值-支付包
     String RECHARGE_WECHAT_PAY = "ah/rechargePay/wechatPay"; //充值-微信充值
+    String RECHARGE_ACCOUNT_PAY = "ah/rechargePay/publicTransfer"; //充值-对公转账
     String WITHDRAW_ALI_PAY = "ah/wallet/payWithdrawal"; //提现-支付包
     String COLLECTION_LIST = "ad/collection/collectionList"; //我的收藏列表
     String MSG_LIST = "ah/user/userInfo"; //我的消息
     String FEED_BACK = "ah/setup/opinion"; //意见反馈
     String GET_USER_INFO = "ah/user/selectByUser"; //通过用户id查询用户信息--两个端通用
+    String ADDRESS_LIST = "ah/address/addrList"; //医院端-地址列表
+    String ADD_ADDRESS = "ah/address/insertAddr"; //医院端-添加地址
+    String MODIFY_ADDRESS = "ah/address/updateAddr"; //医院端-修改地址
+    String DEL_ADDRESS = "ah/address/deleteAddr"; //医院端-删除地址
+    String ACCOUNT_LIST = "ah/brought/broughtList"; //医院端-对公账户列表
+    String ADD_ACCOUNT = "ah/brought/addBrought"; //医院端-对公账户添加
+    String MODIFY_ACCOUNT = "ah/brought/updateBrought"; //医院端-对公账户修改
+    String DEL_ACCOUNT = "ah/brought/deleteBrought"; //医院端-对公账户删除
+    String OPEN_INVOICE = "ah/invoice/applyTicket"; //医生端-申请开票
+    String WITHDRAW_ACCOUNT = "ah/wallet/publecWithdrawal"; //提现-对公转账
 }

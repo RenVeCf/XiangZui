@@ -6,68 +6,27 @@
     android:layout_height="match_parent"
     tools:context=".activity.RechargeActivity">
 
-    <com.ipd.xiangzui.common.view.TopView
-        android:id="@+id/tv_recharge"
+    <LinearLayout
         android:layout_width="0dp"
-        android:layout_height="?attr/actionBarSize"
+        android:layout_height="@dimen/y150"
         android:background="@color/white"
-        android:gravity="bottom"
-        app:is_back="true"
-        app:is_recharge_record="true"
+        android:gravity="center"
+        android:orientation="horizontal"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:title="充值" />
+        app:layout_constraintStart_toStartOf="parent">
 
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/cl_service_fee"
-        android:layout_width="0dp"
-        android:layout_height="@dimen/y300"
-        android:layout_marginTop="@dimen/y20"
-        android:background="@color/white"
-        android:padding="@dimen/x50"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tv_recharge">
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="0dp"
-            android:text="充值金额"
-            android:textColor="@color/tx_bottom_navigation"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_weight="1" />
-
-        <LinearLayout
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintVertical_weight="2">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:gravity="center_vertical"
-                android:text="¥ "
-                android:textColor="@color/tx_bottom_navigation_select"
-                android:textSize="22sp" />
-
-            <EditText
-                android:id="@+id/et_service_fee"
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:background="@null"
-                android:gravity="center_vertical"
-                android:inputType="numberDecimal"
-                android:textColor="@color/black"
-                android:textSize="22sp" />
-        </LinearLayout>
-    </androidx.constraintlayout.widget.ConstraintLayout>
+        <com.xuexiang.xui.widget.textview.supertextview.SuperButton
+            android:id="@+id/sb_confirm"
+            style="@style/SuperButton.Blue"
+            android:layout_width="@dimen/x400"
+            android:layout_height="@dimen/y110"
+            android:text="确认"
+            app:sGradientEndColor="#4088FE"
+            app:sGradientOrientation="LEFT_RIGHT"
+            app:sGradientStartColor="#6BB6FF"
+            app:sGradientType="linear" />
+    </LinearLayout>
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="0dp"
@@ -77,6 +36,122 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/cl_service_fee">
+
+        <LinearLayout
+            android:id="@+id/ll_name"
+            android:layout_width="0dp"
+            android:layout_height="@dimen/y150"
+            android:background="@color/white"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            android:visibility="gone"
+            android:paddingStart="@dimen/x50"
+            android:paddingEnd="@dimen/x50"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/stv_account">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="收款公司名称"
+                android:textColor="@color/black" />
+
+            <TextView
+                android:id="@+id/tv_name"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="end"
+                android:textColor="@color/tx_bottom_navigation" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/ll_open_bank"
+            android:layout_width="0dp"
+            android:layout_height="@dimen/y150"
+            android:background="@color/white"
+            android:gravity="center_vertical"
+            android:visibility="gone"
+            android:orientation="horizontal"
+            android:paddingStart="@dimen/x50"
+            android:paddingEnd="@dimen/x50"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/ll_name">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="收款开户行"
+                android:textColor="@color/black" />
+
+            <TextView
+                android:id="@+id/tv_open_bank"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="end"
+                android:textColor="@color/tx_bottom_navigation" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/ll_bank_code"
+            android:layout_width="0dp"
+            android:layout_height="@dimen/y150"
+            android:background="@color/white"
+            android:gravity="center_vertical"
+            android:visibility="gone"
+            android:orientation="horizontal"
+            android:paddingStart="@dimen/x50"
+            android:paddingEnd="@dimen/x50"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/ll_open_bank">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="收款银行账号"
+                android:textColor="@color/black" />
+
+            <TextView
+                android:id="@+id/tv_bank_code"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="end"
+                android:textColor="@color/tx_bottom_navigation" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/ll_pay_code"
+            android:layout_width="0dp"
+            android:layout_height="@dimen/y150"
+            android:background="@color/white"
+            android:visibility="gone"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            android:paddingStart="@dimen/x50"
+            android:paddingEnd="@dimen/x50"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/ll_bank_code">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="支付账号"
+                android:textColor="@color/black" />
+
+            <TextView
+                android:id="@+id/tv_pay_code"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="end"
+                android:textColor="@color/tx_bottom_navigation" />
+        </LinearLayout>
 
         <TextView
             android:id="@+id/tv_withdraw_type"
@@ -141,25 +216,66 @@
             app:sRightIconRes="@drawable/select_radio_check" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
-    <LinearLayout
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/cl_service_fee"
         android:layout_width="0dp"
-        android:layout_height="@dimen/y150"
+        android:layout_height="@dimen/y300"
+        android:layout_marginTop="@dimen/y20"
         android:background="@color/white"
-        android:gravity="center"
-        android:orientation="horizontal"
-        app:layout_constraintBottom_toBottomOf="parent"
+        android:padding="@dimen/x50"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent">
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tv_recharge">
 
-        <com.xuexiang.xui.widget.textview.supertextview.SuperButton
-            android:id="@+id/sb_confirm"
-            style="@style/SuperButton.Blue"
-            android:layout_width="@dimen/x400"
-            android:layout_height="@dimen/y110"
-            app:sGradientType="linear"
-            app:sGradientStartColor="#6BB6FF"
-            app:sGradientEndColor="#4088FE"
-            app:sGradientOrientation="LEFT_RIGHT"
-            android:text="确认" />
-    </LinearLayout>
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintVertical_weight="2">
+
+            <EditText
+                android:id="@+id/et_service_fee"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:background="@null"
+                android:gravity="center_vertical"
+                android:inputType="numberDecimal"
+                android:textColor="@color/black"
+                android:textSize="22sp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:gravity="center_vertical"
+                android:text="¥ "
+                android:textColor="@color/tx_bottom_navigation_select"
+                android:textSize="22sp" />
+        </LinearLayout>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="0dp"
+            android:text="充值金额"
+            android:textColor="@color/tx_bottom_navigation"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_weight="1" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <com.ipd.xiangzui.common.view.TopView
+        android:id="@+id/tv_recharge"
+        android:layout_width="0dp"
+        android:layout_height="?attr/actionBarSize"
+        android:background="@color/white"
+        android:gravity="bottom"
+        app:is_back="true"
+        app:is_recharge_record="true"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:title="充值" />
 </androidx.constraintlayout.widget.ConstraintLayout>

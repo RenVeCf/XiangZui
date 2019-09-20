@@ -17,6 +17,16 @@
         app:layout_constraintTop_toTopOf="parent"
         app:title="享醉" />
 
+    <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+        android:id="@+id/srl_main"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:scrollbars="none"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tv_main">
+
     <com.ipd.xiangzui.common.view.BounceScrollView
         android:layout_width="0dp"
         android:layout_height="0dp"
@@ -120,4 +130,5 @@
             </LinearLayout>
         </LinearLayout>
     </com.ipd.xiangzui.common.view.BounceScrollView>
+    </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

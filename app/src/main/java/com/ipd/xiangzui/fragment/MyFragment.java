@@ -8,6 +8,7 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.widget.AppCompatTextView;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.RequestOptions;
 import com.bumptech.glide.request.target.SimpleTarget;
 import com.bumptech.glide.request.transition.Transition;
 import com.gyf.immersionbar.ImmersionBar;
@@ -24,12 +25,18 @@ import com.ipd.xiangzui.base.BaseFragment;
 import com.ipd.xiangzui.base.BasePresenter;
 import com.ipd.xiangzui.base.BaseView;
 import com.ipd.xiangzui.common.view.TopView;
+import com.ipd.xiangzui.utils.ApplicationUtil;
+import com.ipd.xiangzui.utils.SPUtil;
 import com.xuexiang.xui.widget.imageview.RadiusImageView;
 
 import butterknife.BindView;
 import butterknife.OnClick;
 
+import static com.ipd.xiangzui.common.config.IConstants.AVATAR;
+import static com.ipd.xiangzui.common.config.IConstants.IS_SUPPLEMENT_INFO;
+import static com.ipd.xiangzui.common.config.IConstants.NIKE_NAME;
 import static com.ipd.xiangzui.common.config.IConstants.REQUEST_CODE_101;
+import static com.ipd.xiangzui.common.config.UrlConfig.BASE_LOCAL_URL;
 
 /**
  * Description ：我的
@@ -83,9 +90,9 @@ public class MyFragment extends BaseFragment {
 
     @Override
     public void initData() {
-        ivHospitalHead.setImageResource(R.mipmap.ic_test_head);
-        tvHospitalName.setText("上海东方医院");
-        tvIsCertification.setText("未认证");
+        Glide.with(ApplicationUtil.getContext()).load(BASE_LOCAL_URL + SPUtil.get(getContext(), AVATAR, "")).apply(new RequestOptions().placeholder(R.mipmap.ic_test_head)).into(ivHospitalHead);
+        tvHospitalName.setText(SPUtil.get(getContext(), NIKE_NAME, "") + "");
+        tvIsCertification.setText("1".equals(SPUtil.get(getContext(), IS_SUPPLEMENT_INFO, "") + "") ? "未认证" : "认证了");
     }
 
     @Override
@@ -95,7 +102,7 @@ public class MyFragment extends BaseFragment {
             switch (requestCode) {
                 case REQUEST_CODE_101:
                     Glide.with(this)
-                            .load(data.getStringExtra("modify_head"))
+                            .load(BASE_LOCAL_URL + data.getStringExtra("modify_head"))
                             .into(new SimpleTarget<Drawable>() {
                                 @Override
                                 public void onResourceReady(Drawable resource, Transition<? super Drawable> transition) {

@@ -1,27 +1,37 @@
 package com.ipd.xiangzui.activity;
 
 import android.annotation.SuppressLint;
+import android.content.Intent;
 
-import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.gyf.immersionbar.ImmersionBar;
 import com.ipd.xiangzui.R;
-import com.ipd.xiangzui.adapter.ConsumerDetailsAdapter;
+import com.ipd.xiangzui.adapter.FeeRecordAdapter;
 import com.ipd.xiangzui.base.BaseActivity;
-import com.ipd.xiangzui.base.BasePresenter;
-import com.ipd.xiangzui.base.BaseView;
-import com.ipd.xiangzui.bean.TestMultiItemEntityBean;
+import com.ipd.xiangzui.bean.FeeRecordBean;
 import com.ipd.xiangzui.common.view.TopView;
+import com.ipd.xiangzui.contract.FeeRecordContract;
+import com.ipd.xiangzui.presenter.FeeRecordPresenter;
 import com.ipd.xiangzui.utils.ApplicationUtil;
+import com.ipd.xiangzui.utils.MD5Utils;
+import com.ipd.xiangzui.utils.SPUtil;
+import com.ipd.xiangzui.utils.StringUtils;
+import com.ipd.xiangzui.utils.ToastUtil;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.TreeMap;
 
 import butterknife.BindView;
+import io.reactivex.ObservableTransformer;
+
+import static com.ipd.xiangzui.common.config.IConstants.SIGN;
+import static com.ipd.xiangzui.common.config.IConstants.USER_ID;
 
 /**
  * Description ：提现记录
@@ -29,7 +39,7 @@ import butterknife.BindView;
  * Email ： 942685687@qq.com
  * Time ： 2019/7/12.
  */
-public class WithdrawalsRecordActivity extends BaseActivity {
+public class WithdrawalsRecordActivity extends BaseActivity<FeeRecordContract.View, FeeRecordContract.Presenter> implements FeeRecordContract.View {
 
     @BindView(R.id.tv_withdrawals_record)
     TopView tvWithdrawalsRecord;
@@ -38,8 +48,9 @@ public class WithdrawalsRecordActivity extends BaseActivity {
     @BindView(R.id.srl_withdrawals_record)
     SwipeRefreshLayout srlWithdrawalsRecord;
 
-    private List<TestMultiItemEntityBean> list;
-    private ConsumerDetailsAdapter consumerDetailsAdapter;
+    private List<FeeRecordBean.DataBean.RecordListBean> recordList = new ArrayList<>();
+    private FeeRecordAdapter feeRecordAdapter;
+    private int pageNum = 1;//页数
 
     @Override
     public int getLayoutId() {
@@ -47,13 +58,13 @@ public class WithdrawalsRecordActivity extends BaseActivity {
     }
 
     @Override
-    public BasePresenter createPresenter() {
-        return null;
+    public FeeRecordContract.Presenter createPresenter() {
+        return new FeeRecordPresenter(this);
     }
 
     @Override
-    public BaseView createView() {
-        return null;
+    public FeeRecordContract.View createView() {
+        return this;
     }
 
     @SuppressLint("WrongConstant")
@@ -71,23 +82,17 @@ public class WithdrawalsRecordActivity extends BaseActivity {
         rvWithdrawalsRecord.setHasFixedSize(true);// 如果可以确定每个item的高度是固定的，设置这个选项可以提高性能
         rvWithdrawalsRecord.setItemAnimator(new DefaultItemAnimator());//加载动画
         srlWithdrawalsRecord.setColorSchemeResources(R.color.tx_bottom_navigation_select);//刷新圈颜色
-
-        list = new ArrayList<>();
-        for (int i = 0; i < 4; i++) {
-            list.add(new TestMultiItemEntityBean());
-        }
-        consumerDetailsAdapter = new ConsumerDetailsAdapter(list);
-        rvWithdrawalsRecord.setAdapter(consumerDetailsAdapter);
-        consumerDetailsAdapter.bindToRecyclerView(rvWithdrawalsRecord);
-        consumerDetailsAdapter.setEnableLoadMore(true);
-        consumerDetailsAdapter.openLoadAnimation();
-        consumerDetailsAdapter.disableLoadMoreIfNotFullPage();
     }
 
     @Override
     public void initData() {
-        consumerDetailsAdapter.loadMoreComplete();
-        consumerDetailsAdapter.loadMoreEnd();
+        TreeMap<String, String> feeRecordMap = new TreeMap<>();
+        feeRecordMap.put("userId", SPUtil.get(this, USER_ID, "") + "");
+        feeRecordMap.put("balanceType", "2");
+        feeRecordMap.put("pageNum", pageNum + "");
+        feeRecordMap.put("pageSize", "10");
+        feeRecordMap.put("sign", StringUtils.toUpperCase(MD5Utils.encodeMD5(feeRecordMap.toString().replaceAll(" ", "") + SIGN)));
+        getPresenter().getFeeRecord(feeRecordMap, false, false);
     }
 
     @Override
@@ -100,13 +105,72 @@ public class WithdrawalsRecordActivity extends BaseActivity {
                 srlWithdrawalsRecord.setRefreshing(false);
             }
         });
+    }
 
-        //上拉加载
-        consumerDetailsAdapter.setOnLoadMoreListener(new BaseQuickAdapter.RequestLoadMoreListener() {
-            @Override
-            public void onLoadMoreRequested() {
-                initData();
-            }
-        }, rvWithdrawalsRecord);
+    @Override
+    public void resultFeeRecord(FeeRecordBean data) {
+        switch (data.getCode()) {
+            case 200:
+                if (data.getTotal() > 0) {
+                    if (pageNum == 1) {
+                        recordList.clear();
+                        recordList.addAll(data.getData().getRecordList());
+                        feeRecordAdapter = new FeeRecordAdapter(recordList);
+                        rvWithdrawalsRecord.setAdapter(feeRecordAdapter);
+                        feeRecordAdapter.bindToRecyclerView(rvWithdrawalsRecord);
+                        feeRecordAdapter.setEnableLoadMore(true);
+                        feeRecordAdapter.openLoadAnimation();
+                        feeRecordAdapter.disableLoadMoreIfNotFullPage();
+
+                        //上拉加载
+                        feeRecordAdapter.setOnLoadMoreListener(new BaseQuickAdapter.RequestLoadMoreListener() {
+                            @Override
+                            public void onLoadMoreRequested() {
+                                rvWithdrawalsRecord.postDelayed(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        initData();
+                                    }
+                                }, 1000);
+                            }
+                        }, rvWithdrawalsRecord);
+
+                        if (data.getTotal() > 10) {
+                            pageNum += 1;
+                        } else {
+                            feeRecordAdapter.loadMoreEnd();
+                        }
+                    } else {
+                        if ((data.getTotal() - pageNum * 10) > 0) {
+                            pageNum += 1;
+                            feeRecordAdapter.addData(data.getData().getRecordList());
+                            feeRecordAdapter.loadMoreComplete(); //完成本次
+                        } else {
+                            feeRecordAdapter.addData(data.getData().getRecordList());
+                            feeRecordAdapter.loadMoreEnd(); //完成所有加载
+                        }
+                    }
+                } else {
+                    recordList.clear();
+                    feeRecordAdapter = new FeeRecordAdapter(recordList);
+                    rvWithdrawalsRecord.setAdapter(feeRecordAdapter);
+                    feeRecordAdapter.loadMoreEnd(); //完成所有加载
+                    feeRecordAdapter.setEmptyView(R.layout.null_data, rvWithdrawalsRecord);
+                }
+                break;
+            case 900:
+                ToastUtil.showLongToast(data.getMsg());
+                //清除所有临时储存
+                SPUtil.clear(ApplicationUtil.getContext());
+                ApplicationUtil.getManager().finishActivity(MainActivity.class);
+                startActivity(new Intent(this, CaptchaLoginActivity.class));
+                finish();
+                break;
+        }
+    }
+
+    @Override
+    public <T> ObservableTransformer<T, T> bindLifecycle() {
+        return this.bindToLifecycle();
     }
 }

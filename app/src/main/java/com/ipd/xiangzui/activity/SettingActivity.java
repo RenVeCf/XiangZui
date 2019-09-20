@@ -103,7 +103,8 @@ public class SettingActivity extends BaseActivity {
                 }
                 break;
             case R.id.tv_platform_agreement:
-                startActivity(new Intent(this, PlatformAgreementActivity.class));
+                startActivity(new Intent(this, WebViewActivity.class).putExtra("h5Type", 2));
+//                startActivity(new Intent(this, PlatformAgreementActivity.class));
                 break;
         }
     }

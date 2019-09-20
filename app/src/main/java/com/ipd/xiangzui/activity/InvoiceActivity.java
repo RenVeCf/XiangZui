@@ -1,18 +1,30 @@
 package com.ipd.xiangzui.activity;
 
+import android.content.Intent;
 import android.widget.EditText;
 import android.widget.RadioButton;
 
 import com.gyf.immersionbar.ImmersionBar;
 import com.ipd.xiangzui.R;
 import com.ipd.xiangzui.base.BaseActivity;
-import com.ipd.xiangzui.base.BasePresenter;
-import com.ipd.xiangzui.base.BaseView;
+import com.ipd.xiangzui.bean.OpenInvoiceBean;
 import com.ipd.xiangzui.common.view.TopView;
+import com.ipd.xiangzui.contract.OpenInvoiceContract;
+import com.ipd.xiangzui.presenter.OpenInvoicePresenter;
 import com.ipd.xiangzui.utils.ApplicationUtil;
+import com.ipd.xiangzui.utils.MD5Utils;
+import com.ipd.xiangzui.utils.SPUtil;
+import com.ipd.xiangzui.utils.StringUtils;
+import com.ipd.xiangzui.utils.ToastUtil;
+
+import java.util.TreeMap;
 
 import butterknife.BindView;
 import butterknife.OnClick;
+import io.reactivex.ObservableTransformer;
+
+import static com.ipd.xiangzui.common.config.IConstants.SIGN;
+import static com.ipd.xiangzui.common.config.IConstants.USER_ID;
 
 /**
  * Description ：申请开票
@@ -20,7 +32,7 @@ import butterknife.OnClick;
  * Email ： 942685687@qq.com
  * Time ： 2019/8/28.
  */
-public class InvoiceActivity extends BaseActivity {
+public class InvoiceActivity extends BaseActivity<OpenInvoiceContract.View, OpenInvoiceContract.Presenter> implements OpenInvoiceContract.View {
 
     @BindView(R.id.rb_start)
     RadioButton rbStart;
@@ -55,13 +67,13 @@ public class InvoiceActivity extends BaseActivity {
     }
 
     @Override
-    public BasePresenter createPresenter() {
-        return null;
+    public OpenInvoiceContract.Presenter createPresenter() {
+        return new OpenInvoicePresenter(this);
     }
 
     @Override
-    public BaseView createView() {
-        return null;
+    public OpenInvoiceContract.View createView() {
+        return this;
     }
 
     @Override
@@ -84,6 +96,41 @@ public class InvoiceActivity extends BaseActivity {
 
     @OnClick(R.id.bt_confirm)
     public void onViewClicked() {
-        finish();
+        TreeMap<String, String> openInvoiceMap = new TreeMap<>();
+        openInvoiceMap.put("userId", SPUtil.get(this, USER_ID, "") + "");
+        openInvoiceMap.put("invoiceType", rbStart.isChecked() ? "1" : "2");
+        openInvoiceMap.put("companyName", etCompanyName.getText().toString().trim());
+        openInvoiceMap.put("ein", etTaxCode.getText().toString().trim());
+        openInvoiceMap.put("companyAddress", etCompanyAddress.getText().toString().trim());
+        openInvoiceMap.put("telPhone", etPhone.getText().toString().trim());
+        openInvoiceMap.put("openBank", etOpenBank.getText().toString().trim());
+        openInvoiceMap.put("bankAccount", etBankCode.getText().toString().trim());
+        openInvoiceMap.put("courierAddress", etDeliveryAddress.getText().toString().trim());
+        openInvoiceMap.put("contacts", etContact.getText().toString().trim());
+        openInvoiceMap.put("contactNumber", etContactPhone.getText().toString().trim());
+        openInvoiceMap.put("sign", StringUtils.toUpperCase(MD5Utils.encodeMD5(openInvoiceMap.toString().replaceAll(" ", "") + SIGN)));
+        getPresenter().getOpenInvoice(openInvoiceMap, false, false);
+    }
+
+    @Override
+    public void resultOpenInvoice(OpenInvoiceBean data) {
+        switch (data.getCode()) {
+            case 200:
+                finish();
+                break;
+            case 900:
+                ToastUtil.showShortToast(data.getMsg());
+                //清除所有临时储存
+                SPUtil.clear(ApplicationUtil.getContext());
+                ApplicationUtil.getManager().finishActivity(MainActivity.class);
+                startActivity(new Intent(this, CaptchaLoginActivity.class));
+                finish();
+                break;
+        }
+    }
+
+    @Override
+    public <T> ObservableTransformer<T, T> bindLifecycle() {
+        return this.bindToLifecycle();
     }
 }
