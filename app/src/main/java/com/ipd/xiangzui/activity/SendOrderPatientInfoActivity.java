@@ -278,7 +278,7 @@ public class SendOrderPatientInfoActivity extends BaseActivity<NarcosisListContr
                     } else {
                         sendOrderData.getOneOrderBean().setPatientName(etPatientName.getText().toString().trim());
                         sendOrderData.getOneOrderBean().setPatientSex(stvPatientSex.getRightString());
-                        sendOrderData.getOneOrderBean().setPatientAge(stvPatientAge.getRightString());
+                        sendOrderData.getOneOrderBean().setPatientAge(stvPatientAge.getRightString().replaceAll(" 岁", ""));
                         sendOrderData.getOneOrderBean().setPatientHeight(etPatientHeight.getText().toString().trim());
                         sendOrderData.getOneOrderBean().setPatientBodyWeight(etPatientBodyWeight.getText().toString().trim());
                         sendOrderData.getOneOrderBean().setNarcosisId(narcosisId + "");

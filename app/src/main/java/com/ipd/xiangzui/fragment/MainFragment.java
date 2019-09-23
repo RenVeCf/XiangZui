@@ -17,11 +17,9 @@ import com.gyf.immersionbar.ImmersionBar;
 import com.ipd.xiangzui.R;
 import com.ipd.xiangzui.activity.AuthenticationActivity;
 import com.ipd.xiangzui.activity.CaptchaLoginActivity;
-import com.ipd.xiangzui.activity.ExpertActivity;
 import com.ipd.xiangzui.activity.MainActivity;
 import com.ipd.xiangzui.activity.OrderActivity;
 import com.ipd.xiangzui.activity.OrderDetailsActivity;
-import com.ipd.xiangzui.activity.RentEquipmentActivity;
 import com.ipd.xiangzui.activity.SendOrderActivity;
 import com.ipd.xiangzui.activity.VipActivity;
 import com.ipd.xiangzui.activity.WalletActivity;
@@ -32,7 +30,6 @@ import com.ipd.xiangzui.adapter.RecyclerViewBannerAdapter;
 import com.ipd.xiangzui.base.BaseFragment;
 import com.ipd.xiangzui.bean.HomeBean;
 import com.ipd.xiangzui.bean.HospitalNameBean;
-import com.ipd.xiangzui.bean.TestMultiItemEntityBean;
 import com.ipd.xiangzui.bean.VerifiedTypeBean;
 import com.ipd.xiangzui.common.view.CustomLinearLayoutManager;
 import com.ipd.xiangzui.common.view.EditDialog;
@@ -69,6 +66,7 @@ import static com.ipd.xiangzui.common.config.IConstants.IS_SUPPLEMENT_INFO;
 import static com.ipd.xiangzui.common.config.IConstants.PROV;
 import static com.ipd.xiangzui.common.config.IConstants.SIGN;
 import static com.ipd.xiangzui.common.config.IConstants.USER_ID;
+import static com.ipd.xiangzui.common.config.UrlConfig.BASE_LOCAL_URL;
 import static com.ipd.xiangzui.utils.isClickUtil.isFastClick;
 
 /**
@@ -91,9 +89,8 @@ public class MainFragment extends BaseFragment<HomeContract.View, HomeContract.P
     @BindView(R.id.srl_main)
     SwipeRefreshLayout srlMain;
 
-    private List<TestMultiItemEntityBean> str = new ArrayList<>();//轮播
     private List<Integer> itr = new ArrayList<>();//菜单
-    private List<TestMultiItemEntityBean> str1 = new ArrayList<>();//更多订单
+    private List<HomeBean.DataBean.OrderListBean> orderList = new ArrayList<>();//更多订单
     private MainGridAdapter mainGridAdapter;
     private MainOrderAdapter mainOrderAdapter;
     private RecyclerViewBannerAdapter recyclerViewBannerAdapter;
@@ -149,15 +146,6 @@ public class MainFragment extends BaseFragment<HomeContract.View, HomeContract.P
         rvMoreOrder.addItemDecoration(new SpacesItemDecoration(1, 50));
         rvMoreOrder.setHasFixedSize(true);// 如果可以确定每个item的高度是固定的，设置这个选项可以提高性能
         rvMoreOrder.setItemAnimator(new DefaultItemAnimator());//加载动画
-
-        for (int i = 0; i < 2; i++) {
-            TestMultiItemEntityBean testData = new TestMultiItemEntityBean();
-            testData.setOrderType("0");
-            str1.add(testData);
-        }
-        rvMoreOrder.setAdapter(mainOrderAdapter = new MainOrderAdapter(str1));
-        mainOrderAdapter.bindToRecyclerView(rvMoreOrder);
-        mainOrderAdapter.openLoadAnimation();
     }
 
     @Override
@@ -205,61 +193,25 @@ public class MainFragment extends BaseFragment<HomeContract.View, HomeContract.P
                         break;
                     case 3:
                         //保险
+                        startActivity(new Intent(getContext(), WebViewActivity.class).putExtra("h5Type", 4));
                         break;
                     case 4:
                         //VIP服务
-                        startActivity(new Intent(getContext(), VipActivity.class));
+                        startActivity(new Intent(getContext(), VipActivity.class).putExtra("h5Url", BASE_LOCAL_URL + "H5/document/vipService.html").putExtra("demandType", 1));
                         break;
                     case 5:
                         //专家会诊
-                        startActivity(new Intent(getContext(), ExpertActivity.class));
+//                        startActivity(new Intent(getContext(), ExpertActivity.class));
+                        startActivity(new Intent(getContext(), VipActivity.class).putExtra("h5Url", BASE_LOCAL_URL + "H5/document/expertConsultation.html").putExtra("demandType", 2));
                         break;
                     case 6:
                         //麻醉筹建
-                        startActivity(new Intent(getContext(), VipActivity.class));
+                        startActivity(new Intent(getContext(), VipActivity.class).putExtra("h5Url", BASE_LOCAL_URL + "H5/document/anesthesia.html").putExtra("demandType", 3));
                         break;
                     case 7:
                         //设备租赁
-                        startActivity(new Intent(getContext(), RentEquipmentActivity.class));
-                        break;
-                }
-            }
-        });
-
-        mainOrderAdapter.setOnItemChildClickListener(new BaseQuickAdapter.OnItemChildClickListener() {
-            @Override
-            public void onItemChildClick(BaseQuickAdapter adapter, View view, int position) {
-                switch (view.getId()) {
-                    case R.id.cv_order_item:
-                    case R.id.stv_start_time:
-                    case R.id.stv_fee:
-                    case R.id.stv_name:
-                    case R.id.stv_address:
-                        startActivity(new Intent(getContext(), OrderDetailsActivity.class).putExtra("surgery_type", 1).putExtra("order_type", "0"));
-                        break;
-                    case R.id.bt_first:
-                        if (isFastClick())
-                            new TwoBtDialog(getActivity(), "确认取消订单？", "确认") {
-                                @Override
-                                public void confirm() {
-                                    str1.remove(position);
-                                    mainOrderAdapter.notifyDataSetChanged();
-                                    mainOrderAdapter.setEmptyView(R.layout.null_data, rvMoreOrder);
-                                }
-                            }.show();
-                        break;
-                    case R.id.bt_second:
-                        if (isFastClick())
-                            startActivity(new Intent(getContext(), SendOrderActivity.class));
-                        break;
-                    case R.id.bt_third:
-                        if (isFastClick())
-                            new EditDialog(getActivity()) {
-                                @Override
-                                public void confirm(String content) {
-
-                                }
-                            }.show();
+//                        startActivity(new Intent(getContext(), RentEquipmentActivity.class));
+                        startActivity(new Intent(getContext(), VipActivity.class).putExtra("h5Url", BASE_LOCAL_URL + "H5/document/equipmentRental.html").putExtra("demandType", 4));
                         break;
                 }
             }
@@ -304,10 +256,10 @@ public class MainFragment extends BaseFragment<HomeContract.View, HomeContract.P
                             case "1"://无链接
                                 break;
                             case "2"://有链接
-                                startActivity(new Intent(getContext(), WebViewActivity.class).putExtra("h5Type", 5).putExtra("h5Url", data.getData().getPictureList().get(position).getUrl()));
+                                startActivity(new Intent(getContext(), WebViewActivity.class).putExtra("h5Type", 9).putExtra("h5Url", data.getData().getPictureList().get(position).getUrl()));
                                 break;
                             case "3"://文本内容
-                                startActivity(new Intent(getContext(), WebViewActivity.class).putExtra("h5Type", 6).putExtra("h5_url", data.getData().getPictureList().get(position).getContent()));
+                                startActivity(new Intent(getContext(), WebViewActivity.class).putExtra("h5Type", 10).putExtra("h5_url", data.getData().getPictureList().get(position).getContent()));
                                 break;
                         }
                     }
@@ -322,6 +274,55 @@ public class MainFragment extends BaseFragment<HomeContract.View, HomeContract.P
 //        mvHorn.setAnimInAndOut(R.anim.marquee_top_in, R.anim.marquee_bottom_out);
                 mvHorn.setMarqueeFactory(marqueeFactory);
                 mvHorn.startFlipping();
+
+                //已发订单
+                orderList.clear();
+                orderList.addAll(data.getData().getOrderList());
+                rvMoreOrder.setAdapter(mainOrderAdapter = new MainOrderAdapter(orderList));
+                mainOrderAdapter.bindToRecyclerView(rvMoreOrder);
+                mainOrderAdapter.openLoadAnimation();
+
+                mainOrderAdapter.setOnItemChildClickListener(new BaseQuickAdapter.OnItemChildClickListener() {
+                    @Override
+                    public void onItemChildClick(BaseQuickAdapter adapter, View view, int position) {
+                        switch (view.getId()) {
+                            case R.id.cv_order_item:
+                            case R.id.stv_start_time:
+                            case R.id.stv_fee:
+                            case R.id.stv_name:
+                            case R.id.stv_address:
+                                if ("2".equals(SPUtil.get(getContext(), IS_SUPPLEMENT_INFO, "")))
+                                    startActivity(new Intent(getContext(), OrderDetailsActivity.class).putExtra("order_status", data.getData().getOrderList().get(position).getStatus()).putExtra("orderId", data.getData().getOrderList().get(position).getOrderId()).putExtra("surgery_type", 1).putExtra("order_type", "1"));
+                                else
+                                    ToastUtil.showShortToast("您的身份尚未认证,请您先去认证！");
+                                break;
+                            case R.id.bt_first:
+                                if (isFastClick())
+                                    new TwoBtDialog(getActivity(), "确认取消订单？", "确认") {
+                                        @Override
+                                        public void confirm() {
+                                            orderList.remove(position);
+                                            mainOrderAdapter.notifyDataSetChanged();
+                                            mainOrderAdapter.setEmptyView(R.layout.null_data, rvMoreOrder);
+                                        }
+                                    }.show();
+                                break;
+                            case R.id.bt_second:
+                                if (isFastClick())
+                                    startActivity(new Intent(getContext(), SendOrderActivity.class));
+                                break;
+                            case R.id.bt_third:
+                                if (isFastClick())
+                                    new EditDialog(getActivity()) {
+                                        @Override
+                                        public void confirm(String content) {
+
+                                        }
+                                    }.show();
+                                break;
+                        }
+                    }
+                });
                 break;
             case 900:
                 ToastUtil.showLongToast(data.getMsg());

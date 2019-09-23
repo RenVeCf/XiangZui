@@ -73,15 +73,29 @@ public class WebViewActivity extends BaseActivity {
             case 3: //关于平台
 //                h5Url = BASE_LOCAL_URL + "H5/document/userNotice.html";
                 break;
-            case 4: //多点执业
-                h5Url = BASE_LOCAL_URL + "H5/document/multipoint.html";
+            case 4: //保险
+                h5Url = BASE_LOCAL_URL + "H5/document/Insurance.html";
                 break;
-            case 5: //图文
+            case 5: //vip服务
+                h5Url = BASE_LOCAL_URL + "H5/document/vipService.html";
+                break;
+            case 6: //专家会诊
+                h5Url = BASE_LOCAL_URL + "H5/document/expertConsultation.html";
+                break;
+            case 7: //麻醉筹建
+                h5Url = BASE_LOCAL_URL + "H5/document/anesthesia.html";
+                break;
+            case 8: //设备租聘
+                h5Url = BASE_LOCAL_URL + "H5/document/equipmentRental.html";
+                break;
+            case 9: //轮播
+                h5Url = getIntent().getStringExtra("h5Url");
+            case 10: //图文
                 wvContent.loadData(getHtmlData(getIntent().getStringExtra("h5_url")), "text/html;charset=utf-8", "utf-8");
                 break;
         }
 
-        if (h5Type == 5) {
+        if (h5Type == 10) {
             WebSettings settings = wvContent.getSettings();
             settings.setJavaScriptEnabled(true);
             settings.setDomStorageEnabled(true);
@@ -184,7 +198,7 @@ public class WebViewActivity extends BaseActivity {
             @Override
             public void onReceivedTitle(WebView view, String title) {
                 super.onReceivedTitle(view, title);
-                if (h5Type == 5)
+                if (h5Type == 10)
                     ivTopTitle.setText("详情");
                 else
                     ivTopTitle.setText(title);

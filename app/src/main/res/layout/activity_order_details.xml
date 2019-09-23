@@ -208,7 +208,7 @@
                 android:visibility="gone"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/tv_patient_name" />
+                app:layout_constraintTop_toBottomOf="@+id/tv_patient_info" />
 
             <com.xuexiang.xui.widget.textview.supertextview.SuperTextView
                 android:id="@+id/tv_anesthesia_tool"

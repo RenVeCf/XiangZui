@@ -34,12 +34,14 @@ public interface UrlConfig {
     String UPLOAD_IMGS = "ah/util/arrUpload"; //上传多图片
     String SELECT_FEE = "ah/order/urgentMoney"; //加急费-取消费用用信息查询
     String SEND_ORDER = "ah/order/invoice"; //医院端-首页-发单 -正式
+    String HISTORICAL_DEMAND = "ah/demand/historyList"; //历史需求
+    String SEND_DEMAND = "ah/demand/releaseDemand"; //发布需求
 
     /**
      * 订单
      */
-    String ORDER_DETAILS = "ad/order/orderDetails"; //医生端订单-列表-详情
-    String ORDER_LIST = "ad/order/orderList"; //医生端订单-列表
+    String ORDER_DETAILS = "ah/order/orderDetails"; //医院端-订单详情
+    String ORDER_LIST = "ah/order/orderList"; //医院端-订单列表
     String IS_ORDER_OPERATION_END = "ad/order/operationLower"; //医生端订单-已接单-点击结束手术-提交数据
     String ING_OPERATION_END = "ad/order/endOperation"; //医生端订单-进行中--点击结束手术
     String OPERATION_START = "ad/order/startOperation"; //医生端订单-已接单-开始手术

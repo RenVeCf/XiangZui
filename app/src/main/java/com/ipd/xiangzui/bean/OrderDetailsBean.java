@@ -2,11 +2,11 @@ package com.ipd.xiangzui.bean;
 
 import java.util.List;
 
-public class HomeBean {
+public class OrderDetailsBean {
     /**
      * msg : 操作成功
      * code : 200
-     * data : {"orderList":[{"searchValue":null,"createBy":null,"createTime":null,"updateBy":null,"updateTime":null,"remark":null,"params":{},"orderId":37,"userId":17,"orderType":"1","surgeryName":"摸摸摸","hospitalName":"上海任梦阳医院","prov":"上海","city":"上海市","dist":"青浦区","address":"画的范德萨发的","duration":1,"urgent":"2","urgentMoney":50,"premium":"1","premiumMoney":0,"evenNum":null,"expectMoney":2000,"status":"1","payType":null,"takeOrderId":null,"takeOrderTime":null,"cancelTime":null,"prompt":"","arriveTime":null,"beginTime":"2019-10-20 10:05:00","waitTime":null,"surgeryTime":null,"waitMoney":0,"surgeryMoney":0,"totalMoney":0,"taxMoney":0,"version":1,"orderNo":"190938319893","ahNumber":"18502994087","adNumber":null,"overtimeMoney":0,"invoicepayMoney":2300,"promptMoney":300,"endTime":null,"adMoney":1700,"ahMoney":2350,"adactualMoney":0,"ahactualMoney":0,"adpremiumMoney":0,"ahpremiumMoney":0,"takeName":null,"takePhone":null},{"searchValue":null,"createBy":null,"createTime":null,"updateBy":null,"updateTime":null,"remark":null,"params":{},"orderId":36,"userId":17,"orderType":"1","surgeryName":"呃呃","hospitalName":"上海任梦阳医院","prov":"上海","city":"上海市","dist":"青浦区","address":"画的范德萨发的","duration":1,"urgent":"1","urgentMoney":0,"premium":"1","premiumMoney":0,"evenNum":null,"expectMoney":2000,"status":"1","payType":null,"takeOrderId":null,"takeOrderTime":null,"cancelTime":null,"prompt":"","arriveTime":null,"beginTime":"2019-10-20 10:03:00","waitTime":null,"surgeryTime":null,"waitMoney":0,"surgeryMoney":0,"totalMoney":0,"taxMoney":0,"version":1,"orderNo":"190924510353","ahNumber":"18502994087","adNumber":null,"overtimeMoney":0,"invoicepayMoney":2300,"promptMoney":300,"endTime":null,"adMoney":1700,"ahMoney":2300,"adactualMoney":0,"ahactualMoney":0,"adpremiumMoney":0,"ahpremiumMoney":0,"takeName":null,"takePhone":null}],"infoList":[{"searchValue":null,"createBy":null,"createTime":"2019-09-09 02:51:14","updateBy":null,"updateTime":null,"remark":null,"params":{},"infoId":40,"userId":10,"infoType":"3","title":"订单完成","brief":null,"content":"190947835678已完成手术","orderId":null,"status":null,"nickname":"享醉994726","surgeryName":"测试01","orderCost":1384},{"searchValue":null,"createBy":null,"createTime":"2019-09-09 01:59:12","updateBy":null,"updateTime":null,"remark":null,"params":{},"infoId":39,"userId":10,"infoType":"3","title":"订单完成","brief":null,"content":"190911551426已完成手术","orderId":null,"status":null,"nickname":"享醉994726","surgeryName":"测试最新订单02","orderCost":1445},{"searchValue":null,"createBy":null,"createTime":"2019-09-09 01:45:35","updateBy":null,"updateTime":null,"remark":null,"params":{},"infoId":38,"userId":10,"infoType":"3","title":"订单完成","brief":null,"content":"190971360392已完成手术","orderId":null,"status":null,"nickname":"享醉994726","surgeryName":"最新测试","orderCost":1809},{"searchValue":null,"createBy":null,"createTime":"2019-09-09 01:33:59","updateBy":null,"updateTime":null,"remark":null,"params":{},"infoId":37,"userId":10,"infoType":"3","title":"订单完成","brief":null,"content":"190971360392已完成手术","orderId":null,"status":null,"nickname":"享醉994726","surgeryName":"最新测试","orderCost":976},{"searchValue":null,"createBy":null,"createTime":"2019-09-08 23:43:24","updateBy":null,"updateTime":null,"remark":null,"params":{},"infoId":36,"userId":10,"infoType":"3","title":"订单完成","brief":null,"content":"190971360392已完成手术","orderId":null,"status":null,"nickname":"享醉994726","surgeryName":"最新测试","orderCost":976},{"searchValue":null,"createBy":null,"createTime":"2019-09-06 22:31:17","updateBy":null,"updateTime":null,"remark":null,"params":{},"infoId":35,"userId":3,"infoType":"3","title":"订单完成","brief":null,"content":"190979078479已完成手术","orderId":null,"status":null,"nickname":"懒懒的小猪","surgeryName":"连台手术","orderCost":1020},{"searchValue":null,"createBy":null,"createTime":"2019-09-05 15:04:20","updateBy":null,"updateTime":null,"remark":null,"params":{},"infoId":34,"userId":8,"infoType":"3","title":"订单完成","brief":null,"content":"190973597383已完成手术","orderId":null,"status":null,"nickname":"测试医生端01","surgeryName":"连台手术","orderCost":1860},{"searchValue":null,"createBy":null,"createTime":"2019-09-05 14:44:09","updateBy":null,"updateTime":null,"remark":null,"params":{},"infoId":33,"userId":8,"infoType":"3","title":"订单完成","brief":null,"content":"190925942947已完成手术","orderId":null,"status":null,"nickname":"测试医生端01","surgeryName":"测试单台手术10","orderCost":1180},{"searchValue":null,"createBy":null,"createTime":"2019-09-05 12:05:18","updateBy":null,"updateTime":null,"remark":null,"params":{},"infoId":30,"userId":3,"infoType":"3","title":"订单完成","brief":null,"content":"190989490630已完成手术","orderId":null,"status":null,"nickname":"懒懒的小猪","surgeryName":"手术名字","orderCost":1860},{"searchValue":null,"createBy":null,"createTime":"2019-09-05 10:16:04","updateBy":null,"updateTime":null,"remark":null,"params":{},"infoId":29,"userId":10,"infoType":"3","title":"订单完成","brief":null,"content":"190969584040已完成手术","orderId":null,"status":null,"nickname":"享醉994726","surgeryName":"张三订单","orderCost":976},{"searchValue":null,"createBy":null,"createTime":"2019-09-05 09:59:15","updateBy":null,"updateTime":null,"remark":null,"params":{},"infoId":28,"userId":8,"infoType":"3","title":"订单完成","brief":null,"content":"190920919074已完成手术","orderId":null,"status":null,"nickname":"测试医生端01","surgeryName":"连台手术","orderCost":1860},{"searchValue":null,"createBy":null,"createTime":"2019-09-05 01:33:01","updateBy":null,"updateTime":null,"remark":null,"params":{},"infoId":27,"userId":10,"infoType":"3","title":"订单完成","brief":null,"content":"190923567746已完成手术","orderId":null,"status":null,"nickname":"享醉994726","surgeryName":"患者信息","orderCost":1180},{"searchValue":null,"createBy":null,"createTime":"2019-09-04 23:37:29","updateBy":null,"updateTime":null,"remark":null,"params":{},"infoId":26,"userId":8,"infoType":"3","title":"订单完成","brief":null,"content":"190903332025已完成手术","orderId":null,"status":null,"nickname":"测试医生端01","surgeryName":"连台手术","orderCost":6960},{"searchValue":null,"createBy":null,"createTime":"2019-09-04 23:24:38","updateBy":null,"updateTime":null,"remark":null,"params":{},"infoId":25,"userId":8,"infoType":"3","title":"订单完成","brief":null,"content":"190914934875已完成手术","orderId":null,"status":null,"nickname":"测试医生端01","surgeryName":"连台手术","orderCost":2199.32},{"searchValue":null,"createBy":null,"createTime":"2019-09-04 23:13:24","updateBy":null,"updateTime":null,"remark":null,"params":{},"infoId":24,"userId":8,"infoType":"3","title":"订单完成","brief":null,"content":"190965597346已完成手术","orderId":null,"status":null,"nickname":"测试医生端01","surgeryName":"测试单台手术01","orderCost":2132},{"searchValue":null,"createBy":null,"createTime":"2019-09-04 20:47:32","updateBy":null,"updateTime":null,"remark":null,"params":{},"infoId":23,"userId":10,"infoType":"3","title":"订单完成","brief":null,"content":"190987615535已完成手术","orderId":null,"status":null,"nickname":"享醉994726","surgeryName":"手术名字","orderCost":1860},{"searchValue":null,"createBy":null,"createTime":"2019-09-04 13:53:12","updateBy":null,"updateTime":null,"remark":null,"params":{},"infoId":18,"userId":10,"infoType":"3","title":"订单完成","brief":null,"content":"190942059278已完成手术","orderId":null,"status":null,"nickname":"享醉994726","surgeryName":"测试单台手术","orderCost":0}],"pictureList":[{"pictureId":24,"title":"测试医院端轮播图文本内容02","picPath":"upload/2019/09/03/104a00114b6cb762a0e658713e3d26de.jpg","status":"1","content":"<p>测试医院端轮播图文本内容02<\/p>","type":"3","pictureType":"2","url":null,"createTime":"2019-09-03 15:12:38","updateTime":null},{"pictureId":23,"title":"测试医院端轮播图链接网址网易02","picPath":"upload/2019/09/03/b48990b8acc3204bcfe0ef1c813dff00.jpg","status":"1","content":null,"type":"2","pictureType":"2","url":"https://www.163.com","createTime":"2019-09-03 15:11:23","updateTime":null},{"pictureId":22,"title":"测试医院端轮播图无02","picPath":"upload/2019/09/03/7543811020f5d2d04d05c30fc34d55ba.jpg","status":"1","content":null,"type":"1","pictureType":"2","url":null,"createTime":"2019-09-03 15:09:00","updateTime":null},{"pictureId":21,"title":"测试医院端轮播图文本内容01","picPath":"upload/2019/09/03/b9bada448509b02d689c8d52421fc953.jpg","status":"1","content":"<p>测试医院端轮播图文本内容01<\/p>","type":"3","pictureType":"2","url":null,"createTime":"2019-09-03 15:08:05","updateTime":null},{"pictureId":20,"title":"测试医院端轮播图无01","picPath":"upload/2019/09/03/15125e0495c2edf1bacfe5a4f8cb877d.jpeg","status":"1","content":null,"type":"1","pictureType":"2","url":null,"createTime":"2019-09-03 15:06:45","updateTime":"2019-09-03 15:09:08"},{"pictureId":19,"title":"测试医院端轮播图链接网址01","picPath":"upload/2019/09/03/5a418000ead8eb355937ec0a9c7608a3.jpg","status":"1","content":null,"type":"2","pictureType":"2","url":"https://www.baidu.com","createTime":"2019-09-03 15:05:18","updateTime":"2019-09-03 15:07:14"}]}
+     * data : {"orderDetail":[{"searchValue":null,"createBy":null,"createTime":"2019-09-23 10:06:23","updateBy":null,"updateTime":null,"remark":null,"params":{},"orderDetailId":40,"orderId":37,"patientName":"那我要叫","sex":"女","age":16,"height":0,"weight":0,"narcosisTypeId":0,"narcosisType":"","positiveCard":"","reverseCard":"","insurance":"","medicalRecords":"1","surgeryRelated":"","routineBlood":"","ecg":"","cruor":"","contagion":"","minBloodPressure":0,"maxBloodPressure":0,"pulse":0,"breathe":0,"animalHeat":0,"diabetes":"1","cerebralInfarction":"1","heartDisease":"1","infectDisease":"1","breatheFunction":"1","narcosisForm":"","complete":"1","handover":"1","status":"1","beginTime":null,"endTime":null,"surgeryName":null,"anestxMode":""}],"order":{"searchValue":null,"createBy":null,"createTime":null,"updateBy":null,"updateTime":null,"remark":null,"params":{},"orderId":37,"userId":17,"orderType":"1","surgeryName":"摸摸摸","hospitalName":"上海任梦阳医院","prov":"上海","city":"上海市","dist":"青浦区","address":"画的范德萨发的","duration":1,"urgent":"2","urgentMoney":50,"premium":"1","premiumMoney":0,"evenNum":null,"expectMoney":2000,"status":"1","payType":null,"takeOrderId":null,"takeOrderTime":null,"cancelTime":null,"prompt":"","arriveTime":null,"beginTime":"2019-10-20 10:05:00","waitTime":null,"surgeryTime":null,"waitMoney":0,"surgeryMoney":0,"totalMoney":0,"taxMoney":0,"version":1,"orderNo":"190938319893","ahNumber":"18502994087","adNumber":null,"overtimeMoney":0,"invoicepayMoney":2300,"promptMoney":300,"endTime":null,"adMoney":1700,"ahMoney":2350,"adactualMoney":0,"ahactualMoney":0,"adpremiumMoney":0,"ahpremiumMoney":0,"takeName":null,"takePhone":null}}
      */
 
     private String msg;
@@ -38,35 +38,31 @@ public class HomeBean {
     }
 
     public static class DataBean {
-        private List<OrderListBean> orderList;
-        private List<InfoListBean> infoList;
-        private List<PictureListBean> pictureList;
+        /**
+         * orderDetail : [{"searchValue":null,"createBy":null,"createTime":"2019-09-23 10:06:23","updateBy":null,"updateTime":null,"remark":null,"params":{},"orderDetailId":40,"orderId":37,"patientName":"那我要叫","sex":"女","age":16,"height":0,"weight":0,"narcosisTypeId":0,"narcosisType":"","positiveCard":"","reverseCard":"","insurance":"","medicalRecords":"1","surgeryRelated":"","routineBlood":"","ecg":"","cruor":"","contagion":"","minBloodPressure":0,"maxBloodPressure":0,"pulse":0,"breathe":0,"animalHeat":0,"diabetes":"1","cerebralInfarction":"1","heartDisease":"1","infectDisease":"1","breatheFunction":"1","narcosisForm":"","complete":"1","handover":"1","status":"1","beginTime":null,"endTime":null,"surgeryName":null,"anestxMode":""}]
+         * order : {"searchValue":null,"createBy":null,"createTime":null,"updateBy":null,"updateTime":null,"remark":null,"params":{},"orderId":37,"userId":17,"orderType":"1","surgeryName":"摸摸摸","hospitalName":"上海任梦阳医院","prov":"上海","city":"上海市","dist":"青浦区","address":"画的范德萨发的","duration":1,"urgent":"2","urgentMoney":50,"premium":"1","premiumMoney":0,"evenNum":null,"expectMoney":2000,"status":"1","payType":null,"takeOrderId":null,"takeOrderTime":null,"cancelTime":null,"prompt":"","arriveTime":null,"beginTime":"2019-10-20 10:05:00","waitTime":null,"surgeryTime":null,"waitMoney":0,"surgeryMoney":0,"totalMoney":0,"taxMoney":0,"version":1,"orderNo":"190938319893","ahNumber":"18502994087","adNumber":null,"overtimeMoney":0,"invoicepayMoney":2300,"promptMoney":300,"endTime":null,"adMoney":1700,"ahMoney":2350,"adactualMoney":0,"ahactualMoney":0,"adpremiumMoney":0,"ahpremiumMoney":0,"takeName":null,"takePhone":null}
+         */
 
-        public List<OrderListBean> getOrderList() {
-            return orderList;
+        private OrderBean order;
+        private List<OrderDetailBean> orderDetail;
+
+        public OrderBean getOrder() {
+            return order;
         }
 
-        public void setOrderList(List<OrderListBean> orderList) {
-            this.orderList = orderList;
+        public void setOrder(OrderBean order) {
+            this.order = order;
         }
 
-        public List<InfoListBean> getInfoList() {
-            return infoList;
+        public List<OrderDetailBean> getOrderDetail() {
+            return orderDetail;
         }
 
-        public void setInfoList(List<InfoListBean> infoList) {
-            this.infoList = infoList;
+        public void setOrderDetail(List<OrderDetailBean> orderDetail) {
+            this.orderDetail = orderDetail;
         }
 
-        public List<PictureListBean> getPictureList() {
-            return pictureList;
-        }
-
-        public void setPictureList(List<PictureListBean> pictureList) {
-            this.pictureList = pictureList;
-        }
-
-        public static class OrderListBean {
+        public static class OrderBean {
             /**
              * searchValue : null
              * createBy : null
@@ -605,26 +601,51 @@ public class HomeBean {
             }
         }
 
-        public static class InfoListBean {
+        public static class OrderDetailBean {
             /**
              * searchValue : null
              * createBy : null
-             * createTime : 2019-09-09 02:51:14
+             * createTime : 2019-09-23 10:06:23
              * updateBy : null
              * updateTime : null
              * remark : null
              * params : {}
-             * infoId : 40
-             * userId : 10
-             * infoType : 3
-             * title : 订单完成
-             * brief : null
-             * content : 190947835678已完成手术
-             * orderId : null
-             * status : null
-             * nickname : 享醉994726
-             * surgeryName : 测试01
-             * orderCost : 1384.0
+             * orderDetailId : 40
+             * orderId : 37
+             * patientName : 那我要叫
+             * sex : 女
+             * age : 16
+             * height : 0.0
+             * weight : 0.0
+             * narcosisTypeId : 0
+             * narcosisType :
+             * positiveCard :
+             * reverseCard :
+             * insurance :
+             * medicalRecords : 1
+             * surgeryRelated :
+             * routineBlood :
+             * ecg :
+             * cruor :
+             * contagion :
+             * minBloodPressure : 0.0
+             * maxBloodPressure : 0.0
+             * pulse : 0
+             * breathe : 0
+             * animalHeat : 0.0
+             * diabetes : 1
+             * cerebralInfarction : 1
+             * heartDisease : 1
+             * infectDisease : 1
+             * breatheFunction : 1
+             * narcosisForm :
+             * complete : 1
+             * handover : 1
+             * status : 1
+             * beginTime : null
+             * endTime : null
+             * surgeryName : null
+             * anestxMode :
              */
 
             private Object searchValue;
@@ -634,17 +655,42 @@ public class HomeBean {
             private Object updateTime;
             private Object remark;
             private ParamsBeanX params;
-            private int infoId;
-            private int userId;
-            private String infoType;
-            private String title;
-            private Object brief;
-            private String content;
-            private Object orderId;
-            private Object status;
-            private String nickname;
-            private String surgeryName;
-            private double orderCost;
+            private int orderDetailId;
+            private int orderId;
+            private String patientName;
+            private String sex;
+            private int age;
+            private double height;
+            private double weight;
+            private int narcosisTypeId;
+            private String narcosisType;
+            private String positiveCard;
+            private String reverseCard;
+            private String insurance;
+            private String medicalRecords;
+            private String surgeryRelated;
+            private String routineBlood;
+            private String ecg;
+            private String cruor;
+            private String contagion;
+            private double minBloodPressure;
+            private double maxBloodPressure;
+            private int pulse;
+            private int breathe;
+            private double animalHeat;
+            private String diabetes;
+            private String cerebralInfarction;
+            private String heartDisease;
+            private String infectDisease;
+            private String breatheFunction;
+            private String narcosisForm;
+            private String complete;
+            private String handover;
+            private String status;
+            private Object beginTime;
+            private Object endTime;
+            private Object surgeryName;
+            private String anestxMode;
 
             public Object getSearchValue() {
                 return searchValue;
@@ -702,145 +748,252 @@ public class HomeBean {
                 this.params = params;
             }
 
-            public int getInfoId() {
-                return infoId;
+            public int getOrderDetailId() {
+                return orderDetailId;
             }
 
-            public void setInfoId(int infoId) {
-                this.infoId = infoId;
+            public void setOrderDetailId(int orderDetailId) {
+                this.orderDetailId = orderDetailId;
             }
 
-            public int getUserId() {
-                return userId;
-            }
-
-            public void setUserId(int userId) {
-                this.userId = userId;
-            }
-
-            public String getInfoType() {
-                return infoType;
-            }
-
-            public void setInfoType(String infoType) {
-                this.infoType = infoType;
-            }
-
-            public String getTitle() {
-                return title;
-            }
-
-            public void setTitle(String title) {
-                this.title = title;
-            }
-
-            public Object getBrief() {
-                return brief;
-            }
-
-            public void setBrief(Object brief) {
-                this.brief = brief;
-            }
-
-            public String getContent() {
-                return content;
-            }
-
-            public void setContent(String content) {
-                this.content = content;
-            }
-
-            public Object getOrderId() {
+            public int getOrderId() {
                 return orderId;
             }
 
-            public void setOrderId(Object orderId) {
+            public void setOrderId(int orderId) {
                 this.orderId = orderId;
             }
 
-            public Object getStatus() {
-                return status;
+            public String getPatientName() {
+                return patientName;
             }
 
-            public void setStatus(Object status) {
-                this.status = status;
+            public void setPatientName(String patientName) {
+                this.patientName = patientName;
             }
 
-            public String getNickname() {
-                return nickname;
+            public String getSex() {
+                return sex;
             }
 
-            public void setNickname(String nickname) {
-                this.nickname = nickname;
+            public void setSex(String sex) {
+                this.sex = sex;
             }
 
-            public String getSurgeryName() {
-                return surgeryName;
+            public int getAge() {
+                return age;
             }
 
-            public void setSurgeryName(String surgeryName) {
-                this.surgeryName = surgeryName;
+            public void setAge(int age) {
+                this.age = age;
             }
 
-            public double getOrderCost() {
-                return orderCost;
+            public double getHeight() {
+                return height;
             }
 
-            public void setOrderCost(double orderCost) {
-                this.orderCost = orderCost;
+            public void setHeight(double height) {
+                this.height = height;
             }
 
-            public static class ParamsBeanX {
-            }
-        }
-
-        public static class PictureListBean {
-            /**
-             * pictureId : 24
-             * title : 测试医院端轮播图文本内容02
-             * picPath : upload/2019/09/03/104a00114b6cb762a0e658713e3d26de.jpg
-             * status : 1
-             * content : <p>测试医院端轮播图文本内容02</p>
-             * type : 3
-             * pictureType : 2
-             * url : null
-             * createTime : 2019-09-03 15:12:38
-             * updateTime : null
-             */
-
-            private int pictureId;
-            private String title;
-            private String picPath;
-            private String status;
-            private String content;
-            private String type;
-            private String pictureType;
-            private String url;
-            private String createTime;
-            private Object updateTime;
-
-            public int getPictureId() {
-                return pictureId;
+            public double getWeight() {
+                return weight;
             }
 
-            public void setPictureId(int pictureId) {
-                this.pictureId = pictureId;
+            public void setWeight(double weight) {
+                this.weight = weight;
             }
 
-            public String getTitle() {
-                return title;
+            public int getNarcosisTypeId() {
+                return narcosisTypeId;
             }
 
-            public void setTitle(String title) {
-                this.title = title;
+            public void setNarcosisTypeId(int narcosisTypeId) {
+                this.narcosisTypeId = narcosisTypeId;
             }
 
-            public String getPicPath() {
-                return picPath;
+            public String getNarcosisType() {
+                return narcosisType;
             }
 
-            public void setPicPath(String picPath) {
-                this.picPath = picPath;
+            public void setNarcosisType(String narcosisType) {
+                this.narcosisType = narcosisType;
+            }
+
+            public String getPositiveCard() {
+                return positiveCard;
+            }
+
+            public void setPositiveCard(String positiveCard) {
+                this.positiveCard = positiveCard;
+            }
+
+            public String getReverseCard() {
+                return reverseCard;
+            }
+
+            public void setReverseCard(String reverseCard) {
+                this.reverseCard = reverseCard;
+            }
+
+            public String getInsurance() {
+                return insurance;
+            }
+
+            public void setInsurance(String insurance) {
+                this.insurance = insurance;
+            }
+
+            public String getMedicalRecords() {
+                return medicalRecords;
+            }
+
+            public void setMedicalRecords(String medicalRecords) {
+                this.medicalRecords = medicalRecords;
+            }
+
+            public String getSurgeryRelated() {
+                return surgeryRelated;
+            }
+
+            public void setSurgeryRelated(String surgeryRelated) {
+                this.surgeryRelated = surgeryRelated;
+            }
+
+            public String getRoutineBlood() {
+                return routineBlood;
+            }
+
+            public void setRoutineBlood(String routineBlood) {
+                this.routineBlood = routineBlood;
+            }
+
+            public String getEcg() {
+                return ecg;
+            }
+
+            public void setEcg(String ecg) {
+                this.ecg = ecg;
+            }
+
+            public String getCruor() {
+                return cruor;
+            }
+
+            public void setCruor(String cruor) {
+                this.cruor = cruor;
+            }
+
+            public String getContagion() {
+                return contagion;
+            }
+
+            public void setContagion(String contagion) {
+                this.contagion = contagion;
+            }
+
+            public double getMinBloodPressure() {
+                return minBloodPressure;
+            }
+
+            public void setMinBloodPressure(double minBloodPressure) {
+                this.minBloodPressure = minBloodPressure;
+            }
+
+            public double getMaxBloodPressure() {
+                return maxBloodPressure;
+            }
+
+            public void setMaxBloodPressure(double maxBloodPressure) {
+                this.maxBloodPressure = maxBloodPressure;
+            }
+
+            public int getPulse() {
+                return pulse;
+            }
+
+            public void setPulse(int pulse) {
+                this.pulse = pulse;
+            }
+
+            public int getBreathe() {
+                return breathe;
+            }
+
+            public void setBreathe(int breathe) {
+                this.breathe = breathe;
+            }
+
+            public double getAnimalHeat() {
+                return animalHeat;
+            }
+
+            public void setAnimalHeat(double animalHeat) {
+                this.animalHeat = animalHeat;
+            }
+
+            public String getDiabetes() {
+                return diabetes;
+            }
+
+            public void setDiabetes(String diabetes) {
+                this.diabetes = diabetes;
+            }
+
+            public String getCerebralInfarction() {
+                return cerebralInfarction;
+            }
+
+            public void setCerebralInfarction(String cerebralInfarction) {
+                this.cerebralInfarction = cerebralInfarction;
+            }
+
+            public String getHeartDisease() {
+                return heartDisease;
+            }
+
+            public void setHeartDisease(String heartDisease) {
+                this.heartDisease = heartDisease;
+            }
+
+            public String getInfectDisease() {
+                return infectDisease;
+            }
+
+            public void setInfectDisease(String infectDisease) {
+                this.infectDisease = infectDisease;
+            }
+
+            public String getBreatheFunction() {
+                return breatheFunction;
+            }
+
+            public void setBreatheFunction(String breatheFunction) {
+                this.breatheFunction = breatheFunction;
+            }
+
+            public String getNarcosisForm() {
+                return narcosisForm;
+            }
+
+            public void setNarcosisForm(String narcosisForm) {
+                this.narcosisForm = narcosisForm;
+            }
+
+            public String getComplete() {
+                return complete;
+            }
+
+            public void setComplete(String complete) {
+                this.complete = complete;
+            }
+
+            public String getHandover() {
+                return handover;
+            }
+
+            public void setHandover(String handover) {
+                this.handover = handover;
             }
 
             public String getStatus() {
@@ -851,52 +1004,39 @@ public class HomeBean {
                 this.status = status;
             }
 
-            public String getContent() {
-                return content;
+            public Object getBeginTime() {
+                return beginTime;
             }
 
-            public void setContent(String content) {
-                this.content = content;
+            public void setBeginTime(Object beginTime) {
+                this.beginTime = beginTime;
             }
 
-            public String getType() {
-                return type;
+            public Object getEndTime() {
+                return endTime;
             }
 
-            public void setType(String type) {
-                this.type = type;
+            public void setEndTime(Object endTime) {
+                this.endTime = endTime;
             }
 
-            public String getPictureType() {
-                return pictureType;
+            public Object getSurgeryName() {
+                return surgeryName;
             }
 
-            public void setPictureType(String pictureType) {
-                this.pictureType = pictureType;
+            public void setSurgeryName(Object surgeryName) {
+                this.surgeryName = surgeryName;
             }
 
-            public String getUrl() {
-                return url;
+            public String getAnestxMode() {
+                return anestxMode;
             }
 
-            public void setUrl(String url) {
-                this.url = url;
+            public void setAnestxMode(String anestxMode) {
+                this.anestxMode = anestxMode;
             }
 
-            public String getCreateTime() {
-                return createTime;
-            }
-
-            public void setCreateTime(String createTime) {
-                this.createTime = createTime;
-            }
-
-            public Object getUpdateTime() {
-                return updateTime;
-            }
-
-            public void setUpdateTime(Object updateTime) {
-                this.updateTime = updateTime;
+            public static class ParamsBeanX {
             }
         }
     }

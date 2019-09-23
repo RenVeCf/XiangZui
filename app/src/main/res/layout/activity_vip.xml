@@ -20,20 +20,20 @@
         app:layout_constraintTop_toTopOf="parent"
         app:title="VIP服务" />
 
-    <androidx.appcompat.widget.AppCompatImageView
-        android:id="@+id/aiv_vip"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/y50"
-        android:scaleType="fitXY"
-        android:src="@mipmap/ic_vip"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tv_vip"
-        app:layout_constraintWidth_percent="0.9" />
+<!--    <androidx.appcompat.widget.AppCompatImageView-->
+<!--        android:id="@+id/aiv_vip"-->
+<!--        android:layout_width="0dp"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:layout_marginTop="@dimen/y50"-->
+<!--        android:scaleType="fitXY"-->
+<!--        android:src="@mipmap/ic_vip"-->
+<!--        app:layout_constraintEnd_toEndOf="parent"-->
+<!--        app:layout_constraintStart_toStartOf="parent"-->
+<!--        app:layout_constraintTop_toBottomOf="@+id/tv_vip"-->
+<!--        app:layout_constraintWidth_percent="0.9" />-->
 
-    <TextView
-        android:id="@+id/tv_vip_text"
+    <WebView
+        android:id="@+id/wv_content"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:layout_marginTop="@dimen/y50"
@@ -42,8 +42,8 @@
         app:layout_constraintBottom_toTopOf="@+id/ll_vip"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/aiv_vip"
-        app:layout_constraintWidth_percent="0.9" />
+        app:layout_constraintTop_toBottomOf="@+id/tv_vip"
+        app:layout_constraintWidth_percent="0.9"/>
 
     <LinearLayout
         android:id="@+id/ll_vip"
@@ -56,7 +56,7 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tv_vip_text">
+        app:layout_constraintTop_toBottomOf="@+id/wv_content">
 
         <LinearLayout
             android:layout_width="0dp"

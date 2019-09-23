@@ -101,7 +101,7 @@ public class SendOrderFeeInfoActivity extends BaseActivity<SelectFeeContract.Vie
         selectFeeMap.put("sign", StringUtils.toUpperCase(MD5Utils.encodeMD5(selectFeeMap.toString().replaceAll(" ", "") + SIGN)));
         getPresenter().getSelectFee(selectFeeMap, false, false);
 
-        if (sendOrderData.getTwoOrderBean().size() > 0)
+        if (sendOrderType == 2 && sendOrderData.getTwoOrderBean().size() > 0)
             stvSurgeryNum.setRightString(sendOrderData.getTwoOrderBean().size() + "台");
     }
 
@@ -360,7 +360,20 @@ public class SendOrderFeeInfoActivity extends BaseActivity<SelectFeeContract.Vie
 
     @Override
     public void resultSendOrder(SendOrderBean data) {
-
+        switch (data.getCode()) {
+            case 200:
+                startActivity(new Intent(this, MainActivity.class));
+                finish();
+                break;
+            case 900:
+                ToastUtil.showShortToast(data.getMsg());
+                //清除所有临时储存
+                SPUtil.clear(ApplicationUtil.getContext());
+                ApplicationUtil.getManager().finishActivity(MainActivity.class);
+                startActivity(new Intent(this, CaptchaLoginActivity.class));
+                finish();
+                break;
+        }
     }
 
     @Override

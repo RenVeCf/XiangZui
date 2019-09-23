@@ -11,6 +11,7 @@ import com.ipd.xiangzui.bean.DelAddressBean;
 import com.ipd.xiangzui.bean.FeeRecordBean;
 import com.ipd.xiangzui.bean.FeedBackBean;
 import com.ipd.xiangzui.bean.GetUserInfoBean;
+import com.ipd.xiangzui.bean.HistoricalDemandBean;
 import com.ipd.xiangzui.bean.HomeBean;
 import com.ipd.xiangzui.bean.HospitalNameBean;
 import com.ipd.xiangzui.bean.ModifyAccountBean;
@@ -20,6 +21,8 @@ import com.ipd.xiangzui.bean.ModifyUserPwdBean;
 import com.ipd.xiangzui.bean.MsgListBean;
 import com.ipd.xiangzui.bean.NarcosisListBean;
 import com.ipd.xiangzui.bean.OpenInvoiceBean;
+import com.ipd.xiangzui.bean.OrderDetailsBean;
+import com.ipd.xiangzui.bean.OrderListBean;
 import com.ipd.xiangzui.bean.PwdLoginBean;
 import com.ipd.xiangzui.bean.RechargeAccountPayBean;
 import com.ipd.xiangzui.bean.RechargeAliPayBean;
@@ -27,6 +30,7 @@ import com.ipd.xiangzui.bean.RechargeWechatPayBean;
 import com.ipd.xiangzui.bean.RegistsBean;
 import com.ipd.xiangzui.bean.ResetPwdBean;
 import com.ipd.xiangzui.bean.SelectFeeBean;
+import com.ipd.xiangzui.bean.SendDemandBean;
 import com.ipd.xiangzui.bean.SendOrderBean;
 import com.ipd.xiangzui.bean.UploadImgBean;
 import com.ipd.xiangzui.bean.VerifiedBean;
@@ -56,6 +60,7 @@ import static com.ipd.xiangzui.common.config.UrlConfig.DEL_ADDRESS;
 import static com.ipd.xiangzui.common.config.UrlConfig.FEED_BACK;
 import static com.ipd.xiangzui.common.config.UrlConfig.FEE_RECORD;
 import static com.ipd.xiangzui.common.config.UrlConfig.GET_USER_INFO;
+import static com.ipd.xiangzui.common.config.UrlConfig.HISTORICAL_DEMAND;
 import static com.ipd.xiangzui.common.config.UrlConfig.HOME;
 import static com.ipd.xiangzui.common.config.UrlConfig.HOSPITAL_NAME;
 import static com.ipd.xiangzui.common.config.UrlConfig.MODIFY_ACCOUNT;
@@ -65,6 +70,8 @@ import static com.ipd.xiangzui.common.config.UrlConfig.MODIFY_USER_PWD;
 import static com.ipd.xiangzui.common.config.UrlConfig.MSG_LIST;
 import static com.ipd.xiangzui.common.config.UrlConfig.NARCASIS_LIST;
 import static com.ipd.xiangzui.common.config.UrlConfig.OPEN_INVOICE;
+import static com.ipd.xiangzui.common.config.UrlConfig.ORDER_DETAILS;
+import static com.ipd.xiangzui.common.config.UrlConfig.ORDER_LIST;
 import static com.ipd.xiangzui.common.config.UrlConfig.PWD_LOGIN;
 import static com.ipd.xiangzui.common.config.UrlConfig.RECHARGE_ACCOUNT_PAY;
 import static com.ipd.xiangzui.common.config.UrlConfig.RECHARGE_ALI_PAY;
@@ -72,6 +79,7 @@ import static com.ipd.xiangzui.common.config.UrlConfig.RECHARGE_WECHAT_PAY;
 import static com.ipd.xiangzui.common.config.UrlConfig.REGISTER;
 import static com.ipd.xiangzui.common.config.UrlConfig.RESET_PWD;
 import static com.ipd.xiangzui.common.config.UrlConfig.SELECT_FEE;
+import static com.ipd.xiangzui.common.config.UrlConfig.SEND_DEMAND;
 import static com.ipd.xiangzui.common.config.UrlConfig.SEND_ORDER;
 import static com.ipd.xiangzui.common.config.UrlConfig.UPLOAD_IMG;
 import static com.ipd.xiangzui.common.config.UrlConfig.VERIFIED;
@@ -157,11 +165,21 @@ public interface ApiService {
     @POST(UPLOAD_IMG)
     Observable<UploadImgBean> getUploadImg(@Query("sign") String sign, @PartMap Map<String, RequestBody> map);
 
-//    //医生端订单-列表-详情
-//    @FormUrlEncoded
-//    @POST(ORDER_DETAILS)
-//    Observable<OrderDetailsBean> getOrderDetails(@FieldMap Map<String, String> map);
-//
+    //医生端订单-列表-详情
+    @FormUrlEncoded
+    @POST(ORDER_DETAILS)
+    Observable<OrderDetailsBean> getOrderDetails(@FieldMap Map<String, String> map);
+
+    //历史需求
+    @FormUrlEncoded
+    @POST(HISTORICAL_DEMAND)
+    Observable<HistoricalDemandBean> getHistoricalDemand(@FieldMap Map<String, String> map);
+
+    //发布需求
+    @FormUrlEncoded
+    @POST(SEND_DEMAND)
+    Observable<SendDemandBean> getSendDemand(@FieldMap Map<String, String> map);
+
 //    //医学专栏-列表
 //    @FormUrlEncoded
 //    @POST(SPECIAL_COLUMN)
@@ -221,12 +239,12 @@ public interface ApiService {
 //    @FormUrlEncoded
 //    @POST(OFFLINE_ACTIVITES_CANCEL)
 //    Observable<OfflineActivitiesCancelBean> getOfflineActivitiesCancel(@FieldMap Map<String, String> map);
-//
-//    //医生端订单-列表
-//    @FormUrlEncoded
-//    @POST(ORDER_LIST)
-//    Observable<OrderListBean> getOrderList(@FieldMap Map<String, String> map);
-//
+
+    //医院端-订单列表
+    @FormUrlEncoded
+    @POST(ORDER_LIST)
+    Observable<OrderListBean> getOrderList(@FieldMap Map<String, String> map);
+
 //    //医生端订单-已接单-点击结束手术-提交数据
 //    @FormUrlEncoded
 //    @POST(IS_ORDER_OPERATION_END)

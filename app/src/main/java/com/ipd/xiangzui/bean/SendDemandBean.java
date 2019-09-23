@@ -1,8 +1,8 @@
 package com.ipd.xiangzui.bean;
 
-public class RechargeAccountPayBean {
+public class SendDemandBean {
     /**
-     * msg : 操作成功
+     * msg : 操作成功！
      * code : 200
      */
 

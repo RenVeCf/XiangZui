@@ -109,10 +109,10 @@ public class MsgActivity extends BaseActivity<MsgContract.View, MsgContract.Pres
     public void resultMsgList(MsgListBean data) {
         switch (data.getCode()) {
             case 200:
-                if (data.getTotal() > 0) {//TODO 有接口后5更换总条数
+                if (data.getTotal() > 0) {
                     if (pageNum == 1) {
                         addrList.clear();
-                        addrList.addAll(data.getData().getAddrList());//TODO 有接口后打开
+                        addrList.addAll(data.getData().getAddrList());
                         msgAdapter = new MsgAdapter(addrList);
                         rvMsg.setAdapter(msgAdapter);
                         msgAdapter.bindToRecyclerView(rvMsg);

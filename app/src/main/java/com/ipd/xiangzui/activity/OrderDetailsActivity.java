@@ -14,22 +14,32 @@ import com.gyf.immersionbar.ImmersionBar;
 import com.ipd.xiangzui.R;
 import com.ipd.xiangzui.adapter.SelectOrderAddPatientAdapter;
 import com.ipd.xiangzui.base.BaseActivity;
-import com.ipd.xiangzui.base.BasePresenter;
-import com.ipd.xiangzui.base.BaseView;
-import com.ipd.xiangzui.bean.TestMultiItemEntityBean;
+import com.ipd.xiangzui.bean.OrderDetailsBean;
+import com.ipd.xiangzui.bean.OrderListBean;
+import com.ipd.xiangzui.bean.SendOrderDataBean;
 import com.ipd.xiangzui.common.view.CallPhoneDialog;
 import com.ipd.xiangzui.common.view.CustomLinearLayoutManager;
 import com.ipd.xiangzui.common.view.TopView;
 import com.ipd.xiangzui.common.view.TwoBtDialog;
+import com.ipd.xiangzui.contract.OrderContract;
+import com.ipd.xiangzui.presenter.OrderPresenter;
 import com.ipd.xiangzui.utils.ApplicationUtil;
+import com.ipd.xiangzui.utils.MD5Utils;
+import com.ipd.xiangzui.utils.SPUtil;
+import com.ipd.xiangzui.utils.StringUtils;
+import com.ipd.xiangzui.utils.ToastUtil;
 import com.xuexiang.xui.widget.textview.supertextview.SuperTextView;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.TreeMap;
 
 import butterknife.BindView;
 import butterknife.OnClick;
+import io.reactivex.ObservableTransformer;
 
+import static com.ipd.xiangzui.common.config.IConstants.SIGN;
+import static com.ipd.xiangzui.common.config.IConstants.USER_ID;
 import static com.ipd.xiangzui.utils.isClickUtil.isFastClick;
 
 /**
@@ -38,7 +48,7 @@ import static com.ipd.xiangzui.utils.isClickUtil.isFastClick;
  * Email ： 942685687@qq.com
  * Time ： 2019/7/16.
  */
-public class OrderDetailsActivity extends BaseActivity {
+public class OrderDetailsActivity extends BaseActivity<OrderContract.View, OrderContract.Presenter> implements OrderContract.View {
 
     @BindView(R.id.tv_order_details)
     TopView tvOrderDetails;
@@ -111,10 +121,10 @@ public class OrderDetailsActivity extends BaseActivity {
     @BindView(R.id.tv_pay_type)
     SuperTextView tvPayType;
 
-    private int surgeryType;//1: 单台，2: 连台
-    private String orderType;//订单状态 0:待接单， 1:已接单， 2:进行中， 3:已完成
+    private String orderStatus; //订单状态：1：待接单 2：待开始  3：进行中4：已结束 5：待结算 6：已结算' 7：已取消
     private SelectOrderAddPatientAdapter selectOrderAddPatientAdapter;
-    private List<TestMultiItemEntityBean> str1 = new ArrayList<>();
+    private List<SendOrderDataBean.TwoOrderBean> str1 = new ArrayList<>();
+    private int orderId;
 
     @Override
     public int getLayoutId() {
@@ -122,13 +132,13 @@ public class OrderDetailsActivity extends BaseActivity {
     }
 
     @Override
-    public BasePresenter createPresenter() {
-        return null;
+    public OrderContract.Presenter createPresenter() {
+        return new OrderPresenter(this);
     }
 
     @Override
-    public BaseView createView() {
-        return null;
+    public OrderContract.View createView() {
+        return this;
     }
 
     @Override
@@ -138,17 +148,18 @@ public class OrderDetailsActivity extends BaseActivity {
         //防止状态栏和标题重叠
         ImmersionBar.setTitleBar(this, tvOrderDetails);
 
-        surgeryType = getIntent().getIntExtra("surgery_type", 0);
-        orderType = getIntent().getStringExtra("order_type");
+        orderStatus = getIntent().getStringExtra("order_status");
+        orderId = getIntent().getIntExtra("orderId", 0);
 
-        switch (orderType) {
-            case "0":
-                llWaitingOrder.setVisibility(View.VISIBLE);
-                break;
+        switch (orderStatus) {
             case "1":
-                llIsOrder.setVisibility(View.VISIBLE);
+                llWaitingOrder.setVisibility(View.VISIBLE);
+                rvPatientList.setVisibility(View.VISIBLE);
                 break;
             case "2":
+                llIsOrder.setVisibility(View.VISIBLE);
+                break;
+            case "3":
                 tvPatientName.setVisibility(View.GONE);
                 tvPatientSex.setVisibility(View.GONE);
                 tvPatientAge.setVisibility(View.GONE);
@@ -184,7 +195,10 @@ public class OrderDetailsActivity extends BaseActivity {
                 tvSumFee.setRightString("¥ 303元");
                 tvPayType.setRightString("已结算");
                 break;
-            case "3":
+            case "4":
+            case "5":
+            case "6":
+            case "7":
                 tvPatientName.setVisibility(View.GONE);
                 tvPatientSex.setVisibility(View.GONE);
                 tvPatientAge.setVisibility(View.GONE);
@@ -230,55 +244,22 @@ public class OrderDetailsActivity extends BaseActivity {
         rvPatientList.setHasFixedSize(true);// 如果可以确定每个item的高度是固定的，设置这个选项可以提高性能
         rvPatientList.setItemAnimator(new DefaultItemAnimator());//加载动画
 
-//        for (int i = 0; i < 2; i++) {
-//            TestMultiItemEntityBean testData = new TestMultiItemEntityBean();
-//            str1.add(testData);
-//        }
-//        rvPatientList.setAdapter(selectOrderAddPatientAdapter = new SelectOrderAddPatientAdapter(str1, 2));
-//        selectOrderAddPatientAdapter.bindToRecyclerView(rvPatientList);
-//        selectOrderAddPatientAdapter.openLoadAnimation();
+        for (int i = 0; i < 2; i++) {
+            SendOrderDataBean.TwoOrderBean testData = new SendOrderDataBean.TwoOrderBean();
+            str1.add(testData);
+        }
+        rvPatientList.setAdapter(selectOrderAddPatientAdapter = new SelectOrderAddPatientAdapter(str1, 2));
+        selectOrderAddPatientAdapter.bindToRecyclerView(rvPatientList);
+        selectOrderAddPatientAdapter.openLoadAnimation();
     }
 
     @Override
     public void initData() {
-        tvHospitalName.setRightString("上海市第一人民医院");
-        tvHospitalAddress.setRightString("上海市虹口区海宁路100号");
-        tvSurgeryType.setRightString(surgeryType == 1 ? "单台" : "连台");
-        tvSimulatedSurgeryName.setRightString("阑尾切除术");
-        tvStartTime.setRightString("2019-05-05 10:30");
-        tvContinuedTime.setRightString("2h");
-        tvContinuedFee.setRightString("¥ 300元");
-        tvPs.setRightString("高龄、药物过敏");
-        if (surgeryType == 1) {
-            tvPatientName.setRightString("李先生");
-            tvPatientSex.setRightString("男");
-            tvPatientAge.setRightString("22岁");
-            tvPatientHeight.setRightString("172cm");
-            tvPatientBodyWeight.setRightString("66kg");
-            tvPatientSimulatedAnesthesia.setRightString("椎管内麻醉");
-            tvPatientIdCard.setRightString("已上传");
-            tvPatientInsuranceConsent.setRightString("已上传");
-            tvPatientSurgeryMedicalRecord.setRightString("已上传");
-            tvPatientBloodRoutine.setRightString("已上传");
-            tvPatientElectrocardiogram.setRightString("已上传");
-            tvPatientCoagulation.setRightString("已上传");
-            tvPatientInfectiousDisease.setRightString("已上传");
-        } else {
-            tvPatientName.setVisibility(View.GONE);
-            tvPatientSex.setVisibility(View.GONE);
-            tvPatientAge.setVisibility(View.GONE);
-            tvPatientHeight.setVisibility(View.GONE);
-            tvPatientBodyWeight.setVisibility(View.GONE);
-            tvPatientSimulatedAnesthesia.setVisibility(View.GONE);
-            tvPatientIdCard.setVisibility(View.GONE);
-            tvPatientInsuranceConsent.setVisibility(View.GONE);
-            tvPatientSurgeryMedicalRecord.setVisibility(View.GONE);
-            tvPatientBloodRoutine.setVisibility(View.GONE);
-            tvPatientElectrocardiogram.setVisibility(View.GONE);
-            tvPatientCoagulation.setVisibility(View.GONE);
-            tvPatientInfectiousDisease.setVisibility(View.GONE);
-            rvPatientList.setVisibility(View.VISIBLE);
-        }
+        TreeMap<String, String> orderDetailsMap = new TreeMap<>();
+        orderDetailsMap.put("userId", SPUtil.get(this, USER_ID, "") + "");
+        orderDetailsMap.put("orderId", orderId + "");
+        orderDetailsMap.put("sign", StringUtils.toUpperCase(MD5Utils.encodeMD5(orderDetailsMap.toString().replaceAll(" ", "") + SIGN)));
+        getPresenter().getOrderDetails(orderDetailsMap, false, false);
     }
 
     @Override
@@ -340,5 +321,69 @@ public class OrderDetailsActivity extends BaseActivity {
                     }.show();
                 break;
         }
+    }
+
+    @Override
+    public void resultOrderList(OrderListBean data) {
+
+    }
+
+    @Override
+    public void resultOrderDetails(OrderDetailsBean data) {
+        switch (data.getCode()) {
+            case 200:
+                tvHospitalName.setRightString(data.getData().getOrder().getHospitalName());
+                tvHospitalAddress.setRightString(data.getData().getOrder().getProv() + data.getData().getOrder().getCity() + data.getData().getOrder().getDist() + data.getData().getOrder().getAddress());
+                tvSurgeryType.setRightString("1".equals(data.getData().getOrder().getOrderType()) ? "单台" : "连台");
+                tvSimulatedSurgeryName.setRightString(data.getData().getOrder().getSurgeryName());
+                tvStartTime.setRightString(data.getData().getOrder().getBeginTime());
+                tvContinuedTime.setRightString(data.getData().getOrder().getDuration() + "h");
+                tvContinuedFee.setRightString("¥ " + data.getData().getOrder().getExpectMoney() + "元");
+                tvPs.setRightString(data.getData().getOrder().getPrompt());
+                if ("1".equals(data.getData().getOrder().getOrderType())) {
+                    tvPatientName.setRightString("李先生");
+                    tvPatientSex.setRightString("男");
+                    tvPatientAge.setRightString("22岁");
+                    tvPatientHeight.setRightString("172cm");
+                    tvPatientBodyWeight.setRightString("66kg");
+                    tvPatientSimulatedAnesthesia.setRightString("椎管内麻醉");
+                    tvPatientIdCard.setRightString("已上传");
+                    tvPatientInsuranceConsent.setRightString("已上传");
+                    tvPatientSurgeryMedicalRecord.setRightString("已上传");
+                    tvPatientBloodRoutine.setRightString("已上传");
+                    tvPatientElectrocardiogram.setRightString("已上传");
+                    tvPatientCoagulation.setRightString("已上传");
+                    tvPatientInfectiousDisease.setRightString("已上传");
+                } else {
+                    tvPatientName.setVisibility(View.GONE);
+                    tvPatientSex.setVisibility(View.GONE);
+                    tvPatientAge.setVisibility(View.GONE);
+                    tvPatientHeight.setVisibility(View.GONE);
+                    tvPatientBodyWeight.setVisibility(View.GONE);
+                    tvPatientSimulatedAnesthesia.setVisibility(View.GONE);
+                    tvPatientIdCard.setVisibility(View.GONE);
+                    tvPatientInsuranceConsent.setVisibility(View.GONE);
+                    tvPatientSurgeryMedicalRecord.setVisibility(View.GONE);
+                    tvPatientBloodRoutine.setVisibility(View.GONE);
+                    tvPatientElectrocardiogram.setVisibility(View.GONE);
+                    tvPatientCoagulation.setVisibility(View.GONE);
+                    tvPatientInfectiousDisease.setVisibility(View.GONE);
+                    rvPatientList.setVisibility(View.VISIBLE);
+                }
+                break;
+            case 900:
+                ToastUtil.showLongToast(data.getMsg());
+                //清除所有临时储存
+                SPUtil.clear(ApplicationUtil.getContext());
+                ApplicationUtil.getManager().finishActivity(MainActivity.class);
+                startActivity(new Intent(this, CaptchaLoginActivity.class));
+                finish();
+                break;
+        }
+    }
+
+    @Override
+    public <T> ObservableTransformer<T, T> bindLifecycle() {
+        return this.bindToLifecycle();
     }
 }

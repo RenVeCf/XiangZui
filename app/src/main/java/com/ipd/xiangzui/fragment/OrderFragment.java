@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 
+import androidx.appcompat.widget.LinearLayoutCompat;
 import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -12,26 +13,39 @@ import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.ipd.xiangzui.R;
+import com.ipd.xiangzui.activity.CaptchaLoginActivity;
+import com.ipd.xiangzui.activity.MainActivity;
 import com.ipd.xiangzui.activity.ModifyMedicalRecordActivity;
 import com.ipd.xiangzui.activity.OrderDetailsActivity;
 import com.ipd.xiangzui.activity.SendOrderActivity;
 import com.ipd.xiangzui.adapter.MainOrderAdapter;
 import com.ipd.xiangzui.base.BaseFragment;
-import com.ipd.xiangzui.base.BasePresenter;
-import com.ipd.xiangzui.base.BaseView;
-import com.ipd.xiangzui.bean.TestMultiItemEntityBean;
+import com.ipd.xiangzui.bean.OrderDetailsBean;
+import com.ipd.xiangzui.bean.OrderListBean;
 import com.ipd.xiangzui.common.view.CallPhoneDialog;
 import com.ipd.xiangzui.common.view.EditDialog;
 import com.ipd.xiangzui.common.view.SpacesItemDecoration;
 import com.ipd.xiangzui.common.view.TwoBtDialog;
+import com.ipd.xiangzui.contract.OrderContract;
+import com.ipd.xiangzui.presenter.OrderPresenter;
+import com.ipd.xiangzui.utils.ApplicationUtil;
+import com.ipd.xiangzui.utils.MD5Utils;
+import com.ipd.xiangzui.utils.SPUtil;
+import com.ipd.xiangzui.utils.StringUtils;
+import com.ipd.xiangzui.utils.ToastUtil;
+import com.trello.rxlifecycle2.android.FragmentEvent;
 import com.xuexiang.xui.widget.textview.supertextview.SuperTextView;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.TreeMap;
 
 import butterknife.BindView;
 import butterknife.OnClick;
+import io.reactivex.ObservableTransformer;
 
+import static com.ipd.xiangzui.common.config.IConstants.SIGN;
+import static com.ipd.xiangzui.common.config.IConstants.USER_ID;
 import static com.ipd.xiangzui.utils.isClickUtil.isFastClick;
 
 /**
@@ -40,19 +54,21 @@ import static com.ipd.xiangzui.utils.isClickUtil.isFastClick;
  * Email ： 942685687@qq.com
  * Time ： 2019/7/16.
  */
-public class OrderFragment extends BaseFragment {
+public class OrderFragment extends BaseFragment<OrderContract.View, OrderContract.Presenter> implements OrderContract.View {
     @BindView(R.id.stv_order_time)
     SuperTextView stvOrderTime;
     @BindView(R.id.stv_order_region)
     SuperTextView stvOrderRegion;
     @BindView(R.id.stv_order_money)
     SuperTextView stvOrderMoney;
+    @BindView(R.id.ll_order)
+    LinearLayoutCompat llOrder;
     @BindView(R.id.rv_order)
     RecyclerView rvOrder;
     @BindView(R.id.srl_order)
     SwipeRefreshLayout srlOrder;
 
-    private List<TestMultiItemEntityBean> str1 = new ArrayList<>();
+    private List<OrderListBean.DataBean.OrderListsBean> orderList = new ArrayList<>();
     private MainOrderAdapter mainOrderAdapter;
     private int pageNum = 1;//页数
     private String orderType;//订单状态 0:待接单， 1:已接单， 2:进行中， 3:已完成
@@ -63,13 +79,13 @@ public class OrderFragment extends BaseFragment {
     }
 
     @Override
-    public BasePresenter createPresenter() {
-        return null;
+    public OrderContract.Presenter createPresenter() {
+        return new OrderPresenter(mContext);
     }
 
     @Override
-    public BaseView createView() {
-        return null;
+    public OrderContract.View createView() {
+        return this;
     }
 
     @SuppressLint("WrongConstant")
@@ -79,7 +95,8 @@ public class OrderFragment extends BaseFragment {
         if (args != null) {
             orderType = args.getString("order_type");
         }
-
+        if ("0".equals(orderType))
+            llOrder.setVisibility(View.VISIBLE);
         LinearLayoutManager layoutManager = new LinearLayoutManager(getContext());
         layoutManager.setOrientation(LinearLayoutManager.VERTICAL);//方向
         rvOrder.setLayoutManager(layoutManager);
@@ -105,162 +122,20 @@ public class OrderFragment extends BaseFragment {
 
     @Override
     public void initData() {
-        if (5 > 0) {//TODO 有接口后5更换总条数
-            if (pageNum == 1) {
-                str1.clear();
-                for (int i = 0; i < 5; i++) {//TODO 有接口后去掉
-                    TestMultiItemEntityBean testData = new TestMultiItemEntityBean();
-                    testData.setAddFee(true);
-                    testData.setOrderType(orderType);
-                    str1.add(testData);
-                }
-//                str1.addAll(data.getData().getMessageList());//TODO 有接口后打开
-                mainOrderAdapter = new MainOrderAdapter(str1);
-                rvOrder.setAdapter(mainOrderAdapter);
-                mainOrderAdapter.bindToRecyclerView(rvOrder);
-                mainOrderAdapter.setEnableLoadMore(true);
-                mainOrderAdapter.openLoadAnimation();
-                mainOrderAdapter.disableLoadMoreIfNotFullPage();
+        orderList("", "", "");
+    }
 
-                mainOrderAdapter.setOnItemChildClickListener(new BaseQuickAdapter.OnItemChildClickListener() {
-                    @Override
-                    public void onItemChildClick(BaseQuickAdapter adapter, View view, int position) {
-                        switch (view.getId()) {
-                            case R.id.cv_order_item:
-                                startActivity(new Intent(getContext(), OrderDetailsActivity.class).putExtra("surgery_type", 1).putExtra("order_type", orderType));
-                                break;
-                            case R.id.stv_start_time:
-                                startActivity(new Intent(getContext(), OrderDetailsActivity.class).putExtra("surgery_type", 1).putExtra("order_type", orderType));
-                                break;
-                            case R.id.stv_fee:
-                                startActivity(new Intent(getContext(), OrderDetailsActivity.class).putExtra("surgery_type", 1).putExtra("order_type", orderType));
-                                break;
-                            case R.id.stv_name:
-                                startActivity(new Intent(getContext(), OrderDetailsActivity.class).putExtra("surgery_type", 1).putExtra("order_type", orderType));
-                                break;
-                            case R.id.stv_address:
-                                startActivity(new Intent(getContext(), OrderDetailsActivity.class).putExtra("surgery_type", 1).putExtra("order_type", orderType));
-                                break;
-                            case R.id.bt_first:
-                                switch (str1.get(position).getOrderType()) {
-                                    case "0":
-                                        if (isFastClick())
-                                            new TwoBtDialog(getActivity(), "确认取消订单？", "确认") {
-                                                @Override
-                                                public void confirm() {
-                                                    str1.remove(position);
-                                                    mainOrderAdapter.notifyDataSetChanged();
-                                                    mainOrderAdapter.setEmptyView(R.layout.null_data, rvOrder);
-                                                }
-                                            }.show();
-                                        break;
-                                    case "1":
-                                        if (isFastClick())
-                                            new TwoBtDialog(getActivity(), "确认取消订单？", "确认") {
-                                                @Override
-                                                public void confirm() {
-                                                    str1.remove(position);
-                                                    mainOrderAdapter.notifyDataSetChanged();
-                                                    mainOrderAdapter.setEmptyView(R.layout.null_data, rvOrder);
-                                                }
-                                            }.show();
-                                        break;
-                                    case "2":
-                                        startActivity(new Intent(getContext(), OrderDetailsActivity.class).putExtra("surgery_type", 1).putExtra("order_type", orderType));
-                                        break;
-                                    case "3":
-                                        startActivity(new Intent(getContext(), OrderDetailsActivity.class).putExtra("surgery_type", 1).putExtra("order_type", orderType));
-                                        break;
-                                }
-                                break;
-                            case R.id.bt_second:
-                                switch (str1.get(position).getOrderType()) {
-                                    case "0":
-                                        if (isFastClick())
-                                            startActivity(new Intent(getContext(), SendOrderActivity.class));
-                                        break;
-                                    case "1":
-                                        if (isFastClick())
-                                            startActivity(new Intent(getContext(), ModifyMedicalRecordActivity.class));
-                                        break;
-                                    case "2":
-                                        if (isFastClick())
-                                            new TwoBtDialog(getActivity(), "对此订单有异议，是否进行电话咨询？", "确认") {
-                                                @Override
-                                                public void confirm() {
-                                                    new CallPhoneDialog(getActivity()) {
-                                                    }.show();
-                                                }
-                                            }.show();
-                                        break;
-                                }
-                                break;
-                            case R.id.bt_third:
-                                switch (str1.get(position).getOrderType()) {
-                                    case "0":
-                                        if (isFastClick())
-                                            new EditDialog(getActivity()){
-                                                @Override
-                                                public void confirm(String content) {
-
-                                                }
-                                            }.show();
-                                        break;
-                                    case "1":
-                                        if (isFastClick())
-                                            new CallPhoneDialog(getActivity()) {
-                                            }.show();
-                                        break;
-                                    case "2":
-                                        if (isFastClick())
-                                            new TwoBtDialog(getActivity(), "是否确认手术结束？", "确认") {
-                                                @Override
-                                                public void confirm() {
-                                                    startActivity(new Intent(getContext(), OrderDetailsActivity.class).putExtra("surgery_type", 1).putExtra("order_type", orderType));
-                                                }
-                                            }.show();
-                                        break;
-                                }
-                                break;
-                        }
-                    }
-                });
-
-                //上拉加载
-                mainOrderAdapter.setOnLoadMoreListener(new BaseQuickAdapter.RequestLoadMoreListener() {
-                    @Override
-                    public void onLoadMoreRequested() {
-                        rvOrder.postDelayed(new Runnable() {
-                            @Override
-                            public void run() {
-                                initData();
-                            }
-                        }, 1000);
-                    }
-                }, rvOrder);
-
-                if (5 > 10) {//TODO 有接口后5更换list.size
-                    pageNum += 1;
-                } else {
-                    mainOrderAdapter.loadMoreEnd();
-                }
-            } else {
-                if ((5 - pageNum * 10) > 0) {//TODO 有接口后5更换list.size
-                    pageNum += 1;
-//                    mainOrderAdapter.addData(data.getData().getMessageList());//TODO 有接口后打开
-                    mainOrderAdapter.loadMoreComplete(); //完成本次
-                } else {
-//                    mainOrderAdapter.addData(data.getData().getMessageList());//TODO 有接口后打开
-                    mainOrderAdapter.loadMoreEnd(); //完成所有加载
-                }
-            }
-        } else {
-            str1.clear();
-            mainOrderAdapter = new MainOrderAdapter(str1);
-            rvOrder.setAdapter(mainOrderAdapter);
-            mainOrderAdapter.loadMoreEnd(); //完成所有加载
-            mainOrderAdapter.setEmptyView(R.layout.null_data, rvOrder);
-        }
+    private void orderList(String orderByColumn, String isAsc, String dist) {
+        TreeMap<String, String> orderListMap = new TreeMap<>();
+        orderListMap.put("userId", SPUtil.get(getContext(), USER_ID, "") + "");
+        orderListMap.put("status", (Integer.parseInt(orderType) + 1) + "");
+        orderListMap.put("pageNum", pageNum + "");
+        orderListMap.put("pageSize", "10");
+        orderListMap.put("orderByColumn", orderByColumn);
+        orderListMap.put("isAsc", isAsc);
+        orderListMap.put("dist", dist);
+        orderListMap.put("sign", StringUtils.toUpperCase(MD5Utils.encodeMD5(orderListMap.toString().replaceAll(" ", "") + SIGN)));
+        getPresenter().getOrderList(orderListMap, false, false);
     }
 
     @OnClick({R.id.stv_order_time, R.id.stv_order_region, R.id.stv_order_money})
@@ -273,5 +148,181 @@ public class OrderFragment extends BaseFragment {
             case R.id.stv_order_money:
                 break;
         }
+    }
+
+    @Override
+    public void resultOrderList(OrderListBean data) {
+        switch (data.getCode()) {
+            case 200:
+                if (data.getTotal() > 0) {
+                    if (pageNum == 1) {
+                        orderList.clear();
+                        orderList.addAll(data.getData().getOrderList());
+                        mainOrderAdapter = new MainOrderAdapter(orderList);
+                        rvOrder.setAdapter(mainOrderAdapter);
+                        mainOrderAdapter.bindToRecyclerView(rvOrder);
+                        mainOrderAdapter.setEnableLoadMore(true);
+                        mainOrderAdapter.openLoadAnimation();
+                        mainOrderAdapter.disableLoadMoreIfNotFullPage();
+
+                        mainOrderAdapter.setOnItemChildClickListener(new BaseQuickAdapter.OnItemChildClickListener() {
+                            @Override
+                            public void onItemChildClick(BaseQuickAdapter adapter, View view, int position) {
+                                switch (view.getId()) {
+                                    case R.id.cv_order_item:
+                                        startActivity(new Intent(getContext(), OrderDetailsActivity.class).putExtra("surgery_type", 1).putExtra("order_type", orderType));
+                                        break;
+                                    case R.id.stv_start_time:
+                                        startActivity(new Intent(getContext(), OrderDetailsActivity.class).putExtra("surgery_type", 1).putExtra("order_type", orderType));
+                                        break;
+                                    case R.id.stv_fee:
+                                        startActivity(new Intent(getContext(), OrderDetailsActivity.class).putExtra("surgery_type", 1).putExtra("order_type", orderType));
+                                        break;
+                                    case R.id.stv_name:
+                                        startActivity(new Intent(getContext(), OrderDetailsActivity.class).putExtra("surgery_type", 1).putExtra("order_type", orderType));
+                                        break;
+                                    case R.id.stv_address:
+                                        startActivity(new Intent(getContext(), OrderDetailsActivity.class).putExtra("surgery_type", 1).putExtra("order_type", orderType));
+                                        break;
+                                    case R.id.bt_first:
+                                        switch (orderList.get(position).getOrderType()) {
+                                            case "0":
+                                                if (isFastClick())
+                                                    new TwoBtDialog(getActivity(), "确认取消订单？", "确认") {
+                                                        @Override
+                                                        public void confirm() {
+                                                            orderList.remove(position);
+                                                            mainOrderAdapter.notifyDataSetChanged();
+                                                            mainOrderAdapter.setEmptyView(R.layout.null_data, rvOrder);
+                                                        }
+                                                    }.show();
+                                                break;
+                                            case "1":
+                                                if (isFastClick())
+                                                    new TwoBtDialog(getActivity(), "确认取消订单？", "确认") {
+                                                        @Override
+                                                        public void confirm() {
+                                                            orderList.remove(position);
+                                                            mainOrderAdapter.notifyDataSetChanged();
+                                                            mainOrderAdapter.setEmptyView(R.layout.null_data, rvOrder);
+                                                        }
+                                                    }.show();
+                                                break;
+                                            case "2":
+                                                startActivity(new Intent(getContext(), OrderDetailsActivity.class).putExtra("surgery_type", 1).putExtra("order_type", orderType));
+                                                break;
+                                            case "3":
+                                                startActivity(new Intent(getContext(), OrderDetailsActivity.class).putExtra("surgery_type", 1).putExtra("order_type", orderType));
+                                                break;
+                                        }
+                                        break;
+                                    case R.id.bt_second:
+                                        switch (orderList.get(position).getOrderType()) {
+                                            case "0":
+                                                if (isFastClick())
+                                                    startActivity(new Intent(getContext(), SendOrderActivity.class));
+                                                break;
+                                            case "1":
+                                                if (isFastClick())
+                                                    startActivity(new Intent(getContext(), ModifyMedicalRecordActivity.class));
+                                                break;
+                                            case "2":
+                                                if (isFastClick())
+                                                    new TwoBtDialog(getActivity(), "对此订单有异议，是否进行电话咨询？", "确认") {
+                                                        @Override
+                                                        public void confirm() {
+                                                            new CallPhoneDialog(getActivity()) {
+                                                            }.show();
+                                                        }
+                                                    }.show();
+                                                break;
+                                        }
+                                        break;
+                                    case R.id.bt_third:
+                                        switch (orderList.get(position).getOrderType()) {
+                                            case "0":
+                                                if (isFastClick())
+                                                    new EditDialog(getActivity()) {
+                                                        @Override
+                                                        public void confirm(String content) {
+
+                                                        }
+                                                    }.show();
+                                                break;
+                                            case "1":
+                                                if (isFastClick())
+                                                    new CallPhoneDialog(getActivity()) {
+                                                    }.show();
+                                                break;
+                                            case "2":
+                                                if (isFastClick())
+                                                    new TwoBtDialog(getActivity(), "是否确认手术结束？", "确认") {
+                                                        @Override
+                                                        public void confirm() {
+                                                            startActivity(new Intent(getContext(), OrderDetailsActivity.class).putExtra("surgery_type", 1).putExtra("order_type", orderType));
+                                                        }
+                                                    }.show();
+                                                break;
+                                        }
+                                        break;
+                                }
+                            }
+                        });
+
+                        //上拉加载
+                        mainOrderAdapter.setOnLoadMoreListener(new BaseQuickAdapter.RequestLoadMoreListener() {
+                            @Override
+                            public void onLoadMoreRequested() {
+                                rvOrder.postDelayed(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        initData();
+                                    }
+                                }, 1000);
+                            }
+                        }, rvOrder);
+
+                        if (data.getTotal() > 10) {
+                            pageNum += 1;
+                        } else {
+                            mainOrderAdapter.loadMoreEnd();
+                        }
+                    } else {
+                        if ((data.getTotal() - pageNum * 10) > 0) {
+                            pageNum += 1;
+                            mainOrderAdapter.addData(data.getData().getOrderList());
+                            mainOrderAdapter.loadMoreComplete(); //完成本次
+                        } else {
+                            mainOrderAdapter.addData(data.getData().getOrderList());
+                            mainOrderAdapter.loadMoreEnd(); //完成所有加载
+                        }
+                    }
+                } else {
+                    orderList.clear();
+                    mainOrderAdapter = new MainOrderAdapter(orderList);
+                    rvOrder.setAdapter(mainOrderAdapter);
+                    mainOrderAdapter.loadMoreEnd(); //完成所有加载
+                    mainOrderAdapter.setEmptyView(R.layout.null_data, rvOrder);
+                }
+                break;
+            case 900:
+                ToastUtil.showShortToast(data.getMsg());
+                //清除所有临时储存
+                SPUtil.clear(ApplicationUtil.getContext());
+                ApplicationUtil.getManager().finishActivity(MainActivity.class);
+                startActivity(new Intent(getContext(), CaptchaLoginActivity.class));
+                getActivity().finish();
+                break;
+        }
+    }
+
+    @Override
+    public void resultOrderDetails(OrderDetailsBean data) {
+
+    }
+
+    @Override
+    public <T> ObservableTransformer<T, T> bindLifecycle() {
+        return this.bindUntilEvent(FragmentEvent.PAUSE);
     }
 }

@@ -252,18 +252,18 @@ public class RechargeActivity extends BaseActivity<RechargeContract.View, Rechar
 
     @Override
     public void resultRechargeAccountPay(RechargeAccountPayBean data) {
-//        switch (data.getCode()) {
-//            case 200:
-//                break;
-//            case 900:
-//                ToastUtil.showLongToast(data.getMsg());
-//                //清除所有临时储存
-//                SPUtil.clear(ApplicationUtil.getContext());
-//                ApplicationUtil.getManager().finishActivity(MainActivity.class);
-//                startActivity(new Intent(this, CaptchaLoginActivity.class));
-//                finish();
-//                break;
-//        }
+        switch (data.getCode()) {
+            case 200:
+                break;
+            case 900:
+                ToastUtil.showLongToast(data.getMsg());
+                //清除所有临时储存
+                SPUtil.clear(ApplicationUtil.getContext());
+                ApplicationUtil.getManager().finishActivity(MainActivity.class);
+                startActivity(new Intent(this, CaptchaLoginActivity.class));
+                finish();
+                break;
+        }
     }
 
     @Override
