@@ -3,6 +3,7 @@ package com.ipd.xiangzui.activity;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
+import android.os.Parcelable;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
@@ -26,6 +27,7 @@ import com.ipd.xiangzui.R;
 import com.ipd.xiangzui.base.BaseActivity;
 import com.ipd.xiangzui.base.BasePresenter;
 import com.ipd.xiangzui.base.BaseView;
+import com.ipd.xiangzui.bean.OrderDetailsBean;
 import com.ipd.xiangzui.bean.SendOrderDataBean;
 import com.ipd.xiangzui.common.view.TopView;
 import com.ipd.xiangzui.utils.ApplicationUtil;
@@ -78,6 +80,8 @@ public class SendOrderSurgicalInfoActivity extends BaseActivity {
     private TimePickerView pvTime;
     private OptionsPickerView pvOptions; //条件选择器
     private int sendOrderType; //1: 单台, 2: 连台
+    private OrderDetailsBean.DataBean.OrderBean orderDetails;
+    private List<OrderDetailsBean.DataBean.OrderDetailBean> orderDetailsList;
 
     @Override
     public int getLayoutId() {
@@ -104,12 +108,26 @@ public class SendOrderSurgicalInfoActivity extends BaseActivity {
         sendOrderType = getIntent().getIntExtra("sendOrderType", 0);
         if (sendOrderType == 2)
             llSurgicalName.setVisibility(View.GONE);
+
+        orderDetails = getIntent().getParcelableExtra("orderDetails");
+        orderDetailsList = getIntent().getParcelableArrayListExtra("orderDetailsList");
+        if (orderDetails != null && "2".equals(orderDetails.getOrderType()))
+            llSurgicalName.setVisibility(View.GONE);
     }
 
     @Override
     public void initData() {
         etHospitalName.setText(SPUtil.get(this, HOSPTIAL_NAME, "") + "");
         stvSurgicalAddress.setRightString(SPUtil.get(this, PROV, "") + "" + SPUtil.get(this, CITY, "") + SPUtil.get(this, DIST, "") + SPUtil.get(this, ADDRESS, ""));
+
+        if (orderDetails != null && orderDetailsList.size() > 0) {
+            if ("1".equals(orderDetails.getOrderType()))
+                etSurgicalName.setText(orderDetails.getSurgeryName());
+            etHospitalName.setText(orderDetails.getHospitalName());
+            stvSurgicalAddress.setRightString(orderDetails.getProv() + orderDetails.getCity() + orderDetails.getDist() + orderDetails.getAddress());
+            stvSurgicalTime.setRightString(orderDetails.getBeginTime());
+            stvSurgicalDuration.setRightString(orderDetails.getDuration() + "小时");
+        }
     }
 
     @Override
@@ -137,6 +155,9 @@ public class SendOrderSurgicalInfoActivity extends BaseActivity {
             @Override
             public void onTimeSelect(Date date, View v) {//选中事件回调
                 stvSurgicalTime.setRightString(timedate1(date.getTime() + ""));
+                if (orderDetails != null) {
+                    orderDetails.setBeginTime(timedate1(date.getTime() + ""));
+                }
             }
         })
                 .setLayoutRes(R.layout.pickerview_custom_time, new CustomListener() {
@@ -192,6 +213,9 @@ public class SendOrderSurgicalInfoActivity extends BaseActivity {
             @Override
             public void onOptionsSelect(int options1, int option2, int options3, View v) {
                 stvSurgicalDuration.setRightString(listData.get(options1));
+                if (orderDetails != null) {
+                    orderDetails.setDuration(Double.parseDouble(listData.get(options1).replaceAll("小时", "")));
+                }
             }
         })
                 .setDividerColor(getResources().getColor(R.color.white))//设置分割线的颜色
@@ -239,6 +263,13 @@ public class SendOrderSurgicalInfoActivity extends BaseActivity {
                     SPUtil.put(this, DIST, data.getStringExtra("dist"));
                     SPUtil.put(this, ADDRESS, data.getStringExtra("address"));
                     stvSurgicalAddress.setRightString(data.getStringExtra("prov") + data.getStringExtra("city") + data.getStringExtra("dist") + data.getStringExtra("address"));
+
+                    if (orderDetails != null) {
+                        orderDetails.setProv(data.getStringExtra("prov"));
+                        orderDetails.setCity(data.getStringExtra("city"));
+                        orderDetails.setDist(data.getStringExtra("dist"));
+                        orderDetails.setAddress(data.getStringExtra("address"));
+                    }
                     break;
             }
         }
@@ -288,6 +319,11 @@ public class SendOrderSurgicalInfoActivity extends BaseActivity {
                     sendOrderData.setTwoOrderBean(oneOrderList);
 
                     startActivity(new Intent(this, SendOrderPatientInfoActivity.class).putExtra("sendOrderData", sendOrderData));
+                } else if (orderDetails != null) {
+                    if ("1".equals(orderDetails.getOrderType()))
+                        orderDetails.setSurgeryName(etSurgicalName.getText().toString().trim());
+                    orderDetails.setHospitalName(etHospitalName.getText().toString().trim());
+                    startActivity(new Intent(this, SendOrderAddPatientActivity.class).putExtra("orderDetails", orderDetails).putParcelableArrayListExtra("orderDetailsList", (ArrayList<? extends Parcelable>) orderDetailsList));
                 } else
                     ToastUtil.showShortToast("请将资料填写完整!");
                 break;

@@ -25,6 +25,7 @@ import com.ipd.xiangzui.R;
 import com.ipd.xiangzui.adapter.SelectOrderAddPatientAdapter;
 import com.ipd.xiangzui.base.BaseActivity;
 import com.ipd.xiangzui.bean.NarcosisListBean;
+import com.ipd.xiangzui.bean.OrderDetailsBean;
 import com.ipd.xiangzui.bean.SendOrderDataBean;
 import com.ipd.xiangzui.common.view.CustomLinearLayoutManager;
 import com.ipd.xiangzui.common.view.TopView;
@@ -91,6 +92,9 @@ public class SendOrderAddPatientActivity extends BaseActivity<NarcosisListContra
     private OptionsPickerView pvOptions; //条件选择器
     private SelectOrderAddPatientAdapter selectOrderAddPatientAdapter;
     private String positiveUrl = "", negativeUrl = "", imgUrl = "";
+    private OrderDetailsBean.DataBean.OrderBean orderDetails;
+    private List<OrderDetailsBean.DataBean.OrderDetailBean> orderDetailsList;
+    private int selectRb;
 
     @Override
     public int getLayoutId() {
@@ -116,6 +120,9 @@ public class SendOrderAddPatientActivity extends BaseActivity<NarcosisListContra
         ImmersionBar.setTitleBar(this, tvSendOrderAddPatient);
 
         sendOrderData = getIntent().getParcelableExtra("sendOrderData");
+        selectRb = getIntent().getIntExtra("selectRb", 0);
+        orderDetails = getIntent().getParcelableExtra("orderDetails");
+        orderDetailsList = getIntent().getParcelableArrayListExtra("orderDetailsList");
 
         //更多订单
         CustomLinearLayoutManager layoutManager = new CustomLinearLayoutManager(this);
@@ -133,7 +140,10 @@ public class SendOrderAddPatientActivity extends BaseActivity<NarcosisListContra
         narcosisListMap.put("sign", StringUtils.toUpperCase(MD5Utils.encodeMD5(narcosisListMap.toString().replaceAll(" ", "") + SIGN)));
         getPresenter().getNarcosisList(narcosisListMap, false, false);
 
-        rvSendOrderAddPatient.setAdapter(selectOrderAddPatientAdapter = new SelectOrderAddPatientAdapter(sendOrderData.getTwoOrderBean(), 1));
+        if (orderDetails != null && orderDetailsList.size() > 0)
+            rvSendOrderAddPatient.setAdapter(selectOrderAddPatientAdapter = new SelectOrderAddPatientAdapter(orderDetailsList, 1));
+        else
+            rvSendOrderAddPatient.setAdapter(selectOrderAddPatientAdapter = new SelectOrderAddPatientAdapter(sendOrderData.getTwoOrderBean(), 1));
         selectOrderAddPatientAdapter.bindToRecyclerView(rvSendOrderAddPatient);
         selectOrderAddPatientAdapter.openLoadAnimation();
     }
@@ -145,7 +155,10 @@ public class SendOrderAddPatientActivity extends BaseActivity<NarcosisListContra
             public void onItemChildClick(BaseQuickAdapter adapter, View view, int position) {
                 switch (view.getId()) {
                     case R.id.stv_add_patient_item:
-                        startActivity(new Intent(SendOrderAddPatientActivity.this, SendOrderAddPatientDetailsActivity.class));
+                        if (sendOrderData != null)
+                            startActivity(new Intent(SendOrderAddPatientActivity.this, SendOrderAddPatientDetailsActivity.class).putExtra("sendOrderData", sendOrderData.getTwoOrderBean().get(position)).putExtra("selectRb", selectRb));
+                        else
+                            startActivity(new Intent(SendOrderAddPatientActivity.this, SendOrderAddPatientDetailsActivity.class).putExtra("orderDetailsTwo", orderDetailsList.get(position)).putExtra("selectRb", selectRb));
                         break;
                 }
             }
@@ -298,7 +311,7 @@ public class SendOrderAddPatientActivity extends BaseActivity<NarcosisListContra
                     sendOrderData.getTwoOrderBean().get(sendOrderData.getTwoOrderBean().size() - 1).setSurgicalName(etSurgicalName.getText().toString().trim());
                     sendOrderData.getTwoOrderBean().get(sendOrderData.getTwoOrderBean().size() - 1).setPatientName(etPatientName.getText().toString().trim());
                     sendOrderData.getTwoOrderBean().get(sendOrderData.getTwoOrderBean().size() - 1).setPatientSex(stvPatientSex.getRightString());
-                    sendOrderData.getTwoOrderBean().get(sendOrderData.getTwoOrderBean().size() - 1).setPatientAge(stvPatientAge.getRightString());
+                    sendOrderData.getTwoOrderBean().get(sendOrderData.getTwoOrderBean().size() - 1).setPatientAge(stvPatientAge.getRightString().replaceAll(" 岁", ""));
                     sendOrderData.getTwoOrderBean().get(sendOrderData.getTwoOrderBean().size() - 1).setPatientHeight(etPatientHeight.getText().toString().trim());
                     sendOrderData.getTwoOrderBean().get(sendOrderData.getTwoOrderBean().size() - 1).setPatientBodyWeight(etPatientBodyWeight.getText().toString().trim());
                     sendOrderData.getTwoOrderBean().get(sendOrderData.getTwoOrderBean().size() - 1).setNarcosisId(narcosisId + "");

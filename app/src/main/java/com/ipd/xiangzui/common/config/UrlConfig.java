@@ -32,7 +32,6 @@ public interface UrlConfig {
     String NARCASIS_LIST = "ah/order/narcosisList"; //麻醉方式列表
     String UPLOAD_IMG = "ah/util/upload"; //上传图片
     String UPLOAD_IMGS = "ah/util/arrUpload"; //上传多图片
-    String SELECT_FEE = "ah/order/urgentMoney"; //加急费-取消费用用信息查询
     String SEND_ORDER = "ah/order/invoice"; //医院端-首页-发单 -正式
     String HISTORICAL_DEMAND = "ah/demand/historyList"; //历史需求
     String SEND_DEMAND = "ah/demand/releaseDemand"; //发布需求
@@ -40,15 +39,16 @@ public interface UrlConfig {
     /**
      * 订单
      */
+    String SELECT_FEE = "ah/order/urgentMoney"; //加急费-取消费用用信息查询
     String ORDER_DETAILS = "ah/order/orderDetails"; //医院端-订单详情
     String ORDER_LIST = "ah/order/orderList"; //医院端-订单列表
-    String IS_ORDER_OPERATION_END = "ad/order/operationLower"; //医生端订单-已接单-点击结束手术-提交数据
-    String ING_OPERATION_END = "ad/order/endOperation"; //医生端订单-进行中--点击结束手术
-    String OPERATION_START = "ad/order/startOperation"; //医生端订单-已接单-开始手术
-    String IS_ARRIVALS = "ad/order/arrivePlace"; //医生端订单-已接单-到达地点
-    String ORDER_CANCEL = "ad/order/alreadyCancel"; //医生端订单-已接单-取消订单
-    String GET_ORDER = "ad/order/receipt"; //医生端订单-接单
-    String ANESTHESIA_LIST = "ah/order/narcosisList"; //麻醉方式列表
+    String ADD_FEE = "ah/order/markup"; //待接单-加价
+    String ORDER_IS_ORVER = "ah/order/confirmEnd"; //进行中-确认结束
+    String MODIFY_ORDER = "ah/order/updateOrder"; //待接单-修改订单
+    String CANCEL_ORDER = "ah/order/stayCancel"; //待接单-取消订单
+    String ORDER_QUICK = "ah/order/submUrgent"; //待接单-提交加急
+    String ADD_MEDICAL_RECORD = "ah/order/suppleMedical"; //以接单-补充病历
+    String CANCEL_IS_ORDER = "ah/order/alreadyCancel"; //以接单-取消订单
 
     /**
      * 我的

@@ -154,7 +154,7 @@ public class SendOrderFeeInfoActivity extends BaseActivity<SelectFeeContract.Vie
             case 1:
                 Map<String, String> map = new HashMap<>();
                 map.put("patientName", sendOrderData.getOneOrderBean().getPatientName());
-                map.put("sex", sendOrderData.getOneOrderBean().getPatientSex());
+                map.put("sex", "男".equals(sendOrderData.getOneOrderBean().getPatientSex()) ? "1" : "2");
                 map.put("age", sendOrderData.getOneOrderBean().getPatientAge());
                 if (!isEmpty(sendOrderData.getOneOrderBean().getPatientHeight()))
                     map.put("height", sendOrderData.getOneOrderBean().getPatientHeight());
@@ -206,7 +206,7 @@ public class SendOrderFeeInfoActivity extends BaseActivity<SelectFeeContract.Vie
                 for (SendOrderDataBean.TwoOrderBean data : sendOrderData.getTwoOrderBean()) {
                     Map<String, String> map1 = new HashMap<>();
                     map1.put("patientName", data.getPatientName());
-                    map1.put("sex", data.getPatientSex());
+                    map1.put("sex", "男".equals(data.getPatientSex()) ? "1" : "2");
                     map1.put("age", data.getPatientAge());
                     if (!isEmpty(data.getPatientHeight()))
                         map1.put("height", data.getPatientHeight());
@@ -330,12 +330,8 @@ public class SendOrderFeeInfoActivity extends BaseActivity<SelectFeeContract.Vie
                             getPresenter().getSendOrder(sendOrderMap1, false, false);
                             break;
                     }
-                } else {
+                } else
                     ToastUtil.showShortToast("预计费用需大于等于1500元");
-                }
-
-//                startActivity(new Intent(this, MainActivity.class));
-//                finish();
                 break;
         }
     }

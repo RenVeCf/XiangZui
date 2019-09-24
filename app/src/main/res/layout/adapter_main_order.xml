@@ -41,6 +41,16 @@
                 android:textSize="10sp"
                 android:visibility="gone" />
 
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/tv_lavlel3"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/x20"
+                android:background="@drawable/bg_label2"
+                android:textColor="@color/orange"
+                android:textSize="10sp"
+                android:visibility="gone" />
+
 <!--            <androidx.appcompat.widget.AppCompatTextView-->
 <!--                android:id="@+id/tv_name"-->
 <!--                android:layout_width="0dp"-->
@@ -69,6 +79,7 @@
             android:layout_width="wrap_content"
             android:layout_height="@dimen/y60"
             app:sDividerLineType="none"
+            android:visibility="gone"
             app:sCenterTextColor="@color/tx_bottom_navigation"
             app:sCenterTextSize="12sp"
             app:sCenterViewGravity="left_center"
@@ -118,6 +129,7 @@
             app:sCenterTextColor="@color/orangered"
             app:sDividerLineType="none"
             app:sCenterTextSize="12sp"
+            app:sCenterMaxEms="30"
             app:sCenterViewGravity="left_center"
             app:sLeftTextColor="@color/tx_bottom_navigation"
             app:sUseShape="true"/>

@@ -3,7 +3,11 @@ package com.ipd.xiangzui.api;
 import com.ipd.xiangzui.bean.AccountListBean;
 import com.ipd.xiangzui.bean.AddAccountBean;
 import com.ipd.xiangzui.bean.AddAddressBean;
+import com.ipd.xiangzui.bean.AddFeeBean;
+import com.ipd.xiangzui.bean.AddMedicalBean;
 import com.ipd.xiangzui.bean.AddressListBean;
+import com.ipd.xiangzui.bean.CancelIsOrderBean;
+import com.ipd.xiangzui.bean.CancelOrderBean;
 import com.ipd.xiangzui.bean.CaptchaBean;
 import com.ipd.xiangzui.bean.CaptchaLoginBean;
 import com.ipd.xiangzui.bean.DelAccountBean;
@@ -16,13 +20,16 @@ import com.ipd.xiangzui.bean.HomeBean;
 import com.ipd.xiangzui.bean.HospitalNameBean;
 import com.ipd.xiangzui.bean.ModifyAccountBean;
 import com.ipd.xiangzui.bean.ModifyAddressBean;
+import com.ipd.xiangzui.bean.ModifyOrderBean;
 import com.ipd.xiangzui.bean.ModifyUserInfoBean;
 import com.ipd.xiangzui.bean.ModifyUserPwdBean;
 import com.ipd.xiangzui.bean.MsgListBean;
 import com.ipd.xiangzui.bean.NarcosisListBean;
 import com.ipd.xiangzui.bean.OpenInvoiceBean;
 import com.ipd.xiangzui.bean.OrderDetailsBean;
+import com.ipd.xiangzui.bean.OrderIsOrverBean;
 import com.ipd.xiangzui.bean.OrderListBean;
+import com.ipd.xiangzui.bean.OrderQuickBean;
 import com.ipd.xiangzui.bean.PwdLoginBean;
 import com.ipd.xiangzui.bean.RechargeAccountPayBean;
 import com.ipd.xiangzui.bean.RechargeAliPayBean;
@@ -53,6 +60,10 @@ import static com.ipd.xiangzui.common.config.UrlConfig.ACCOUNT_LIST;
 import static com.ipd.xiangzui.common.config.UrlConfig.ADDRESS_LIST;
 import static com.ipd.xiangzui.common.config.UrlConfig.ADD_ACCOUNT;
 import static com.ipd.xiangzui.common.config.UrlConfig.ADD_ADDRESS;
+import static com.ipd.xiangzui.common.config.UrlConfig.ADD_FEE;
+import static com.ipd.xiangzui.common.config.UrlConfig.ADD_MEDICAL_RECORD;
+import static com.ipd.xiangzui.common.config.UrlConfig.CANCEL_IS_ORDER;
+import static com.ipd.xiangzui.common.config.UrlConfig.CANCEL_ORDER;
 import static com.ipd.xiangzui.common.config.UrlConfig.CAPTCHA;
 import static com.ipd.xiangzui.common.config.UrlConfig.CAPTCHA_LOGIN;
 import static com.ipd.xiangzui.common.config.UrlConfig.DEL_ACCOUNT;
@@ -65,13 +76,16 @@ import static com.ipd.xiangzui.common.config.UrlConfig.HOME;
 import static com.ipd.xiangzui.common.config.UrlConfig.HOSPITAL_NAME;
 import static com.ipd.xiangzui.common.config.UrlConfig.MODIFY_ACCOUNT;
 import static com.ipd.xiangzui.common.config.UrlConfig.MODIFY_ADDRESS;
+import static com.ipd.xiangzui.common.config.UrlConfig.MODIFY_ORDER;
 import static com.ipd.xiangzui.common.config.UrlConfig.MODIFY_USER_INFO;
 import static com.ipd.xiangzui.common.config.UrlConfig.MODIFY_USER_PWD;
 import static com.ipd.xiangzui.common.config.UrlConfig.MSG_LIST;
 import static com.ipd.xiangzui.common.config.UrlConfig.NARCASIS_LIST;
 import static com.ipd.xiangzui.common.config.UrlConfig.OPEN_INVOICE;
 import static com.ipd.xiangzui.common.config.UrlConfig.ORDER_DETAILS;
+import static com.ipd.xiangzui.common.config.UrlConfig.ORDER_IS_ORVER;
 import static com.ipd.xiangzui.common.config.UrlConfig.ORDER_LIST;
+import static com.ipd.xiangzui.common.config.UrlConfig.ORDER_QUICK;
 import static com.ipd.xiangzui.common.config.UrlConfig.PWD_LOGIN;
 import static com.ipd.xiangzui.common.config.UrlConfig.RECHARGE_ACCOUNT_PAY;
 import static com.ipd.xiangzui.common.config.UrlConfig.RECHARGE_ALI_PAY;
@@ -179,6 +193,41 @@ public interface ApiService {
     @FormUrlEncoded
     @POST(SEND_DEMAND)
     Observable<SendDemandBean> getSendDemand(@FieldMap Map<String, String> map);
+
+    //待接单-加价
+    @FormUrlEncoded
+    @POST(ADD_FEE)
+    Observable<AddFeeBean> getAddFee(@FieldMap Map<String, String> map);
+
+    //进行中-确认结束
+    @FormUrlEncoded
+    @POST(ORDER_IS_ORVER)
+    Observable<OrderIsOrverBean> getOrderIsOrver(@FieldMap Map<String, String> map);
+
+    //待接单-修改订单
+    @FormUrlEncoded
+    @POST(MODIFY_ORDER)
+    Observable<ModifyOrderBean> getModifyOrder(@FieldMap Map<String, String> map);
+
+    //待接单-取消订单
+    @FormUrlEncoded
+    @POST(CANCEL_ORDER)
+    Observable<CancelOrderBean> getCancelOrder(@FieldMap Map<String, String> map);
+
+    //待接单-提交加急
+    @FormUrlEncoded
+    @POST(ORDER_QUICK)
+    Observable<OrderQuickBean> getOrderQuick(@FieldMap Map<String, String> map);
+
+    //以接单-补充病历
+    @FormUrlEncoded
+    @POST(ADD_MEDICAL_RECORD)
+    Observable<AddMedicalBean> getAddMedical(@FieldMap Map<String, String> map);
+
+    //以接单-取消订单
+    @FormUrlEncoded
+    @POST(CANCEL_IS_ORDER)
+    Observable<CancelIsOrderBean> getCancelIsOrder(@FieldMap Map<String, String> map);
 
 //    //医学专栏-列表
 //    @FormUrlEncoded

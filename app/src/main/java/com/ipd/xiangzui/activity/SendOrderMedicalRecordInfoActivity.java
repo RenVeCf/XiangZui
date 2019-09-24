@@ -255,7 +255,7 @@ public class SendOrderMedicalRecordInfoActivity extends BaseActivity {
                 startActivityForResult(new Intent(this, SurgeryAboutMedicalRecordActivity.class).putExtra("title", "传染病指标"), REQUEST_CODE_107);
                 break;
             case R.id.sb_add_patient:
-                startActivityForResult(new Intent(this, SendOrderAddPatientActivity.class).putExtra("sendOrderData", sendOrderData), REQUEST_CODE_109);
+                startActivityForResult(new Intent(this, SendOrderAddPatientActivity.class).putExtra("sendOrderData", sendOrderData).putExtra("selectRb", selectRb), REQUEST_CODE_109);
                 break;
             case R.id.sb_next:
                 if (sendOrderType == 1) {
@@ -286,28 +286,28 @@ public class SendOrderMedicalRecordInfoActivity extends BaseActivity {
                 } else {
                     switch (selectRb) {
                         case 1:
-                            for (SendOrderDataBean.TwoOrderBean data : sendOrderData.getTwoOrderBean()) {
-                                data.setMedicalRecords(selectRb + "");
-                                data.setSurgeryRelated(surgeryAboutMedicalRecordUrl);
-                                data.setRoutineBlood(bloodRoutineUrl);
-                                data.setEcg(electrocardiogramUrl);
-                                data.setCruor(coagulationUrl);
-                                data.setContagion(infectiousDiseaseIndexUrl);
+                            for (int i = 0; i < sendOrderData.getTwoOrderBean().size(); i++) {
+                                sendOrderData.getTwoOrderBean().get(i).setMedicalRecords(selectRb + "");
+                                sendOrderData.getTwoOrderBean().get(i).setSurgeryRelated(surgeryAboutMedicalRecordUrl);
+                                sendOrderData.getTwoOrderBean().get(i).setRoutineBlood(bloodRoutineUrl);
+                                sendOrderData.getTwoOrderBean().get(i).setEcg(electrocardiogramUrl);
+                                sendOrderData.getTwoOrderBean().get(i).setCruor(coagulationUrl);
+                                sendOrderData.getTwoOrderBean().get(i).setContagion(infectiousDiseaseIndexUrl);
                             }
                             break;
                         case 2:
-                            for (SendOrderDataBean.TwoOrderBean data : sendOrderData.getTwoOrderBean()) {
-                                data.setMedicalRecords(selectRb + "");
-                                data.setMinBloodPressure(etBloodPressureStart.getText().toString().trim());
-                                data.setMaxBloodPressure(etBloodPressureEnd.getText().toString().trim());
-                                data.setPulse(etPulse.getText().toString().trim());
-                                data.setBreathe(etBreathe.getText().toString().trim());
-                                data.setAnimalHeat(etBodyTemperature.getText().toString().trim());
-                                data.setDiabetes(rbDiabetesStart.isChecked() ? "2" : "1");
-                                data.setCerebralInfarction(rbBrainStalkStart.isChecked() ? "2" : "1");
-                                data.setHeartDisease(rbHeartDiseaseStart.isChecked() ? "2" : "1");
-                                data.setInfectDisease(rbInfectiousDiseaseStart.isChecked() ? "2" : "1");
-                                data.setBreatheFunction(rbRespiratoryDysfunctionStart.isChecked() ? "2" : "1");
+                            for (int i = 0; i < sendOrderData.getTwoOrderBean().size(); i++) {
+                                sendOrderData.getTwoOrderBean().get(i).setMedicalRecords(selectRb + "");
+                                sendOrderData.getTwoOrderBean().get(i).setMinBloodPressure(etBloodPressureStart.getText().toString().trim());
+                                sendOrderData.getTwoOrderBean().get(i).setMaxBloodPressure(etBloodPressureEnd.getText().toString().trim());
+                                sendOrderData.getTwoOrderBean().get(i).setPulse(etPulse.getText().toString().trim());
+                                sendOrderData.getTwoOrderBean().get(i).setBreathe(etBreathe.getText().toString().trim());
+                                sendOrderData.getTwoOrderBean().get(i).setAnimalHeat(etBodyTemperature.getText().toString().trim());
+                                sendOrderData.getTwoOrderBean().get(i).setDiabetes(rbDiabetesStart.isChecked() ? "2" : "1");
+                                sendOrderData.getTwoOrderBean().get(i).setCerebralInfarction(rbBrainStalkStart.isChecked() ? "2" : "1");
+                                sendOrderData.getTwoOrderBean().get(i).setHeartDisease(rbHeartDiseaseStart.isChecked() ? "2" : "1");
+                                sendOrderData.getTwoOrderBean().get(i).setInfectDisease(rbInfectiousDiseaseStart.isChecked() ? "2" : "1");
+                                sendOrderData.getTwoOrderBean().get(i).setBreatheFunction(rbRespiratoryDysfunctionStart.isChecked() ? "2" : "1");
                             }
                             break;
                         case 3:

@@ -19,6 +19,7 @@ import com.gyf.immersionbar.ImmersionBar;
 import com.ipd.xiangzui.R;
 import com.ipd.xiangzui.base.BaseActivity;
 import com.ipd.xiangzui.bean.NarcosisListBean;
+import com.ipd.xiangzui.bean.OrderDetailsBean;
 import com.ipd.xiangzui.bean.SendOrderDataBean;
 import com.ipd.xiangzui.common.view.TopView;
 import com.ipd.xiangzui.common.view.TwoBtDialog;
@@ -84,6 +85,8 @@ public class SendOrderPatientInfoActivity extends BaseActivity<NarcosisListContr
     private int sendOrderType; //1: 单台, 2: 连台
     private SendOrderDataBean sendOrderData;
     private String positiveUrl = "", negativeUrl = "", imgUrl = "";
+    private OrderDetailsBean.DataBean.OrderBean orderDetails;
+    private List<OrderDetailsBean.DataBean.OrderBean> orderDetailsList;
 
     @Override
     public int getLayoutId() {
@@ -110,6 +113,11 @@ public class SendOrderPatientInfoActivity extends BaseActivity<NarcosisListContr
         sendOrderData = getIntent().getParcelableExtra("sendOrderData");
         sendOrderType = sendOrderData.getSendOrderType();
         if (sendOrderType == 1)
+            llSurgicalName.setVisibility(View.GONE);
+
+        orderDetails = getIntent().getParcelableExtra("orderDetails");
+        orderDetailsList = getIntent().getParcelableArrayListExtra("orderDetailsList");
+        if (orderDetails != null && "2".equals(orderDetails.getOrderType()))
             llSurgicalName.setVisibility(View.GONE);
     }
 
@@ -267,7 +275,7 @@ public class SendOrderPatientInfoActivity extends BaseActivity<NarcosisListContr
                             sendOrderData.getTwoOrderBean().get(0).setSurgicalName(etSurgicalName.getText().toString().trim());
                             sendOrderData.getTwoOrderBean().get(0).setPatientName(etPatientName.getText().toString().trim());
                             sendOrderData.getTwoOrderBean().get(0).setPatientSex(stvPatientSex.getRightString());
-                            sendOrderData.getTwoOrderBean().get(0).setPatientAge(stvPatientAge.getRightString());
+                            sendOrderData.getTwoOrderBean().get(0).setPatientAge(stvPatientAge.getRightString().replaceAll(" 岁", ""));
                             sendOrderData.getTwoOrderBean().get(0).setPatientHeight(etPatientHeight.getText().toString().trim());
                             sendOrderData.getTwoOrderBean().get(0).setPatientBodyWeight(etPatientBodyWeight.getText().toString().trim());
                             sendOrderData.getTwoOrderBean().get(0).setNarcosisId(narcosisId + "");

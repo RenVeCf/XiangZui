@@ -1,17 +1,37 @@
 package com.ipd.xiangzui.bean;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import java.util.List;
 
-public class OrderDetailsBean {
+public class OrderDetailsBean implements Parcelable {
     /**
      * msg : 操作成功
      * code : 200
-     * data : {"orderDetail":[{"searchValue":null,"createBy":null,"createTime":"2019-09-23 10:06:23","updateBy":null,"updateTime":null,"remark":null,"params":{},"orderDetailId":40,"orderId":37,"patientName":"那我要叫","sex":"女","age":16,"height":0,"weight":0,"narcosisTypeId":0,"narcosisType":"","positiveCard":"","reverseCard":"","insurance":"","medicalRecords":"1","surgeryRelated":"","routineBlood":"","ecg":"","cruor":"","contagion":"","minBloodPressure":0,"maxBloodPressure":0,"pulse":0,"breathe":0,"animalHeat":0,"diabetes":"1","cerebralInfarction":"1","heartDisease":"1","infectDisease":"1","breatheFunction":"1","narcosisForm":"","complete":"1","handover":"1","status":"1","beginTime":null,"endTime":null,"surgeryName":null,"anestxMode":""}],"order":{"searchValue":null,"createBy":null,"createTime":null,"updateBy":null,"updateTime":null,"remark":null,"params":{},"orderId":37,"userId":17,"orderType":"1","surgeryName":"摸摸摸","hospitalName":"上海任梦阳医院","prov":"上海","city":"上海市","dist":"青浦区","address":"画的范德萨发的","duration":1,"urgent":"2","urgentMoney":50,"premium":"1","premiumMoney":0,"evenNum":null,"expectMoney":2000,"status":"1","payType":null,"takeOrderId":null,"takeOrderTime":null,"cancelTime":null,"prompt":"","arriveTime":null,"beginTime":"2019-10-20 10:05:00","waitTime":null,"surgeryTime":null,"waitMoney":0,"surgeryMoney":0,"totalMoney":0,"taxMoney":0,"version":1,"orderNo":"190938319893","ahNumber":"18502994087","adNumber":null,"overtimeMoney":0,"invoicepayMoney":2300,"promptMoney":300,"endTime":null,"adMoney":1700,"ahMoney":2350,"adactualMoney":0,"ahactualMoney":0,"adpremiumMoney":0,"ahpremiumMoney":0,"takeName":null,"takePhone":null}}
+     * data : {"orderDetail":[{"searchValue":null,"createBy":null,"createTime":"2019-09-24 14:35:32","updateBy":null,"updateTime":null,"remark":null,"params":{},"orderDetailId":48,"orderId":44,"patientName":"佛祖可口可乐","sex":"1","age":17,"height":85754,"weight":6754,"narcosisTypeId":1,"narcosisType":"","positiveCard":"upload/2019/09/24/e31875508e2c54a119e69e5f2f9d6a5d.jpeg","reverseCard":"upload/2019/09/24/a830c454f2a7a732183a90abc9d2aa6c.jpeg","insurance":"upload/2019/09/24/e80f6ff331a343d8b75e37ef9e2c2aaa.jpeg","medicalRecords":"1","surgeryRelated":"upload/2019/09/24/13d2e4ef9dec222278d0ad15554b4a3d.jpg","routineBlood":"upload/2019/09/24/eb137ab33b1d03b7a0707da05fd3796a.jpg","ecg":"upload/2019/09/24/6ed52ce2ef545ab259bc9e88451c000d.jpg,upload/2019/09/24/db5bcefcde7b5a92eae6b0cca5368e7c.png","cruor":"upload/2019/09/24/4f01d98985a418885c3012752bc0a0de.jpg","contagion":"upload/2019/09/24/f3ecc2bf3ed1864d1c23d27035e88dc4.jpg","minBloodPressure":0,"maxBloodPressure":0,"pulse":0,"breathe":0,"animalHeat":0,"diabetes":"1","cerebralInfarction":"1","heartDisease":"1","infectDisease":"1","breatheFunction":"1","narcosisForm":"","complete":"1","handover":"1","status":"1","beginTime":null,"endTime":null,"surgeryName":null,"anestxMode":""},{"searchValue":null,"createBy":null,"createTime":"2019-09-24 14:35:32","updateBy":null,"updateTime":null,"remark":null,"params":{},"orderDetailId":49,"orderId":44,"patientName":"他家啪啪啪","sex":"2","age":17,"height":145,"weight":145,"narcosisTypeId":1,"narcosisType":"","positiveCard":"upload/2019/09/24/30c1447cdfa69aa46627c1a9dade50a0.jpeg","reverseCard":"upload/2019/09/24/6a3bcbe6a84e79bea9c0c3a1667f642f.jpeg","insurance":"upload/2019/09/24/7ce4d0174a2537fdf49c17d38ded2022.jpeg","medicalRecords":"1","surgeryRelated":"upload/2019/09/24/13d2e4ef9dec222278d0ad15554b4a3d.jpg","routineBlood":"upload/2019/09/24/eb137ab33b1d03b7a0707da05fd3796a.jpg","ecg":"upload/2019/09/24/6ed52ce2ef545ab259bc9e88451c000d.jpg,upload/2019/09/24/db5bcefcde7b5a92eae6b0cca5368e7c.png","cruor":"upload/2019/09/24/4f01d98985a418885c3012752bc0a0de.jpg","contagion":"upload/2019/09/24/f3ecc2bf3ed1864d1c23d27035e88dc4.jpg","minBloodPressure":0,"maxBloodPressure":0,"pulse":0,"breathe":0,"animalHeat":0,"diabetes":"1","cerebralInfarction":"1","heartDisease":"1","infectDisease":"1","breatheFunction":"1","narcosisForm":"","complete":"1","handover":"1","status":"1","beginTime":null,"endTime":null,"surgeryName":null,"anestxMode":""}],"order":{"searchValue":null,"createBy":null,"createTime":null,"updateBy":null,"updateTime":null,"remark":null,"params":{},"orderId":44,"userId":17,"orderType":"2","surgeryName":"你弄的","hospitalName":"上海任梦阳医院","prov":"上海","city":"上海市","dist":"青浦区","address":"画的范德萨发的","duration":1,"urgent":"2","urgentMoney":50,"premium":"2","premiumMoney":0,"evenNum":2,"expectMoney":2000,"status":"1","payType":null,"takeOrderId":null,"takeOrderTime":null,"cancelTime":null,"prompt":"","arriveTime":null,"beginTime":"2019-10-20 14:31:00","waitTime":null,"surgeryTime":null,"waitMoney":0,"surgeryMoney":0,"totalMoney":0,"taxMoney":0,"version":1,"orderNo":"190993280036","ahNumber":"18502994087","adNumber":null,"overtimeMoney":0,"invoicepayMoney":2300,"promptMoney":300,"endTime":null,"adMoney":1700,"ahMoney":2350,"adactualMoney":0,"ahactualMoney":0,"adpremiumMoney":31.45,"ahpremiumMoney":42.55,"takeName":null,"takePhone":null}}
      */
 
     private String msg;
     private int code;
     private DataBean data;
+
+    protected OrderDetailsBean(Parcel in) {
+        msg = in.readString();
+        code = in.readInt();
+    }
+
+    public static final Creator<OrderDetailsBean> CREATOR = new Creator<OrderDetailsBean>() {
+        @Override
+        public OrderDetailsBean createFromParcel(Parcel in) {
+            return new OrderDetailsBean(in);
+        }
+
+        @Override
+        public OrderDetailsBean[] newArray(int size) {
+            return new OrderDetailsBean[size];
+        }
+    };
 
     public String getMsg() {
         return msg;
@@ -37,14 +57,40 @@ public class OrderDetailsBean {
         this.data = data;
     }
 
-    public static class DataBean {
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel parcel, int i) {
+        parcel.writeString(msg);
+        parcel.writeInt(code);
+    }
+
+    public static class DataBean implements Parcelable{
         /**
-         * orderDetail : [{"searchValue":null,"createBy":null,"createTime":"2019-09-23 10:06:23","updateBy":null,"updateTime":null,"remark":null,"params":{},"orderDetailId":40,"orderId":37,"patientName":"那我要叫","sex":"女","age":16,"height":0,"weight":0,"narcosisTypeId":0,"narcosisType":"","positiveCard":"","reverseCard":"","insurance":"","medicalRecords":"1","surgeryRelated":"","routineBlood":"","ecg":"","cruor":"","contagion":"","minBloodPressure":0,"maxBloodPressure":0,"pulse":0,"breathe":0,"animalHeat":0,"diabetes":"1","cerebralInfarction":"1","heartDisease":"1","infectDisease":"1","breatheFunction":"1","narcosisForm":"","complete":"1","handover":"1","status":"1","beginTime":null,"endTime":null,"surgeryName":null,"anestxMode":""}]
-         * order : {"searchValue":null,"createBy":null,"createTime":null,"updateBy":null,"updateTime":null,"remark":null,"params":{},"orderId":37,"userId":17,"orderType":"1","surgeryName":"摸摸摸","hospitalName":"上海任梦阳医院","prov":"上海","city":"上海市","dist":"青浦区","address":"画的范德萨发的","duration":1,"urgent":"2","urgentMoney":50,"premium":"1","premiumMoney":0,"evenNum":null,"expectMoney":2000,"status":"1","payType":null,"takeOrderId":null,"takeOrderTime":null,"cancelTime":null,"prompt":"","arriveTime":null,"beginTime":"2019-10-20 10:05:00","waitTime":null,"surgeryTime":null,"waitMoney":0,"surgeryMoney":0,"totalMoney":0,"taxMoney":0,"version":1,"orderNo":"190938319893","ahNumber":"18502994087","adNumber":null,"overtimeMoney":0,"invoicepayMoney":2300,"promptMoney":300,"endTime":null,"adMoney":1700,"ahMoney":2350,"adactualMoney":0,"ahactualMoney":0,"adpremiumMoney":0,"ahpremiumMoney":0,"takeName":null,"takePhone":null}
+         * orderDetail : [{"searchValue":null,"createBy":null,"createTime":"2019-09-24 14:35:32","updateBy":null,"updateTime":null,"remark":null,"params":{},"orderDetailId":48,"orderId":44,"patientName":"佛祖可口可乐","sex":"1","age":17,"height":85754,"weight":6754,"narcosisTypeId":1,"narcosisType":"","positiveCard":"upload/2019/09/24/e31875508e2c54a119e69e5f2f9d6a5d.jpeg","reverseCard":"upload/2019/09/24/a830c454f2a7a732183a90abc9d2aa6c.jpeg","insurance":"upload/2019/09/24/e80f6ff331a343d8b75e37ef9e2c2aaa.jpeg","medicalRecords":"1","surgeryRelated":"upload/2019/09/24/13d2e4ef9dec222278d0ad15554b4a3d.jpg","routineBlood":"upload/2019/09/24/eb137ab33b1d03b7a0707da05fd3796a.jpg","ecg":"upload/2019/09/24/6ed52ce2ef545ab259bc9e88451c000d.jpg,upload/2019/09/24/db5bcefcde7b5a92eae6b0cca5368e7c.png","cruor":"upload/2019/09/24/4f01d98985a418885c3012752bc0a0de.jpg","contagion":"upload/2019/09/24/f3ecc2bf3ed1864d1c23d27035e88dc4.jpg","minBloodPressure":0,"maxBloodPressure":0,"pulse":0,"breathe":0,"animalHeat":0,"diabetes":"1","cerebralInfarction":"1","heartDisease":"1","infectDisease":"1","breatheFunction":"1","narcosisForm":"","complete":"1","handover":"1","status":"1","beginTime":null,"endTime":null,"surgeryName":null,"anestxMode":""},{"searchValue":null,"createBy":null,"createTime":"2019-09-24 14:35:32","updateBy":null,"updateTime":null,"remark":null,"params":{},"orderDetailId":49,"orderId":44,"patientName":"他家啪啪啪","sex":"2","age":17,"height":145,"weight":145,"narcosisTypeId":1,"narcosisType":"","positiveCard":"upload/2019/09/24/30c1447cdfa69aa46627c1a9dade50a0.jpeg","reverseCard":"upload/2019/09/24/6a3bcbe6a84e79bea9c0c3a1667f642f.jpeg","insurance":"upload/2019/09/24/7ce4d0174a2537fdf49c17d38ded2022.jpeg","medicalRecords":"1","surgeryRelated":"upload/2019/09/24/13d2e4ef9dec222278d0ad15554b4a3d.jpg","routineBlood":"upload/2019/09/24/eb137ab33b1d03b7a0707da05fd3796a.jpg","ecg":"upload/2019/09/24/6ed52ce2ef545ab259bc9e88451c000d.jpg,upload/2019/09/24/db5bcefcde7b5a92eae6b0cca5368e7c.png","cruor":"upload/2019/09/24/4f01d98985a418885c3012752bc0a0de.jpg","contagion":"upload/2019/09/24/f3ecc2bf3ed1864d1c23d27035e88dc4.jpg","minBloodPressure":0,"maxBloodPressure":0,"pulse":0,"breathe":0,"animalHeat":0,"diabetes":"1","cerebralInfarction":"1","heartDisease":"1","infectDisease":"1","breatheFunction":"1","narcosisForm":"","complete":"1","handover":"1","status":"1","beginTime":null,"endTime":null,"surgeryName":null,"anestxMode":""}]
+         * order : {"searchValue":null,"createBy":null,"createTime":null,"updateBy":null,"updateTime":null,"remark":null,"params":{},"orderId":44,"userId":17,"orderType":"2","surgeryName":"你弄的","hospitalName":"上海任梦阳医院","prov":"上海","city":"上海市","dist":"青浦区","address":"画的范德萨发的","duration":1,"urgent":"2","urgentMoney":50,"premium":"2","premiumMoney":0,"evenNum":2,"expectMoney":2000,"status":"1","payType":null,"takeOrderId":null,"takeOrderTime":null,"cancelTime":null,"prompt":"","arriveTime":null,"beginTime":"2019-10-20 14:31:00","waitTime":null,"surgeryTime":null,"waitMoney":0,"surgeryMoney":0,"totalMoney":0,"taxMoney":0,"version":1,"orderNo":"190993280036","ahNumber":"18502994087","adNumber":null,"overtimeMoney":0,"invoicepayMoney":2300,"promptMoney":300,"endTime":null,"adMoney":1700,"ahMoney":2350,"adactualMoney":0,"ahactualMoney":0,"adpremiumMoney":31.45,"ahpremiumMoney":42.55,"takeName":null,"takePhone":null}
          */
 
         private OrderBean order;
         private List<OrderDetailBean> orderDetail;
+
+        protected DataBean(Parcel in) {
+        }
+
+        public static final Creator<DataBean> CREATOR = new Creator<DataBean>() {
+            @Override
+            public DataBean createFromParcel(Parcel in) {
+                return new DataBean(in);
+            }
+
+            @Override
+            public DataBean[] newArray(int size) {
+                return new DataBean[size];
+            }
+        };
 
         public OrderBean getOrder() {
             return order;
@@ -62,7 +108,16 @@ public class OrderDetailsBean {
             this.orderDetail = orderDetail;
         }
 
-        public static class OrderBean {
+        @Override
+        public int describeContents() {
+            return 0;
+        }
+
+        @Override
+        public void writeToParcel(Parcel parcel, int i) {
+        }
+
+        public static class OrderBean implements Parcelable{
             /**
              * searchValue : null
              * createBy : null
@@ -71,10 +126,10 @@ public class OrderDetailsBean {
              * updateTime : null
              * remark : null
              * params : {}
-             * orderId : 37
+             * orderId : 44
              * userId : 17
-             * orderType : 1
-             * surgeryName : 摸摸摸
+             * orderType : 2
+             * surgeryName : 你弄的
              * hospitalName : 上海任梦阳医院
              * prov : 上海
              * city : 上海市
@@ -83,9 +138,9 @@ public class OrderDetailsBean {
              * duration : 1.0
              * urgent : 2
              * urgentMoney : 50.0
-             * premium : 1
+             * premium : 2
              * premiumMoney : 0.0
-             * evenNum : null
+             * evenNum : 2
              * expectMoney : 2000.0
              * status : 1
              * payType : null
@@ -94,7 +149,7 @@ public class OrderDetailsBean {
              * cancelTime : null
              * prompt :
              * arriveTime : null
-             * beginTime : 2019-10-20 10:05:00
+             * beginTime : 2019-10-20 14:31:00
              * waitTime : null
              * surgeryTime : null
              * waitMoney : 0.0
@@ -102,7 +157,7 @@ public class OrderDetailsBean {
              * totalMoney : 0.0
              * taxMoney : 0.0
              * version : 1
-             * orderNo : 190938319893
+             * orderNo : 190993280036
              * ahNumber : 18502994087
              * adNumber : null
              * overtimeMoney : 0.0
@@ -113,8 +168,8 @@ public class OrderDetailsBean {
              * ahMoney : 2350.0
              * adactualMoney : 0.0
              * ahactualMoney : 0.0
-             * adpremiumMoney : 0.0
-             * ahpremiumMoney : 0.0
+             * adpremiumMoney : 31.45
+             * ahpremiumMoney : 42.55
              * takeName : null
              * takePhone : null
              */
@@ -140,7 +195,7 @@ public class OrderDetailsBean {
             private double urgentMoney;
             private String premium;
             private double premiumMoney;
-            private Object evenNum;
+            private int evenNum;
             private double expectMoney;
             private String status;
             private Object payType;
@@ -172,6 +227,56 @@ public class OrderDetailsBean {
             private double ahpremiumMoney;
             private Object takeName;
             private Object takePhone;
+
+            protected OrderBean(Parcel in) {
+                orderId = in.readInt();
+                userId = in.readInt();
+                orderType = in.readString();
+                surgeryName = in.readString();
+                hospitalName = in.readString();
+                prov = in.readString();
+                city = in.readString();
+                dist = in.readString();
+                address = in.readString();
+                duration = in.readDouble();
+                urgent = in.readString();
+                urgentMoney = in.readDouble();
+                premium = in.readString();
+                premiumMoney = in.readDouble();
+                evenNum = in.readInt();
+                expectMoney = in.readDouble();
+                status = in.readString();
+                prompt = in.readString();
+                beginTime = in.readString();
+                waitMoney = in.readDouble();
+                surgeryMoney = in.readDouble();
+                totalMoney = in.readDouble();
+                taxMoney = in.readDouble();
+                version = in.readInt();
+                orderNo = in.readString();
+                ahNumber = in.readString();
+                overtimeMoney = in.readDouble();
+                invoicepayMoney = in.readDouble();
+                promptMoney = in.readDouble();
+                adMoney = in.readDouble();
+                ahMoney = in.readDouble();
+                adactualMoney = in.readDouble();
+                ahactualMoney = in.readDouble();
+                adpremiumMoney = in.readDouble();
+                ahpremiumMoney = in.readDouble();
+            }
+
+            public static final Creator<OrderBean> CREATOR = new Creator<OrderBean>() {
+                @Override
+                public OrderBean createFromParcel(Parcel in) {
+                    return new OrderBean(in);
+                }
+
+                @Override
+                public OrderBean[] newArray(int size) {
+                    return new OrderBean[size];
+                }
+            };
 
             public Object getSearchValue() {
                 return searchValue;
@@ -341,11 +446,11 @@ public class OrderDetailsBean {
                 this.premiumMoney = premiumMoney;
             }
 
-            public Object getEvenNum() {
+            public int getEvenNum() {
                 return evenNum;
             }
 
-            public void setEvenNum(Object evenNum) {
+            public void setEvenNum(int evenNum) {
                 this.evenNum = evenNum;
             }
 
@@ -597,37 +702,104 @@ public class OrderDetailsBean {
                 this.takePhone = takePhone;
             }
 
-            public static class ParamsBean {
+            @Override
+            public int describeContents() {
+                return 0;
+            }
+
+            @Override
+            public void writeToParcel(Parcel parcel, int i) {
+                parcel.writeInt(orderId);
+                parcel.writeInt(userId);
+                parcel.writeString(orderType);
+                parcel.writeString(surgeryName);
+                parcel.writeString(hospitalName);
+                parcel.writeString(prov);
+                parcel.writeString(city);
+                parcel.writeString(dist);
+                parcel.writeString(address);
+                parcel.writeDouble(duration);
+                parcel.writeString(urgent);
+                parcel.writeDouble(urgentMoney);
+                parcel.writeString(premium);
+                parcel.writeDouble(premiumMoney);
+                parcel.writeInt(evenNum);
+                parcel.writeDouble(expectMoney);
+                parcel.writeString(status);
+                parcel.writeString(prompt);
+                parcel.writeString(beginTime);
+                parcel.writeDouble(waitMoney);
+                parcel.writeDouble(surgeryMoney);
+                parcel.writeDouble(totalMoney);
+                parcel.writeDouble(taxMoney);
+                parcel.writeInt(version);
+                parcel.writeString(orderNo);
+                parcel.writeString(ahNumber);
+                parcel.writeDouble(overtimeMoney);
+                parcel.writeDouble(invoicepayMoney);
+                parcel.writeDouble(promptMoney);
+                parcel.writeDouble(adMoney);
+                parcel.writeDouble(ahMoney);
+                parcel.writeDouble(adactualMoney);
+                parcel.writeDouble(ahactualMoney);
+                parcel.writeDouble(adpremiumMoney);
+                parcel.writeDouble(ahpremiumMoney);
+            }
+
+            public static class ParamsBean implements Parcelable{
+                protected ParamsBean(Parcel in) {
+                }
+
+                public static final Creator<ParamsBean> CREATOR = new Creator<ParamsBean>() {
+                    @Override
+                    public ParamsBean createFromParcel(Parcel in) {
+                        return new ParamsBean(in);
+                    }
+
+                    @Override
+                    public ParamsBean[] newArray(int size) {
+                        return new ParamsBean[size];
+                    }
+                };
+
+                @Override
+                public int describeContents() {
+                    return 0;
+                }
+
+                @Override
+                public void writeToParcel(Parcel parcel, int i) {
+                }
             }
         }
 
-        public static class OrderDetailBean {
+        public static class OrderDetailBean implements Parcelable{
             /**
              * searchValue : null
              * createBy : null
-             * createTime : 2019-09-23 10:06:23
+             * createTime : 2019-09-24 14:35:32
              * updateBy : null
              * updateTime : null
              * remark : null
              * params : {}
-             * orderDetailId : 40
-             * orderId : 37
-             * patientName : 那我要叫
-             * sex : 女
-             * age : 16
-             * height : 0.0
-             * weight : 0.0
-             * narcosisTypeId : 0
+             * orderDetailId : 48
+             * orderId : 44
+             * patientName : 佛祖可口可乐
+             * sex : 1
+             * age : 17
+             * height : 85754.0
+             * weight : 6754.0
+             * narcosisTypeId : 1
              * narcosisType :
-             * positiveCard :
-             * reverseCard :
-             * insurance :
+             * positiveCard : upload/2019/09/24/e31875508e2c54a119e69e5f2f9d6a5d.jpeg
+             * reverseCard : upload/2019/09/24/a830c454f2a7a732183a90abc9d2aa6c.jpeg
+             * insurance : upload/2019/09/24/e80f6ff331a343d8b75e37ef9e2c2aaa.jpeg
              * medicalRecords : 1
-             * surgeryRelated :
-             * routineBlood :
-             * ecg :
-             * cruor :
-             * contagion :
+             * surgeryRelated : upload/2019/09/24/13d2e4ef9dec222278d0ad15554b4a3d.jpg
+             * routineBlood : upload/2019/09/24/eb137ab33b1d03b7a0707da05fd3796a.jpg
+             * ecg : upload/2019/09/24/6ed52ce2ef545ab259bc9e88451c000d.jpg,upload/2019/09/24/db5bcefcde7b5a92eae6b0cca5368e7c.png
+             * cruor : upload/2019/09/24/4f01d98985a418885c3012752bc0a0de.jpg
+             * contagion : upload/2019/09/24/f3ecc2bf3ed1864d1c23d27035e88dc4.jpg
              * minBloodPressure : 0.0
              * maxBloodPressure : 0.0
              * pulse : 0
@@ -689,8 +861,58 @@ public class OrderDetailsBean {
             private String status;
             private Object beginTime;
             private Object endTime;
-            private Object surgeryName;
+            private String surgeryName;
             private String anestxMode;
+
+            protected OrderDetailBean(Parcel in) {
+                createTime = in.readString();
+                orderDetailId = in.readInt();
+                orderId = in.readInt();
+                patientName = in.readString();
+                sex = in.readString();
+                age = in.readInt();
+                height = in.readDouble();
+                weight = in.readDouble();
+                narcosisTypeId = in.readInt();
+                narcosisType = in.readString();
+                positiveCard = in.readString();
+                reverseCard = in.readString();
+                insurance = in.readString();
+                medicalRecords = in.readString();
+                surgeryRelated = in.readString();
+                routineBlood = in.readString();
+                ecg = in.readString();
+                cruor = in.readString();
+                contagion = in.readString();
+                minBloodPressure = in.readDouble();
+                maxBloodPressure = in.readDouble();
+                pulse = in.readInt();
+                breathe = in.readInt();
+                animalHeat = in.readDouble();
+                diabetes = in.readString();
+                cerebralInfarction = in.readString();
+                heartDisease = in.readString();
+                infectDisease = in.readString();
+                breatheFunction = in.readString();
+                narcosisForm = in.readString();
+                complete = in.readString();
+                handover = in.readString();
+                status = in.readString();
+                surgeryName = in.readString();
+                anestxMode = in.readString();
+            }
+
+            public static final Creator<OrderDetailBean> CREATOR = new Creator<OrderDetailBean>() {
+                @Override
+                public OrderDetailBean createFromParcel(Parcel in) {
+                    return new OrderDetailBean(in);
+                }
+
+                @Override
+                public OrderDetailBean[] newArray(int size) {
+                    return new OrderDetailBean[size];
+                }
+            };
 
             public Object getSearchValue() {
                 return searchValue;
@@ -1020,11 +1242,11 @@ public class OrderDetailsBean {
                 this.endTime = endTime;
             }
 
-            public Object getSurgeryName() {
+            public String getSurgeryName() {
                 return surgeryName;
             }
 
-            public void setSurgeryName(Object surgeryName) {
+            public void setSurgeryName(String surgeryName) {
                 this.surgeryName = surgeryName;
             }
 
@@ -1036,7 +1258,74 @@ public class OrderDetailsBean {
                 this.anestxMode = anestxMode;
             }
 
-            public static class ParamsBeanX {
+            @Override
+            public int describeContents() {
+                return 0;
+            }
+
+            @Override
+            public void writeToParcel(Parcel parcel, int i) {
+                parcel.writeString(createTime);
+                parcel.writeInt(orderDetailId);
+                parcel.writeInt(orderId);
+                parcel.writeString(patientName);
+                parcel.writeString(sex);
+                parcel.writeInt(age);
+                parcel.writeDouble(height);
+                parcel.writeDouble(weight);
+                parcel.writeInt(narcosisTypeId);
+                parcel.writeString(narcosisType);
+                parcel.writeString(positiveCard);
+                parcel.writeString(reverseCard);
+                parcel.writeString(insurance);
+                parcel.writeString(medicalRecords);
+                parcel.writeString(surgeryRelated);
+                parcel.writeString(routineBlood);
+                parcel.writeString(ecg);
+                parcel.writeString(cruor);
+                parcel.writeString(contagion);
+                parcel.writeDouble(minBloodPressure);
+                parcel.writeDouble(maxBloodPressure);
+                parcel.writeInt(pulse);
+                parcel.writeInt(breathe);
+                parcel.writeDouble(animalHeat);
+                parcel.writeString(diabetes);
+                parcel.writeString(cerebralInfarction);
+                parcel.writeString(heartDisease);
+                parcel.writeString(infectDisease);
+                parcel.writeString(breatheFunction);
+                parcel.writeString(narcosisForm);
+                parcel.writeString(complete);
+                parcel.writeString(handover);
+                parcel.writeString(status);
+                parcel.writeString(surgeryName);
+                parcel.writeString(anestxMode);
+            }
+
+            public static class ParamsBeanX implements Parcelable{
+                protected ParamsBeanX(Parcel in) {
+                }
+
+                public static final Creator<ParamsBeanX> CREATOR = new Creator<ParamsBeanX>() {
+                    @Override
+                    public ParamsBeanX createFromParcel(Parcel in) {
+                        return new ParamsBeanX(in);
+                    }
+
+                    @Override
+                    public ParamsBeanX[] newArray(int size) {
+                        return new ParamsBeanX[size];
+                    }
+                };
+
+                @Override
+                public int describeContents() {
+                    return 0;
+                }
+
+                @Override
+                public void writeToParcel(Parcel parcel, int i) {
+                }
             }
         }
     }
