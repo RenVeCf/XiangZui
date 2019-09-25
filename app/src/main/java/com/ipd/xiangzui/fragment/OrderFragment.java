@@ -170,19 +170,19 @@ public class OrderFragment extends BaseFragment<OrderContract.View, OrderContrac
                             public void onItemChildClick(BaseQuickAdapter adapter, View view, int position) {
                                 switch (view.getId()) {
                                     case R.id.cv_order_item:
-                                        startActivity(new Intent(getContext(), OrderDetailsActivity.class).putExtra("surgery_type", 1).putExtra("order_type", orderType));
+                                        startActivity(new Intent(getContext(), OrderDetailsActivity.class).putExtra("order_status", data.getData().getOrderList().get(position).getStatus()).putExtra("orderId", data.getData().getOrderList().get(position).getOrderId()));
                                         break;
                                     case R.id.stv_start_time:
-                                        startActivity(new Intent(getContext(), OrderDetailsActivity.class).putExtra("surgery_type", 1).putExtra("order_type", orderType));
+                                        startActivity(new Intent(getContext(), OrderDetailsActivity.class).putExtra("order_status", data.getData().getOrderList().get(position).getStatus()).putExtra("orderId", data.getData().getOrderList().get(position).getOrderId()));
                                         break;
                                     case R.id.stv_fee:
-                                        startActivity(new Intent(getContext(), OrderDetailsActivity.class).putExtra("surgery_type", 1).putExtra("order_type", orderType));
+                                        startActivity(new Intent(getContext(), OrderDetailsActivity.class).putExtra("order_status", data.getData().getOrderList().get(position).getStatus()).putExtra("orderId", data.getData().getOrderList().get(position).getOrderId()));
                                         break;
                                     case R.id.stv_name:
-                                        startActivity(new Intent(getContext(), OrderDetailsActivity.class).putExtra("surgery_type", 1).putExtra("order_type", orderType));
+                                        startActivity(new Intent(getContext(), OrderDetailsActivity.class).putExtra("order_status", data.getData().getOrderList().get(position).getStatus()).putExtra("orderId", data.getData().getOrderList().get(position).getOrderId()));
                                         break;
                                     case R.id.stv_address:
-                                        startActivity(new Intent(getContext(), OrderDetailsActivity.class).putExtra("surgery_type", 1).putExtra("order_type", orderType));
+                                        startActivity(new Intent(getContext(), OrderDetailsActivity.class).putExtra("order_status", data.getData().getOrderList().get(position).getStatus()).putExtra("orderId", data.getData().getOrderList().get(position).getOrderId()));
                                         break;
                                     case R.id.bt_first:
                                         switch (orderList.get(position).getOrderType()) {
@@ -209,10 +209,10 @@ public class OrderFragment extends BaseFragment<OrderContract.View, OrderContrac
                                                     }.show();
                                                 break;
                                             case "2":
-                                                startActivity(new Intent(getContext(), OrderDetailsActivity.class).putExtra("surgery_type", 1).putExtra("order_type", orderType));
+                                                startActivity(new Intent(getContext(), OrderDetailsActivity.class).putExtra("order_status", data.getData().getOrderList().get(position).getStatus()).putExtra("orderId", data.getData().getOrderList().get(position).getOrderId()));
                                                 break;
                                             case "3":
-                                                startActivity(new Intent(getContext(), OrderDetailsActivity.class).putExtra("surgery_type", 1).putExtra("order_type", orderType));
+                                                startActivity(new Intent(getContext(), OrderDetailsActivity.class).putExtra("order_status", data.getData().getOrderList().get(position).getStatus()).putExtra("orderId", data.getData().getOrderList().get(position).getOrderId()));
                                                 break;
                                         }
                                         break;
@@ -259,7 +259,7 @@ public class OrderFragment extends BaseFragment<OrderContract.View, OrderContrac
                                                     new TwoBtDialog(getActivity(), "是否确认手术结束？", "确认") {
                                                         @Override
                                                         public void confirm() {
-                                                            startActivity(new Intent(getContext(), OrderDetailsActivity.class).putExtra("surgery_type", 1).putExtra("order_type", orderType));
+                                                            startActivity(new Intent(getContext(), OrderDetailsActivity.class).putExtra("order_status", data.getData().getOrderList().get(position).getStatus()).putExtra("orderId", data.getData().getOrderList().get(position).getOrderId()));
                                                         }
                                                     }.show();
                                                 break;

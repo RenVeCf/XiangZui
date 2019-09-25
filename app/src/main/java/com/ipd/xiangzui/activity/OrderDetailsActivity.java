@@ -5,6 +5,7 @@ import android.view.View;
 
 import androidx.appcompat.widget.AppCompatTextView;
 import androidx.appcompat.widget.LinearLayoutCompat;
+import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -40,6 +41,7 @@ import io.reactivex.ObservableTransformer;
 
 import static com.ipd.xiangzui.common.config.IConstants.SIGN;
 import static com.ipd.xiangzui.common.config.IConstants.USER_ID;
+import static com.ipd.xiangzui.utils.StringUtils.isEmpty;
 import static com.ipd.xiangzui.utils.isClickUtil.isFastClick;
 
 /**
@@ -52,6 +54,8 @@ public class OrderDetailsActivity extends BaseActivity<OrderContract.View, Order
 
     @BindView(R.id.tv_order_details)
     TopView tvOrderDetails;
+    @BindView(R.id.tv_order_code)
+    SuperTextView tvOrderCode;
     @BindView(R.id.tv_hospital_name)
     SuperTextView tvHospitalName;
     @BindView(R.id.tv_hospital_address)
@@ -84,16 +88,36 @@ public class OrderDetailsActivity extends BaseActivity<OrderContract.View, Order
     SuperTextView tvPatientIdCard;
     @BindView(R.id.tv_patient_insurance_consent)
     SuperTextView tvPatientInsuranceConsent;
-    @BindView(R.id.tv_patient_surgery_medical_record)
-    SuperTextView tvPatientSurgeryMedicalRecord;
-    @BindView(R.id.tv_patient_blood_routine)
-    SuperTextView tvPatientBloodRoutine;
-    @BindView(R.id.tv_patient_electrocardiogram)
-    SuperTextView tvPatientElectrocardiogram;
-    @BindView(R.id.tv_patient_coagulation)
-    SuperTextView tvPatientCoagulation;
-    @BindView(R.id.tv_patient_infectious_disease)
-    SuperTextView tvPatientInfectiousDisease;
+    @BindView(R.id.cl_bottom)
+    ConstraintLayout clBottom;
+    @BindView(R.id.stv_surgery_about_medical_record)
+    SuperTextView stvSurgeryAboutMedicalRecord;
+    @BindView(R.id.stv_blood_routine)
+    SuperTextView stvBloodRoutine;
+    @BindView(R.id.stv_electrocardiogram)
+    SuperTextView stvElectrocardiogram;
+    @BindView(R.id.stv_coagulation)
+    SuperTextView stvCoagulation;
+    @BindView(R.id.stv_infectious_disease_index)
+    SuperTextView stvInfectiousDiseaseIndex;
+    @BindView(R.id.stv_blood_pressure)
+    SuperTextView stvBloodPressure;
+    @BindView(R.id.stv_pulse)
+    SuperTextView stvPulse;
+    @BindView(R.id.stv_breathe)
+    SuperTextView stvBreathe;
+    @BindView(R.id.stv_body_temperature)
+    SuperTextView stvBodyTemperature;
+    @BindView(R.id.stv_diabetes)
+    SuperTextView stvDiabetes;
+    @BindView(R.id.stv_brain_stalk)
+    SuperTextView stvBrainStalk;
+    @BindView(R.id.stv_heart_disease)
+    SuperTextView stvHeartDisease;
+    @BindView(R.id.stv_infectious_disease)
+    SuperTextView stvInfectiousDisease;
+    @BindView(R.id.stv_respiratory_dysfunction)
+    SuperTextView stvRespiratoryDysfunction;
     @BindView(R.id.ll_waiting_order)
     LinearLayoutCompat llWaitingOrder;
     @BindView(R.id.ll_is_order)
@@ -168,11 +192,7 @@ public class OrderDetailsActivity extends BaseActivity<OrderContract.View, Order
                 tvPatientSimulatedAnesthesia.setVisibility(View.GONE);
                 tvPatientIdCard.setVisibility(View.GONE);
                 tvPatientInsuranceConsent.setVisibility(View.GONE);
-                tvPatientSurgeryMedicalRecord.setVisibility(View.GONE);
-                tvPatientBloodRoutine.setVisibility(View.GONE);
-                tvPatientElectrocardiogram.setVisibility(View.GONE);
-                tvPatientCoagulation.setVisibility(View.GONE);
-                tvPatientInfectiousDisease.setVisibility(View.GONE);
+                clBottom.setVisibility(View.GONE);
                 rvPatientList.setVisibility(View.VISIBLE);
 
                 tvAnesthesiaInfo.setVisibility(View.VISIBLE);
@@ -207,11 +227,7 @@ public class OrderDetailsActivity extends BaseActivity<OrderContract.View, Order
                 tvPatientSimulatedAnesthesia.setVisibility(View.GONE);
                 tvPatientIdCard.setVisibility(View.GONE);
                 tvPatientInsuranceConsent.setVisibility(View.GONE);
-                tvPatientSurgeryMedicalRecord.setVisibility(View.GONE);
-                tvPatientBloodRoutine.setVisibility(View.GONE);
-                tvPatientElectrocardiogram.setVisibility(View.GONE);
-                tvPatientCoagulation.setVisibility(View.GONE);
-                tvPatientInfectiousDisease.setVisibility(View.GONE);
+                clBottom.setVisibility(View.GONE);
                 rvPatientList.setVisibility(View.VISIBLE);
 
                 tvAnesthesiaInfo.setVisibility(View.VISIBLE);
@@ -243,14 +259,6 @@ public class OrderDetailsActivity extends BaseActivity<OrderContract.View, Order
         rvPatientList.setNestedScrollingEnabled(false);
         rvPatientList.setHasFixedSize(true);// 如果可以确定每个item的高度是固定的，设置这个选项可以提高性能
         rvPatientList.setItemAnimator(new DefaultItemAnimator());//加载动画
-
-        for (int i = 0; i < 2; i++) {
-            SendOrderDataBean.TwoOrderBean testData = new SendOrderDataBean.TwoOrderBean();
-            str1.add(testData);
-        }
-        rvPatientList.setAdapter(selectOrderAddPatientAdapter = new SelectOrderAddPatientAdapter(str1, 2));
-        selectOrderAddPatientAdapter.bindToRecyclerView(rvPatientList);
-        selectOrderAddPatientAdapter.openLoadAnimation();
     }
 
     @Override
@@ -264,16 +272,7 @@ public class OrderDetailsActivity extends BaseActivity<OrderContract.View, Order
 
     @Override
     public void initListener() {
-        selectOrderAddPatientAdapter.setOnItemChildClickListener(new BaseQuickAdapter.OnItemChildClickListener() {
-            @Override
-            public void onItemChildClick(BaseQuickAdapter adapter, View view, int position) {
-                switch (view.getId()) {
-                    case R.id.stv_add_patient_item:
-                        startActivity(new Intent(OrderDetailsActivity.this, SendOrderAddPatientDetailsActivity.class));
-                        break;
-                }
-            }
-        });
+
     }
 
     @OnClick({R.id.bt_cancel, R.id.bt_modify, R.id.bt_quicken, R.id.bt_add_fee, R.id.bt_cancel_1, R.id.bt_medical_record, R.id.bt_call_doctor})
@@ -332,28 +331,84 @@ public class OrderDetailsActivity extends BaseActivity<OrderContract.View, Order
     public void resultOrderDetails(OrderDetailsBean data) {
         switch (data.getCode()) {
             case 200:
+                tvOrderCode.setRightString(data.getData().getOrder().getOrderNo());
                 tvHospitalName.setRightString(data.getData().getOrder().getHospitalName());
                 tvHospitalAddress.setRightString(data.getData().getOrder().getProv() + data.getData().getOrder().getCity() + data.getData().getOrder().getDist() + data.getData().getOrder().getAddress());
                 tvSurgeryType.setRightString("1".equals(data.getData().getOrder().getOrderType()) ? "单台" : "连台");
                 tvSimulatedSurgeryName.setRightString(data.getData().getOrder().getSurgeryName());
                 tvStartTime.setRightString(data.getData().getOrder().getBeginTime());
-                tvContinuedTime.setRightString(data.getData().getOrder().getDuration() + "h");
-                tvContinuedFee.setRightString("¥ " + data.getData().getOrder().getExpectMoney() + "元");
+                tvContinuedTime.setRightString(data.getData().getOrder().getDuration() + "小时");
+                if ("1".equals(data.getData().getOrder().getPremium()))
+                    tvContinuedFee.setRightString("¥ " + data.getData().getOrder().getAhMoney() + "元");
+                else
+                    tvContinuedFee.setRightString("¥ " + data.getData().getOrder().getAhMoney() + "元(含加价费用¥ " + data.getData().getOrder().getPremiumMoney() + ")");
                 tvPs.setRightString(data.getData().getOrder().getPrompt());
+
+                rvPatientList.setAdapter(selectOrderAddPatientAdapter = new SelectOrderAddPatientAdapter(data.getData().getOrderDetail(), 2));
+                selectOrderAddPatientAdapter.bindToRecyclerView(rvPatientList);
+                selectOrderAddPatientAdapter.openLoadAnimation();
+
+                selectOrderAddPatientAdapter.setOnItemChildClickListener(new BaseQuickAdapter.OnItemChildClickListener() {
+                    @Override
+                    public void onItemChildClick(BaseQuickAdapter adapter, View view, int position) {
+                        switch (view.getId()) {
+                            case R.id.stv_add_patient_item:
+                                startActivity(new Intent(OrderDetailsActivity.this, SelectPatientDetailsActivity.class).putExtra("orderDetailsTwo", data.getData().getOrderDetail().get(position)));
+                                break;
+                        }
+                    }
+                });
+
                 if ("1".equals(data.getData().getOrder().getOrderType())) {
-                    tvPatientName.setRightString("李先生");
-                    tvPatientSex.setRightString("男");
-                    tvPatientAge.setRightString("22岁");
-                    tvPatientHeight.setRightString("172cm");
-                    tvPatientBodyWeight.setRightString("66kg");
-                    tvPatientSimulatedAnesthesia.setRightString("椎管内麻醉");
-                    tvPatientIdCard.setRightString("已上传");
-                    tvPatientInsuranceConsent.setRightString("已上传");
-                    tvPatientSurgeryMedicalRecord.setRightString("已上传");
-                    tvPatientBloodRoutine.setRightString("已上传");
-                    tvPatientElectrocardiogram.setRightString("已上传");
-                    tvPatientCoagulation.setRightString("已上传");
-                    tvPatientInfectiousDisease.setRightString("已上传");
+                    tvPatientName.setRightString(data.getData().getOrderDetail().get(0).getPatientName());
+                    tvPatientSex.setRightString("1".equals(data.getData().getOrderDetail().get(0).getSex()) ? "男" : "女");
+                    tvPatientAge.setRightString(data.getData().getOrderDetail().get(0).getAge() + "岁");
+                    tvPatientHeight.setRightString(data.getData().getOrderDetail().get(0).getHeight() + "cm");
+                    tvPatientBodyWeight.setRightString(data.getData().getOrderDetail().get(0).getWeight() + "kg");
+                    tvPatientSimulatedAnesthesia.setRightString(data.getData().getOrderDetail().get(0).getNarcosisType());
+                    if (!isEmpty(data.getData().getOrderDetail().get(0).getPositiveCard()) && !isEmpty(data.getData().getOrderDetail().get(0).getReverseCard())) {
+                        tvPatientIdCard.setRightString("已上传")
+                                .setRightTextColor(getResources().getColor(R.color.tx_bottom_navigation_select));
+                    }
+                    if (!isEmpty(data.getData().getOrderDetail().get(0).getInsurance()))
+                        tvPatientInsuranceConsent.setRightString("已上传")
+                                .setRightTextColor(getResources().getColor(R.color.tx_bottom_navigation_select));
+
+                    if (!isEmpty(data.getData().getOrderDetail().get(0).getSurgeryRelated()))
+                        stvSurgeryAboutMedicalRecord.setRightString("已上传")
+                                .setRightTextColor(getResources().getColor(R.color.tx_bottom_navigation_select));
+                    if (!isEmpty(data.getData().getOrderDetail().get(0).getRoutineBlood()))
+                        stvBloodRoutine.setRightString("已上传")
+                                .setRightTextColor(getResources().getColor(R.color.tx_bottom_navigation_select));
+                    if (!isEmpty(data.getData().getOrderDetail().get(0).getEcg()))
+                        stvElectrocardiogram.setRightString("已上传")
+                                .setRightTextColor(getResources().getColor(R.color.tx_bottom_navigation_select));
+                    if (!isEmpty(data.getData().getOrderDetail().get(0).getCruor()))
+                        stvCoagulation.setRightString("已上传")
+                                .setRightTextColor(getResources().getColor(R.color.tx_bottom_navigation_select));
+                    if (!isEmpty(data.getData().getOrderDetail().get(0).getContagion()))
+                        stvInfectiousDiseaseIndex.setRightString("已上传")
+                                .setRightTextColor(getResources().getColor(R.color.tx_bottom_navigation_select));
+
+                    stvBloodPressure.setRightString(data.getData().getOrderDetail().get(0).getMinBloodPressure() + "/" + data.getData().getOrderDetail().get(0).getMaxBloodPressure() + "mmHg");
+                    stvPulse.setRightString(data.getData().getOrderDetail().get(0).getPulse() + "次/分钟");
+                    stvBreathe.setRightString(data.getData().getOrderDetail().get(0).getBreathe() + "次/分钟");
+                    stvBodyTemperature.setRightString(data.getData().getOrderDetail().get(0).getAnimalHeat() + "℃");
+                    if ("2".equals(data.getData().getOrderDetail().get(0).getDiabetes()))
+                        stvDiabetes.setRightString("有")
+                                .setRightTextColor(getResources().getColor(R.color.tx_bottom_navigation_select));
+                    if ("2".equals(data.getData().getOrderDetail().get(0).getCerebralInfarction()))
+                        stvBrainStalk.setRightString("有")
+                                .setRightTextColor(getResources().getColor(R.color.tx_bottom_navigation_select));
+                    if ("2".equals(data.getData().getOrderDetail().get(0).getHeartDisease()))
+                        stvHeartDisease.setRightString("有")
+                                .setRightTextColor(getResources().getColor(R.color.tx_bottom_navigation_select));
+                    if ("2".equals(data.getData().getOrderDetail().get(0).getInfectDisease()))
+                        stvInfectiousDisease.setRightString("有")
+                                .setRightTextColor(getResources().getColor(R.color.tx_bottom_navigation_select));
+                    if ("2".equals(data.getData().getOrderDetail().get(0).getBreatheFunction()))
+                        stvRespiratoryDysfunction.setRightString("有")
+                                .setRightTextColor(getResources().getColor(R.color.tx_bottom_navigation_select));
                 } else {
                     tvPatientName.setVisibility(View.GONE);
                     tvPatientSex.setVisibility(View.GONE);
@@ -363,11 +418,7 @@ public class OrderDetailsActivity extends BaseActivity<OrderContract.View, Order
                     tvPatientSimulatedAnesthesia.setVisibility(View.GONE);
                     tvPatientIdCard.setVisibility(View.GONE);
                     tvPatientInsuranceConsent.setVisibility(View.GONE);
-                    tvPatientSurgeryMedicalRecord.setVisibility(View.GONE);
-                    tvPatientBloodRoutine.setVisibility(View.GONE);
-                    tvPatientElectrocardiogram.setVisibility(View.GONE);
-                    tvPatientCoagulation.setVisibility(View.GONE);
-                    tvPatientInfectiousDisease.setVisibility(View.GONE);
+                    clBottom.setVisibility(View.GONE);
                     rvPatientList.setVisibility(View.VISIBLE);
                 }
                 break;

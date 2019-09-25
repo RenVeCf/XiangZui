@@ -302,7 +302,7 @@ public class MainFragment extends BaseFragment<HomeContract.View, HomeContract.P
                             case R.id.stv_name:
                             case R.id.stv_address:
                                 if ("2".equals(SPUtil.get(getContext(), IS_SUPPLEMENT_INFO, "")))
-                                    startActivity(new Intent(getContext(), OrderDetailsActivity.class).putExtra("order_status", data.getData().getOrderList().get(position).getStatus()).putExtra("orderId", data.getData().getOrderList().get(position).getOrderId()).putExtra("surgery_type", 1).putExtra("order_type", "1"));
+                                    startActivity(new Intent(getContext(), OrderDetailsActivity.class).putExtra("order_status", data.getData().getOrderList().get(position).getStatus()).putExtra("orderId", data.getData().getOrderList().get(position).getOrderId()));
                                 else
                                     ToastUtil.showShortToast("您的身份尚未认证,请您先去认证！");
                                 break;

@@ -13,6 +13,7 @@
         app:sLeftTextColor="@color/black"
         android:paddingStart="@dimen/x30"
         android:paddingEnd="@dimen/x30"
+        app:sRightViewGravity="right_center"
         app:sRightIconRes="@drawable/ic_right_arrow"
         app:sRightTextColor="@color/black" />
 </LinearLayout>

@@ -90,25 +90,25 @@ public class MainOrderAdapter<T> extends BaseQuickAdapter<T, BaseViewHolder> {
                         .setText(R.id.bt_third, "确认");
                 break;
             case "4":
-                orderStatus = 1 == 1 ? "已结算" : "未结算";
+                orderStatus = "已结束";
                 helper.setText(R.id.bt_first, "查看详情")
                         .setGone(R.id.bt_second, false)
                         .setGone(R.id.bt_third, false);
                 break;
             case "5":
-                orderStatus = 1 == 1 ? "已结算" : "未结算";
+                orderStatus = "待结算";
                 helper.setText(R.id.bt_first, "查看详情")
                         .setGone(R.id.bt_second, false)
                         .setGone(R.id.bt_third, false);
                 break;
             case "6":
-                orderStatus = 1 == 1 ? "已结算" : "未结算";
+                orderStatus = "已结算";
                 helper.setText(R.id.bt_first, "查看详情")
                         .setGone(R.id.bt_second, false)
                         .setGone(R.id.bt_third, false);
                 break;
             case "7":
-                orderStatus = 1 == 1 ? "已结算" : "未结算";
+                orderStatus = "已取消";
                 helper.setText(R.id.bt_first, "查看详情")
                         .setGone(R.id.bt_second, false)
                         .setGone(R.id.bt_third, false);

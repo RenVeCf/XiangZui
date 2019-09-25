@@ -8,6 +8,7 @@ import androidx.annotation.Nullable;
 import androidx.core.content.ContextCompat;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.RequestOptions;
 import com.bumptech.glide.request.target.SimpleTarget;
 import com.bumptech.glide.request.transition.Transition;
 import com.gyf.immersionbar.ImmersionBar;
@@ -39,8 +40,10 @@ import okhttp3.RequestBody;
 import static android.Manifest.permission.CAMERA;
 import static android.Manifest.permission.WRITE_EXTERNAL_STORAGE;
 import static com.ipd.xiangzui.activity.HeadActivity.getImageRequestBody;
+import static com.ipd.xiangzui.common.config.IConstants.AVATAR;
 import static com.ipd.xiangzui.common.config.IConstants.SIGN;
 import static com.ipd.xiangzui.common.config.UrlConfig.BASE_LOCAL_URL;
+import static com.ipd.xiangzui.utils.StringUtils.isEmpty;
 
 /**
  * Description ：代理人身份证
@@ -81,6 +84,13 @@ public class AgentCardActivity extends BaseActivity<UploadImgContract.View, Uplo
         ApplicationUtil.getManager().addActivity(this);
         //防止状态栏和标题重叠
         ImmersionBar.setTitleBar(this, tvAgentCard);
+
+        positiveUrl = getIntent().getStringExtra("positiveUrl");
+        negativeUrl = getIntent().getStringExtra("negativeUrl");
+        if (!isEmpty(positiveUrl))
+            Glide.with(ApplicationUtil.getContext()).load(BASE_LOCAL_URL + positiveUrl).apply(new RequestOptions().placeholder(R.mipmap.bg_positive_card)).into(rivPositiveCard);
+        if (!isEmpty(negativeUrl))
+            Glide.with(ApplicationUtil.getContext()).load(BASE_LOCAL_URL + negativeUrl).apply(new RequestOptions().placeholder(R.mipmap.bg_negative_card)).into(rivNegativeCard);
     }
 
     @Override

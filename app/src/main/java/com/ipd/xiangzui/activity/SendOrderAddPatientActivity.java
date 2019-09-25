@@ -3,6 +3,7 @@ package com.ipd.xiangzui.activity;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
+import android.os.Parcelable;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
@@ -330,6 +331,9 @@ public class SendOrderAddPatientActivity extends BaseActivity<NarcosisListContra
                         setResult(RESULT_OK, new Intent().putExtra("sendOrderData", sendOrderData));
                         finish();
                     }
+                } else if (orderDetails != null && orderDetailsList.size() > 0) {
+                    startActivity(new Intent(this, SendOrderMedicalRecordInfoActivity.class).putExtra("orderDetails", orderDetails).putParcelableArrayListExtra("orderDetailsList", (ArrayList<? extends Parcelable>) orderDetailsList));
+                    finish();
                 } else
                     ToastUtil.showShortToast("请将信息填写完整！");
                 break;

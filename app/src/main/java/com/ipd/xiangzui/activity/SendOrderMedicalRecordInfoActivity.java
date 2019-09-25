@@ -1,6 +1,7 @@
 package com.ipd.xiangzui.activity;
 
 import android.content.Intent;
+import android.os.Parcelable;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.LinearLayout;
@@ -13,10 +14,14 @@ import com.ipd.xiangzui.R;
 import com.ipd.xiangzui.base.BaseActivity;
 import com.ipd.xiangzui.base.BasePresenter;
 import com.ipd.xiangzui.base.BaseView;
+import com.ipd.xiangzui.bean.OrderDetailsBean;
 import com.ipd.xiangzui.bean.SendOrderDataBean;
 import com.ipd.xiangzui.common.view.TopView;
 import com.ipd.xiangzui.utils.ApplicationUtil;
 import com.xuexiang.xui.widget.textview.supertextview.SuperTextView;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import butterknife.BindView;
 import butterknife.OnClick;
@@ -100,6 +105,8 @@ public class SendOrderMedicalRecordInfoActivity extends BaseActivity {
     LinearLayout llAddPatient;
 
     private SendOrderDataBean sendOrderData;
+    private OrderDetailsBean.DataBean.OrderBean orderDetails;
+    private List<OrderDetailsBean.DataBean.OrderDetailBean> orderDetailsList;
     private int sendOrderType; //1: 单台, 2: 连台
     private int selectRb = 1; //1: 图片上传, 2: 填写上传, 3: 暂无
     private String surgeryAboutMedicalRecordUrl = "", bloodRoutineUrl = "", electrocardiogramUrl = "", coagulationUrl = "", infectiousDiseaseIndexUrl = "";
@@ -127,9 +134,13 @@ public class SendOrderMedicalRecordInfoActivity extends BaseActivity {
         ImmersionBar.setTitleBar(this, tvSendOrderMedicalRecordInfo);
 
         sendOrderData = getIntent().getParcelableExtra("sendOrderData");
-        sendOrderType = sendOrderData.getSendOrderType();
-        if (sendOrderType == 1)
-            llAddPatient.setVisibility(View.GONE);
+        if (sendOrderData != null) {
+            sendOrderType = sendOrderData.getSendOrderType();
+            if (sendOrderType == 1)
+                llAddPatient.setVisibility(View.GONE);
+        }
+        orderDetails = getIntent().getParcelableExtra("orderDetails");
+        orderDetailsList = getIntent().getParcelableArrayListExtra("orderDetailsList");
     }
 
     @Override
@@ -255,7 +266,10 @@ public class SendOrderMedicalRecordInfoActivity extends BaseActivity {
                 startActivityForResult(new Intent(this, SurgeryAboutMedicalRecordActivity.class).putExtra("title", "传染病指标"), REQUEST_CODE_107);
                 break;
             case R.id.sb_add_patient:
-                startActivityForResult(new Intent(this, SendOrderAddPatientActivity.class).putExtra("sendOrderData", sendOrderData).putExtra("selectRb", selectRb), REQUEST_CODE_109);
+                if (orderDetails != null && orderDetailsList.size() > 0)
+                    startActivityForResult(new Intent(this, SendOrderAddPatientActivity.class).putExtra("orderDetails", orderDetails).putParcelableArrayListExtra("orderDetailsList", (ArrayList<? extends Parcelable>) orderDetailsList).putExtra("selectRb", selectRb), REQUEST_CODE_109);
+                else
+                    startActivityForResult(new Intent(this, SendOrderAddPatientActivity.class).putExtra("sendOrderData", sendOrderData).putExtra("selectRb", selectRb), REQUEST_CODE_109);
                 break;
             case R.id.sb_next:
                 if (sendOrderType == 1) {

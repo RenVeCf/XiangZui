@@ -9,6 +9,7 @@ import android.widget.TextView;
 import androidx.annotation.Nullable;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.RequestOptions;
 import com.bumptech.glide.request.target.SimpleTarget;
 import com.bumptech.glide.request.transition.Transition;
 import com.gyf.immersionbar.ImmersionBar;
@@ -43,6 +44,7 @@ import static android.Manifest.permission.CAMERA;
 import static android.Manifest.permission.WRITE_EXTERNAL_STORAGE;
 import static com.ipd.xiangzui.common.config.IConstants.SIGN;
 import static com.ipd.xiangzui.common.config.UrlConfig.BASE_LOCAL_URL;
+import static com.ipd.xiangzui.utils.StringUtils.isEmpty;
 
 /**
  * Description ：头像
@@ -82,6 +84,10 @@ public class HeadActivity extends BaseActivity<UploadImgContract.View, UploadImg
         ApplicationUtil.getManager().addActivity(this);
         //防止状态栏和标题重叠
         ImmersionBar.setTitleBar(this, tvHead);
+
+        imgUrl = getIntent().getStringExtra("imgUrl");
+        if (!isEmpty(imgUrl))
+            Glide.with(ApplicationUtil.getContext()).load(BASE_LOCAL_URL + imgUrl).apply(new RequestOptions().placeholder(R.mipmap.bg_upload_img)).into(rivHead);
 
         tvTopTitle.setText(getIntent().getStringExtra("title"));
     }
