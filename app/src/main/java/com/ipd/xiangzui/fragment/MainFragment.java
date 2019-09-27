@@ -37,8 +37,6 @@ import com.ipd.xiangzui.bean.HomeBean;
 import com.ipd.xiangzui.bean.HospitalNameBean;
 import com.ipd.xiangzui.bean.OrderDetailsBean;
 import com.ipd.xiangzui.bean.OrderQuickBean;
-import com.ipd.xiangzui.bean.SendOrderBean;
-import com.ipd.xiangzui.bean.SendOrderDataBean;
 import com.ipd.xiangzui.bean.VerifiedTypeBean;
 import com.ipd.xiangzui.common.view.CustomLinearLayoutManager;
 import com.ipd.xiangzui.common.view.EditDialog;

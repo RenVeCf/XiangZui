@@ -18,6 +18,7 @@ import com.ipd.xiangzui.bean.OrderDetailsBean;
 import com.ipd.xiangzui.bean.SendOrderDataBean;
 import com.ipd.xiangzui.common.view.TopView;
 import com.ipd.xiangzui.utils.ApplicationUtil;
+import com.ipd.xiangzui.utils.StringUtils;
 import com.xuexiang.xui.widget.textview.supertextview.SuperTextView;
 
 import java.util.ArrayList;
@@ -141,6 +142,75 @@ public class SendOrderMedicalRecordInfoActivity extends BaseActivity {
         }
         orderDetails = getIntent().getParcelableExtra("orderDetails");
         orderDetailsList = getIntent().getParcelableArrayListExtra("orderDetailsList");
+        if (orderDetails != null && orderDetailsList.size() > 0) {
+            sendOrderType = Integer.parseInt(orderDetails.getOrderType());
+            if (sendOrderType == 1)
+                llAddPatient.setVisibility(View.GONE);
+
+            switch (orderDetailsList.get(0).getMedicalRecords()) {
+                case "1":
+                    if (!StringUtils.isEmpty(orderDetailsList.get(0).getSurgeryRelated())) {
+                        surgeryAboutMedicalRecordUrl = orderDetailsList.get(0).getSurgeryRelated();
+                        stvSurgeryAboutMedicalRecord.setRightString("已上传")
+                                .setRightTextColor(getResources().getColor(R.color.tx_bottom_navigation_select));
+                    }
+                    if (!StringUtils.isEmpty(orderDetailsList.get(0).getRoutineBlood())) {
+                        bloodRoutineUrl = orderDetailsList.get(0).getRoutineBlood();
+                        stvBloodRoutine.setRightString("已上传")
+                                .setRightTextColor(getResources().getColor(R.color.tx_bottom_navigation_select));
+                    }
+                    if (!StringUtils.isEmpty(orderDetailsList.get(0).getEcg())) {
+                        electrocardiogramUrl = orderDetailsList.get(0).getEcg();
+                        stvElectrocardiogram.setRightString("已上传")
+                                .setRightTextColor(getResources().getColor(R.color.tx_bottom_navigation_select));
+                    }
+                    if (!StringUtils.isEmpty(orderDetailsList.get(0).getCruor())) {
+                        coagulationUrl = orderDetailsList.get(0).getCruor();
+                        stvCoagulation.setRightString("已上传")
+                                .setRightTextColor(getResources().getColor(R.color.tx_bottom_navigation_select));
+                    }
+                    if (!StringUtils.isEmpty(orderDetailsList.get(0).getContagion())) {
+                        infectiousDiseaseIndexUrl = orderDetailsList.get(0).getContagion();
+                        stvInfectiousDiseaseIndex.setRightString("已上传")
+                                .setRightTextColor(getResources().getColor(R.color.tx_bottom_navigation_select));
+                    }
+                    break;
+                case "2":
+                    if (orderDetailsList.get(0).getMinBloodPressure() > 0) {
+                        etBloodPressureStart.setText(orderDetailsList.get(0).getMinBloodPressure() +"");
+                    }
+                    if (orderDetailsList.get(0).getMaxBloodPressure() > 0) {
+                        etBloodPressureEnd.setText(orderDetailsList.get(0).getMaxBloodPressure() +"");
+                    }
+                    if (orderDetailsList.get(0).getPulse() > 0) {
+                        etPulse.setText(orderDetailsList.get(0).getPulse() +"");
+                    }
+                    if (orderDetailsList.get(0).getBreathe() > 0) {
+                        etBreathe.setText(orderDetailsList.get(0).getBreathe() +"");
+                    }
+                    if (orderDetailsList.get(0).getAnimalHeat() > 0) {
+                        etBodyTemperature.setText(orderDetailsList.get(0).getAnimalHeat() +"");
+                    }
+                    if (!StringUtils.isEmpty(orderDetailsList.get(0).getDiabetes())) {
+                        rbDiabetesStart.setChecked("2".equals(orderDetailsList.get(0).getDiabetes()));
+                    }
+                    if (!StringUtils.isEmpty(orderDetailsList.get(0).getCerebralInfarction())) {
+                        rbBrainStalkStart.setChecked("2".equals(orderDetailsList.get(0).getCerebralInfarction()));
+                    }
+                    if (!StringUtils.isEmpty(orderDetailsList.get(0).getHeartDisease())) {
+                        rbHeartDiseaseStart.setChecked("2".equals(orderDetailsList.get(0).getHeartDisease()));
+                    }
+                    if (!StringUtils.isEmpty(orderDetailsList.get(0).getInfectDisease())) {
+                        rbInfectiousDiseaseStart.setChecked("2".equals(orderDetailsList.get(0).getInfectDisease()));
+                    }
+                    if (!StringUtils.isEmpty(orderDetailsList.get(0).getBreatheFunction())) {
+                        rbRespiratoryDysfunctionStart.setChecked("2".equals(orderDetailsList.get(0).getBreatheFunction()));
+                    }
+                    break;
+                case "3":
+                    break;
+            }
+        }
     }
 
     @Override
@@ -272,63 +342,93 @@ public class SendOrderMedicalRecordInfoActivity extends BaseActivity {
                     startActivityForResult(new Intent(this, SendOrderAddPatientActivity.class).putExtra("sendOrderData", sendOrderData).putExtra("selectRb", selectRb), REQUEST_CODE_109);
                 break;
             case R.id.sb_next:
-                if (sendOrderType == 1) {
-                    sendOrderData.getOneOrderBean().setMedicalRecords(selectRb + "");
-                    switch (selectRb) {
-                        case 1:
-                            sendOrderData.getOneOrderBean().setSurgeryRelated(surgeryAboutMedicalRecordUrl);
-                            sendOrderData.getOneOrderBean().setRoutineBlood(bloodRoutineUrl);
-                            sendOrderData.getOneOrderBean().setEcg(electrocardiogramUrl);
-                            sendOrderData.getOneOrderBean().setCruor(coagulationUrl);
-                            sendOrderData.getOneOrderBean().setContagion(infectiousDiseaseIndexUrl);
-                            break;
-                        case 2:
-                            sendOrderData.getOneOrderBean().setMinBloodPressure(etBloodPressureStart.getText().toString().trim());
-                            sendOrderData.getOneOrderBean().setMaxBloodPressure(etBloodPressureEnd.getText().toString().trim());
-                            sendOrderData.getOneOrderBean().setPulse(etPulse.getText().toString().trim());
-                            sendOrderData.getOneOrderBean().setBreathe(etBreathe.getText().toString().trim());
-                            sendOrderData.getOneOrderBean().setAnimalHeat(etBodyTemperature.getText().toString().trim());
-                            sendOrderData.getOneOrderBean().setDiabetes(rbDiabetesStart.isChecked() ? "2" : "1");
-                            sendOrderData.getOneOrderBean().setCerebralInfarction(rbBrainStalkStart.isChecked() ? "2" : "1");
-                            sendOrderData.getOneOrderBean().setHeartDisease(rbHeartDiseaseStart.isChecked() ? "2" : "1");
-                            sendOrderData.getOneOrderBean().setInfectDisease(rbInfectiousDiseaseStart.isChecked() ? "2" : "1");
-                            sendOrderData.getOneOrderBean().setBreatheFunction(rbRespiratoryDysfunctionStart.isChecked() ? "2" : "1");
-                            break;
-                        case 3:
-                            break;
+                if (orderDetails != null && orderDetailsList.size() > 0) {
+                    for (int i = 0; i < orderDetailsList.size(); i++) {
+                        orderDetailsList.get(i).setMedicalRecords(selectRb + "");
+                        switch (selectRb) {
+                            case 1:
+                                orderDetailsList.get(i).setSurgeryRelated(surgeryAboutMedicalRecordUrl);
+                                orderDetailsList.get(i).setRoutineBlood(bloodRoutineUrl);
+                                orderDetailsList.get(i).setEcg(electrocardiogramUrl);
+                                orderDetailsList.get(i).setCruor(coagulationUrl);
+                                orderDetailsList.get(i).setContagion(infectiousDiseaseIndexUrl);
+                                break;
+                            case 2:
+                                orderDetailsList.get(i).setMinBloodPressure(Double.parseDouble(etBloodPressureStart.getText().toString().trim()));
+                                orderDetailsList.get(i).setMaxBloodPressure(Double.parseDouble(etBloodPressureEnd.getText().toString().trim()));
+                                orderDetailsList.get(i).setPulse(Integer.parseInt(etPulse.getText().toString().trim()));
+                                orderDetailsList.get(i).setBreathe(Integer.parseInt(etBreathe.getText().toString().trim()));
+                                orderDetailsList.get(i).setAnimalHeat(Double.parseDouble(etBodyTemperature.getText().toString().trim()));
+                                orderDetailsList.get(i).setDiabetes(rbDiabetesStart.isChecked() ? "2" : "1");
+                                orderDetailsList.get(i).setCerebralInfarction(rbBrainStalkStart.isChecked() ? "2" : "1");
+                                orderDetailsList.get(i).setHeartDisease(rbHeartDiseaseStart.isChecked() ? "2" : "1");
+                                orderDetailsList.get(i).setInfectDisease(rbInfectiousDiseaseStart.isChecked() ? "2" : "1");
+                                orderDetailsList.get(i).setBreatheFunction(rbRespiratoryDysfunctionStart.isChecked() ? "2" : "1");
+                                break;
+                            case 3:
+                                break;
+                        }
                     }
                 } else {
-                    switch (selectRb) {
-                        case 1:
-                            for (int i = 0; i < sendOrderData.getTwoOrderBean().size(); i++) {
-                                sendOrderData.getTwoOrderBean().get(i).setMedicalRecords(selectRb + "");
-                                sendOrderData.getTwoOrderBean().get(i).setSurgeryRelated(surgeryAboutMedicalRecordUrl);
-                                sendOrderData.getTwoOrderBean().get(i).setRoutineBlood(bloodRoutineUrl);
-                                sendOrderData.getTwoOrderBean().get(i).setEcg(electrocardiogramUrl);
-                                sendOrderData.getTwoOrderBean().get(i).setCruor(coagulationUrl);
-                                sendOrderData.getTwoOrderBean().get(i).setContagion(infectiousDiseaseIndexUrl);
-                            }
-                            break;
-                        case 2:
-                            for (int i = 0; i < sendOrderData.getTwoOrderBean().size(); i++) {
-                                sendOrderData.getTwoOrderBean().get(i).setMedicalRecords(selectRb + "");
-                                sendOrderData.getTwoOrderBean().get(i).setMinBloodPressure(etBloodPressureStart.getText().toString().trim());
-                                sendOrderData.getTwoOrderBean().get(i).setMaxBloodPressure(etBloodPressureEnd.getText().toString().trim());
-                                sendOrderData.getTwoOrderBean().get(i).setPulse(etPulse.getText().toString().trim());
-                                sendOrderData.getTwoOrderBean().get(i).setBreathe(etBreathe.getText().toString().trim());
-                                sendOrderData.getTwoOrderBean().get(i).setAnimalHeat(etBodyTemperature.getText().toString().trim());
-                                sendOrderData.getTwoOrderBean().get(i).setDiabetes(rbDiabetesStart.isChecked() ? "2" : "1");
-                                sendOrderData.getTwoOrderBean().get(i).setCerebralInfarction(rbBrainStalkStart.isChecked() ? "2" : "1");
-                                sendOrderData.getTwoOrderBean().get(i).setHeartDisease(rbHeartDiseaseStart.isChecked() ? "2" : "1");
-                                sendOrderData.getTwoOrderBean().get(i).setInfectDisease(rbInfectiousDiseaseStart.isChecked() ? "2" : "1");
-                                sendOrderData.getTwoOrderBean().get(i).setBreatheFunction(rbRespiratoryDysfunctionStart.isChecked() ? "2" : "1");
-                            }
-                            break;
-                        case 3:
-                            break;
+                    if (sendOrderType == 1) {
+                        sendOrderData.getOneOrderBean().setMedicalRecords(selectRb + "");
+                        switch (selectRb) {
+                            case 1:
+                                sendOrderData.getOneOrderBean().setSurgeryRelated(surgeryAboutMedicalRecordUrl);
+                                sendOrderData.getOneOrderBean().setRoutineBlood(bloodRoutineUrl);
+                                sendOrderData.getOneOrderBean().setEcg(electrocardiogramUrl);
+                                sendOrderData.getOneOrderBean().setCruor(coagulationUrl);
+                                sendOrderData.getOneOrderBean().setContagion(infectiousDiseaseIndexUrl);
+                                break;
+                            case 2:
+                                sendOrderData.getOneOrderBean().setMinBloodPressure(etBloodPressureStart.getText().toString().trim());
+                                sendOrderData.getOneOrderBean().setMaxBloodPressure(etBloodPressureEnd.getText().toString().trim());
+                                sendOrderData.getOneOrderBean().setPulse(etPulse.getText().toString().trim());
+                                sendOrderData.getOneOrderBean().setBreathe(etBreathe.getText().toString().trim());
+                                sendOrderData.getOneOrderBean().setAnimalHeat(etBodyTemperature.getText().toString().trim());
+                                sendOrderData.getOneOrderBean().setDiabetes(rbDiabetesStart.isChecked() ? "2" : "1");
+                                sendOrderData.getOneOrderBean().setCerebralInfarction(rbBrainStalkStart.isChecked() ? "2" : "1");
+                                sendOrderData.getOneOrderBean().setHeartDisease(rbHeartDiseaseStart.isChecked() ? "2" : "1");
+                                sendOrderData.getOneOrderBean().setInfectDisease(rbInfectiousDiseaseStart.isChecked() ? "2" : "1");
+                                sendOrderData.getOneOrderBean().setBreatheFunction(rbRespiratoryDysfunctionStart.isChecked() ? "2" : "1");
+                                break;
+                            case 3:
+                                break;
+                        }
+                    } else {
+                        switch (selectRb) {
+                            case 1:
+                                for (int i = 0; i < sendOrderData.getTwoOrderBean().size(); i++) {
+                                    sendOrderData.getTwoOrderBean().get(i).setMedicalRecords(selectRb + "");
+                                    sendOrderData.getTwoOrderBean().get(i).setSurgeryRelated(surgeryAboutMedicalRecordUrl);
+                                    sendOrderData.getTwoOrderBean().get(i).setRoutineBlood(bloodRoutineUrl);
+                                    sendOrderData.getTwoOrderBean().get(i).setEcg(electrocardiogramUrl);
+                                    sendOrderData.getTwoOrderBean().get(i).setCruor(coagulationUrl);
+                                    sendOrderData.getTwoOrderBean().get(i).setContagion(infectiousDiseaseIndexUrl);
+                                }
+                                break;
+                            case 2:
+                                for (int i = 0; i < sendOrderData.getTwoOrderBean().size(); i++) {
+                                    sendOrderData.getTwoOrderBean().get(i).setMedicalRecords(selectRb + "");
+                                    sendOrderData.getTwoOrderBean().get(i).setMinBloodPressure(etBloodPressureStart.getText().toString().trim());
+                                    sendOrderData.getTwoOrderBean().get(i).setMaxBloodPressure(etBloodPressureEnd.getText().toString().trim());
+                                    sendOrderData.getTwoOrderBean().get(i).setPulse(etPulse.getText().toString().trim());
+                                    sendOrderData.getTwoOrderBean().get(i).setBreathe(etBreathe.getText().toString().trim());
+                                    sendOrderData.getTwoOrderBean().get(i).setAnimalHeat(etBodyTemperature.getText().toString().trim());
+                                    sendOrderData.getTwoOrderBean().get(i).setDiabetes(rbDiabetesStart.isChecked() ? "2" : "1");
+                                    sendOrderData.getTwoOrderBean().get(i).setCerebralInfarction(rbBrainStalkStart.isChecked() ? "2" : "1");
+                                    sendOrderData.getTwoOrderBean().get(i).setHeartDisease(rbHeartDiseaseStart.isChecked() ? "2" : "1");
+                                    sendOrderData.getTwoOrderBean().get(i).setInfectDisease(rbInfectiousDiseaseStart.isChecked() ? "2" : "1");
+                                    sendOrderData.getTwoOrderBean().get(i).setBreatheFunction(rbRespiratoryDysfunctionStart.isChecked() ? "2" : "1");
+                                }
+                                break;
+                            case 3:
+                                break;
+                        }
                     }
                 }
-                startActivity(new Intent(this, SendOrderFeeInfoActivity.class).putExtra("sendOrderData", sendOrderData));
+
+                startActivity(new Intent(this, SendOrderFeeInfoActivity.class).putExtra("sendOrderData", sendOrderData).putExtra("orderDetails", orderDetails).putParcelableArrayListExtra("orderDetailsList", (ArrayList<? extends Parcelable>) orderDetailsList));
                 break;
         }
     }

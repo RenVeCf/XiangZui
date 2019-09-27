@@ -2,6 +2,7 @@ package com.ipd.xiangzui.presenter;
 
 import android.content.Context;
 
+import com.ipd.xiangzui.bean.RefundDepositBean;
 import com.ipd.xiangzui.bean.WithdrawAccountBean;
 import com.ipd.xiangzui.contract.WithdrawAccountContract;
 import com.ipd.xiangzui.model.WithdrawAccountModel;
@@ -35,6 +36,27 @@ public class WithdrawAccountPresenter extends WithdrawAccountContract.Presenter 
                 //这一步是必须的，判断view是否已经被销毁
                 if (getView() != null) {
                     getView().resultWithdrawAccount((WithdrawAccountBean) o);
+                }
+            }
+
+            @Override
+            public void onError(ExceptionHandle.ResponeThrowable e) {
+                if (getView() != null) {
+                    //// TODO: 2017/12/28 自定义处理异常
+                    ToastUtil.showShortToast(ExceptionHandle.handleException(e).message);
+                }
+            }
+        });
+    }
+
+    @Override
+    public void getRefundDeposit(TreeMap<String, String> map, boolean isDialog, boolean cancelable) {
+        model.getRefundDeposit(context, map, isDialog, cancelable, getView().bindLifecycle(), new ObserverResponseListener() {
+            @Override
+            public void onNext(Object o) {
+                //这一步是必须的，判断view是否已经被销毁
+                if (getView() != null) {
+                    getView().resultRefundDeposit((RefundDepositBean) o);
                 }
             }
 

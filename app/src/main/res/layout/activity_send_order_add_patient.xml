@@ -12,6 +12,7 @@
         android:layout_height="?attr/actionBarSize"
         android:background="@color/white"
         android:gravity="bottom"
+        android:layout_marginBottom="@dimen/y150"
         app:is_back="true"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -22,6 +23,8 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:scrollbars="none"
+        android:fillViewport="true"
+        android:layout_marginBottom="@dimen/y150"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tv_send_order_add_patient">
@@ -52,256 +55,262 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/tv_add_patient_list" />
 
-            <TextView
-                android:id="@+id/tv_add_patient"
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/cl_add_patient"
                 android:layout_width="0dp"
-                android:layout_height="@dimen/y100"
-                android:layout_marginStart="@dimen/x50"
-                android:gravity="center_vertical"
-                android:text="患者信息"
-                android:textColor="@color/tx_bottom_navigation"
-                android:textSize="12sp"
-                app:layout_constraintEnd_toEndOf="parent"
+                android:layout_height="wrap_content"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/rv_send_order_add_patient" />
-
-            <LinearLayout
-                android:id="@+id/ll_surgical_name"
-                android:layout_width="0dp"
-                android:layout_height="@dimen/y150"
-                android:background="@color/white"
-                android:gravity="center_vertical"
-                android:paddingStart="@dimen/x50"
-                android:paddingEnd="@dimen/x50"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/tv_add_patient">
+                app:layout_constraintTop_toBottomOf="@+id/rv_send_order_add_patient">
 
                 <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="拟手术名称"
-                    android:textColor="@color/black" />
-
-                <EditText
-                    android:id="@+id/et_surgical_name"
+                    android:id="@+id/tv_add_patient"
                     android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_weight="1"
-                    android:background="@null"
-                    android:gravity="end|center_vertical"
-                    android:hint="请输入"
-                    android:textColor="@color/black" />
-            </LinearLayout>
-
-            <LinearLayout
-                android:id="@+id/ll_patient_name"
-                android:layout_width="0dp"
-                android:layout_height="@dimen/y150"
-                android:background="@color/white"
-                android:gravity="center_vertical"
-                android:paddingStart="@dimen/x50"
-                android:paddingEnd="@dimen/x50"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/ll_surgical_name">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="患者姓名"
-                    android:textColor="@color/black" />
-
-                <EditText
-                    android:id="@+id/et_patient_name"
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_weight="1"
-                    android:background="@null"
-                    android:gravity="end|center_vertical"
-                    android:hint="请输入"
-                    android:textColor="@color/black" />
-            </LinearLayout>
-
-            <com.xuexiang.xui.widget.textview.supertextview.SuperTextView
-                android:id="@+id/stv_patient_sex"
-                android:layout_width="0dp"
-                android:layout_height="@dimen/y150"
-                android:paddingStart="@dimen/x30"
-                android:paddingEnd="@dimen/x30"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/ll_patient_name"
-                app:sDividerLineType="none"
-                app:sLeftTextColor="@color/black"
-                app:sLeftTextString="性别"
-                app:sRightIconRes="@drawable/ic_right_arrow"
-                app:sRightTextColor="@color/tx_bottom_navigation"
-                app:sRightTextString="请选择" />
-
-            <com.xuexiang.xui.widget.textview.supertextview.SuperTextView
-                android:id="@+id/stv_patient_age"
-                android:layout_width="0dp"
-                android:layout_height="@dimen/y150"
-                android:paddingStart="@dimen/x30"
-                android:paddingEnd="@dimen/x30"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/stv_patient_sex"
-                app:sDividerLineType="none"
-                app:sLeftTextColor="@color/black"
-                app:sLeftTextString="年龄"
-                app:sRightIconRes="@drawable/ic_right_arrow"
-                app:sRightTextColor="@color/tx_bottom_navigation"
-                app:sRightTextString="请选择" />
-
-            <LinearLayout
-                android:id="@+id/ll_patient_height"
-                android:layout_width="0dp"
-                android:layout_height="@dimen/y150"
-                android:background="@color/white"
-                android:gravity="center_vertical"
-                android:paddingStart="@dimen/x50"
-                android:paddingEnd="@dimen/x50"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/stv_patient_age">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="身高"
-                    android:textColor="@color/black" />
-
-                <EditText
-                    android:id="@+id/et_patient_height"
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_weight="1"
-                    android:background="@null"
-                    android:gravity="end|center_vertical"
-                    android:hint="请输入"
-                    android:inputType="number"
-                    android:textColor="@color/black" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_height="@dimen/y100"
                     android:layout_marginStart="@dimen/x50"
-                    android:text="cm"
-                    android:textColor="@color/black" />
-            </LinearLayout>
+                    android:gravity="center_vertical"
+                    android:text="患者信息"
+                    android:textColor="@color/tx_bottom_navigation"
+                    android:textSize="12sp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
 
-            <LinearLayout
-                android:id="@+id/ll_patient_body_weight"
-                android:layout_width="0dp"
-                android:layout_height="@dimen/y150"
-                android:background="@color/white"
-                android:gravity="center_vertical"
-                android:paddingStart="@dimen/x50"
-                android:paddingEnd="@dimen/x50"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/ll_patient_height">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="体重"
-                    android:textColor="@color/black" />
-
-                <EditText
-                    android:id="@+id/et_patient_body_weight"
+                <LinearLayout
+                    android:id="@+id/ll_surgical_name"
                     android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_weight="1"
-                    android:background="@null"
-                    android:gravity="end|center_vertical"
-                    android:hint="请输入"
-                    android:inputType="number"
-                    android:textColor="@color/black" />
+                    android:layout_height="@dimen/y150"
+                    android:background="@color/white"
+                    android:gravity="center_vertical"
+                    android:paddingStart="@dimen/x50"
+                    android:paddingEnd="@dimen/x50"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/tv_add_patient">
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="@dimen/x50"
-                    android:text="kg"
-                    android:textColor="@color/black" />
-            </LinearLayout>
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="拟手术名称"
+                        android:textColor="@color/black" />
 
-            <com.xuexiang.xui.widget.textview.supertextview.SuperTextView
-                android:id="@+id/stv_anesthesia_type"
-                android:layout_width="0dp"
-                android:layout_height="@dimen/y150"
-                android:paddingStart="@dimen/x30"
-                android:paddingEnd="@dimen/x30"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/ll_patient_body_weight"
-                app:sDividerLineType="none"
-                app:sRightMaxEms="20"
-                app:sLeftTextColor="@color/black"
-                app:sLeftTextString="拟麻醉方式"
-                app:sRightIconRes="@drawable/ic_right_arrow"
-                app:sRightTextColor="@color/tx_bottom_navigation"
-                app:sRightTextString="请选择" />
+                    <EditText
+                        android:id="@+id/et_surgical_name"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:background="@null"
+                        android:gravity="end|center_vertical"
+                        android:hint="请输入"
+                        android:textColor="@color/black" />
+                </LinearLayout>
 
-            <com.xuexiang.xui.widget.textview.supertextview.SuperTextView
-                android:id="@+id/stv_id_card"
-                android:layout_width="0dp"
-                android:layout_height="@dimen/y150"
-                android:paddingStart="@dimen/x30"
-                android:paddingEnd="@dimen/x30"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/stv_anesthesia_type"
-                app:sDividerLineType="none"
-                app:sLeftTextColor="@color/black"
-                app:sLeftTextString="身份证"
-                app:sRightIconRes="@drawable/ic_right_arrow"
-                app:sRightTextColor="@color/tx_bottom_navigation"
-                app:sRightTextString="未上传" />
+                <LinearLayout
+                    android:id="@+id/ll_patient_name"
+                    android:layout_width="0dp"
+                    android:layout_height="@dimen/y150"
+                    android:background="@color/white"
+                    android:gravity="center_vertical"
+                    android:paddingStart="@dimen/x50"
+                    android:paddingEnd="@dimen/x50"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/ll_surgical_name">
 
-            <com.xuexiang.xui.widget.textview.supertextview.SuperTextView
-                android:id="@+id/stv_insurance_consent"
-                android:layout_width="0dp"
-                android:layout_height="@dimen/y150"
-                android:paddingStart="@dimen/x30"
-                android:paddingEnd="@dimen/x30"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/stv_id_card"
-                app:sDividerLineType="none"
-                app:sLeftTextColor="@color/black"
-                app:sLeftTextString="保险同意书"
-                app:sRightIconRes="@drawable/ic_right_arrow"
-                app:sRightTextColor="@color/tx_bottom_navigation"
-                app:sRightTextString="未上传" />
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="患者姓名"
+                        android:textColor="@color/black" />
 
-            <LinearLayout
-                android:layout_width="0dp"
-                android:layout_height="@dimen/y150"
-                android:layout_marginTop="@dimen/y100"
-                android:layout_marginBottom="@dimen/y200"
-                android:background="@color/white"
-                android:gravity="center"
-                android:orientation="horizontal"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/stv_insurance_consent">
+                    <EditText
+                        android:id="@+id/et_patient_name"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:background="@null"
+                        android:gravity="end|center_vertical"
+                        android:hint="请输入"
+                        android:textColor="@color/black" />
+                </LinearLayout>
 
-                <com.xuexiang.xui.widget.textview.supertextview.SuperButton
-                    android:id="@+id/sb_next"
-                    style="@style/SuperButton.Blue"
-                    android:layout_width="@dimen/x400"
-                    android:layout_height="@dimen/y110"
-                    app:sGradientType="linear"
-                    app:sGradientStartColor="#6BB6FF"
-                    app:sGradientEndColor="#4088FE"
-                    app:sGradientOrientation="LEFT_RIGHT"
-                    android:text="下一步" />
-            </LinearLayout>
+                <com.xuexiang.xui.widget.textview.supertextview.SuperTextView
+                    android:id="@+id/stv_patient_sex"
+                    android:layout_width="0dp"
+                    android:layout_height="@dimen/y150"
+                    android:paddingStart="@dimen/x30"
+                    android:paddingEnd="@dimen/x30"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/ll_patient_name"
+                    app:sDividerLineType="none"
+                    app:sLeftTextColor="@color/black"
+                    app:sLeftTextString="性别"
+                    app:sRightIconRes="@drawable/ic_right_arrow"
+                    app:sRightTextColor="@color/tx_bottom_navigation"
+                    app:sRightTextString="请选择" />
+
+                <com.xuexiang.xui.widget.textview.supertextview.SuperTextView
+                    android:id="@+id/stv_patient_age"
+                    android:layout_width="0dp"
+                    android:layout_height="@dimen/y150"
+                    android:paddingStart="@dimen/x30"
+                    android:paddingEnd="@dimen/x30"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/stv_patient_sex"
+                    app:sDividerLineType="none"
+                    app:sLeftTextColor="@color/black"
+                    app:sLeftTextString="年龄"
+                    app:sRightIconRes="@drawable/ic_right_arrow"
+                    app:sRightTextColor="@color/tx_bottom_navigation"
+                    app:sRightTextString="请选择" />
+
+                <LinearLayout
+                    android:id="@+id/ll_patient_height"
+                    android:layout_width="0dp"
+                    android:layout_height="@dimen/y150"
+                    android:background="@color/white"
+                    android:gravity="center_vertical"
+                    android:paddingStart="@dimen/x50"
+                    android:paddingEnd="@dimen/x50"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/stv_patient_age">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="身高"
+                        android:textColor="@color/black" />
+
+                    <EditText
+                        android:id="@+id/et_patient_height"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:background="@null"
+                        android:gravity="end|center_vertical"
+                        android:hint="请输入"
+                        android:inputType="number"
+                        android:textColor="@color/black" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/x50"
+                        android:text="cm"
+                        android:textColor="@color/black" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/ll_patient_body_weight"
+                    android:layout_width="0dp"
+                    android:layout_height="@dimen/y150"
+                    android:background="@color/white"
+                    android:gravity="center_vertical"
+                    android:paddingStart="@dimen/x50"
+                    android:paddingEnd="@dimen/x50"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/ll_patient_height">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="体重"
+                        android:textColor="@color/black" />
+
+                    <EditText
+                        android:id="@+id/et_patient_body_weight"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:background="@null"
+                        android:gravity="end|center_vertical"
+                        android:hint="请输入"
+                        android:inputType="number"
+                        android:textColor="@color/black" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/x50"
+                        android:text="kg"
+                        android:textColor="@color/black" />
+                </LinearLayout>
+
+                <com.xuexiang.xui.widget.textview.supertextview.SuperTextView
+                    android:id="@+id/stv_anesthesia_type"
+                    android:layout_width="0dp"
+                    android:layout_height="@dimen/y150"
+                    android:paddingStart="@dimen/x30"
+                    android:paddingEnd="@dimen/x30"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/ll_patient_body_weight"
+                    app:sDividerLineType="none"
+                    app:sRightMaxEms="20"
+                    app:sLeftTextColor="@color/black"
+                    app:sLeftTextString="拟麻醉方式"
+                    app:sRightIconRes="@drawable/ic_right_arrow"
+                    app:sRightTextColor="@color/tx_bottom_navigation"
+                    app:sRightTextString="请选择" />
+
+                <com.xuexiang.xui.widget.textview.supertextview.SuperTextView
+                    android:id="@+id/stv_id_card"
+                    android:layout_width="0dp"
+                    android:layout_height="@dimen/y150"
+                    android:paddingStart="@dimen/x30"
+                    android:paddingEnd="@dimen/x30"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/stv_anesthesia_type"
+                    app:sDividerLineType="none"
+                    app:sLeftTextColor="@color/black"
+                    app:sLeftTextString="身份证"
+                    app:sRightIconRes="@drawable/ic_right_arrow"
+                    app:sRightTextColor="@color/tx_bottom_navigation"
+                    app:sRightTextString="未上传" />
+
+                <com.xuexiang.xui.widget.textview.supertextview.SuperTextView
+                    android:id="@+id/stv_insurance_consent"
+                    android:layout_width="0dp"
+                    android:layout_height="@dimen/y150"
+                    android:paddingStart="@dimen/x30"
+                    android:paddingEnd="@dimen/x30"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/stv_id_card"
+                    app:sDividerLineType="none"
+                    app:sLeftTextColor="@color/black"
+                    app:sLeftTextString="保险同意书"
+                    app:sRightIconRes="@drawable/ic_right_arrow"
+                    app:sRightTextColor="@color/tx_bottom_navigation"
+                    app:sRightTextString="未上传" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
         </androidx.constraintlayout.widget.ConstraintLayout>
     </com.ipd.xiangzui.common.view.BounceScrollView>
+
+    <LinearLayout
+        android:layout_width="0dp"
+        android:layout_height="@dimen/y150"
+        android:background="@color/white"
+        android:gravity="center"
+        android:orientation="horizontal"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent">
+
+        <com.xuexiang.xui.widget.textview.supertextview.SuperButton
+            android:id="@+id/sb_next"
+            style="@style/SuperButton.Blue"
+            android:layout_width="@dimen/x400"
+            android:layout_height="@dimen/y110"
+            app:sGradientType="linear"
+            app:sGradientStartColor="#6BB6FF"
+            app:sGradientEndColor="#4088FE"
+            app:sGradientOrientation="LEFT_RIGHT"
+            android:text="下一步" />
+    </LinearLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

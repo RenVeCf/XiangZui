@@ -2,8 +2,14 @@ package com.ipd.xiangzui.contract;
 
 import com.ipd.xiangzui.base.BasePresenter;
 import com.ipd.xiangzui.base.BaseView;
+import com.ipd.xiangzui.bean.AddFeeBean;
+import com.ipd.xiangzui.bean.CancelIsOrderBean;
+import com.ipd.xiangzui.bean.CancelOrderBean;
 import com.ipd.xiangzui.bean.OrderDetailsBean;
+import com.ipd.xiangzui.bean.OrderIsOrverBean;
 import com.ipd.xiangzui.bean.OrderListBean;
+import com.ipd.xiangzui.bean.OrderQuickBean;
+import com.ipd.xiangzui.bean.SelectFeeBean;
 
 import java.util.TreeMap;
 
@@ -23,19 +29,17 @@ public interface OrderContract {
 
         void resultOrderDetails(OrderDetailsBean data);
 
-//        void resultIsOrderOperationEnd(IsOrderOperationEndBean data);
-//
-//        void resultIngOperationEnd(IngOperationEndBean data);
-//
-//        void resultOperationStart(OperationStartBean data);
-//
-//        void resultIsArrivals(IsArrivalsBean data);
-//
-//        void resultOrderCancel(OrderCancelBean data);
-//
-//        void resultGetOrder(GetOrderBean data);
-//
-//        void resultAnesthesiaList(AnesthesiaListBean data);
+        void resultCancelOrder(CancelOrderBean data);
+
+        void resultCancelIsOrder(CancelIsOrderBean data);
+
+        void resultAddFee(AddFeeBean data);
+
+        void resultOrderQuick(OrderQuickBean data);
+
+        void resultSelectFee(SelectFeeBean data);
+
+        void resultOrderIsOrver(OrderIsOrverBean data);
 
         <T> ObservableTransformer<T, T> bindLifecycle();
     }
@@ -45,18 +49,16 @@ public interface OrderContract {
 
         public abstract void getOrderDetails(TreeMap<String, String> map, boolean isDialog, boolean cancelable);
 
-//        public abstract void getIsOrderOperationEnd(TreeMap<String, String> map, boolean isDialog, boolean cancelable);
-//
-//        public abstract void getIngOperationEnd(TreeMap<String, String> map, boolean isDialog, boolean cancelable);
-//
-//        public abstract void getOperationStart(TreeMap<String, String> map, boolean isDialog, boolean cancelable);
-//
-//        public abstract void getIsArrivals(TreeMap<String, String> map, boolean isDialog, boolean cancelable);
-//
-//        public abstract void getOrderCancel(TreeMap<String, String> map, boolean isDialog, boolean cancelable);
-//
-//        public abstract void getGetOrder(TreeMap<String, String> map, boolean isDialog, boolean cancelable);
-//
-//        public abstract void getAnesthesiaList(TreeMap<String, String> map, boolean isDialog, boolean cancelable);
+        public abstract void getCancelOrder(TreeMap<String, String> map, boolean isDialog, boolean cancelable);
+
+        public abstract void getCancelIsOrder(TreeMap<String, String> map, boolean isDialog, boolean cancelable);
+
+        public abstract void getAddFee(TreeMap<String, String> map, boolean isDialog, boolean cancelable);
+
+        public abstract void getOrderQuick(TreeMap<String, String> map, boolean isDialog, boolean cancelable);
+
+        public abstract void getSelectFee(TreeMap<String, String> map, boolean isDialog, boolean cancelable);
+
+        public abstract void getOrderIsOrver(TreeMap<String, String> map, boolean isDialog, boolean cancelable);
     }
 }

@@ -15,8 +15,14 @@ import com.gyf.immersionbar.ImmersionBar;
 import com.ipd.xiangzui.R;
 import com.ipd.xiangzui.adapter.SelectOrderAddPatientAdapter;
 import com.ipd.xiangzui.base.BaseActivity;
+import com.ipd.xiangzui.bean.AddFeeBean;
+import com.ipd.xiangzui.bean.CancelIsOrderBean;
+import com.ipd.xiangzui.bean.CancelOrderBean;
 import com.ipd.xiangzui.bean.OrderDetailsBean;
+import com.ipd.xiangzui.bean.OrderIsOrverBean;
 import com.ipd.xiangzui.bean.OrderListBean;
+import com.ipd.xiangzui.bean.OrderQuickBean;
+import com.ipd.xiangzui.bean.SelectFeeBean;
 import com.ipd.xiangzui.bean.SendOrderDataBean;
 import com.ipd.xiangzui.common.view.CallPhoneDialog;
 import com.ipd.xiangzui.common.view.CustomLinearLayoutManager;
@@ -122,6 +128,10 @@ public class OrderDetailsActivity extends BaseActivity<OrderContract.View, Order
     LinearLayoutCompat llWaitingOrder;
     @BindView(R.id.ll_is_order)
     LinearLayoutCompat llIsOrder;
+    @BindView(R.id.ll_customer_service)
+    LinearLayoutCompat llCustomerService;
+    @BindView(R.id.ll_is_end)
+    LinearLayoutCompat llIsEnd;
     @BindView(R.id.rv_patient_list)
     RecyclerView rvPatientList;
     @BindView(R.id.tv_anesthesia_info)
@@ -180,20 +190,13 @@ public class OrderDetailsActivity extends BaseActivity<OrderContract.View, Order
                 llWaitingOrder.setVisibility(View.VISIBLE);
                 rvPatientList.setVisibility(View.VISIBLE);
                 break;
+            case "8":
             case "2":
                 llIsOrder.setVisibility(View.VISIBLE);
+                rvPatientList.setVisibility(View.VISIBLE);
                 break;
             case "3":
-                tvPatientName.setVisibility(View.GONE);
-                tvPatientSex.setVisibility(View.GONE);
-                tvPatientAge.setVisibility(View.GONE);
-                tvPatientHeight.setVisibility(View.GONE);
-                tvPatientBodyWeight.setVisibility(View.GONE);
-                tvPatientSimulatedAnesthesia.setVisibility(View.GONE);
-                tvPatientIdCard.setVisibility(View.GONE);
-                tvPatientInsuranceConsent.setVisibility(View.GONE);
-                clBottom.setVisibility(View.GONE);
-                rvPatientList.setVisibility(View.VISIBLE);
+                rvPatientList.setVisibility(View.GONE);
 
                 tvAnesthesiaInfo.setVisibility(View.VISIBLE);
                 tvFeeInfo.setVisibility(View.VISIBLE);
@@ -205,30 +208,36 @@ public class OrderDetailsActivity extends BaseActivity<OrderContract.View, Order
                 tvAddFeeFee.setVisibility(View.VISIBLE);
                 tvSumFee.setVisibility(View.VISIBLE);
                 tvPayType.setVisibility(View.VISIBLE);
-
-                tvAnesthesiaTool.setRightString("已确认");
-                tvAnesthesiaType.setRightString("椎管内麻醉");
-                tvWaitingTimeFee.setRightString("¥ 20元");
-                tvSurgeryFee.setRightString("¥ 200元");
-                tvQuickenFee.setRightString("¥ 30元");
-                tvAddFeeFee.setRightString("¥ 50元");
-                tvSumFee.setRightString("¥ 303元");
-                tvPayType.setRightString("已结算");
                 break;
             case "4":
+                llIsEnd.setVisibility(View.VISIBLE);
+                rvPatientList.setVisibility(View.GONE);
+
+                tvAnesthesiaInfo.setVisibility(View.VISIBLE);
+                tvFeeInfo.setVisibility(View.VISIBLE);
+                tvAnesthesiaTool.setVisibility(View.VISIBLE);
+                tvAnesthesiaType.setVisibility(View.VISIBLE);
+                tvWaitingTimeFee.setVisibility(View.VISIBLE);
+                tvSurgeryFee.setVisibility(View.VISIBLE);
+                tvQuickenFee.setVisibility(View.VISIBLE);
+                tvAddFeeFee.setVisibility(View.VISIBLE);
+                tvSumFee.setVisibility(View.VISIBLE);
+                tvPayType.setVisibility(View.VISIBLE);
+                break;
             case "5":
             case "6":
             case "7":
-                tvPatientName.setVisibility(View.GONE);
-                tvPatientSex.setVisibility(View.GONE);
-                tvPatientAge.setVisibility(View.GONE);
-                tvPatientHeight.setVisibility(View.GONE);
-                tvPatientBodyWeight.setVisibility(View.GONE);
-                tvPatientSimulatedAnesthesia.setVisibility(View.GONE);
-                tvPatientIdCard.setVisibility(View.GONE);
-                tvPatientInsuranceConsent.setVisibility(View.GONE);
-                clBottom.setVisibility(View.GONE);
-                rvPatientList.setVisibility(View.VISIBLE);
+//                tvPatientName.setVisibility(View.GONE);
+//                tvPatientSex.setVisibility(View.GONE);
+//                tvPatientAge.setVisibility(View.GONE);
+//                tvPatientHeight.setVisibility(View.GONE);
+//                tvPatientBodyWeight.setVisibility(View.GONE);
+//                tvPatientSimulatedAnesthesia.setVisibility(View.GONE);
+//                tvPatientIdCard.setVisibility(View.GONE);
+//                tvPatientInsuranceConsent.setVisibility(View.GONE);
+//                clBottom.setVisibility(View.GONE);
+                llCustomerService.setVisibility(View.VISIBLE);
+                rvPatientList.setVisibility(View.GONE);
 
                 tvAnesthesiaInfo.setVisibility(View.VISIBLE);
                 tvFeeInfo.setVisibility(View.VISIBLE);
@@ -240,15 +249,15 @@ public class OrderDetailsActivity extends BaseActivity<OrderContract.View, Order
                 tvAddFeeFee.setVisibility(View.VISIBLE);
                 tvSumFee.setVisibility(View.VISIBLE);
                 tvPayType.setVisibility(View.VISIBLE);
-
-                tvAnesthesiaTool.setRightString("已确认");
-                tvAnesthesiaType.setRightString("椎管内麻醉");
-                tvWaitingTimeFee.setRightString("¥ 20元");
-                tvSurgeryFee.setRightString("¥ 200元");
-                tvQuickenFee.setRightString("¥ 30元");
-                tvAddFeeFee.setRightString("¥ 50元");
-                tvSumFee.setRightString("¥ 303元");
-                tvPayType.setRightString("已结算");
+//
+//                tvAnesthesiaTool.setRightString("已确认");
+//                tvAnesthesiaType.setRightString("椎管内麻醉");
+//                tvWaitingTimeFee.setRightString("¥ 20元");
+//                tvSurgeryFee.setRightString("¥ 200元");
+//                tvQuickenFee.setRightString("¥ 30元");
+//                tvAddFeeFee.setRightString("¥ 50元");
+//                tvSumFee.setRightString("¥ 303元");
+//                tvPayType.setRightString("已结算");
                 break;
         }
 
@@ -275,9 +284,21 @@ public class OrderDetailsActivity extends BaseActivity<OrderContract.View, Order
 
     }
 
-    @OnClick({R.id.bt_cancel, R.id.bt_modify, R.id.bt_quicken, R.id.bt_add_fee, R.id.bt_cancel_1, R.id.bt_medical_record, R.id.bt_call_doctor})
+    @OnClick({R.id.bt_customer_service, R.id.bt_objection, R.id.bt_confirm, R.id.bt_cancel, R.id.bt_modify, R.id.bt_quicken, R.id.bt_add_fee, R.id.bt_cancel_1, R.id.bt_medical_record, R.id.bt_call_doctor})
     public void onViewClicked(View view) {
         switch (view.getId()) {
+            case R.id.bt_customer_service:
+                break;
+            case R.id.bt_objection:
+                new TwoBtDialog(this, "对此订单有异议，是否进行电话咨询?", "确认") {
+                    @Override
+                    public void confirm() {
+
+                    }
+                }.show();
+                break;
+            case R.id.bt_confirm:
+                break;
             case R.id.bt_cancel:
                 if (isFastClick())
                     new TwoBtDialog(this, "确认取消订单？", "确认") {
@@ -333,7 +354,7 @@ public class OrderDetailsActivity extends BaseActivity<OrderContract.View, Order
             case 200:
                 tvOrderCode.setRightString(data.getData().getOrder().getOrderNo());
                 tvHospitalName.setRightString(data.getData().getOrder().getHospitalName());
-                tvHospitalAddress.setRightString(data.getData().getOrder().getProv() + data.getData().getOrder().getCity() + data.getData().getOrder().getDist() + data.getData().getOrder().getAddress());
+                tvHospitalAddress.setRightString(data.getData().getOrder().getAddress());
                 tvSurgeryType.setRightString("1".equals(data.getData().getOrder().getOrderType()) ? "单台" : "连台");
                 tvSimulatedSurgeryName.setRightString(data.getData().getOrder().getSurgeryName());
                 tvStartTime.setRightString(data.getData().getOrder().getBeginTime());
@@ -341,7 +362,7 @@ public class OrderDetailsActivity extends BaseActivity<OrderContract.View, Order
                 if ("1".equals(data.getData().getOrder().getPremium()))
                     tvContinuedFee.setRightString("¥ " + data.getData().getOrder().getAhMoney() + "元");
                 else
-                    tvContinuedFee.setRightString("¥ " + data.getData().getOrder().getAhMoney() + "元(含加价费用¥ " + data.getData().getOrder().getPremiumMoney() + ")");
+                    tvContinuedFee.setRightString("¥ " + (data.getData().getOrder().getAhMoney() + data.getData().getOrder().getAhpremiumMoney()) + "元(含加价费用¥ " + data.getData().getOrder().getAhpremiumMoney() + ")");
                 tvPs.setRightString(data.getData().getOrder().getPrompt());
 
                 rvPatientList.setAdapter(selectOrderAddPatientAdapter = new SelectOrderAddPatientAdapter(data.getData().getOrderDetail(), 2));
@@ -358,6 +379,7 @@ public class OrderDetailsActivity extends BaseActivity<OrderContract.View, Order
                         }
                     }
                 });
+
 
                 if ("1".equals(data.getData().getOrder().getOrderType())) {
                     tvPatientName.setRightString(data.getData().getOrderDetail().get(0).getPatientName());
@@ -409,7 +431,50 @@ public class OrderDetailsActivity extends BaseActivity<OrderContract.View, Order
                     if ("2".equals(data.getData().getOrderDetail().get(0).getBreatheFunction()))
                         stvRespiratoryDysfunction.setRightString("有")
                                 .setRightTextColor(getResources().getColor(R.color.tx_bottom_navigation_select));
+
+                    if ("3".equals(orderStatus) || "4".equals(orderStatus) || "5".equals(orderStatus) || "6".equals(orderStatus)) {
+                        tvAnesthesiaInfo.setVisibility(View.VISIBLE);
+                        tvFeeInfo.setVisibility(View.VISIBLE);
+                        tvAnesthesiaTool.setVisibility(View.VISIBLE);
+                        tvAnesthesiaType.setVisibility(View.VISIBLE);
+                        tvWaitingTimeFee.setVisibility(View.VISIBLE);
+                        tvSurgeryFee.setVisibility(View.VISIBLE);
+                        tvQuickenFee.setVisibility(View.VISIBLE);
+                        tvAddFeeFee.setVisibility(View.VISIBLE);
+                        tvSumFee.setVisibility(View.VISIBLE);
+                        tvPayType.setVisibility(View.VISIBLE);
+
+                        tvAnesthesiaTool.setRightString("已确认");
+                        tvAnesthesiaType.setRightString(data.getData().getOrderDetail().get(0).getNarcosisType());
+                        tvWaitingTimeFee.setRightString("¥ " + data.getData().getOrder().getWaitMoney() + "元");
+                        tvSurgeryFee.setRightString("¥ " + data.getData().getOrder().getSurgeryMoney() + "元");
+                        tvQuickenFee.setRightString("¥ " + data.getData().getOrder().getUrgentMoney() + "元");
+                        tvAddFeeFee.setRightString("¥ " + data.getData().getOrder().getPremiumMoney() + "元");
+                        tvSumFee.setRightString("¥ " + data.getData().getOrder().getTotalMoney() + "元");
+                        tvPayType.setRightString("1".equals(data.getData().getOrderDetail().get(0).getStatus()) ? "未支付" : "已支付");
+                    }
                 } else {
+                    if ("3".equals(orderStatus) || "4".equals(orderStatus) || "5".equals(orderStatus) || "6".equals(orderStatus)) {
+                        tvAnesthesiaInfo.setVisibility(View.GONE);
+                        tvFeeInfo.setVisibility(View.VISIBLE);
+                        tvAnesthesiaTool.setVisibility(View.GONE);
+                        tvAnesthesiaType.setVisibility(View.GONE);
+                        tvWaitingTimeFee.setVisibility(View.VISIBLE);
+                        tvSurgeryFee.setVisibility(View.VISIBLE);
+                        tvQuickenFee.setVisibility(View.VISIBLE);
+                        tvAddFeeFee.setVisibility(View.VISIBLE);
+                        tvSumFee.setVisibility(View.VISIBLE);
+                        tvPayType.setVisibility(View.VISIBLE);
+
+                        tvAnesthesiaTool.setRightString("已确认");
+                        tvAnesthesiaType.setRightString(data.getData().getOrderDetail().get(0).getNarcosisType());
+                        tvWaitingTimeFee.setRightString("¥ " + data.getData().getOrder().getWaitMoney() + "元");
+                        tvSurgeryFee.setRightString("¥ " + data.getData().getOrder().getSurgeryMoney() + "元");
+                        tvQuickenFee.setRightString("¥ " + data.getData().getOrder().getUrgentMoney() + "元");
+                        tvAddFeeFee.setRightString("¥ " + data.getData().getOrder().getPremiumMoney() + "元");
+                        tvSumFee.setRightString("¥ " + data.getData().getOrder().getTotalMoney() + "元");
+                        tvPayType.setRightString("1".equals(data.getData().getOrderDetail().get(0).getStatus()) ? "未支付" : "已支付");
+                    }
                     tvPatientName.setVisibility(View.GONE);
                     tvPatientSex.setVisibility(View.GONE);
                     tvPatientAge.setVisibility(View.GONE);
@@ -431,6 +496,36 @@ public class OrderDetailsActivity extends BaseActivity<OrderContract.View, Order
                 finish();
                 break;
         }
+    }
+
+    @Override
+    public void resultCancelOrder(CancelOrderBean data) {
+
+    }
+
+    @Override
+    public void resultCancelIsOrder(CancelIsOrderBean data) {
+
+    }
+
+    @Override
+    public void resultAddFee(AddFeeBean data) {
+
+    }
+
+    @Override
+    public void resultOrderQuick(OrderQuickBean data) {
+
+    }
+
+    @Override
+    public void resultSelectFee(SelectFeeBean data) {
+
+    }
+
+    @Override
+    public void resultOrderIsOrver(OrderIsOrverBean data) {
+
     }
 
     @Override

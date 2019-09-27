@@ -1,8 +1,8 @@
 package com.ipd.xiangzui.bean;
 
-public class ModifyOrderBean {
+public class RefundDepositBean {
     /**
-     * msg : 操作成功！
+     * msg : 操作成功
      * code : 200
      */
 

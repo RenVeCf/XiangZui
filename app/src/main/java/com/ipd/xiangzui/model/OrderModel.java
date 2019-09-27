@@ -33,61 +33,53 @@ public class OrderModel<T> extends BaseModel {
         //        subscribe(context, Api.getApiService().login(map), observerListener);
         paramSubscribe(context, Api.getApiService().getOrderDetails(map), observerListener, transformer, isDialog, cancelable);
     }
-//
-//    public void getIsOrderOperationEnd(Context context, TreeMap<String, String> map, boolean isDialog, boolean cancelable,
-//                                    ObservableTransformer<T, T> transformer, ObserverResponseListener observerListener) {
-//
-//        //当不需要指定是否由dialog时，可以调用这个方法
-//        //        subscribe(context, Api.getApiService().login(map), observerListener);
-//        paramSubscribe(context, Api.getApiService().getIsOrderOperationEnd(map), observerListener, transformer, isDialog, cancelable);
-//    }
-//
-//    public void getIngOperationEnd(Context context, TreeMap<String, String> map, boolean isDialog, boolean cancelable,
-//                                   ObservableTransformer<T, T> transformer, ObserverResponseListener observerListener) {
-//
-//        //当不需要指定是否由dialog时，可以调用这个方法
-//        //        subscribe(context, Api.getApiService().login(map), observerListener);
-//        paramSubscribe(context, Api.getApiService().getIngOperationEnd(map), observerListener, transformer, isDialog, cancelable);
-//    }
-//
-//    public void getOperationStart(Context context, TreeMap<String, String> map, boolean isDialog, boolean cancelable,
-//                                  ObservableTransformer<T, T> transformer, ObserverResponseListener observerListener) {
-//
-//        //当不需要指定是否由dialog时，可以调用这个方法
-//        //        subscribe(context, Api.getApiService().login(map), observerListener);
-//        paramSubscribe(context, Api.getApiService().getOperationStart(map), observerListener, transformer, isDialog, cancelable);
-//    }
-//
-//    public void getIsArrivals(Context context, TreeMap<String, String> map, boolean isDialog, boolean cancelable,
-//                              ObservableTransformer<T, T> transformer, ObserverResponseListener observerListener) {
-//
-//        //当不需要指定是否由dialog时，可以调用这个方法
-//        //        subscribe(context, Api.getApiService().login(map), observerListener);
-//        paramSubscribe(context, Api.getApiService().getIsArrivals(map), observerListener, transformer, isDialog, cancelable);
-//    }
-//
-//    public void getOrderCancel(Context context, TreeMap<String, String> map, boolean isDialog, boolean cancelable,
-//                               ObservableTransformer<T, T> transformer, ObserverResponseListener observerListener) {
-//
-//        //当不需要指定是否由dialog时，可以调用这个方法
-//        //        subscribe(context, Api.getApiService().login(map), observerListener);
-//        paramSubscribe(context, Api.getApiService().getOrderCancel(map), observerListener, transformer, isDialog, cancelable);
-//    }
-//
-//    public void getGetOrder(Context context, TreeMap<String, String> map, boolean isDialog, boolean cancelable,
-//                               ObservableTransformer<T, T> transformer, ObserverResponseListener observerListener) {
-//
-//        //当不需要指定是否由dialog时，可以调用这个方法
-//        //        subscribe(context, Api.getApiService().login(map), observerListener);
-//        paramSubscribe(context, Api.getApiService().getGetOrder(map), observerListener, transformer, isDialog, cancelable);
-//    }
-//
-//    public void getAnesthesiaList(Context context, TreeMap<String, String> map, boolean isDialog, boolean cancelable,
-//                               ObservableTransformer<T, T> transformer, ObserverResponseListener observerListener) {
-//
-//        //当不需要指定是否由dialog时，可以调用这个方法
-//        //        subscribe(context, Api.getApiService().login(map), observerListener);
-//        paramSubscribe(context, Api.getApiService().getAnesthesiaList(map), observerListener, transformer, isDialog, cancelable);
-//    }
+
+    public void getCancelOrder(Context context, TreeMap<String, String> map, boolean isDialog, boolean cancelable,
+                               ObservableTransformer<T, T> transformer, ObserverResponseListener observerListener) {
+
+        //当不需要指定是否由dialog时，可以调用这个方法
+        //        subscribe(context, Api.getApiService().login(map), observerListener);
+        paramSubscribe(context, Api.getApiService().getCancelOrder(map), observerListener, transformer, isDialog, cancelable);
+    }
+
+    public void getCancelIsOrder(Context context, TreeMap<String, String> map, boolean isDialog, boolean cancelable,
+                                 ObservableTransformer<T, T> transformer, ObserverResponseListener observerListener) {
+
+        //当不需要指定是否由dialog时，可以调用这个方法
+        //        subscribe(context, Api.getApiService().login(map), observerListener);
+        paramSubscribe(context, Api.getApiService().getCancelIsOrder(map), observerListener, transformer, isDialog, cancelable);
+    }
+
+    public void getAddFee(Context context, TreeMap<String, String> map, boolean isDialog, boolean cancelable,
+                          ObservableTransformer<T, T> transformer, ObserverResponseListener observerListener) {
+
+        //当不需要指定是否由dialog时，可以调用这个方法
+        //        subscribe(context, Api.getApiService().login(map), observerListener);
+        paramSubscribe(context, Api.getApiService().getAddFee(map), observerListener, transformer, isDialog, cancelable);
+    }
+
+    public void getOrderQuick(Context context, TreeMap<String, String> map, boolean isDialog, boolean cancelable,
+                              ObservableTransformer<T, T> transformer, ObserverResponseListener observerListener) {
+
+        //当不需要指定是否由dialog时，可以调用这个方法
+        //        subscribe(context, Api.getApiService().login(map), observerListener);
+        paramSubscribe(context, Api.getApiService().getOrderQuick(map), observerListener, transformer, isDialog, cancelable);
+    }
+
+    public void getSelectFee(Context context, TreeMap<String, String> map, boolean isDialog, boolean cancelable,
+                             ObservableTransformer<T, T> transformer, ObserverResponseListener observerListener) {
+
+        //当不需要指定是否由dialog时，可以调用这个方法
+        //        subscribe(context, Api.getApiService().login(map), observerListener);
+        paramSubscribe(context, Api.getApiService().getSelectFee(map), observerListener, transformer, isDialog, cancelable);
+    }
+
+    public void getOrderIsOrver(Context context, TreeMap<String, String> map, boolean isDialog, boolean cancelable,
+                                ObservableTransformer<T, T> transformer, ObserverResponseListener observerListener) {
+
+        //当不需要指定是否由dialog时，可以调用这个方法
+        //        subscribe(context, Api.getApiService().login(map), observerListener);
+        paramSubscribe(context, Api.getApiService().getOrderIsOrver(map), observerListener, transformer, isDialog, cancelable);
+    }
     //// TODO: 2017/12/27 其他需要请求、数据库等等的操作
 }

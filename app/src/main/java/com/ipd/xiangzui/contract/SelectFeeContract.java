@@ -2,6 +2,7 @@ package com.ipd.xiangzui.contract;
 
 import com.ipd.xiangzui.base.BasePresenter;
 import com.ipd.xiangzui.base.BaseView;
+import com.ipd.xiangzui.bean.ModifyOrderBean;
 import com.ipd.xiangzui.bean.SelectFeeBean;
 import com.ipd.xiangzui.bean.SendOrderBean;
 
@@ -23,6 +24,8 @@ public interface SelectFeeContract {
 
         void resultSendOrder(SendOrderBean data);
 
+        void resultModifyOrder(ModifyOrderBean data);
+
         <T> ObservableTransformer<T, T> bindLifecycle();
     }
 
@@ -30,5 +33,7 @@ public interface SelectFeeContract {
         public abstract void getSelectFee(TreeMap<String, String> map, boolean isDialog, boolean cancelable);
 
         public abstract void getSendOrder(TreeMap<String, String> map, boolean isDialog, boolean cancelable);
+
+        public abstract void getModifyOrder(TreeMap<String, String> map, boolean isDialog, boolean cancelable);
     }
 }

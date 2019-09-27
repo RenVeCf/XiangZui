@@ -34,6 +34,7 @@ import com.ipd.xiangzui.bean.PwdLoginBean;
 import com.ipd.xiangzui.bean.RechargeAccountPayBean;
 import com.ipd.xiangzui.bean.RechargeAliPayBean;
 import com.ipd.xiangzui.bean.RechargeWechatPayBean;
+import com.ipd.xiangzui.bean.RefundDepositBean;
 import com.ipd.xiangzui.bean.RegistsBean;
 import com.ipd.xiangzui.bean.ResetPwdBean;
 import com.ipd.xiangzui.bean.SelectFeeBean;
@@ -90,6 +91,7 @@ import static com.ipd.xiangzui.common.config.UrlConfig.PWD_LOGIN;
 import static com.ipd.xiangzui.common.config.UrlConfig.RECHARGE_ACCOUNT_PAY;
 import static com.ipd.xiangzui.common.config.UrlConfig.RECHARGE_ALI_PAY;
 import static com.ipd.xiangzui.common.config.UrlConfig.RECHARGE_WECHAT_PAY;
+import static com.ipd.xiangzui.common.config.UrlConfig.REFUND_DEPOSIT;
 import static com.ipd.xiangzui.common.config.UrlConfig.REGISTER;
 import static com.ipd.xiangzui.common.config.UrlConfig.RESET_PWD;
 import static com.ipd.xiangzui.common.config.UrlConfig.SELECT_FEE;
@@ -388,6 +390,11 @@ public interface ApiService {
     @FormUrlEncoded
     @POST(WITHDRAW_ACCOUNT)
     Observable<WithdrawAccountBean> getWithdrawAccount(@FieldMap Map<String, String> map);
+
+    //对公-退还保证金
+    @FormUrlEncoded
+    @POST(REFUND_DEPOSIT)
+    Observable<RefundDepositBean> getRefundDeposit(@FieldMap Map<String, String> map);
 
     //充值-支付包
     @FormUrlEncoded

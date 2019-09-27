@@ -75,4 +75,5 @@ public interface UrlConfig {
     String DEL_ACCOUNT = "ah/brought/deleteBrought"; //医院端-对公账户删除
     String OPEN_INVOICE = "ah/invoice/applyTicket"; //医生端-申请开票
     String WITHDRAW_ACCOUNT = "ah/wallet/publecWithdrawal"; //提现-对公转账
+    String REFUND_DEPOSIT = "ah/wallet/rePubliceMargin"; //对公-退还保证金
 }

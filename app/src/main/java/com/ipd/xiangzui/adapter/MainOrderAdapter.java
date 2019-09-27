@@ -51,6 +51,7 @@ public class MainOrderAdapter<T> extends BaseQuickAdapter<T, BaseViewHolder> {
             surgeryName = ((HomeBean.DataBean.OrderListBean) item).getSurgeryName();
             orderType = ((HomeBean.DataBean.OrderListBean) item).getOrderType();
             hospitalName = ((HomeBean.DataBean.OrderListBean) item).getHospitalName();
+            premium = ((HomeBean.DataBean.OrderListBean) item).getPremium();
             address = ((HomeBean.DataBean.OrderListBean) item).getAddress();
             beginTime = ((HomeBean.DataBean.OrderListBean) item).getBeginTime();
             ahMoney = ((HomeBean.DataBean.OrderListBean) item).getAhMoney();
@@ -86,14 +87,14 @@ public class MainOrderAdapter<T> extends BaseQuickAdapter<T, BaseViewHolder> {
             case "3":
                 orderStatus = "进行中";
                 helper.setText(R.id.bt_first, "查看详情")
-                        .setText(R.id.bt_second, "异议")
-                        .setText(R.id.bt_third, "确认");
+                        .setGone(R.id.bt_second, false)
+                        .setGone(R.id.bt_third, false);
                 break;
             case "4":
                 orderStatus = "已结束";
                 helper.setText(R.id.bt_first, "查看详情")
-                        .setGone(R.id.bt_second, false)
-                        .setGone(R.id.bt_third, false);
+                        .setText(R.id.bt_second, "异议")
+                        .setText(R.id.bt_third, "确认");
                 break;
             case "5":
                 orderStatus = "待结算";
@@ -112,6 +113,12 @@ public class MainOrderAdapter<T> extends BaseQuickAdapter<T, BaseViewHolder> {
                 helper.setText(R.id.bt_first, "查看详情")
                         .setGone(R.id.bt_second, false)
                         .setGone(R.id.bt_third, false);
+                break;
+            case "8":
+                orderStatus = "等待中";
+                helper.setText(R.id.bt_first, "取消订单")
+                        .setText(R.id.bt_second, "补充病历")
+                        .setText(R.id.bt_third, "联系医生");
                 break;
         }
 

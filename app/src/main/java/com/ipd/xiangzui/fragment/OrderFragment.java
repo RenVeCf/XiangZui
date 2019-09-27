@@ -3,6 +3,7 @@ package com.ipd.xiangzui.fragment;
 import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Parcelable;
 import android.view.View;
 
 import androidx.appcompat.widget.LinearLayoutCompat;
@@ -17,12 +18,17 @@ import com.ipd.xiangzui.activity.CaptchaLoginActivity;
 import com.ipd.xiangzui.activity.MainActivity;
 import com.ipd.xiangzui.activity.ModifyMedicalRecordActivity;
 import com.ipd.xiangzui.activity.OrderDetailsActivity;
-import com.ipd.xiangzui.activity.SendOrderActivity;
+import com.ipd.xiangzui.activity.SendOrderSurgicalInfoActivity;
 import com.ipd.xiangzui.adapter.MainOrderAdapter;
 import com.ipd.xiangzui.base.BaseFragment;
+import com.ipd.xiangzui.bean.AddFeeBean;
+import com.ipd.xiangzui.bean.CancelIsOrderBean;
+import com.ipd.xiangzui.bean.CancelOrderBean;
 import com.ipd.xiangzui.bean.OrderDetailsBean;
+import com.ipd.xiangzui.bean.OrderIsOrverBean;
 import com.ipd.xiangzui.bean.OrderListBean;
-import com.ipd.xiangzui.common.view.CallPhoneDialog;
+import com.ipd.xiangzui.bean.OrderQuickBean;
+import com.ipd.xiangzui.bean.SelectFeeBean;
 import com.ipd.xiangzui.common.view.EditDialog;
 import com.ipd.xiangzui.common.view.SpacesItemDecoration;
 import com.ipd.xiangzui.common.view.TwoBtDialog;
@@ -72,6 +78,7 @@ public class OrderFragment extends BaseFragment<OrderContract.View, OrderContrac
     private MainOrderAdapter mainOrderAdapter;
     private int pageNum = 1;//页数
     private String orderType;//订单状态 0:待接单， 1:已接单， 2:进行中， 3:已完成
+    private int removePosition;
 
     @Override
     public int getLayoutId() {
@@ -170,99 +177,111 @@ public class OrderFragment extends BaseFragment<OrderContract.View, OrderContrac
                             public void onItemChildClick(BaseQuickAdapter adapter, View view, int position) {
                                 switch (view.getId()) {
                                     case R.id.cv_order_item:
-                                        startActivity(new Intent(getContext(), OrderDetailsActivity.class).putExtra("order_status", data.getData().getOrderList().get(position).getStatus()).putExtra("orderId", data.getData().getOrderList().get(position).getOrderId()));
-                                        break;
                                     case R.id.stv_start_time:
-                                        startActivity(new Intent(getContext(), OrderDetailsActivity.class).putExtra("order_status", data.getData().getOrderList().get(position).getStatus()).putExtra("orderId", data.getData().getOrderList().get(position).getOrderId()));
-                                        break;
                                     case R.id.stv_fee:
-                                        startActivity(new Intent(getContext(), OrderDetailsActivity.class).putExtra("order_status", data.getData().getOrderList().get(position).getStatus()).putExtra("orderId", data.getData().getOrderList().get(position).getOrderId()));
-                                        break;
                                     case R.id.stv_name:
-                                        startActivity(new Intent(getContext(), OrderDetailsActivity.class).putExtra("order_status", data.getData().getOrderList().get(position).getStatus()).putExtra("orderId", data.getData().getOrderList().get(position).getOrderId()));
-                                        break;
                                     case R.id.stv_address:
                                         startActivity(new Intent(getContext(), OrderDetailsActivity.class).putExtra("order_status", data.getData().getOrderList().get(position).getStatus()).putExtra("orderId", data.getData().getOrderList().get(position).getOrderId()));
                                         break;
                                     case R.id.bt_first:
-                                        switch (orderList.get(position).getOrderType()) {
-                                            case "0":
-                                                if (isFastClick())
+                                        if (isFastClick()) {
+                                            switch (orderList.get(position).getStatus()) {
+                                                case "1"://取消订单
                                                     new TwoBtDialog(getActivity(), "确认取消订单？", "确认") {
                                                         @Override
                                                         public void confirm() {
-                                                            orderList.remove(position);
-                                                            mainOrderAdapter.notifyDataSetChanged();
-                                                            mainOrderAdapter.setEmptyView(R.layout.null_data, rvOrder);
+                                                            removePosition = position;
+                                                            TreeMap<String, String> cancelOrderMap = new TreeMap<>();
+                                                            cancelOrderMap.put("userId", SPUtil.get(getContext(), USER_ID, "") + "");
+                                                            cancelOrderMap.put("orderId", orderList.get(position).getOrderId() + "");
+                                                            cancelOrderMap.put("sign", StringUtils.toUpperCase(MD5Utils.encodeMD5(cancelOrderMap.toString().replaceAll(" ", "") + SIGN)));
+                                                            getPresenter().getCancelOrder(cancelOrderMap, false, false);
                                                         }
                                                     }.show();
-                                                break;
-                                            case "1":
-                                                if (isFastClick())
-                                                    new TwoBtDialog(getActivity(), "确认取消订单？", "确认") {
-                                                        @Override
-                                                        public void confirm() {
-                                                            orderList.remove(position);
-                                                            mainOrderAdapter.notifyDataSetChanged();
-                                                            mainOrderAdapter.setEmptyView(R.layout.null_data, rvOrder);
-                                                        }
-                                                    }.show();
-                                                break;
-                                            case "2":
-                                                startActivity(new Intent(getContext(), OrderDetailsActivity.class).putExtra("order_status", data.getData().getOrderList().get(position).getStatus()).putExtra("orderId", data.getData().getOrderList().get(position).getOrderId()));
-                                                break;
-                                            case "3":
-                                                startActivity(new Intent(getContext(), OrderDetailsActivity.class).putExtra("order_status", data.getData().getOrderList().get(position).getStatus()).putExtra("orderId", data.getData().getOrderList().get(position).getOrderId()));
-                                                break;
+                                                    break;
+                                                case "8":
+                                                case "2"://取消订单
+                                                    removePosition = position;
+
+                                                    TreeMap<String, String> selectFeeMap = new TreeMap<>();
+                                                    selectFeeMap.put("userId", SPUtil.get(getContext(), USER_ID, "") + "");
+                                                    selectFeeMap.put("type", "2");
+                                                    selectFeeMap.put("sign", StringUtils.toUpperCase(MD5Utils.encodeMD5(selectFeeMap.toString().replaceAll(" ", "") + SIGN)));
+                                                    getPresenter().getSelectFee(selectFeeMap, false, false);
+                                                    break;
+                                                case "3"://查看详情
+                                                case "4":
+                                                case "5":
+                                                case "6":
+                                                case "7":
+                                                    startActivity(new Intent(getContext(), OrderDetailsActivity.class).putExtra("order_status", data.getData().getOrderList().get(position).getStatus()).putExtra("orderId", data.getData().getOrderList().get(position).getOrderId()));
+                                                    break;
+                                            }
                                         }
                                         break;
                                     case R.id.bt_second:
-                                        switch (orderList.get(position).getOrderType()) {
-                                            case "0":
-                                                if (isFastClick())
-                                                    startActivity(new Intent(getContext(), SendOrderActivity.class));
-                                                break;
-                                            case "1":
-                                                if (isFastClick())
+                                        if (isFastClick()) {
+                                            switch (orderList.get(position).getStatus()) {
+                                                case "1"://修改订单
+                                                    TreeMap<String, String> orderDetailsMap = new TreeMap<>();
+                                                    orderDetailsMap.put("userId", SPUtil.get(getContext(), USER_ID, "") + "");
+                                                    orderDetailsMap.put("orderId", orderList.get(position).getOrderId() + "");
+                                                    orderDetailsMap.put("sign", StringUtils.toUpperCase(MD5Utils.encodeMD5(orderDetailsMap.toString().replaceAll(" ", "") + SIGN)));
+                                                    getPresenter().getOrderDetails(orderDetailsMap, false, false);
+                                                    break;
+                                                case "8":
+                                                case "2"://补充病历
                                                     startActivity(new Intent(getContext(), ModifyMedicalRecordActivity.class));
-                                                break;
-                                            case "2":
-                                                if (isFastClick())
-                                                    new TwoBtDialog(getActivity(), "对此订单有异议，是否进行电话咨询？", "确认") {
+                                                    break;
+                                                case "3":
+                                                    break;
+                                                case "4"://异议
+                                                    new TwoBtDialog(getActivity(), "对此订单有异议，是否进行电话咨询?", "确认") {
                                                         @Override
                                                         public void confirm() {
-                                                            new CallPhoneDialog(getActivity()) {
-                                                            }.show();
-                                                        }
-                                                    }.show();
-                                                break;
-                                        }
-                                        break;
-                                    case R.id.bt_third:
-                                        switch (orderList.get(position).getOrderType()) {
-                                            case "0":
-                                                if (isFastClick())
-                                                    new EditDialog(getActivity()) {
-                                                        @Override
-                                                        public void confirm(String content) {
 
                                                         }
                                                     }.show();
-                                                break;
-                                            case "1":
-                                                if (isFastClick())
-                                                    new CallPhoneDialog(getActivity()) {
-                                                    }.show();
-                                                break;
-                                            case "2":
-                                                if (isFastClick())
-                                                    new TwoBtDialog(getActivity(), "是否确认手术结束？", "确认") {
+                                                    break;
+                                                case "5":
+                                                    break;
+                                                case "6":
+                                                    break;
+                                                case "7":
+                                                    break;
+                                            }
+                                        }
+                                        break;
+                                    case R.id.bt_third:
+                                        if (isFastClick()) {
+                                            switch (orderList.get(position).getStatus()) {
+                                                case "1"://加价
+                                                    new EditDialog(getActivity()) {
                                                         @Override
-                                                        public void confirm() {
-                                                            startActivity(new Intent(getContext(), OrderDetailsActivity.class).putExtra("order_status", data.getData().getOrderList().get(position).getStatus()).putExtra("orderId", data.getData().getOrderList().get(position).getOrderId()));
+                                                        public void confirm(String content) {
+                                                            TreeMap<String, String> addFeeMap = new TreeMap<>();
+                                                            addFeeMap.put("userId", SPUtil.get(getContext(), USER_ID, "") + "");
+                                                            addFeeMap.put("orderId", orderList.get(position).getOrderId() + "");
+                                                            addFeeMap.put("premiumMoney", content);
+                                                            addFeeMap.put("sign", StringUtils.toUpperCase(MD5Utils.encodeMD5(addFeeMap.toString().replaceAll(" ", "") + SIGN)));
+                                                            getPresenter().getAddFee(addFeeMap, false, false);
                                                         }
                                                     }.show();
-                                                break;
+                                                    break;
+                                                case "8":
+                                                case "2"://联系医生
+                                                    break;
+                                                case "3":
+                                                    break;
+                                                case "4"://确认
+                                                    break;
+                                                case "5":
+                                                    break;
+                                                case "6":
+                                                    break;
+                                                case "7":
+                                                    break;
+                                            }
                                         }
                                         break;
                                 }
@@ -318,6 +337,109 @@ public class OrderFragment extends BaseFragment<OrderContract.View, OrderContrac
 
     @Override
     public void resultOrderDetails(OrderDetailsBean data) {
+        switch (data.getCode()) {
+            case 200:
+                startActivity(new Intent(getContext(), SendOrderSurgicalInfoActivity.class).putExtra("orderDetails", data.getData().getOrder()).putParcelableArrayListExtra("orderDetailsList", (ArrayList<? extends Parcelable>) data.getData().getOrderDetail()));
+                break;
+            case 900:
+                ToastUtil.showShortToast(data.getMsg());
+                //清除所有临时储存
+                SPUtil.clear(ApplicationUtil.getContext());
+                ApplicationUtil.getManager().finishActivity(MainActivity.class);
+                startActivity(new Intent(getContext(), CaptchaLoginActivity.class));
+                getActivity().finish();
+                break;
+        }
+    }
+
+    @Override
+    public void resultCancelOrder(CancelOrderBean data) {
+        ToastUtil.showShortToast(data.getMsg());
+        switch (data.getCode()) {
+            case 200:
+                orderList.remove(removePosition);
+                mainOrderAdapter.notifyDataSetChanged();
+                mainOrderAdapter.setEmptyView(R.layout.null_data, rvOrder);
+                break;
+            case 900:
+                //清除所有临时储存
+                SPUtil.clear(ApplicationUtil.getContext());
+                ApplicationUtil.getManager().finishActivity(MainActivity.class);
+                startActivity(new Intent(getContext(), CaptchaLoginActivity.class));
+                getActivity().finish();
+                break;
+        }
+    }
+
+    @Override
+    public void resultCancelIsOrder(CancelIsOrderBean data) {
+        ToastUtil.showShortToast(data.getMsg());
+        switch (data.getCode()) {
+            case 200:
+                orderList.remove(removePosition);
+                mainOrderAdapter.notifyDataSetChanged();
+                mainOrderAdapter.setEmptyView(R.layout.null_data, rvOrder);
+                break;
+            case 900:
+                //清除所有临时储存
+                SPUtil.clear(ApplicationUtil.getContext());
+                ApplicationUtil.getManager().finishActivity(MainActivity.class);
+                startActivity(new Intent(getContext(), CaptchaLoginActivity.class));
+                getActivity().finish();
+                break;
+        }
+    }
+
+    @Override
+    public void resultAddFee(AddFeeBean data) {
+        ToastUtil.showShortToast(data.getMsg());
+        switch (data.getCode()) {
+            case 200:
+                initData();
+                break;
+            case 900:
+                //清除所有临时储存
+                SPUtil.clear(ApplicationUtil.getContext());
+                ApplicationUtil.getManager().finishActivity(MainActivity.class);
+                startActivity(new Intent(getContext(), CaptchaLoginActivity.class));
+                getActivity().finish();
+                break;
+        }
+    }
+
+    @Override
+    public void resultOrderQuick(OrderQuickBean data) {
+
+    }
+
+    @Override
+    public void resultSelectFee(SelectFeeBean data) {
+        switch (data.getCode()) {
+            case 200:
+                new TwoBtDialog(getActivity(), "手术开始前24小时取消免费，之后扣除0.2手续费", "确认") {
+                    @Override
+                    public void confirm() {
+                        TreeMap<String, String> cancelIsOrderMap = new TreeMap<>();
+                        cancelIsOrderMap.put("userId", SPUtil.get(getContext(), USER_ID, "") + "");
+                        cancelIsOrderMap.put("orderId", orderList.get(removePosition).getOrderId() + "");
+                        cancelIsOrderMap.put("sign", StringUtils.toUpperCase(MD5Utils.encodeMD5(cancelIsOrderMap.toString().replaceAll(" ", "") + SIGN)));
+                        getPresenter().getCancelIsOrder(cancelIsOrderMap, false, false);
+                    }
+                }.show();
+                break;
+            case 900:
+                ToastUtil.showShortToast(data.getMsg());
+                //清除所有临时储存
+                SPUtil.clear(ApplicationUtil.getContext());
+                ApplicationUtil.getManager().finishActivity(MainActivity.class);
+                startActivity(new Intent(getContext(), CaptchaLoginActivity.class));
+                getActivity().finish();
+                break;
+        }
+    }
+
+    @Override
+    public void resultOrderIsOrver(OrderIsOrverBean data) {
 
     }
 

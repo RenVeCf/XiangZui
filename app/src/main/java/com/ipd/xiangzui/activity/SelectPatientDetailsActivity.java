@@ -1,5 +1,9 @@
 package com.ipd.xiangzui.activity;
 
+import android.view.View;
+
+import androidx.constraintlayout.widget.ConstraintLayout;
+
 import com.gyf.immersionbar.ImmersionBar;
 import com.ipd.xiangzui.R;
 import com.ipd.xiangzui.base.BaseActivity;
@@ -18,6 +22,10 @@ public class SelectPatientDetailsActivity extends BaseActivity {
 
     @BindView(R.id.tv_send_order_add_patient_details)
     TopView tvSendOrderAddPatientDetails;
+    @BindView(R.id.cl_img_upload)
+    ConstraintLayout clImgUpload;
+    @BindView(R.id.cl_tx_upload)
+    ConstraintLayout clTxUpload;
     @BindView(R.id.stv_name)
     SuperTextView stvName;
     @BindView(R.id.stv_sex)
@@ -44,6 +52,24 @@ public class SelectPatientDetailsActivity extends BaseActivity {
     SuperTextView stvCoagulation;
     @BindView(R.id.stv_infectious_disease_index)
     SuperTextView stvInfectiousDiseaseIndex;
+    @BindView(R.id.stv_blood_pressure)
+    SuperTextView stvBloodPressure;
+    @BindView(R.id.stv_pulse)
+    SuperTextView stvPulse;
+    @BindView(R.id.stv_breathe)
+    SuperTextView stvBreathe;
+    @BindView(R.id.stv_body_temperature)
+    SuperTextView stvBodyTemperature;
+    @BindView(R.id.stv_diabetes)
+    SuperTextView stvDiabetes;
+    @BindView(R.id.stv_brain_stalk)
+    SuperTextView stvBrainStalk;
+    @BindView(R.id.stv_heart_disease)
+    SuperTextView stvHeartDisease;
+    @BindView(R.id.stv_infectious_disease)
+    SuperTextView stvInfectiousDisease;
+    @BindView(R.id.stv_respiratory_dysfunction)
+    SuperTextView stvRespiratoryDysfunction;
 
     private OrderDetailsBean.DataBean.OrderDetailBean orderDetailsTwo;
 
@@ -88,21 +114,56 @@ public class SelectPatientDetailsActivity extends BaseActivity {
         if (!isEmpty(orderDetailsTwo.getInsurance()))
             stvInsuranceConsent.setRightString("已上传")
                     .setRightTextColor(getResources().getColor(R.color.tx_bottom_navigation_select));
-        if (!isEmpty(orderDetailsTwo.getSurgeryRelated()))
-            stvSurgeryAboutMedicalRecord.setRightString("已上传")
-                    .setRightTextColor(getResources().getColor(R.color.tx_bottom_navigation_select));
-        if (!isEmpty(orderDetailsTwo.getRoutineBlood()))
-            stvBloodRoutine.setRightString("已上传")
-                    .setRightTextColor(getResources().getColor(R.color.tx_bottom_navigation_select));
-        if (!isEmpty(orderDetailsTwo.getEcg()))
-            stvElectrocardiogram.setRightString("已上传")
-                    .setRightTextColor(getResources().getColor(R.color.tx_bottom_navigation_select));
-        if (!isEmpty(orderDetailsTwo.getCruor()))
-            stvCoagulation.setRightString("已上传")
-                    .setRightTextColor(getResources().getColor(R.color.tx_bottom_navigation_select));
-        if (!isEmpty(orderDetailsTwo.getContagion()))
-            stvInfectiousDiseaseIndex.setRightString("已上传")
-                    .setRightTextColor(getResources().getColor(R.color.tx_bottom_navigation_select));
+
+        switch (orderDetailsTwo.getMedicalRecords()) {
+            case "1":
+                clImgUpload.setVisibility(View.VISIBLE);
+                clTxUpload.setVisibility(View.GONE);
+                if (!isEmpty(orderDetailsTwo.getSurgeryRelated()))
+                    stvSurgeryAboutMedicalRecord.setRightString("已上传")
+                            .setRightTextColor(getResources().getColor(R.color.tx_bottom_navigation_select));
+                if (!isEmpty(orderDetailsTwo.getRoutineBlood()))
+                    stvBloodRoutine.setRightString("已上传")
+                            .setRightTextColor(getResources().getColor(R.color.tx_bottom_navigation_select));
+                if (!isEmpty(orderDetailsTwo.getEcg()))
+                    stvElectrocardiogram.setRightString("已上传")
+                            .setRightTextColor(getResources().getColor(R.color.tx_bottom_navigation_select));
+                if (!isEmpty(orderDetailsTwo.getCruor()))
+                    stvCoagulation.setRightString("已上传")
+                            .setRightTextColor(getResources().getColor(R.color.tx_bottom_navigation_select));
+                if (!isEmpty(orderDetailsTwo.getContagion()))
+                    stvInfectiousDiseaseIndex.setRightString("已上传")
+                            .setRightTextColor(getResources().getColor(R.color.tx_bottom_navigation_select));
+                break;
+            case "2":
+                clImgUpload.setVisibility(View.GONE);
+                clTxUpload.setVisibility(View.VISIBLE);
+                stvBloodPressure.setRightString(orderDetailsTwo.getMinBloodPressure() + "/" + orderDetailsTwo.getMaxBloodPressure() + "mmHg");
+                stvPulse.setRightString(orderDetailsTwo.getPulse() + "次/分钟");
+                stvBreathe.setRightString(orderDetailsTwo.getBreathe() + "次/分钟");
+                stvBodyTemperature.setRightString(orderDetailsTwo.getAnimalHeat() + "℃");
+                if ("2".equals(orderDetailsTwo.getDiabetes()))
+                    stvDiabetes.setRightString("有")
+                            .setRightTextColor(getResources().getColor(R.color.tx_bottom_navigation_select));
+                if ("2".equals(orderDetailsTwo.getCerebralInfarction()))
+                    stvBrainStalk.setRightString("有")
+                            .setRightTextColor(getResources().getColor(R.color.tx_bottom_navigation_select));
+                if ("2".equals(orderDetailsTwo.getHeartDisease()))
+                    stvHeartDisease.setRightString("有")
+                            .setRightTextColor(getResources().getColor(R.color.tx_bottom_navigation_select));
+                if ("2".equals(orderDetailsTwo.getInfectDisease()))
+                    stvInfectiousDisease.setRightString("有")
+                            .setRightTextColor(getResources().getColor(R.color.tx_bottom_navigation_select));
+                if ("2".equals(orderDetailsTwo.getBreatheFunction()))
+                    stvRespiratoryDysfunction.setRightString("有")
+                            .setRightTextColor(getResources().getColor(R.color.tx_bottom_navigation_select));
+                break;
+            case "3":
+                clImgUpload.setVisibility(View.GONE);
+                clTxUpload.setVisibility(View.GONE);
+                break;
+        }
+
     }
 
     @Override

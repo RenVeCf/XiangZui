@@ -323,7 +323,7 @@ public class SendOrderSurgicalInfoActivity extends BaseActivity {
                     if ("1".equals(orderDetails.getOrderType()))
                         orderDetails.setSurgeryName(etSurgicalName.getText().toString().trim());
                     orderDetails.setHospitalName(etHospitalName.getText().toString().trim());
-                    startActivity(new Intent(this, SendOrderAddPatientActivity.class).putExtra("orderDetails", orderDetails).putParcelableArrayListExtra("orderDetailsList", (ArrayList<? extends Parcelable>) orderDetailsList));
+                    startActivity(new Intent(this, SendOrderAddPatientActivity.class).putExtra("orderDetails", orderDetails).putParcelableArrayListExtra("orderDetailsList", (ArrayList<? extends Parcelable>) orderDetailsList).putExtra("add_gone", 1));
                 } else
                     ToastUtil.showShortToast("请将资料填写完整!");
                 break;

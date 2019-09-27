@@ -25,6 +25,7 @@ public class SimpleNoticeMFs extends MarqueeFactory<TextView, CharSequence> {
     public TextView generateMarqueeItemView(CharSequence data) {
         TextView view = (TextView) inflater.inflate(com.xuexiang.xui.R.layout.marqueen_layout_notice_item, null);
         view.setTextColor(Color.parseColor("#FFAAAAAA"));
+        view.setTextSize(12);
         view.setText(data);
         return view;
     }

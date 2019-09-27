@@ -12,6 +12,7 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 import androidx.annotation.Nullable;
+import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -84,6 +85,8 @@ public class SendOrderAddPatientActivity extends BaseActivity<NarcosisListContra
     SuperTextView stvIdCard;
     @BindView(R.id.stv_insurance_consent)
     SuperTextView stvInsuranceConsent;
+    @BindView(R.id.cl_add_patient)
+    ConstraintLayout clAddPatient;
 
     private SendOrderDataBean sendOrderData;
     private List<String> listData;
@@ -141,6 +144,8 @@ public class SendOrderAddPatientActivity extends BaseActivity<NarcosisListContra
         narcosisListMap.put("sign", StringUtils.toUpperCase(MD5Utils.encodeMD5(narcosisListMap.toString().replaceAll(" ", "") + SIGN)));
         getPresenter().getNarcosisList(narcosisListMap, false, false);
 
+        if (getIntent().getIntExtra("add_gone", 0) == 1)
+            clAddPatient.setVisibility(View.GONE);
         if (orderDetails != null && orderDetailsList.size() > 0)
             rvSendOrderAddPatient.setAdapter(selectOrderAddPatientAdapter = new SelectOrderAddPatientAdapter(orderDetailsList, 1));
         else
@@ -199,8 +204,8 @@ public class SendOrderAddPatientActivity extends BaseActivity<NarcosisListContra
                             if (narcosisLists.get(i).getNarcosisTypeName().equals(listData.get(options1)))
                                 narcosisId = narcosisLists.get(i).getNarcosisTypeId();
                         }
-                        stvAnesthesiaType.setRightString(listData.get(options1));
-                        stvAnesthesiaType.setRightTextColor(getResources().getColor(R.color.black));
+                        stvAnesthesiaType.setRightString(listData.get(options1))
+                                .setRightTextColor(getResources().getColor(R.color.black));
                         break;
                 }
             }
@@ -331,6 +336,22 @@ public class SendOrderAddPatientActivity extends BaseActivity<NarcosisListContra
                         setResult(RESULT_OK, new Intent().putExtra("sendOrderData", sendOrderData));
                         finish();
                     }
+                } else if (!isEmpty(etSurgicalName.toString().trim()) && !isEmpty(etPatientName.toString().trim()) && !"请选择".equals(stvPatientSex.getRightString()) && !"请选择".equals(stvPatientAge.getRightString()) && orderDetails != null && orderDetailsList.size() > 0) {
+                    OrderDetailsBean.DataBean.OrderDetailBean orderDetail = new OrderDetailsBean.DataBean.OrderDetailBean();
+                    orderDetail.setSurgeryName(etSurgicalName.toString().trim());
+                    orderDetail.setPatientName(etPatientName.toString().trim());
+                    orderDetail.setSex("男".equals(stvPatientSex.getRightString()) ? "1" : "2");
+                    orderDetail.setAge(Integer.parseInt(stvPatientAge.getRightString().replaceAll("岁", "")));
+                    orderDetail.setHeight(Double.parseDouble(etPatientHeight.toString().trim()));
+                    orderDetail.setWeight(Double.parseDouble(etPatientBodyWeight.toString().trim()));
+                    orderDetail.setNarcosisTypeId(narcosisId);
+                    orderDetail.setPositiveCard(positiveUrl);
+                    orderDetail.setReverseCard(negativeUrl);
+                    orderDetail.setInsurance(imgUrl);
+                    orderDetailsList.add(orderDetail);
+
+                    startActivity(new Intent(this, SendOrderMedicalRecordInfoActivity.class).putExtra("orderDetails", orderDetails).putParcelableArrayListExtra("orderDetailsList", (ArrayList<? extends Parcelable>) orderDetailsList));
+                    finish();
                 } else if (orderDetails != null && orderDetailsList.size() > 0) {
                     startActivity(new Intent(this, SendOrderMedicalRecordInfoActivity.class).putExtra("orderDetails", orderDetails).putParcelableArrayListExtra("orderDetailsList", (ArrayList<? extends Parcelable>) orderDetailsList));
                     finish();
@@ -346,7 +367,7 @@ public class SendOrderAddPatientActivity extends BaseActivity<NarcosisListContra
             case 200:
                 narcosisLists.clear();
                 narcosisLists.addAll(data.getData().getNarcosisList());
-                for (NarcosisListBean.DataBean.NarcosisListsBean datas : data.getData().getNarcosisList()) {
+                for (NarcosisListBean.DataBean.NarcosisListsBean datas : narcosisLists) {
                     narcosisDataList.add(datas.getNarcosisTypeName());
                 }
                 break;

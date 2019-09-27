@@ -38,8 +38,10 @@ public class SelectFeeBean {
     public static class DataBean {
         /**
          * urgent : 50
+         * ahCancel : 0.2
          */
 
+        private String ahCancel;
         private String urgent;
 
         public String getUrgent() {
@@ -48,6 +50,14 @@ public class SelectFeeBean {
 
         public void setUrgent(String urgent) {
             this.urgent = urgent;
+        }
+
+        public String getAhCancel() {
+            return ahCancel;
+        }
+
+        public void setAhCancel(String ahCancel) {
+            this.ahCancel = ahCancel;
         }
     }
 }

@@ -17,6 +17,7 @@ import com.ipd.xiangzui.base.BaseActivity;
 import com.ipd.xiangzui.bean.WalletBean;
 import com.ipd.xiangzui.common.view.CustomLinearLayoutManager;
 import com.ipd.xiangzui.common.view.TopView;
+import com.ipd.xiangzui.common.view.TwoBtDialog;
 import com.ipd.xiangzui.contract.WalletContract;
 import com.ipd.xiangzui.presenter.WalletPresenter;
 import com.ipd.xiangzui.utils.ApplicationUtil;
@@ -36,6 +37,7 @@ import io.reactivex.ObservableTransformer;
 
 import static com.ipd.xiangzui.common.config.IConstants.SIGN;
 import static com.ipd.xiangzui.common.config.IConstants.USER_ID;
+import static com.ipd.xiangzui.utils.isClickUtil.isFastClick;
 
 /**
  * Description ：钱包
@@ -138,9 +140,16 @@ public class WalletActivity extends BaseActivity<WalletContract.View, WalletCont
                     stvAccountBalance.setCenterString(stvAccountBalance.getCenterString().replaceAll(balance, "******"));
                 break;
             case R.id.sb_refund_deposit: //退还保证金
+                if (isFastClick())
+                    new TwoBtDialog(this, "保证金不足时无法发单，是否确认退还保证金？", "确认") {
+                        @Override
+                        public void confirm() {
+                            startActivity(new Intent(WalletActivity.this, WithdrawActivity.class).putExtra("type", 2));
+                        }
+                    }.show();
                 break;
             case R.id.sb_withdraw: //提现
-                startActivity(new Intent(this, WithdrawActivity.class));
+                startActivity(new Intent(this, WithdrawActivity.class).putExtra("type", 1));
                 break;
             case R.id.sb_recharge: //充值
                 startActivity(new Intent(this, RechargeActivity.class));
@@ -158,6 +167,8 @@ public class WalletActivity extends BaseActivity<WalletContract.View, WalletCont
                 tvSumIncome.setText(data.getData().getIncome() + "");
                 tvSumExpenditure.setText(data.getData().getExpend() + "");
 
+                balaList.clear();
+                balaList.addAll(data.getData().getBalaList());
                 rvConsumerDetails.setAdapter(consumerDetailsAdapter = new ConsumerDetailsAdapter(balaList));
                 consumerDetailsAdapter.bindToRecyclerView(rvConsumerDetails);
                 consumerDetailsAdapter.openLoadAnimation();

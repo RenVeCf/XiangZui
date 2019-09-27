@@ -6,6 +6,7 @@ import android.os.Message;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.View;
+import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.TextView;
 
@@ -13,6 +14,8 @@ import com.google.gson.Gson;
 import com.gyf.immersionbar.ImmersionBar;
 import com.ipd.xiangzui.R;
 import com.ipd.xiangzui.base.BaseActivity;
+import com.ipd.xiangzui.bean.ModifyOrderBean;
+import com.ipd.xiangzui.bean.OrderDetailsBean;
 import com.ipd.xiangzui.bean.SelectFeeBean;
 import com.ipd.xiangzui.bean.SendOrderBean;
 import com.ipd.xiangzui.bean.SendOrderDataBean;
@@ -64,6 +67,8 @@ public class SendOrderFeeInfoActivity extends BaseActivity<SelectFeeContract.Vie
     private int sendOrderType; //1: 单台, 2: 连台
     private static int EDIT_OK = 10010;
     private double addFee = 0;
+    private OrderDetailsBean.DataBean.OrderBean orderDetails;
+    private List<OrderDetailsBean.DataBean.OrderDetailBean> orderDetailsList;
 
     @Override
     public int getLayoutId() {
@@ -91,6 +96,14 @@ public class SendOrderFeeInfoActivity extends BaseActivity<SelectFeeContract.Vie
         sendOrderType = sendOrderData.getSendOrderType();
         if (sendOrderType == 1)
             stvSurgeryNum.setVisibility(View.GONE);
+
+        orderDetails = getIntent().getParcelableExtra("orderDetails");
+        orderDetailsList = getIntent().getParcelableArrayListExtra("orderDetailsList");
+        if (orderDetails != null && orderDetailsList.size() > 0) {
+            sendOrderType = Integer.parseInt(orderDetails.getOrderType());
+            if (sendOrderType == 1)
+                stvSurgeryNum.setVisibility(View.GONE);
+        }
     }
 
     @Override
@@ -101,7 +114,9 @@ public class SendOrderFeeInfoActivity extends BaseActivity<SelectFeeContract.Vie
         selectFeeMap.put("sign", StringUtils.toUpperCase(MD5Utils.encodeMD5(selectFeeMap.toString().replaceAll(" ", "") + SIGN)));
         getPresenter().getSelectFee(selectFeeMap, false, false);
 
-        if (sendOrderType == 2 && sendOrderData.getTwoOrderBean().size() > 0)
+        if (orderDetails != null && orderDetailsList.size() > 0)
+            stvSurgeryNum.setRightString(orderDetailsList.size() + "台");
+        else if (sendOrderType == 2 && sendOrderData.getTwoOrderBean().size() > 0)
             stvSurgeryNum.setRightString(sendOrderData.getTwoOrderBean().size() + "台");
     }
 
@@ -124,6 +139,23 @@ public class SendOrderFeeInfoActivity extends BaseActivity<SelectFeeContract.Vie
             @Override
             public void afterTextChanged(Editable editable) {
 
+            }
+        });
+
+        stvSurgery.setCheckBoxCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
+                if (!isEmpty(etAddFee.getText().toString().trim()) && Double.parseDouble(etAddFee.getText().toString().trim()) >= 1500) {
+                    if (stvSurgery.getCheckBoxIsChecked()) {
+                        double i = Double.parseDouble(etAddFee.getText().toString().trim()) + Double.parseDouble(etAddFee.getText().toString().trim()) * 0.15;
+                        i += addFee;
+                        tvAddFee.setText("¥ " + i + "元");
+                    } else {
+                        double i = Double.parseDouble(etAddFee.getText().toString().trim()) + Double.parseDouble(etAddFee.getText().toString().trim()) * 0.15;
+                        tvAddFee.setText("¥ " + i + "元");
+                    }
+                } else
+                    ToastUtil.showShortToast("预计费用需大于等于1500元");
             }
         });
     }
@@ -205,6 +237,7 @@ public class SendOrderFeeInfoActivity extends BaseActivity<SelectFeeContract.Vie
             case 2:
                 for (SendOrderDataBean.TwoOrderBean data : sendOrderData.getTwoOrderBean()) {
                     Map<String, String> map1 = new HashMap<>();
+                    map1.put("surgeryName", data.getSurgicalName());
                     map1.put("patientName", data.getPatientName());
                     map1.put("sex", "男".equals(data.getPatientSex()) ? "1" : "2");
                     map1.put("age", data.getPatientAge());
@@ -268,7 +301,7 @@ public class SendOrderFeeInfoActivity extends BaseActivity<SelectFeeContract.Vie
         switch (view.getId()) {
             case R.id.stv_surgery:
                 stvSurgery.setCheckBoxChecked(!stvSurgery.getCheckBoxIsChecked());
-                if (!isEmpty(etAddFee.getText().toString().trim()) && Double.parseDouble(etAddFee.getText().toString().trim()) >= 1500) {
+                if (!isEmpty(etAddFee.getText().toString().trim()) && Double.parseDouble(etAddFee.getText().toString().trim()) >= 3500) {
                     if (stvSurgery.getCheckBoxIsChecked()) {
                         double i = Double.parseDouble(etAddFee.getText().toString().trim()) + Double.parseDouble(etAddFee.getText().toString().trim()) * 0.15;
                         i += addFee;
@@ -278,60 +311,79 @@ public class SendOrderFeeInfoActivity extends BaseActivity<SelectFeeContract.Vie
                         tvAddFee.setText("¥ " + i + "元");
                     }
                 } else
-                    ToastUtil.showShortToast("预计费用需大于等于1500元");
+                    ToastUtil.showShortToast("预计费用需大于等于3500元");
                 break;
             case R.id.sb_send_order:
-                if (Double.parseDouble(etAddFee.getText().toString().trim()) >= 1500) {
-                    switch (sendOrderType) {
-                        case 1:
-                            TreeMap<String, String> sendOrderMap = new TreeMap<>();
-                            sendOrderMap.put("userId", SPUtil.get(this, USER_ID, "") + "");
-                            sendOrderMap.put("orderType", sendOrderType + "");
-                            sendOrderMap.put("surgeryName", sendOrderData.getOneOrderBean().getSurgicalName());
-                            sendOrderMap.put("hospitalName", sendOrderData.getOneOrderBean().getHospitalName());
-                            sendOrderMap.put("prov", sendOrderData.getOneOrderBean().getProv());
-                            sendOrderMap.put("city", sendOrderData.getOneOrderBean().getCity());
-                            sendOrderMap.put("dist", sendOrderData.getOneOrderBean().getDist());
-                            sendOrderMap.put("address", sendOrderData.getOneOrderBean().getAddress());
-                            sendOrderMap.put("beginTime", sendOrderData.getOneOrderBean().getSurgicalTime());
-                            sendOrderMap.put("duration", sendOrderData.getOneOrderBean().getSurgicalDuration());
-                            sendOrderMap.put("urgent", stvSurgery.getCheckBoxIsChecked() ? "2" : "1");
-                            sendOrderMap.put("orderDetails", getOrderDetailsJson(1));
-                            sendOrderMap.put("expectMoney", etAddFee.getText().toString().trim());
-                            sendOrderMap.put("sign", StringUtils.toUpperCase(MD5Utils.encodeMD5(sendOrderMap.toString().replaceAll(" ", "") + SIGN)));
-                            getPresenter().getSendOrder(sendOrderMap, false, false);
-                            break;
-                        case 2:
-                            TreeMap<String, String> sendOrderMap1 = new TreeMap<>();
-                            sendOrderMap1.put("userId", SPUtil.get(this, USER_ID, "") + "");
-                            sendOrderMap1.put("orderType", sendOrderType + "");
-                            L.i("patientName", sendOrderData.getTwoOrderBean().get(0).getSurgicalName());
-                            sendOrderMap1.put("surgeryName", sendOrderData.getTwoOrderBean().get(0).getSurgicalName());
-                            L.i("hospitalName", sendOrderData.getTwoOrderBean().get(0).getHospitalName());
-                            sendOrderMap1.put("hospitalName", sendOrderData.getTwoOrderBean().get(0).getHospitalName());
-                            L.i("prov", sendOrderData.getTwoOrderBean().get(0).getProv());
-                            sendOrderMap1.put("prov", sendOrderData.getTwoOrderBean().get(0).getProv());
-                            L.i("city", sendOrderData.getTwoOrderBean().get(0).getCity());
-                            sendOrderMap1.put("city", sendOrderData.getTwoOrderBean().get(0).getCity());
-                            L.i("dist", sendOrderData.getTwoOrderBean().get(0).getDist());
-                            sendOrderMap1.put("dist", sendOrderData.getTwoOrderBean().get(0).getDist());
-                            L.i("address", sendOrderData.getTwoOrderBean().get(0).getAddress());
-                            sendOrderMap1.put("address", sendOrderData.getTwoOrderBean().get(0).getAddress());
-                            L.i("beginTime", sendOrderData.getTwoOrderBean().get(0).getSurgicalTime());
-                            sendOrderMap1.put("beginTime", sendOrderData.getTwoOrderBean().get(0).getSurgicalTime());
-                            L.i("duration", sendOrderData.getTwoOrderBean().get(0).getSurgicalDuration());
-                            sendOrderMap1.put("duration", sendOrderData.getTwoOrderBean().get(0).getSurgicalDuration());
-                            sendOrderMap1.put("urgent", stvSurgery.getCheckBoxIsChecked() ? "2" : "1");
-                            L.i("orderDetails", getOrderDetailsJson(2));
-                            sendOrderMap1.put("orderDetails", getOrderDetailsJson(2));
-                            sendOrderMap1.put("expectMoney", etAddFee.getText().toString().trim());
-                            sendOrderMap1.put("evenNum", stvSurgeryNum.getRightString().replaceAll("台", ""));
-                            sendOrderMap1.put("sign", StringUtils.toUpperCase(MD5Utils.encodeMD5(sendOrderMap1.toString().replaceAll(" ", "") + SIGN)));
-                            getPresenter().getSendOrder(sendOrderMap1, false, false);
-                            break;
+                if (Double.parseDouble(etAddFee.getText().toString().trim()) >= 3500) {
+                    if (orderDetails != null && orderDetailsList.size() > 0) {
+                        TreeMap<String, String> sendOrderMap = new TreeMap<>();
+                        sendOrderMap.put("userId", SPUtil.get(this, USER_ID, "") + "");
+                        sendOrderMap.put("orderId", orderDetails.getOrderId() + "");
+                        sendOrderMap.put("orderType", sendOrderType + "");
+                        if (sendOrderType == 1)
+                            sendOrderMap.put("surgeryName", orderDetailsList.get(0).getSurgeryName());
+                        sendOrderMap.put("hospitalName", orderDetails.getHospitalName());
+                        sendOrderMap.put("prov", orderDetails.getProv());
+                        sendOrderMap.put("city", orderDetails.getCity());
+                        sendOrderMap.put("dist", orderDetails.getDist());
+                        sendOrderMap.put("address", orderDetails.getAddress());
+                        sendOrderMap.put("beginTime", orderDetails.getBeginTime());
+                        sendOrderMap.put("duration", orderDetails.getDuration() + "");
+                        sendOrderMap.put("urgent", stvSurgery.getCheckBoxIsChecked() ? "2" : "1");
+                        sendOrderMap.put("orderDetails", "");
+                        sendOrderMap.put("expectMoney", etAddFee.getText().toString().trim());
+                        sendOrderMap.put("sign", StringUtils.toUpperCase(MD5Utils.encodeMD5(sendOrderMap.toString().replaceAll(" ", "") + SIGN)));
+                        getPresenter().getSendOrder(sendOrderMap, true, false);
+                    } else {
+                        switch (sendOrderType) {
+                            case 1:
+                                TreeMap<String, String> sendOrderMap = new TreeMap<>();
+                                sendOrderMap.put("userId", SPUtil.get(this, USER_ID, "") + "");
+                                sendOrderMap.put("orderType", sendOrderType + "");
+                                sendOrderMap.put("surgeryName", sendOrderData.getOneOrderBean().getSurgicalName());
+                                sendOrderMap.put("hospitalName", sendOrderData.getOneOrderBean().getHospitalName());
+                                sendOrderMap.put("prov", sendOrderData.getOneOrderBean().getProv());
+                                sendOrderMap.put("city", sendOrderData.getOneOrderBean().getCity());
+                                sendOrderMap.put("dist", sendOrderData.getOneOrderBean().getDist());
+                                sendOrderMap.put("address", sendOrderData.getOneOrderBean().getAddress());
+                                sendOrderMap.put("beginTime", sendOrderData.getOneOrderBean().getSurgicalTime());
+                                sendOrderMap.put("duration", sendOrderData.getOneOrderBean().getSurgicalDuration());
+                                sendOrderMap.put("urgent", stvSurgery.getCheckBoxIsChecked() ? "2" : "1");
+                                sendOrderMap.put("orderDetails", getOrderDetailsJson(1));
+                                sendOrderMap.put("expectMoney", etAddFee.getText().toString().trim());
+                                sendOrderMap.put("sign", StringUtils.toUpperCase(MD5Utils.encodeMD5(sendOrderMap.toString().replaceAll(" ", "") + SIGN)));
+                                getPresenter().getSendOrder(sendOrderMap, true, false);
+                                break;
+                            case 2:
+                                TreeMap<String, String> sendOrderMap1 = new TreeMap<>();
+                                sendOrderMap1.put("userId", SPUtil.get(this, USER_ID, "") + "");
+                                sendOrderMap1.put("orderType", sendOrderType + "");
+                                L.i("hospitalName", sendOrderData.getTwoOrderBean().get(0).getHospitalName());
+                                sendOrderMap1.put("hospitalName", sendOrderData.getTwoOrderBean().get(0).getHospitalName());
+                                L.i("prov", sendOrderData.getTwoOrderBean().get(0).getProv());
+                                sendOrderMap1.put("prov", sendOrderData.getTwoOrderBean().get(0).getProv());
+                                L.i("city", sendOrderData.getTwoOrderBean().get(0).getCity());
+                                sendOrderMap1.put("city", sendOrderData.getTwoOrderBean().get(0).getCity());
+                                L.i("dist", sendOrderData.getTwoOrderBean().get(0).getDist());
+                                sendOrderMap1.put("dist", sendOrderData.getTwoOrderBean().get(0).getDist());
+                                L.i("address", sendOrderData.getTwoOrderBean().get(0).getAddress());
+                                sendOrderMap1.put("address", sendOrderData.getTwoOrderBean().get(0).getAddress());
+                                L.i("beginTime", sendOrderData.getTwoOrderBean().get(0).getSurgicalTime());
+                                sendOrderMap1.put("beginTime", sendOrderData.getTwoOrderBean().get(0).getSurgicalTime());
+                                L.i("duration", sendOrderData.getTwoOrderBean().get(0).getSurgicalDuration());
+                                sendOrderMap1.put("duration", sendOrderData.getTwoOrderBean().get(0).getSurgicalDuration());
+                                sendOrderMap1.put("urgent", stvSurgery.getCheckBoxIsChecked() ? "2" : "1");
+                                L.i("orderDetails", getOrderDetailsJson(2));
+                                sendOrderMap1.put("orderDetails", getOrderDetailsJson(2));
+                                sendOrderMap1.put("expectMoney", etAddFee.getText().toString().trim());
+                                sendOrderMap1.put("evenNum", stvSurgeryNum.getRightString().replaceAll("台", ""));
+                                sendOrderMap1.put("sign", StringUtils.toUpperCase(MD5Utils.encodeMD5(sendOrderMap1.toString().replaceAll(" ", "") + SIGN)));
+                                getPresenter().getSendOrder(sendOrderMap1, true, false);
+                                break;
+                        }
                     }
                 } else
-                    ToastUtil.showShortToast("预计费用需大于等于1500元");
+                    ToastUtil.showShortToast("预计费用需大于等于3500元");
                 break;
         }
     }
@@ -356,13 +408,31 @@ public class SendOrderFeeInfoActivity extends BaseActivity<SelectFeeContract.Vie
 
     @Override
     public void resultSendOrder(SendOrderBean data) {
+        ToastUtil.showShortToast(data.getMsg());
         switch (data.getCode()) {
             case 200:
                 startActivity(new Intent(this, MainActivity.class));
                 finish();
                 break;
             case 900:
-                ToastUtil.showShortToast(data.getMsg());
+                //清除所有临时储存
+                SPUtil.clear(ApplicationUtil.getContext());
+                ApplicationUtil.getManager().finishActivity(MainActivity.class);
+                startActivity(new Intent(this, CaptchaLoginActivity.class));
+                finish();
+                break;
+        }
+    }
+
+    @Override
+    public void resultModifyOrder(ModifyOrderBean data) {
+        ToastUtil.showShortToast(data.getMsg());
+        switch (data.getCode()) {
+            case 200:
+                startActivity(new Intent(this, MainActivity.class));
+                finish();
+                break;
+            case 900:
                 //清除所有临时储存
                 SPUtil.clear(ApplicationUtil.getContext());
                 ApplicationUtil.getManager().finishActivity(MainActivity.class);

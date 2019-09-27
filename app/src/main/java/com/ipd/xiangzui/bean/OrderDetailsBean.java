@@ -864,7 +864,11 @@ public class OrderDetailsBean implements Parcelable {
             private String surgeryName;
             private String anestxMode;
 
-            protected OrderDetailBean(Parcel in) {
+            public OrderDetailBean() {
+                super();
+            }
+
+            public OrderDetailBean(Parcel in) {
                 createTime = in.readString();
                 orderDetailId = in.readInt();
                 orderId = in.readInt();

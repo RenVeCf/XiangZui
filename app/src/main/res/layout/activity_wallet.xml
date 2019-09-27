@@ -24,6 +24,7 @@
         android:layout_height="0dp"
         android:scrollbars="none"
         android:fillViewport="true"
+        android:layout_marginBottom="@dimen/y150"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -229,59 +230,60 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/stv_consumer_details" />
 
-            <LinearLayout
-                android:layout_width="0dp"
-                android:layout_height="@dimen/y150"
-                android:layout_marginTop="@dimen/y100"
-                android:background="@color/white"
-                android:gravity="center"
-                android:orientation="horizontal"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent">
-
-                <LinearLayout
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_weight="1"
-                    android:gravity="center"
-                    android:orientation="horizontal">
-
-                    <com.xuexiang.xui.widget.textview.supertextview.SuperButton
-                        android:id="@+id/sb_withdraw"
-                        style="@style/SuperButton.Blue"
-                        android:layout_width="@dimen/x400"
-                        android:layout_height="@dimen/y110"
-                        android:layout_marginStart="@dimen/x50"
-                        app:sGradientType="linear"
-                        app:sGradientStartColor="#6BB6FF"
-                        app:sGradientEndColor="#4088FE"
-                        app:sGradientOrientation="LEFT_RIGHT"
-                        android:text="提现"
-                        android:textSize="16sp" />
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_weight="1"
-                    android:gravity="center"
-                    android:orientation="horizontal">
-
-                    <com.xuexiang.xui.widget.textview.supertextview.SuperButton
-                        android:id="@+id/sb_recharge"
-                        style="@style/SuperButton.Gray"
-                        android:layout_width="@dimen/x400"
-                        android:layout_height="@dimen/y110"
-                        android:text="充值"
-                        android:textColor="@color/tx_bottom_navigation_select"
-                        android:textSize="16sp"
-                        app:sSelectorNormalColor="@color/white"
-                        app:sSelectorPressedColor="@color/input_color"
-                        app:sStrokeColor="@color/tx_bottom_navigation_select"
-                        app:sStrokeWidth="0.5dp" />
-                </LinearLayout>
-            </LinearLayout>
         </androidx.constraintlayout.widget.ConstraintLayout>
     </com.ipd.xiangzui.common.view.BounceScrollView>
+
+    <LinearLayout
+        android:layout_width="0dp"
+        android:layout_height="@dimen/y150"
+        android:layout_marginTop="@dimen/y100"
+        android:background="@color/white"
+        android:gravity="center"
+        android:orientation="horizontal"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent">
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:orientation="horizontal">
+
+            <com.xuexiang.xui.widget.textview.supertextview.SuperButton
+                android:id="@+id/sb_withdraw"
+                style="@style/SuperButton.Blue"
+                android:layout_width="@dimen/x400"
+                android:layout_height="@dimen/y110"
+                android:layout_marginStart="@dimen/x50"
+                app:sGradientType="linear"
+                app:sGradientStartColor="#6BB6FF"
+                app:sGradientEndColor="#4088FE"
+                app:sGradientOrientation="LEFT_RIGHT"
+                android:text="提现"
+                android:textSize="16sp" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:orientation="horizontal">
+
+            <com.xuexiang.xui.widget.textview.supertextview.SuperButton
+                android:id="@+id/sb_recharge"
+                style="@style/SuperButton.Gray"
+                android:layout_width="@dimen/x400"
+                android:layout_height="@dimen/y110"
+                android:text="充值"
+                android:textColor="@color/tx_bottom_navigation_select"
+                android:textSize="16sp"
+                app:sSelectorNormalColor="@color/white"
+                app:sSelectorPressedColor="@color/input_color"
+                app:sStrokeColor="@color/tx_bottom_navigation_select"
+                app:sStrokeWidth="0.5dp" />
+        </LinearLayout>
+    </LinearLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

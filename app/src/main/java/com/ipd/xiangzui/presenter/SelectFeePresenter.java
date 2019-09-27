@@ -2,6 +2,7 @@ package com.ipd.xiangzui.presenter;
 
 import android.content.Context;
 
+import com.ipd.xiangzui.bean.ModifyOrderBean;
 import com.ipd.xiangzui.bean.SelectFeeBean;
 import com.ipd.xiangzui.bean.SendOrderBean;
 import com.ipd.xiangzui.contract.SelectFeeContract;
@@ -57,6 +58,27 @@ public class SelectFeePresenter extends SelectFeeContract.Presenter {
                 //这一步是必须的，判断view是否已经被销毁
                 if (getView() != null) {
                     getView().resultSendOrder((SendOrderBean) o);
+                }
+            }
+
+            @Override
+            public void onError(ExceptionHandle.ResponeThrowable e) {
+                if (getView() != null) {
+                    //// TODO: 2017/12/28 自定义处理异常
+                    ToastUtil.showShortToast(ExceptionHandle.handleException(e).message);
+                }
+            }
+        });
+    }
+
+    @Override
+    public void getModifyOrder(TreeMap<String, String> map, boolean isDialog, boolean cancelable) {
+        model.getModifyOrder(context, map, isDialog, cancelable, getView().bindLifecycle(), new ObserverResponseListener() {
+            @Override
+            public void onNext(Object o) {
+                //这一步是必须的，判断view是否已经被销毁
+                if (getView() != null) {
+                    getView().resultModifyOrder((ModifyOrderBean) o);
                 }
             }
 

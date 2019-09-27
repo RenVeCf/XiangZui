@@ -2,8 +2,14 @@ package com.ipd.xiangzui.presenter;
 
 import android.content.Context;
 
+import com.ipd.xiangzui.bean.AddFeeBean;
+import com.ipd.xiangzui.bean.CancelIsOrderBean;
+import com.ipd.xiangzui.bean.CancelOrderBean;
 import com.ipd.xiangzui.bean.OrderDetailsBean;
+import com.ipd.xiangzui.bean.OrderIsOrverBean;
 import com.ipd.xiangzui.bean.OrderListBean;
+import com.ipd.xiangzui.bean.OrderQuickBean;
+import com.ipd.xiangzui.bean.SelectFeeBean;
 import com.ipd.xiangzui.contract.OrderContract;
 import com.ipd.xiangzui.model.OrderModel;
 import com.ipd.xiangzui.progress.ObserverResponseListener;
@@ -70,150 +76,129 @@ public class OrderPresenter extends OrderContract.Presenter {
         });
     }
 
-//    @Override
-//    public void getIsOrderOperationEnd(TreeMap<String, String> map, boolean isDialog, boolean cancelable) {
-//        model.getIsOrderOperationEnd(context, map, isDialog, cancelable, getView().bindLifecycle(), new ObserverResponseListener() {
-//            @Override
-//            public void onNext(Object o) {
-//                //这一步是必须的，判断view是否已经被销毁
-//                if (getView() != null) {
-//                    getView().resultIsOrderOperationEnd((IsOrderOperationEndBean) o);
-//                }
-//            }
-//
-//            @Override
-//            public void onError(ExceptionHandle.ResponeThrowable e) {
-//                if (getView() != null) {
-//                    //// TODO: 2017/12/28 自定义处理异常
-//                    ToastUtil.showShortToast(ExceptionHandle.handleException(e).message);
-//                }
-//            }
-//        });
-//    }
-//
-//    @Override
-//    public void getIngOperationEnd(TreeMap<String, String> map, boolean isDialog, boolean cancelable) {
-//        model.getIngOperationEnd(context, map, isDialog, cancelable, getView().bindLifecycle(), new ObserverResponseListener() {
-//            @Override
-//            public void onNext(Object o) {
-//                //这一步是必须的，判断view是否已经被销毁
-//                if (getView() != null) {
-//                    getView().resultIngOperationEnd((IngOperationEndBean) o);
-//                }
-//            }
-//
-//            @Override
-//            public void onError(ExceptionHandle.ResponeThrowable e) {
-//                if (getView() != null) {
-//                    //// TODO: 2017/12/28 自定义处理异常
-//                    ToastUtil.showShortToast(ExceptionHandle.handleException(e).message);
-//                }
-//            }
-//        });
-//    }
-//
-//    @Override
-//    public void getOperationStart(TreeMap<String, String> map, boolean isDialog, boolean cancelable) {
-//        model.getOperationStart(context, map, isDialog, cancelable, getView().bindLifecycle(), new ObserverResponseListener() {
-//            @Override
-//            public void onNext(Object o) {
-//                //这一步是必须的，判断view是否已经被销毁
-//                if (getView() != null) {
-//                    getView().resultOperationStart((OperationStartBean) o);
-//                }
-//            }
-//
-//            @Override
-//            public void onError(ExceptionHandle.ResponeThrowable e) {
-//                if (getView() != null) {
-//                    //// TODO: 2017/12/28 自定义处理异常
-//                    ToastUtil.showShortToast(ExceptionHandle.handleException(e).message);
-//                }
-//            }
-//        });
-//    }
-//
-//    @Override
-//    public void getIsArrivals(TreeMap<String, String> map, boolean isDialog, boolean cancelable) {
-//        model.getIsArrivals(context, map, isDialog, cancelable, getView().bindLifecycle(), new ObserverResponseListener() {
-//            @Override
-//            public void onNext(Object o) {
-//                //这一步是必须的，判断view是否已经被销毁
-//                if (getView() != null) {
-//                    getView().resultIsArrivals((IsArrivalsBean) o);
-//                }
-//            }
-//
-//            @Override
-//            public void onError(ExceptionHandle.ResponeThrowable e) {
-//                if (getView() != null) {
-//                    //// TODO: 2017/12/28 自定义处理异常
-//                    ToastUtil.showShortToast(ExceptionHandle.handleException(e).message);
-//                }
-//            }
-//        });
-//    }
-//
-//    @Override
-//    public void getOrderCancel(TreeMap<String, String> map, boolean isDialog, boolean cancelable) {
-//        model.getOrderCancel(context, map, isDialog, cancelable, getView().bindLifecycle(), new ObserverResponseListener() {
-//            @Override
-//            public void onNext(Object o) {
-//                //这一步是必须的，判断view是否已经被销毁
-//                if (getView() != null) {
-//                    getView().resultOrderCancel((OrderCancelBean) o);
-//                }
-//            }
-//
-//            @Override
-//            public void onError(ExceptionHandle.ResponeThrowable e) {
-//                if (getView() != null) {
-//                    //// TODO: 2017/12/28 自定义处理异常
-//                    ToastUtil.showShortToast(ExceptionHandle.handleException(e).message);
-//                }
-//            }
-//        });
-//    }
-//
-//    @Override
-//    public void getGetOrder(TreeMap<String, String> map, boolean isDialog, boolean cancelable) {
-//        model.getGetOrder(context, map, isDialog, cancelable, getView().bindLifecycle(), new ObserverResponseListener() {
-//            @Override
-//            public void onNext(Object o) {
-//                //这一步是必须的，判断view是否已经被销毁
-//                if (getView() != null) {
-//                    getView().resultGetOrder((GetOrderBean) o);
-//                }
-//            }
-//
-//            @Override
-//            public void onError(ExceptionHandle.ResponeThrowable e) {
-//                if (getView() != null) {
-//                    //// TODO: 2017/12/28 自定义处理异常
-//                    ToastUtil.showShortToast(ExceptionHandle.handleException(e).message);
-//                }
-//            }
-//        });
-//    }
-//
-//    @Override
-//    public void getAnesthesiaList(TreeMap<String, String> map, boolean isDialog, boolean cancelable) {
-//        model.getAnesthesiaList(context, map, isDialog, cancelable, getView().bindLifecycle(), new ObserverResponseListener() {
-//            @Override
-//            public void onNext(Object o) {
-//                //这一步是必须的，判断view是否已经被销毁
-//                if (getView() != null) {
-//                    getView().resultAnesthesiaList((AnesthesiaListBean) o);
-//                }
-//            }
-//
-//            @Override
-//            public void onError(ExceptionHandle.ResponeThrowable e) {
-//                if (getView() != null) {
-//                    //// TODO: 2017/12/28 自定义处理异常
-//                    ToastUtil.showShortToast(ExceptionHandle.handleException(e).message);
-//                }
-//            }
-//        });
-//    }
+    @Override
+    public void getCancelOrder(TreeMap<String, String> map, boolean isDialog, boolean cancelable) {
+        model.getCancelOrder(context, map, isDialog, cancelable, getView().bindLifecycle(), new ObserverResponseListener() {
+            @Override
+            public void onNext(Object o) {
+                //这一步是必须的，判断view是否已经被销毁
+                if (getView() != null) {
+                    getView().resultCancelOrder((CancelOrderBean) o);
+                }
+            }
+
+            @Override
+            public void onError(ExceptionHandle.ResponeThrowable e) {
+                if (getView() != null) {
+                    //// TODO: 2017/12/28 自定义处理异常
+                    ToastUtil.showShortToast(ExceptionHandle.handleException(e).message);
+                }
+            }
+        });
+    }
+
+    @Override
+    public void getCancelIsOrder(TreeMap<String, String> map, boolean isDialog, boolean cancelable) {
+        model.getCancelIsOrder(context, map, isDialog, cancelable, getView().bindLifecycle(), new ObserverResponseListener() {
+            @Override
+            public void onNext(Object o) {
+                //这一步是必须的，判断view是否已经被销毁
+                if (getView() != null) {
+                    getView().resultCancelIsOrder((CancelIsOrderBean) o);
+                }
+            }
+
+            @Override
+            public void onError(ExceptionHandle.ResponeThrowable e) {
+                if (getView() != null) {
+                    //// TODO: 2017/12/28 自定义处理异常
+                    ToastUtil.showShortToast(ExceptionHandle.handleException(e).message);
+                }
+            }
+        });
+    }
+
+    @Override
+    public void getAddFee(TreeMap<String, String> map, boolean isDialog, boolean cancelable) {
+        model.getAddFee(context, map, isDialog, cancelable, getView().bindLifecycle(), new ObserverResponseListener() {
+            @Override
+            public void onNext(Object o) {
+                //这一步是必须的，判断view是否已经被销毁
+                if (getView() != null) {
+                    getView().resultAddFee((AddFeeBean) o);
+                }
+            }
+
+            @Override
+            public void onError(ExceptionHandle.ResponeThrowable e) {
+                if (getView() != null) {
+                    //// TODO: 2017/12/28 自定义处理异常
+                    ToastUtil.showShortToast(ExceptionHandle.handleException(e).message);
+                }
+            }
+        });
+    }
+
+    @Override
+    public void getOrderQuick(TreeMap<String, String> map, boolean isDialog, boolean cancelable) {
+        model.getOrderQuick(context, map, isDialog, cancelable, getView().bindLifecycle(), new ObserverResponseListener() {
+            @Override
+            public void onNext(Object o) {
+                //这一步是必须的，判断view是否已经被销毁
+                if (getView() != null) {
+                    getView().resultOrderQuick((OrderQuickBean) o);
+                }
+            }
+
+            @Override
+            public void onError(ExceptionHandle.ResponeThrowable e) {
+                if (getView() != null) {
+                    //// TODO: 2017/12/28 自定义处理异常
+                    ToastUtil.showShortToast(ExceptionHandle.handleException(e).message);
+                }
+            }
+        });
+    }
+
+    @Override
+    public void getSelectFee(TreeMap<String, String> map, boolean isDialog, boolean cancelable) {
+        model.getSelectFee(context, map, isDialog, cancelable, getView().bindLifecycle(), new ObserverResponseListener() {
+            @Override
+            public void onNext(Object o) {
+                //这一步是必须的，判断view是否已经被销毁
+                if (getView() != null) {
+                    getView().resultSelectFee((SelectFeeBean) o);
+                }
+            }
+
+            @Override
+            public void onError(ExceptionHandle.ResponeThrowable e) {
+                if (getView() != null) {
+                    //// TODO: 2017/12/28 自定义处理异常
+                    ToastUtil.showShortToast(ExceptionHandle.handleException(e).message);
+                }
+            }
+        });
+    }
+
+    @Override
+    public void getOrderIsOrver(TreeMap<String, String> map, boolean isDialog, boolean cancelable) {
+        model.getOrderIsOrver(context, map, isDialog, cancelable, getView().bindLifecycle(), new ObserverResponseListener() {
+            @Override
+            public void onNext(Object o) {
+                //这一步是必须的，判断view是否已经被销毁
+                if (getView() != null) {
+                    getView().resultOrderIsOrver((OrderIsOrverBean) o);
+                }
+            }
+
+            @Override
+            public void onError(ExceptionHandle.ResponeThrowable e) {
+                if (getView() != null) {
+                    //// TODO: 2017/12/28 自定义处理异常
+                    ToastUtil.showShortToast(ExceptionHandle.handleException(e).message);
+                }
+            }
+        });
+    }
 }
