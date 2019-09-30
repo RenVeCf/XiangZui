@@ -47,7 +47,7 @@ public interface UrlConfig {
     String MODIFY_ORDER = "ah/order/updateOrder"; //待接单-修改订单
     String CANCEL_ORDER = "ah/order/stayCancel"; //待接单-取消订单
     String ORDER_QUICK = "ah/order/submUrgent"; //待接单-提交加急
-    String ADD_MEDICAL_RECORD = "ah/order/suppleMedical"; //以接单-补充病历
+    String MODIFY_MEDICAL_RECORD = "ah/order/suppleMedical"; //以接单-补充病历
     String CANCEL_IS_ORDER = "ah/order/alreadyCancel"; //以接单-取消订单
 
     /**

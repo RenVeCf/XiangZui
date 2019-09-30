@@ -382,6 +382,7 @@ public class OrderDetailsActivity extends BaseActivity<OrderContract.View, Order
 
 
                 if ("1".equals(data.getData().getOrder().getOrderType())) {
+                    rvPatientList.setVisibility(View.GONE);
                     tvPatientName.setRightString(data.getData().getOrderDetail().get(0).getPatientName());
                     tvPatientSex.setRightString("1".equals(data.getData().getOrderDetail().get(0).getSex()) ? "男" : "女");
                     tvPatientAge.setRightString(data.getData().getOrderDetail().get(0).getAge() + "岁");

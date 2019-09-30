@@ -12,27 +12,19 @@ import android.widget.TextView;
 
 import androidx.annotation.Nullable;
 import androidx.constraintlayout.widget.ConstraintLayout;
-import androidx.recyclerview.widget.DefaultItemAnimator;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 
 import com.bigkoo.pickerview.builder.OptionsPickerBuilder;
 import com.bigkoo.pickerview.listener.CustomListener;
 import com.bigkoo.pickerview.listener.OnOptionsSelectListener;
 import com.bigkoo.pickerview.view.OptionsPickerView;
-import com.chad.library.adapter.base.BaseQuickAdapter;
-import com.google.gson.Gson;
 import com.gyf.immersionbar.ImmersionBar;
 import com.ipd.xiangzui.R;
-import com.ipd.xiangzui.adapter.SelectOrderAddPatientAdapter;
 import com.ipd.xiangzui.base.BaseActivity;
-import com.ipd.xiangzui.bean.ModifyMedicalBean;
 import com.ipd.xiangzui.bean.NarcosisListBean;
 import com.ipd.xiangzui.bean.OrderDetailsBean;
-import com.ipd.xiangzui.common.view.CustomLinearLayoutManager;
 import com.ipd.xiangzui.common.view.TopView;
-import com.ipd.xiangzui.contract.ModifyMedicalContract;
-import com.ipd.xiangzui.presenter.ModifyMedicalPresenter;
+import com.ipd.xiangzui.contract.NarcosisListContract;
+import com.ipd.xiangzui.presenter.NarcosisListPresenter;
 import com.ipd.xiangzui.utils.ApplicationUtil;
 import com.ipd.xiangzui.utils.MD5Utils;
 import com.ipd.xiangzui.utils.SPUtil;
@@ -41,9 +33,7 @@ import com.ipd.xiangzui.utils.ToastUtil;
 import com.xuexiang.xui.widget.textview.supertextview.SuperTextView;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.TreeMap;
 
 import butterknife.BindView;
@@ -55,20 +45,12 @@ import static com.ipd.xiangzui.common.config.IConstants.REQUEST_CODE_104;
 import static com.ipd.xiangzui.common.config.IConstants.REQUEST_CODE_105;
 import static com.ipd.xiangzui.common.config.IConstants.REQUEST_CODE_106;
 import static com.ipd.xiangzui.common.config.IConstants.REQUEST_CODE_107;
-import static com.ipd.xiangzui.common.config.IConstants.REQUEST_CODE_110;
 import static com.ipd.xiangzui.common.config.IConstants.REQUEST_CODE_95;
 import static com.ipd.xiangzui.common.config.IConstants.SIGN;
 import static com.ipd.xiangzui.common.config.IConstants.USER_ID;
 import static com.ipd.xiangzui.utils.StringUtils.isEmpty;
-import static com.ipd.xiangzui.utils.isClickUtil.isFastClick;
 
-/**
- * Description ：补充病历
- * Author ： MengYang
- * Email ： 942685687@qq.com
- * Time ： 2019/8/29.
- */
-public class ModifyMedicalRecordActivity extends BaseActivity<ModifyMedicalContract.View, ModifyMedicalContract.Presenter> implements ModifyMedicalContract.View {
+public class ModifyMedicalListActivity extends BaseActivity<NarcosisListContract.View, NarcosisListContract.Presenter> implements NarcosisListContract.View {
 
     @BindView(R.id.et_patient_name)
     EditText etPatientName;
@@ -132,33 +114,30 @@ public class ModifyMedicalRecordActivity extends BaseActivity<ModifyMedicalContr
     ConstraintLayout clTxUpload;
     @BindView(R.id.cl_patient_information)
     ConstraintLayout clPatientInformation;
-    @BindView(R.id.rv_patient_list)
-    RecyclerView rvPatientList;
     @BindView(R.id.tv_medical_record)
     TextView tvMedicalRecord;
 
     private List<String> narcosisDataList = new ArrayList<>();//麻醉方式
     private List<NarcosisListBean.DataBean.NarcosisListsBean> narcosisLists = new ArrayList<>();//选择麻醉(取ID用)
-    private int narcosisId = 0; //麻醉ID
+    private int narcosisId = 0, position = 0;
     private List<String> listData;
     private OptionsPickerView pvOptions; //条件选择器
-    private OrderDetailsBean.DataBean.OrderBean orderDetails;
+    private String orderType; //1:单台，2：连台
     private List<OrderDetailsBean.DataBean.OrderDetailBean> orderDetailsList;
-    private SelectOrderAddPatientAdapter selectOrderAddPatientAdapter;
     private String positiveUrl = "", negativeUrl = "", surgeryAboutMedicalRecordUrl = "", bloodRoutineUrl = "", electrocardiogramUrl = "", coagulationUrl = "", infectiousDiseaseIndexUrl = "";
 
     @Override
     public int getLayoutId() {
-        return R.layout.activity_modify_medical_record;
+        return R.layout.activity_modify_medical_list;
     }
 
     @Override
-    public ModifyMedicalContract.Presenter createPresenter() {
-        return new ModifyMedicalPresenter(this);
+    public NarcosisListContract.Presenter createPresenter() {
+        return new NarcosisListPresenter(this);
     }
 
     @Override
-    public ModifyMedicalContract.View createView() {
+    public NarcosisListContract.View createView() {
         return this;
     }
 
@@ -169,46 +148,20 @@ public class ModifyMedicalRecordActivity extends BaseActivity<ModifyMedicalContr
         //防止状态栏和标题重叠
         ImmersionBar.setTitleBar(this, tvModifyMedicalRecord);
 
-        orderDetails = getIntent().getParcelableExtra("orderDetails");
+        position = getIntent().getIntExtra("position", 0);
+        orderType = getIntent().getStringExtra("orderType");
         orderDetailsList = getIntent().getParcelableArrayListExtra("orderDetailsList");
 
-        if ("1".equals(orderDetails.getOrderType())) {
-            switch (orderDetailsList.get(0).getMedicalRecords()) {
-                case "1":
-                    clImgUpload.setVisibility(View.VISIBLE);
-                    break;
-                case "2":
-                    clTxUpload.setVisibility(View.VISIBLE);
-                    break;
-                case "3":
-                    tvMedicalRecord.setVisibility(View.GONE);
-                    break;
-            }
-        } else if ("2".equals(orderDetails.getOrderType())) {
-            rvPatientList.setVisibility(View.VISIBLE);
-            clPatientInformation.setVisibility(View.GONE);
-
-            CustomLinearLayoutManager layoutManager = new CustomLinearLayoutManager(this);
-            layoutManager.setOrientation(LinearLayoutManager.VERTICAL);//方向
-            rvPatientList.setLayoutManager(layoutManager);
-            rvPatientList.setNestedScrollingEnabled(false);
-            rvPatientList.setHasFixedSize(true);// 如果可以确定每个item的高度是固定的，设置这个选项可以提高性能
-            rvPatientList.setItemAnimator(new DefaultItemAnimator());//加载动画
-
-            rvPatientList.setAdapter(selectOrderAddPatientAdapter = new SelectOrderAddPatientAdapter(orderDetailsList, 2));
-            selectOrderAddPatientAdapter.bindToRecyclerView(rvPatientList);
-            selectOrderAddPatientAdapter.openLoadAnimation();
-
-            selectOrderAddPatientAdapter.setOnItemChildClickListener(new BaseQuickAdapter.OnItemChildClickListener() {
-                @Override
-                public void onItemChildClick(BaseQuickAdapter adapter, View view, int position) {
-                    switch (view.getId()) {
-                        case R.id.stv_add_patient_item:
-                            startActivityForResult(new Intent(ModifyMedicalRecordActivity.this, ModifyMedicalListActivity.class).putExtra("orderType", orderDetails.getOrderType()).putParcelableArrayListExtra("orderDetailsList", (ArrayList<? extends Parcelable>) orderDetailsList).putExtra("position", position), REQUEST_CODE_110);
-                            break;
-                    }
-                }
-            });
+        switch (orderDetailsList.get(position).getMedicalRecords()) {
+            case "1":
+                clImgUpload.setVisibility(View.VISIBLE);
+                break;
+            case "2":
+                clTxUpload.setVisibility(View.VISIBLE);
+                break;
+            case "3":
+                tvMedicalRecord.setVisibility(View.GONE);
+                break;
         }
     }
 
@@ -219,78 +172,78 @@ public class ModifyMedicalRecordActivity extends BaseActivity<ModifyMedicalContr
         narcosisListMap.put("sign", StringUtils.toUpperCase(MD5Utils.encodeMD5(narcosisListMap.toString().replaceAll(" ", "") + SIGN)));
         getPresenter().getNarcosisList(narcosisListMap, false, false);
 
-        if ("1".equals(orderDetails.getOrderType())) {
-            etPatientName.setText(orderDetailsList.get(0).getPatientName());
-            stvPatientSex.setRightString("1".equals(orderDetailsList.get(0).getSex()) ? "男" : "女");
-            stvPatientAge.setRightString(orderDetailsList.get(0).getAge() + "岁");
-            etPatientHeight.setText(orderDetailsList.get(0).getHeight() + "");
-            etPatientBodyWeight.setText(orderDetailsList.get(0).getWeight() + "");
-            stvAnesthesiaType.setRightString(orderDetailsList.get(0).getNarcosisType());
-            if (!isEmpty(orderDetailsList.get(0).getPositiveCard()) && !isEmpty(orderDetailsList.get(0).getReverseCard())) {
-                positiveUrl = orderDetailsList.get(0).getPositiveCard();
-                negativeUrl = orderDetailsList.get(0).getReverseCard();
+        if ("1".equals(orderType)) {
+            etPatientName.setText(orderDetailsList.get(position).getPatientName());
+            stvPatientSex.setRightString("1".equals(orderDetailsList.get(position).getSex()) ? "男" : "女");
+            stvPatientAge.setRightString(orderDetailsList.get(position).getAge() + "岁");
+            etPatientHeight.setText(orderDetailsList.get(position).getHeight() + "");
+            etPatientBodyWeight.setText(orderDetailsList.get(position).getWeight() + "");
+            stvAnesthesiaType.setRightString(orderDetailsList.get(position).getNarcosisType());
+            if (!isEmpty(orderDetailsList.get(position).getPositiveCard()) && !isEmpty(orderDetailsList.get(position).getReverseCard())) {
+                positiveUrl = orderDetailsList.get(position).getPositiveCard();
+                negativeUrl = orderDetailsList.get(position).getReverseCard();
                 stvIdCard.setRightString("已上传")
                         .setRightTextColor(getResources().getColor(R.color.tx_bottom_navigation_select));
             }
 
-            switch (orderDetailsList.get(0).getMedicalRecords()) {
+            switch (orderDetailsList.get(position).getMedicalRecords()) {
                 case "1":
-                    if (!isEmpty(orderDetailsList.get(0).getSurgeryRelated())) {
-                        surgeryAboutMedicalRecordUrl = orderDetailsList.get(0).getSurgeryRelated();
+                    if (!isEmpty(orderDetailsList.get(position).getSurgeryRelated())) {
+                        surgeryAboutMedicalRecordUrl = orderDetailsList.get(position).getSurgeryRelated();
                         stvSurgeryAboutMedicalRecord.setRightString("已上传")
                                 .setRightTextColor(getResources().getColor(R.color.tx_bottom_navigation_select));
                     }
-                    if (!isEmpty(orderDetailsList.get(0).getRoutineBlood())) {
-                        bloodRoutineUrl = orderDetailsList.get(0).getRoutineBlood();
+                    if (!isEmpty(orderDetailsList.get(position).getRoutineBlood())) {
+                        bloodRoutineUrl = orderDetailsList.get(position).getRoutineBlood();
                         stvBloodRoutine.setRightString("已上传")
                                 .setRightTextColor(getResources().getColor(R.color.tx_bottom_navigation_select));
                     }
-                    if (!isEmpty(orderDetailsList.get(0).getEcg())) {
-                        electrocardiogramUrl = orderDetailsList.get(0).getEcg();
+                    if (!isEmpty(orderDetailsList.get(position).getEcg())) {
+                        electrocardiogramUrl = orderDetailsList.get(position).getEcg();
                         stvElectrocardiogram.setRightString("已上传")
                                 .setRightTextColor(getResources().getColor(R.color.tx_bottom_navigation_select));
                     }
-                    if (!isEmpty(orderDetailsList.get(0).getCruor())) {
-                        coagulationUrl = orderDetailsList.get(0).getCruor();
+                    if (!isEmpty(orderDetailsList.get(position).getCruor())) {
+                        coagulationUrl = orderDetailsList.get(position).getCruor();
                         stvCoagulation.setRightString("已上传")
                                 .setRightTextColor(getResources().getColor(R.color.tx_bottom_navigation_select));
                     }
-                    if (!isEmpty(orderDetailsList.get(0).getContagion())) {
-                        infectiousDiseaseIndexUrl = orderDetailsList.get(0).getContagion();
+                    if (!isEmpty(orderDetailsList.get(position).getContagion())) {
+                        infectiousDiseaseIndexUrl = orderDetailsList.get(position).getContagion();
                         stvInfectiousDiseaseIndex.setRightString("已上传")
                                 .setRightTextColor(getResources().getColor(R.color.tx_bottom_navigation_select));
                     }
                     break;
                 case "2":
-                    if (orderDetailsList.get(0).getMinBloodPressure() > 0) {
-                        etBloodPressureStart.setText(orderDetailsList.get(0).getMinBloodPressure() + "");
+                    if (orderDetailsList.get(position).getMinBloodPressure() > 0) {
+                        etBloodPressureStart.setText(orderDetailsList.get(position).getMinBloodPressure() + "");
                     }
-                    if (orderDetailsList.get(0).getMaxBloodPressure() > 0) {
-                        etBloodPressureEnd.setText(orderDetailsList.get(0).getMaxBloodPressure() + "");
+                    if (orderDetailsList.get(position).getMaxBloodPressure() > 0) {
+                        etBloodPressureEnd.setText(orderDetailsList.get(position).getMaxBloodPressure() + "");
                     }
-                    if (orderDetailsList.get(0).getPulse() > 0) {
-                        etPulse.setText(orderDetailsList.get(0).getPulse() + "");
+                    if (orderDetailsList.get(position).getPulse() > 0) {
+                        etPulse.setText(orderDetailsList.get(position).getPulse() + "");
                     }
-                    if (orderDetailsList.get(0).getBreathe() > 0) {
-                        etBreathe.setText(orderDetailsList.get(0).getBreathe() + "");
+                    if (orderDetailsList.get(position).getBreathe() > 0) {
+                        etBreathe.setText(orderDetailsList.get(position).getBreathe() + "");
                     }
-                    if (orderDetailsList.get(0).getAnimalHeat() > 0) {
-                        etBodyTemperature.setText(orderDetailsList.get(0).getAnimalHeat() + "");
+                    if (orderDetailsList.get(position).getAnimalHeat() > 0) {
+                        etBodyTemperature.setText(orderDetailsList.get(position).getAnimalHeat() + "");
                     }
-                    if (!isEmpty(orderDetailsList.get(0).getDiabetes())) {
-                        rbDiabetesStart.setChecked("2".equals(orderDetailsList.get(0).getDiabetes()));
+                    if (!isEmpty(orderDetailsList.get(position).getDiabetes())) {
+                        rbDiabetesStart.setChecked("2".equals(orderDetailsList.get(position).getDiabetes()));
                     }
-                    if (!isEmpty(orderDetailsList.get(0).getCerebralInfarction())) {
-                        rbBrainStalkStart.setChecked("2".equals(orderDetailsList.get(0).getCerebralInfarction()));
+                    if (!isEmpty(orderDetailsList.get(position).getCerebralInfarction())) {
+                        rbBrainStalkStart.setChecked("2".equals(orderDetailsList.get(position).getCerebralInfarction()));
                     }
-                    if (!isEmpty(orderDetailsList.get(0).getHeartDisease())) {
-                        rbHeartDiseaseStart.setChecked("2".equals(orderDetailsList.get(0).getHeartDisease()));
+                    if (!isEmpty(orderDetailsList.get(position).getHeartDisease())) {
+                        rbHeartDiseaseStart.setChecked("2".equals(orderDetailsList.get(position).getHeartDisease()));
                     }
-                    if (!isEmpty(orderDetailsList.get(0).getInfectDisease())) {
-                        rbInfectiousDiseaseStart.setChecked("2".equals(orderDetailsList.get(0).getInfectDisease()));
+                    if (!isEmpty(orderDetailsList.get(position).getInfectDisease())) {
+                        rbInfectiousDiseaseStart.setChecked("2".equals(orderDetailsList.get(position).getInfectDisease()));
                     }
-                    if (!isEmpty(orderDetailsList.get(0).getBreatheFunction())) {
-                        rbRespiratoryDysfunctionStart.setChecked("2".equals(orderDetailsList.get(0).getBreatheFunction()));
+                    if (!isEmpty(orderDetailsList.get(position).getBreatheFunction())) {
+                        rbRespiratoryDysfunctionStart.setChecked("2".equals(orderDetailsList.get(position).getBreatheFunction()));
                     }
                     break;
             }
@@ -425,82 +378,67 @@ public class ModifyMedicalRecordActivity extends BaseActivity<ModifyMedicalContr
                     stvInfectiousDiseaseIndex.setRightString("已上传")
                             .setRightTextColor(getResources().getColor(R.color.tx_bottom_navigation_select));
                     break;
-                case REQUEST_CODE_110:
-                    orderDetailsList = data.getParcelableArrayListExtra("orderDetailsList");
-                    break;
             }
         }
     }
 
-    private String getOrderDetailsJson() {
-        List<Map<String, String>> listMap = new ArrayList<>();
-        for (OrderDetailsBean.DataBean.OrderDetailBean data : orderDetailsList) {
-            Map<String, String> map = new HashMap<>();
-            map.put("patientName", data.getPatientName());
-            map.put("sex", "男".equals(data.getSex()) ? "1" : "2");
-            map.put("age", data.getAge() + "");
-            map.put("orderDetailId", data.getOrderDetailId() + "");
-            if (data.getHeight() > 0)
-                map.put("height", data.getHeight() + "");
-            if (data.getWeight() > 0)
-                map.put("weight", data.getWeight() + "");
-            if (data.getNarcosisTypeId() > 0)
-                map.put("narcosisTypeId", narcosisId + "");
-            if (!isEmpty(data.getPositiveCard()))
-                map.put("positiveCard", data.getPositiveCard());
-            if (!isEmpty(data.getReverseCard()))
-                map.put("reverseCard", data.getReverseCard());
-            if (!isEmpty(data.getSurgeryRelated()))
-                map.put("surgeryRelated", data.getSurgeryRelated());
-            if (!isEmpty(data.getRoutineBlood()))
-                map.put("routineBlood", data.getRoutineBlood());
-            if (!isEmpty(data.getEcg()))
-                map.put("ecg", data.getEcg());
-            if (!isEmpty(data.getCruor()))
-                map.put("cruor", data.getCruor());
-            if (!isEmpty(data.getContagion()))
-                map.put("contagion", data.getContagion());
-//            if (data.getMinBloodPressure() > 0)
-//                map1.put("minBloodPressure", data.getMinBloodPressure() + "");
-//            if (data.getMaxBloodPressure() > 0)
-//                map1.put("maxBloodPressure", data.getMaxBloodPressure() + "");
-//            if (data.getPulse() > 0)
-//                map1.put("pulse", data.getPulse() + "");
-//            if (data.getBreathe() > 0)
-//                map1.put("breathe", data.getBreathe() + "");
-//            if (data.getAnimalHeat() > 0)
-//                map1.put("animalHeat", data.getAnimalHeat() + "");
-//            if (!isEmpty(data.getDiabetes()))
-//                map1.put("diabetes", data.getDiabetes());
-//            if (!isEmpty(data.getCerebralInfarction()))
-//                map1.put("cerebralInfarction", data.getCerebralInfarction());
-//            if (!isEmpty(data.getHeartDisease()))
-//                map1.put("heartDisease", data.getHeartDisease());
-//            if (!isEmpty(data.getInfectDisease()))
-//                map1.put("infectDisease", data.getInfectDisease());
-//            if (!isEmpty(data.getBreatheFunction()))
-//                map1.put("breatheFunction", data.getBreatheFunction());
-            listMap.add(map);
+    @Override
+    public void resultNarcosisList(NarcosisListBean data) {
+        switch (data.getCode()) {
+            case 200:
+                narcosisLists.clear();
+                narcosisLists.addAll(data.getData().getNarcosisList());
+                for (NarcosisListBean.DataBean.NarcosisListsBean datas : narcosisLists) {
+                    narcosisDataList.add(datas.getNarcosisTypeName());
+                }
+                break;
+            case 900:
+                ToastUtil.showLongToast(data.getMsg());
+                //清除所有临时储存
+                SPUtil.clear(ApplicationUtil.getContext());
+                ApplicationUtil.getManager().finishActivity(MainActivity.class);
+                startActivity(new Intent(this, CaptchaLoginActivity.class));
+                finish();
+                break;
         }
-        if (listMap.size() <= 0)
-            return "";
-        Gson g = new Gson();
-        String jsonString = g.toJson(listMap);
-        return jsonString;
     }
 
     @OnClick({R.id.bt_confirm, R.id.stv_patient_sex, R.id.stv_patient_age, R.id.stv_anesthesia_type, R.id.stv_id_card, R.id.stv_surgery_about_medical_record, R.id.stv_blood_routine, R.id.stv_electrocardiogram, R.id.stv_coagulation, R.id.stv_infectious_disease_index})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.bt_confirm:
-                if (isFastClick()) {
-                    TreeMap<String, String> modifyMedicalMap = new TreeMap<>();
-                    modifyMedicalMap.put("userId", SPUtil.get(this, USER_ID, "") + "");
-                    modifyMedicalMap.put("orderId", orderDetails.getOrderId() + "");
-                    modifyMedicalMap.put("orderDetails", getOrderDetailsJson());
-                    modifyMedicalMap.put("sign", StringUtils.toUpperCase(MD5Utils.encodeMD5(modifyMedicalMap.toString().replaceAll(" ", "") + SIGN)));
-                    getPresenter().getModifyMedical(modifyMedicalMap, false, false);
+                orderDetailsList.get(position).setPatientName(etPatientName.getText().toString().trim());
+                orderDetailsList.get(position).setSex("男".equals(stvPatientSex.getRightString()) ? "1" : "2");
+                orderDetailsList.get(position).setAge(Integer.parseInt(stvPatientAge.getRightString().replaceAll("岁", "")));
+                orderDetailsList.get(position).setHeight(Double.parseDouble(etPatientHeight.getText().toString().trim()));
+                orderDetailsList.get(position).setWeight(Double.parseDouble(etPatientBodyWeight.getText().toString().trim()));
+                orderDetailsList.get(position).setNarcosisTypeId(narcosisId);
+                orderDetailsList.get(position).setPositiveCard(positiveUrl);
+                orderDetailsList.get(position).setReverseCard(negativeUrl);
+
+                switch (orderDetailsList.get(position).getMedicalRecords()) {
+                    case "1":
+                        orderDetailsList.get(position).setSurgeryRelated(surgeryAboutMedicalRecordUrl);
+                        orderDetailsList.get(position).setRoutineBlood(bloodRoutineUrl);
+                        orderDetailsList.get(position).setEcg(electrocardiogramUrl);
+                        orderDetailsList.get(position).setCruor(coagulationUrl);
+                        orderDetailsList.get(position).setContagion(infectiousDiseaseIndexUrl);
+                        break;
+                    case "2":
+                        orderDetailsList.get(position).setMinBloodPressure(Double.parseDouble(etBloodPressureStart.getText().toString().trim()));
+                        orderDetailsList.get(position).setMaxBloodPressure(Double.parseDouble(etBloodPressureEnd.getText().toString().trim()));
+                        orderDetailsList.get(position).setPulse(Integer.parseInt(etPulse.getText().toString().trim()));
+                        orderDetailsList.get(position).setBreathe(Integer.parseInt(etBreathe.getText().toString().trim()));
+                        orderDetailsList.get(position).setAnimalHeat(Double.parseDouble(etBodyTemperature.getText().toString().trim()));
+                        orderDetailsList.get(position).setDiabetes(rbDiabetesStart.isChecked() ? "2" : "1");
+                        orderDetailsList.get(position).setCerebralInfarction(rbBrainStalkStart.isChecked() ? "2" : "1");
+                        orderDetailsList.get(position).setHeartDisease(rbHeartDiseaseStart.isChecked() ? "2" : "1");
+                        orderDetailsList.get(position).setInfectDisease(rbInfectiousDiseaseStart.isChecked() ? "2" : "1");
+                        orderDetailsList.get(position).setBreatheFunction(rbRespiratoryDysfunctionStart.isChecked() ? "2" : "1");
+                        break;
                 }
+                setResult(RESULT_OK, new Intent().putParcelableArrayListExtra("orderDetailsList", (ArrayList<? extends Parcelable>) orderDetailsList));
+                finish();
                 break;
             case R.id.stv_patient_sex:
                 showPickerView(1);
@@ -528,45 +466,6 @@ public class ModifyMedicalRecordActivity extends BaseActivity<ModifyMedicalContr
                 break;
             case R.id.stv_infectious_disease_index:
                 startActivityForResult(new Intent(this, SurgeryAboutMedicalRecordActivity.class).putExtra("title", "传染病指标"), REQUEST_CODE_107);
-                break;
-        }
-    }
-
-    @Override
-    public void resultNarcosisList(NarcosisListBean data) {
-        switch (data.getCode()) {
-            case 200:
-                narcosisLists.clear();
-                narcosisLists.addAll(data.getData().getNarcosisList());
-                for (NarcosisListBean.DataBean.NarcosisListsBean datas : narcosisLists) {
-                    narcosisDataList.add(datas.getNarcosisTypeName());
-                }
-                break;
-            case 900:
-                ToastUtil.showLongToast(data.getMsg());
-                //清除所有临时储存
-                SPUtil.clear(ApplicationUtil.getContext());
-                ApplicationUtil.getManager().finishActivity(MainActivity.class);
-                startActivity(new Intent(this, CaptchaLoginActivity.class));
-                finish();
-                break;
-        }
-    }
-
-    @Override
-    public void resultModifyMedical(ModifyMedicalBean data) {
-        switch (data.getCode()) {
-            case 200:
-                setResult(RESULT_OK, new Intent().putExtra("refresh", 1));
-                finish();
-                break;
-            case 900:
-                ToastUtil.showLongToast(data.getMsg());
-                //清除所有临时储存
-                SPUtil.clear(ApplicationUtil.getContext());
-                ApplicationUtil.getManager().finishActivity(MainActivity.class);
-                startActivity(new Intent(this, CaptchaLoginActivity.class));
-                finish();
                 break;
         }
     }

@@ -4,7 +4,6 @@ import com.ipd.xiangzui.bean.AccountListBean;
 import com.ipd.xiangzui.bean.AddAccountBean;
 import com.ipd.xiangzui.bean.AddAddressBean;
 import com.ipd.xiangzui.bean.AddFeeBean;
-import com.ipd.xiangzui.bean.AddMedicalBean;
 import com.ipd.xiangzui.bean.AddressListBean;
 import com.ipd.xiangzui.bean.CancelIsOrderBean;
 import com.ipd.xiangzui.bean.CancelOrderBean;
@@ -20,6 +19,7 @@ import com.ipd.xiangzui.bean.HomeBean;
 import com.ipd.xiangzui.bean.HospitalNameBean;
 import com.ipd.xiangzui.bean.ModifyAccountBean;
 import com.ipd.xiangzui.bean.ModifyAddressBean;
+import com.ipd.xiangzui.bean.ModifyMedicalBean;
 import com.ipd.xiangzui.bean.ModifyOrderBean;
 import com.ipd.xiangzui.bean.ModifyUserInfoBean;
 import com.ipd.xiangzui.bean.ModifyUserPwdBean;
@@ -62,7 +62,6 @@ import static com.ipd.xiangzui.common.config.UrlConfig.ADDRESS_LIST;
 import static com.ipd.xiangzui.common.config.UrlConfig.ADD_ACCOUNT;
 import static com.ipd.xiangzui.common.config.UrlConfig.ADD_ADDRESS;
 import static com.ipd.xiangzui.common.config.UrlConfig.ADD_FEE;
-import static com.ipd.xiangzui.common.config.UrlConfig.ADD_MEDICAL_RECORD;
 import static com.ipd.xiangzui.common.config.UrlConfig.CANCEL_IS_ORDER;
 import static com.ipd.xiangzui.common.config.UrlConfig.CANCEL_ORDER;
 import static com.ipd.xiangzui.common.config.UrlConfig.CAPTCHA;
@@ -77,6 +76,7 @@ import static com.ipd.xiangzui.common.config.UrlConfig.HOME;
 import static com.ipd.xiangzui.common.config.UrlConfig.HOSPITAL_NAME;
 import static com.ipd.xiangzui.common.config.UrlConfig.MODIFY_ACCOUNT;
 import static com.ipd.xiangzui.common.config.UrlConfig.MODIFY_ADDRESS;
+import static com.ipd.xiangzui.common.config.UrlConfig.MODIFY_MEDICAL_RECORD;
 import static com.ipd.xiangzui.common.config.UrlConfig.MODIFY_ORDER;
 import static com.ipd.xiangzui.common.config.UrlConfig.MODIFY_USER_INFO;
 import static com.ipd.xiangzui.common.config.UrlConfig.MODIFY_USER_PWD;
@@ -223,8 +223,8 @@ public interface ApiService {
 
     //以接单-补充病历
     @FormUrlEncoded
-    @POST(ADD_MEDICAL_RECORD)
-    Observable<AddMedicalBean> getAddMedical(@FieldMap Map<String, String> map);
+    @POST(MODIFY_MEDICAL_RECORD)
+    Observable<ModifyMedicalBean> getModifyMedical(@FieldMap Map<String, String> map);
 
     //以接单-取消订单
     @FormUrlEncoded

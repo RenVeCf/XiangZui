@@ -288,6 +288,63 @@ public class SendOrderFeeInfoActivity extends BaseActivity<SelectFeeContract.Vie
                     listMap.add(map1);
                 }
                 break;
+            case 3:
+                for (OrderDetailsBean.DataBean.OrderDetailBean data : orderDetailsList) {
+                    Map<String, String> map1 = new HashMap<>();
+                    if (sendOrderType == 2)
+                        map1.put("surgeryName", data.getSurgeryName());
+                    map1.put("patientName", data.getPatientName());
+                    if (data.getOrderDetailId() > 0)
+                        map1.put("orderDetailId", data.getOrderDetailId() + "");
+                    map1.put("sex", "男".equals(data.getSex()) ? "1" : "2");
+                    map1.put("age", data.getAge() + "");
+                    if (data.getHeight() > 0)
+                        map1.put("height", data.getHeight() + "");
+                    if (data.getWeight() > 0)
+                        map1.put("weight", data.getWeight() + "");
+                    if (data.getNarcosisTypeId() > 0)
+                        map1.put("narcosisTypeId", data.getNarcosisTypeId() + "");
+                    if (!isEmpty(data.getPositiveCard()))
+                        map1.put("positiveCard", data.getPositiveCard());
+                    if (!isEmpty(data.getReverseCard()))
+                        map1.put("reverseCard", data.getReverseCard());
+                    if (!isEmpty(data.getInsurance()))
+                        map1.put("insurance", data.getInsurance());
+                    if (!isEmpty(data.getMedicalRecords()))
+                        map1.put("medicalRecords", data.getMedicalRecords());
+                    if (!isEmpty(data.getSurgeryRelated()))
+                        map1.put("surgeryRelated", data.getSurgeryRelated());
+                    if (!isEmpty(data.getRoutineBlood()))
+                        map1.put("routineBlood", data.getRoutineBlood());
+                    if (!isEmpty(data.getEcg()))
+                        map1.put("ecg", data.getEcg());
+                    if (!isEmpty(data.getCruor()))
+                        map1.put("cruor", data.getCruor());
+                    if (!isEmpty(data.getContagion()))
+                        map1.put("contagion", data.getContagion());
+                    if (data.getMinBloodPressure() > 0)
+                        map1.put("minBloodPressure", data.getMinBloodPressure() + "");
+                    if (data.getMaxBloodPressure() > 0)
+                        map1.put("maxBloodPressure", data.getMaxBloodPressure() + "");
+                    if (data.getPulse() > 0)
+                        map1.put("pulse", data.getPulse() + "");
+                    if (data.getBreathe() > 0)
+                        map1.put("breathe", data.getBreathe() + "");
+                    if (data.getAnimalHeat() > 0)
+                        map1.put("animalHeat", data.getAnimalHeat() + "");
+                    if (!isEmpty(data.getDiabetes()))
+                        map1.put("diabetes", data.getDiabetes());
+                    if (!isEmpty(data.getCerebralInfarction()))
+                        map1.put("cerebralInfarction", data.getCerebralInfarction());
+                    if (!isEmpty(data.getHeartDisease()))
+                        map1.put("heartDisease", data.getHeartDisease());
+                    if (!isEmpty(data.getInfectDisease()))
+                        map1.put("infectDisease", data.getInfectDisease());
+                    if (!isEmpty(data.getBreatheFunction()))
+                        map1.put("breatheFunction", data.getBreatheFunction());
+                    listMap.add(map1);
+                }
+                break;
         }
         if (listMap.size() <= 0)
             return "";
@@ -316,24 +373,26 @@ public class SendOrderFeeInfoActivity extends BaseActivity<SelectFeeContract.Vie
             case R.id.sb_send_order:
                 if (Double.parseDouble(etAddFee.getText().toString().trim()) >= 3500) {
                     if (orderDetails != null && orderDetailsList.size() > 0) {
-                        TreeMap<String, String> sendOrderMap = new TreeMap<>();
-                        sendOrderMap.put("userId", SPUtil.get(this, USER_ID, "") + "");
-                        sendOrderMap.put("orderId", orderDetails.getOrderId() + "");
-                        sendOrderMap.put("orderType", sendOrderType + "");
+                        TreeMap<String, String> modifyOrderMap = new TreeMap<>();
+                        modifyOrderMap.put("userId", SPUtil.get(this, USER_ID, "") + "");
+                        modifyOrderMap.put("orderId", orderDetails.getOrderId() + "");
+                        modifyOrderMap.put("orderType", sendOrderType + "");
                         if (sendOrderType == 1)
-                            sendOrderMap.put("surgeryName", orderDetailsList.get(0).getSurgeryName());
-                        sendOrderMap.put("hospitalName", orderDetails.getHospitalName());
-                        sendOrderMap.put("prov", orderDetails.getProv());
-                        sendOrderMap.put("city", orderDetails.getCity());
-                        sendOrderMap.put("dist", orderDetails.getDist());
-                        sendOrderMap.put("address", orderDetails.getAddress());
-                        sendOrderMap.put("beginTime", orderDetails.getBeginTime());
-                        sendOrderMap.put("duration", orderDetails.getDuration() + "");
-                        sendOrderMap.put("urgent", stvSurgery.getCheckBoxIsChecked() ? "2" : "1");
-                        sendOrderMap.put("orderDetails", "");
-                        sendOrderMap.put("expectMoney", etAddFee.getText().toString().trim());
-                        sendOrderMap.put("sign", StringUtils.toUpperCase(MD5Utils.encodeMD5(sendOrderMap.toString().replaceAll(" ", "") + SIGN)));
-                        getPresenter().getSendOrder(sendOrderMap, true, false);
+                            modifyOrderMap.put("surgeryName", orderDetailsList.get(0).getSurgeryName());
+                        modifyOrderMap.put("hospitalName", orderDetails.getHospitalName());
+                        modifyOrderMap.put("prov", orderDetails.getProv());
+                        modifyOrderMap.put("city", orderDetails.getCity());
+                        modifyOrderMap.put("dist", orderDetails.getDist());
+                        modifyOrderMap.put("address", orderDetails.getAddress());
+                        modifyOrderMap.put("beginTime", orderDetails.getBeginTime());
+                        modifyOrderMap.put("duration", orderDetails.getDuration() + "");
+                        modifyOrderMap.put("urgent", stvSurgery.getCheckBoxIsChecked() ? "2" : "1");
+                        modifyOrderMap.put("orderDetails", getOrderDetailsJson(3));
+                        modifyOrderMap.put("expectMoney", etAddFee.getText().toString().trim());
+                        if (sendOrderType == 2)
+                            modifyOrderMap.put("evenNum", stvSurgeryNum.getRightString().replaceAll("台", ""));
+                        modifyOrderMap.put("sign", StringUtils.toUpperCase(MD5Utils.encodeMD5(modifyOrderMap.toString().replaceAll(" ", "") + SIGN)));
+                        getPresenter().getModifyOrder(modifyOrderMap, true, false);
                     } else {
                         switch (sendOrderType) {
                             case 1:

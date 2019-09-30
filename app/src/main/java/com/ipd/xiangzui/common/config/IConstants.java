@@ -61,6 +61,8 @@ public interface IConstants {
     int REQUEST_CODE_107 = 107;//传染病指标上传回跳
     int REQUEST_CODE_108 = 108;//资质认证地址的选择
     int REQUEST_CODE_109 = 109;//连台添加患者时的回跳
+    int REQUEST_CODE_110 = 110;//补充病历连台回跳
+    int REQUEST_CODE_111 = 111;//补充病历回跳
 
     /**
      * resultCode

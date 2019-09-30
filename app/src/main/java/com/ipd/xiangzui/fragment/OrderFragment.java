@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.os.Parcelable;
 import android.view.View;
 
+import androidx.annotation.Nullable;
 import androidx.appcompat.widget.LinearLayoutCompat;
 import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -50,6 +51,7 @@ import butterknife.BindView;
 import butterknife.OnClick;
 import io.reactivex.ObservableTransformer;
 
+import static com.ipd.xiangzui.common.config.IConstants.REQUEST_CODE_111;
 import static com.ipd.xiangzui.common.config.IConstants.SIGN;
 import static com.ipd.xiangzui.common.config.IConstants.USER_ID;
 import static com.ipd.xiangzui.utils.isClickUtil.isFastClick;
@@ -79,6 +81,7 @@ public class OrderFragment extends BaseFragment<OrderContract.View, OrderContrac
     private int pageNum = 1;//页数
     private String orderType;//订单状态 0:待接单， 1:已接单， 2:进行中， 3:已完成
     private int removePosition;
+    private int isModify;//1:修改订单，2：补充病历
 
     @Override
     public int getLayoutId() {
@@ -145,6 +148,18 @@ public class OrderFragment extends BaseFragment<OrderContract.View, OrderContrac
         getPresenter().getOrderList(orderListMap, false, false);
     }
 
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (data != null) {
+            switch (requestCode) {
+                case REQUEST_CODE_111:
+                    initData();
+                    break;
+            }
+        }
+    }
+
     @OnClick({R.id.stv_order_time, R.id.stv_order_region, R.id.stv_order_money})
     public void onViewClicked(View view) {
         switch (view.getId()) {
@@ -181,12 +196,13 @@ public class OrderFragment extends BaseFragment<OrderContract.View, OrderContrac
                                     case R.id.stv_fee:
                                     case R.id.stv_name:
                                     case R.id.stv_address:
-                                        startActivity(new Intent(getContext(), OrderDetailsActivity.class).putExtra("order_status", data.getData().getOrderList().get(position).getStatus()).putExtra("orderId", data.getData().getOrderList().get(position).getOrderId()));
+                                        if (isFastClick())
+                                            startActivity(new Intent(getContext(), OrderDetailsActivity.class).putExtra("order_status", data.getData().getOrderList().get(position).getStatus()).putExtra("orderId", data.getData().getOrderList().get(position).getOrderId()));
                                         break;
                                     case R.id.bt_first:
-                                        if (isFastClick()) {
-                                            switch (orderList.get(position).getStatus()) {
-                                                case "1"://取消订单
+                                        switch (orderList.get(position).getStatus()) {
+                                            case "1"://取消订单
+                                                if (isFastClick())
                                                     new TwoBtDialog(getActivity(), "确认取消订单？", "确认") {
                                                         @Override
                                                         public void confirm() {
@@ -198,9 +214,10 @@ public class OrderFragment extends BaseFragment<OrderContract.View, OrderContrac
                                                             getPresenter().getCancelOrder(cancelOrderMap, false, false);
                                                         }
                                                     }.show();
-                                                    break;
-                                                case "8":
-                                                case "2"://取消订单
+                                                break;
+                                            case "8":
+                                            case "2"://取消订单
+                                                if (isFastClick()) {
                                                     removePosition = position;
 
                                                     TreeMap<String, String> selectFeeMap = new TreeMap<>();
@@ -208,54 +225,66 @@ public class OrderFragment extends BaseFragment<OrderContract.View, OrderContrac
                                                     selectFeeMap.put("type", "2");
                                                     selectFeeMap.put("sign", StringUtils.toUpperCase(MD5Utils.encodeMD5(selectFeeMap.toString().replaceAll(" ", "") + SIGN)));
                                                     getPresenter().getSelectFee(selectFeeMap, false, false);
-                                                    break;
-                                                case "3"://查看详情
-                                                case "4":
-                                                case "5":
-                                                case "6":
-                                                case "7":
+                                                }
+                                                break;
+                                            case "3"://查看详情
+                                            case "4":
+                                            case "5":
+                                            case "6":
+                                            case "7":
+                                                if (isFastClick())
                                                     startActivity(new Intent(getContext(), OrderDetailsActivity.class).putExtra("order_status", data.getData().getOrderList().get(position).getStatus()).putExtra("orderId", data.getData().getOrderList().get(position).getOrderId()));
-                                                    break;
-                                            }
+                                                break;
                                         }
                                         break;
                                     case R.id.bt_second:
-                                        if (isFastClick()) {
-                                            switch (orderList.get(position).getStatus()) {
-                                                case "1"://修改订单
+                                        switch (orderList.get(position).getStatus()) {
+                                            case "1"://修改订单
+                                                if (isFastClick()) {
+                                                    isModify = 1;
+
                                                     TreeMap<String, String> orderDetailsMap = new TreeMap<>();
                                                     orderDetailsMap.put("userId", SPUtil.get(getContext(), USER_ID, "") + "");
                                                     orderDetailsMap.put("orderId", orderList.get(position).getOrderId() + "");
                                                     orderDetailsMap.put("sign", StringUtils.toUpperCase(MD5Utils.encodeMD5(orderDetailsMap.toString().replaceAll(" ", "") + SIGN)));
                                                     getPresenter().getOrderDetails(orderDetailsMap, false, false);
-                                                    break;
-                                                case "8":
-                                                case "2"://补充病历
-                                                    startActivity(new Intent(getContext(), ModifyMedicalRecordActivity.class));
-                                                    break;
-                                                case "3":
-                                                    break;
-                                                case "4"://异议
+                                                }
+                                                break;
+                                            case "8":
+                                            case "2"://补充病历
+                                                if (isFastClick()) {
+                                                    isModify = 2;
+
+                                                    TreeMap<String, String> orderDetailsMap1 = new TreeMap<>();
+                                                    orderDetailsMap1.put("userId", SPUtil.get(getContext(), USER_ID, "") + "");
+                                                    orderDetailsMap1.put("orderId", orderList.get(position).getOrderId() + "");
+                                                    orderDetailsMap1.put("sign", StringUtils.toUpperCase(MD5Utils.encodeMD5(orderDetailsMap1.toString().replaceAll(" ", "") + SIGN)));
+                                                    getPresenter().getOrderDetails(orderDetailsMap1, false, false);
+                                                }
+                                                break;
+                                            case "3":
+                                                break;
+                                            case "4"://异议
+                                                if (isFastClick())
                                                     new TwoBtDialog(getActivity(), "对此订单有异议，是否进行电话咨询?", "确认") {
                                                         @Override
                                                         public void confirm() {
 
                                                         }
                                                     }.show();
-                                                    break;
-                                                case "5":
-                                                    break;
-                                                case "6":
-                                                    break;
-                                                case "7":
-                                                    break;
-                                            }
+                                                break;
+                                            case "5":
+                                                break;
+                                            case "6":
+                                                break;
+                                            case "7":
+                                                break;
                                         }
                                         break;
                                     case R.id.bt_third:
-                                        if (isFastClick()) {
-                                            switch (orderList.get(position).getStatus()) {
-                                                case "1"://加价
+                                        switch (orderList.get(position).getStatus()) {
+                                            case "1"://加价
+                                                if (isFastClick())
                                                     new EditDialog(getActivity()) {
                                                         @Override
                                                         public void confirm(String content) {
@@ -267,21 +296,20 @@ public class OrderFragment extends BaseFragment<OrderContract.View, OrderContrac
                                                             getPresenter().getAddFee(addFeeMap, false, false);
                                                         }
                                                     }.show();
-                                                    break;
-                                                case "8":
-                                                case "2"://联系医生
-                                                    break;
-                                                case "3":
-                                                    break;
-                                                case "4"://确认
-                                                    break;
-                                                case "5":
-                                                    break;
-                                                case "6":
-                                                    break;
-                                                case "7":
-                                                    break;
-                                            }
+                                                break;
+                                            case "8":
+                                            case "2"://联系医生
+                                                break;
+                                            case "3":
+                                                break;
+                                            case "4"://确认
+                                                break;
+                                            case "5":
+                                                break;
+                                            case "6":
+                                                break;
+                                            case "7":
+                                                break;
                                         }
                                         break;
                                 }
@@ -339,7 +367,10 @@ public class OrderFragment extends BaseFragment<OrderContract.View, OrderContrac
     public void resultOrderDetails(OrderDetailsBean data) {
         switch (data.getCode()) {
             case 200:
-                startActivity(new Intent(getContext(), SendOrderSurgicalInfoActivity.class).putExtra("orderDetails", data.getData().getOrder()).putParcelableArrayListExtra("orderDetailsList", (ArrayList<? extends Parcelable>) data.getData().getOrderDetail()));
+                if (isModify == 1)
+                    startActivity(new Intent(getContext(), SendOrderSurgicalInfoActivity.class).putExtra("orderDetails", data.getData().getOrder()).putParcelableArrayListExtra("orderDetailsList", (ArrayList<? extends Parcelable>) data.getData().getOrderDetail()));
+                else if (isModify == 2)
+                    startActivityForResult(new Intent(getContext(), ModifyMedicalRecordActivity.class).putExtra("orderDetails", data.getData().getOrder()).putParcelableArrayListExtra("orderDetailsList", (ArrayList<? extends Parcelable>) data.getData().getOrderDetail()), REQUEST_CODE_111);
                 break;
             case 900:
                 ToastUtil.showShortToast(data.getMsg());
