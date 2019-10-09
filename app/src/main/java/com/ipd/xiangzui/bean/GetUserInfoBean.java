@@ -127,11 +127,11 @@ public class GetUserInfoBean {
             private String reverseCard;
             private String certificate;
             private String chestCard;
-            private Object registAddress;
-            private Object runAddress;
-            private Object hospitalAgent;
+            private String registAddress;
+            private String runAddress;
+            private String hospitalAgent;
             private String status;
-            private Object auditContent;
+            private String auditContent;
             private String auditTime;
             private String isNew;
             private int titleId;
@@ -139,7 +139,7 @@ public class GetUserInfoBean {
             private Object city;
             private Object dist;
             private Object address;
-            private Object telPhone;
+            private String telPhone;
 
             public Object getSearchValue() {
                 return searchValue;
@@ -301,27 +301,27 @@ public class GetUserInfoBean {
                 this.chestCard = chestCard;
             }
 
-            public Object getRegistAddress() {
+            public String getRegistAddress() {
                 return registAddress;
             }
 
-            public void setRegistAddress(Object registAddress) {
+            public void setRegistAddress(String registAddress) {
                 this.registAddress = registAddress;
             }
 
-            public Object getRunAddress() {
+            public String getRunAddress() {
                 return runAddress;
             }
 
-            public void setRunAddress(Object runAddress) {
+            public void setRunAddress(String runAddress) {
                 this.runAddress = runAddress;
             }
 
-            public Object getHospitalAgent() {
+            public String getHospitalAgent() {
                 return hospitalAgent;
             }
 
-            public void setHospitalAgent(Object hospitalAgent) {
+            public void setHospitalAgent(String hospitalAgent) {
                 this.hospitalAgent = hospitalAgent;
             }
 
@@ -333,11 +333,11 @@ public class GetUserInfoBean {
                 this.status = status;
             }
 
-            public Object getAuditContent() {
+            public String getAuditContent() {
                 return auditContent;
             }
 
-            public void setAuditContent(Object auditContent) {
+            public void setAuditContent(String auditContent) {
                 this.auditContent = auditContent;
             }
 
@@ -397,11 +397,11 @@ public class GetUserInfoBean {
                 this.address = address;
             }
 
-            public Object getTelPhone() {
+            public String getTelPhone() {
                 return telPhone;
             }
 
-            public void setTelPhone(Object telPhone) {
+            public void setTelPhone(String telPhone) {
                 this.telPhone = telPhone;
             }
 

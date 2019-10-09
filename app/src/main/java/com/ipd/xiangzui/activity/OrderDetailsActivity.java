@@ -26,6 +26,7 @@ import com.ipd.xiangzui.bean.SelectFeeBean;
 import com.ipd.xiangzui.bean.SendOrderDataBean;
 import com.ipd.xiangzui.common.view.CallPhoneDialog;
 import com.ipd.xiangzui.common.view.CustomLinearLayoutManager;
+import com.ipd.xiangzui.common.view.EditDialog;
 import com.ipd.xiangzui.common.view.TopView;
 import com.ipd.xiangzui.common.view.TwoBtDialog;
 import com.ipd.xiangzui.contract.OrderContract;
@@ -142,6 +143,8 @@ public class OrderDetailsActivity extends BaseActivity<OrderContract.View, Order
     SuperTextView tvAnesthesiaTool;
     @BindView(R.id.tv_anesthesia_type)
     SuperTextView tvAnesthesiaType;
+    @BindView(R.id.tv_anesthesia_sheet)
+    SuperTextView tvAnesthesiaSheet;
     @BindView(R.id.tv_waiting_time_fee)
     SuperTextView tvWaitingTimeFee;
     @BindView(R.id.tv_surgery_fee)
@@ -155,10 +158,11 @@ public class OrderDetailsActivity extends BaseActivity<OrderContract.View, Order
     @BindView(R.id.tv_pay_type)
     SuperTextView tvPayType;
 
-    private String orderStatus; //订单状态：1：待接单 2：待开始  3：进行中4：已结束 5：待结算 6：已结算' 7：已取消
+    private String orderStatus; //订单状态：1：待接单 2：待开始  3：进行中 4：已结束 5：待结算 6：已结算' 7：已取消
     private SelectOrderAddPatientAdapter selectOrderAddPatientAdapter;
     private List<SendOrderDataBean.TwoOrderBean> str1 = new ArrayList<>();
     private int orderId;
+    private String positiveUrl = "", negativeUrl = "", insuranceConsentUrl = "", surgeryAboutMedicalRecordUrl = "", bloodRoutineUrl = "", electrocardiogramUrl = "", coagulationUrl = "", infectiousDiseaseIndexUrl = "";
 
     @Override
     public int getLayoutId() {
@@ -202,6 +206,7 @@ public class OrderDetailsActivity extends BaseActivity<OrderContract.View, Order
                 tvFeeInfo.setVisibility(View.VISIBLE);
                 tvAnesthesiaTool.setVisibility(View.VISIBLE);
                 tvAnesthesiaType.setVisibility(View.VISIBLE);
+                tvAnesthesiaSheet.setVisibility(View.VISIBLE);
                 tvWaitingTimeFee.setVisibility(View.VISIBLE);
                 tvSurgeryFee.setVisibility(View.VISIBLE);
                 tvQuickenFee.setVisibility(View.VISIBLE);
@@ -217,6 +222,7 @@ public class OrderDetailsActivity extends BaseActivity<OrderContract.View, Order
                 tvFeeInfo.setVisibility(View.VISIBLE);
                 tvAnesthesiaTool.setVisibility(View.VISIBLE);
                 tvAnesthesiaType.setVisibility(View.VISIBLE);
+                tvAnesthesiaSheet.setVisibility(View.VISIBLE);
                 tvWaitingTimeFee.setVisibility(View.VISIBLE);
                 tvSurgeryFee.setVisibility(View.VISIBLE);
                 tvQuickenFee.setVisibility(View.VISIBLE);
@@ -243,6 +249,7 @@ public class OrderDetailsActivity extends BaseActivity<OrderContract.View, Order
                 tvFeeInfo.setVisibility(View.VISIBLE);
                 tvAnesthesiaTool.setVisibility(View.VISIBLE);
                 tvAnesthesiaType.setVisibility(View.VISIBLE);
+                tvAnesthesiaSheet.setVisibility(View.VISIBLE);
                 tvWaitingTimeFee.setVisibility(View.VISIBLE);
                 tvSurgeryFee.setVisibility(View.VISIBLE);
                 tvQuickenFee.setVisibility(View.VISIBLE);
@@ -284,10 +291,41 @@ public class OrderDetailsActivity extends BaseActivity<OrderContract.View, Order
 
     }
 
-    @OnClick({R.id.bt_customer_service, R.id.bt_objection, R.id.bt_confirm, R.id.bt_cancel, R.id.bt_modify, R.id.bt_quicken, R.id.bt_add_fee, R.id.bt_cancel_1, R.id.bt_medical_record, R.id.bt_call_doctor})
+    @OnClick({R.id.tv_patient_id_card, R.id.tv_patient_insurance_consent, R.id.stv_surgery_about_medical_record, R.id.stv_blood_routine, R.id.stv_electrocardiogram, R.id.stv_coagulation, R.id.stv_infectious_disease_index, R.id.bt_customer_service, R.id.bt_objection, R.id.bt_confirm, R.id.bt_cancel, R.id.bt_modify, R.id.bt_quicken, R.id.bt_add_fee, R.id.bt_cancel_1, R.id.bt_medical_record, R.id.bt_call_doctor})
     public void onViewClicked(View view) {
         switch (view.getId()) {
+            case R.id.tv_patient_id_card:
+                if (!isEmpty(positiveUrl) && !isEmpty(negativeUrl))
+                    startActivity(new Intent(this, AgentCardActivity.class).putExtra("positiveUrl", positiveUrl).putExtra("negativeUrl", negativeUrl).putExtra("cardImgType", 1));
+                break;
+            case R.id.tv_patient_insurance_consent:
+                if (!isEmpty(insuranceConsentUrl))
+                    startActivity(new Intent(this, HeadActivity.class).putExtra("title", "保险同意书").putExtra("imgUrl", insuranceConsentUrl).putExtra("oneImgType", 1));
+                break;
+            case R.id.stv_surgery_about_medical_record:
+                if (!isEmpty(surgeryAboutMedicalRecordUrl))
+                    startActivity(new Intent(this, SurgeryAboutMedicalRecordActivity.class).putExtra("title", "手术相关病历").putExtra("imgUrl", surgeryAboutMedicalRecordUrl).putExtra("twoImgType", 1));
+                break;
+            case R.id.stv_blood_routine:
+                if (!isEmpty(bloodRoutineUrl))
+                    startActivity(new Intent(this, SurgeryAboutMedicalRecordActivity.class).putExtra("title", "血常规").putExtra("imgUrl", bloodRoutineUrl).putExtra("twoImgType", 1));
+                break;
+            case R.id.stv_electrocardiogram:
+                if (!isEmpty(electrocardiogramUrl))
+                    startActivity(new Intent(this, SurgeryAboutMedicalRecordActivity.class).putExtra("title", "心电图").putExtra("imgUrl", electrocardiogramUrl).putExtra("twoImgType", 1));
+                break;
+            case R.id.stv_coagulation:
+                if (!isEmpty(coagulationUrl))
+                    startActivity(new Intent(this, SurgeryAboutMedicalRecordActivity.class).putExtra("title", "凝血功能").putExtra("imgUrl", coagulationUrl).putExtra("twoImgType", 1));
+                break;
+            case R.id.stv_infectious_disease_index:
+                if (!isEmpty(infectiousDiseaseIndexUrl))
+                    startActivity(new Intent(this, SurgeryAboutMedicalRecordActivity.class).putExtra("title", "传染病指标").putExtra("imgUrl", infectiousDiseaseIndexUrl).putExtra("twoImgType", 1));
+                break;
             case R.id.bt_customer_service:
+                if (isFastClick())
+                    new CallPhoneDialog(this) {
+                    }.show();
                 break;
             case R.id.bt_objection:
                 new TwoBtDialog(this, "对此订单有异议，是否进行电话咨询?", "确认") {
@@ -298,13 +336,24 @@ public class OrderDetailsActivity extends BaseActivity<OrderContract.View, Order
                 }.show();
                 break;
             case R.id.bt_confirm:
+                if (isFastClick()) {
+                    TreeMap<String, String> orderIsOrverMap = new TreeMap<>();
+                    orderIsOrverMap.put("userId", SPUtil.get(this, USER_ID, "") + "");
+                    orderIsOrverMap.put("orderId", orderId + "");
+                    orderIsOrverMap.put("sign", StringUtils.toUpperCase(MD5Utils.encodeMD5(orderIsOrverMap.toString().replaceAll(" ", "") + SIGN)));
+                    getPresenter().getOrderIsOrver(orderIsOrverMap, false, false);
+                }
                 break;
             case R.id.bt_cancel:
                 if (isFastClick())
                     new TwoBtDialog(this, "确认取消订单？", "确认") {
                         @Override
                         public void confirm() {
-                            finish();
+                            TreeMap<String, String> cancelOrderMap = new TreeMap<>();
+                            cancelOrderMap.put("userId", SPUtil.get(getContext(), USER_ID, "") + "");
+                            cancelOrderMap.put("orderId", orderId + "");
+                            cancelOrderMap.put("sign", StringUtils.toUpperCase(MD5Utils.encodeMD5(cancelOrderMap.toString().replaceAll(" ", "") + SIGN)));
+                            getPresenter().getCancelOrder(cancelOrderMap, false, false);
                         }
                     }.show();
                 break;
@@ -313,15 +362,42 @@ public class OrderDetailsActivity extends BaseActivity<OrderContract.View, Order
                     startActivity(new Intent(this, SendOrderActivity.class));
                 break;
             case R.id.bt_quicken:
+                if (isFastClick())
+                    new TwoBtDialog(this, "加急费用50元", "确认") {
+                        @Override
+                        public void confirm() {
+                            TreeMap<String, String> orderQuickMap = new TreeMap<>();
+                            orderQuickMap.put("userId", SPUtil.get(getContext(), USER_ID, "") + "");
+                            orderQuickMap.put("orderId", orderId + "");
+                            orderQuickMap.put("sign", StringUtils.toUpperCase(MD5Utils.encodeMD5(orderQuickMap.toString().replaceAll(" ", "") + SIGN)));
+                            getPresenter().getOrderQuick(orderQuickMap, false, false);
+                        }
+                    }.show();
                 break;
             case R.id.bt_add_fee:
+                if (isFastClick())
+                    new EditDialog(this) {
+                        @Override
+                        public void confirm(String content) {
+                            TreeMap<String, String> addFeeMap = new TreeMap<>();
+                            addFeeMap.put("userId", SPUtil.get(getContext(), USER_ID, "") + "");
+                            addFeeMap.put("orderId", orderId + "");
+                            addFeeMap.put("premiumMoney", content);
+                            addFeeMap.put("sign", StringUtils.toUpperCase(MD5Utils.encodeMD5(addFeeMap.toString().replaceAll(" ", "") + SIGN)));
+                            getPresenter().getAddFee(addFeeMap, false, false);
+                        }
+                    }.show();
                 break;
             case R.id.bt_cancel_1:
                 if (isFastClick())
                     new TwoBtDialog(this, "确认取消订单？", "确认") {
                         @Override
                         public void confirm() {
-                            finish();
+                            TreeMap<String, String> selectFeeMap = new TreeMap<>();
+                            selectFeeMap.put("userId", SPUtil.get(getContext(), USER_ID, "") + "");
+                            selectFeeMap.put("type", "2");
+                            selectFeeMap.put("sign", StringUtils.toUpperCase(MD5Utils.encodeMD5(selectFeeMap.toString().replaceAll(" ", "") + SIGN)));
+                            getPresenter().getSelectFee(selectFeeMap, false, false);
                         }
                     }.show();
                 break;
@@ -380,43 +456,56 @@ public class OrderDetailsActivity extends BaseActivity<OrderContract.View, Order
                     }
                 });
 
-
                 if ("1".equals(data.getData().getOrder().getOrderType())) {
                     rvPatientList.setVisibility(View.GONE);
                     tvPatientName.setRightString(data.getData().getOrderDetail().get(0).getPatientName());
                     tvPatientSex.setRightString("1".equals(data.getData().getOrderDetail().get(0).getSex()) ? "男" : "女");
                     tvPatientAge.setRightString(data.getData().getOrderDetail().get(0).getAge() + "岁");
-                    tvPatientHeight.setRightString(data.getData().getOrderDetail().get(0).getHeight() + "cm");
-                    tvPatientBodyWeight.setRightString(data.getData().getOrderDetail().get(0).getWeight() + "kg");
+                    tvPatientHeight.setRightString(data.getData().getOrderDetail().get(0).getHeight() + " cm");
+                    tvPatientBodyWeight.setRightString(data.getData().getOrderDetail().get(0).getWeight() + " kg");
                     tvPatientSimulatedAnesthesia.setRightString(data.getData().getOrderDetail().get(0).getNarcosisType());
                     if (!isEmpty(data.getData().getOrderDetail().get(0).getPositiveCard()) && !isEmpty(data.getData().getOrderDetail().get(0).getReverseCard())) {
+                        positiveUrl = data.getData().getOrderDetail().get(0).getPositiveCard();
+                        negativeUrl = data.getData().getOrderDetail().get(0).getReverseCard();
                         tvPatientIdCard.setRightString("已上传")
                                 .setRightTextColor(getResources().getColor(R.color.tx_bottom_navigation_select));
                     }
-                    if (!isEmpty(data.getData().getOrderDetail().get(0).getInsurance()))
+                    if (!isEmpty(data.getData().getOrderDetail().get(0).getInsurance())) {
+                        insuranceConsentUrl = data.getData().getOrderDetail().get(0).getInsurance();
                         tvPatientInsuranceConsent.setRightString("已上传")
                                 .setRightTextColor(getResources().getColor(R.color.tx_bottom_navigation_select));
+                    }
 
-                    if (!isEmpty(data.getData().getOrderDetail().get(0).getSurgeryRelated()))
+                    if (!isEmpty(data.getData().getOrderDetail().get(0).getSurgeryRelated())) {
+                        surgeryAboutMedicalRecordUrl = data.getData().getOrderDetail().get(0).getSurgeryRelated();
                         stvSurgeryAboutMedicalRecord.setRightString("已上传")
                                 .setRightTextColor(getResources().getColor(R.color.tx_bottom_navigation_select));
-                    if (!isEmpty(data.getData().getOrderDetail().get(0).getRoutineBlood()))
+                    }
+                    if (!isEmpty(data.getData().getOrderDetail().get(0).getRoutineBlood())) {
+                        bloodRoutineUrl = data.getData().getOrderDetail().get(0).getRoutineBlood();
                         stvBloodRoutine.setRightString("已上传")
                                 .setRightTextColor(getResources().getColor(R.color.tx_bottom_navigation_select));
-                    if (!isEmpty(data.getData().getOrderDetail().get(0).getEcg()))
+                    }
+                    if (!isEmpty(data.getData().getOrderDetail().get(0).getEcg())) {
+                        electrocardiogramUrl = data.getData().getOrderDetail().get(0).getEcg();
                         stvElectrocardiogram.setRightString("已上传")
                                 .setRightTextColor(getResources().getColor(R.color.tx_bottom_navigation_select));
-                    if (!isEmpty(data.getData().getOrderDetail().get(0).getCruor()))
+                    }
+                    if (!isEmpty(data.getData().getOrderDetail().get(0).getCruor())) {
+                        coagulationUrl = data.getData().getOrderDetail().get(0).getCruor();
                         stvCoagulation.setRightString("已上传")
                                 .setRightTextColor(getResources().getColor(R.color.tx_bottom_navigation_select));
-                    if (!isEmpty(data.getData().getOrderDetail().get(0).getContagion()))
+                    }
+                    if (!isEmpty(data.getData().getOrderDetail().get(0).getContagion())) {
+                        infectiousDiseaseIndexUrl = data.getData().getOrderDetail().get(0).getContagion();
                         stvInfectiousDiseaseIndex.setRightString("已上传")
                                 .setRightTextColor(getResources().getColor(R.color.tx_bottom_navigation_select));
+                    }
 
                     stvBloodPressure.setRightString(data.getData().getOrderDetail().get(0).getMinBloodPressure() + "/" + data.getData().getOrderDetail().get(0).getMaxBloodPressure() + "mmHg");
                     stvPulse.setRightString(data.getData().getOrderDetail().get(0).getPulse() + "次/分钟");
                     stvBreathe.setRightString(data.getData().getOrderDetail().get(0).getBreathe() + "次/分钟");
-                    stvBodyTemperature.setRightString(data.getData().getOrderDetail().get(0).getAnimalHeat() + "℃");
+                    stvBodyTemperature.setRightString(data.getData().getOrderDetail().get(0).getAnimalHeat() + " ℃");
                     if ("2".equals(data.getData().getOrderDetail().get(0).getDiabetes()))
                         stvDiabetes.setRightString("有")
                                 .setRightTextColor(getResources().getColor(R.color.tx_bottom_navigation_select));
@@ -438,6 +527,7 @@ public class OrderDetailsActivity extends BaseActivity<OrderContract.View, Order
                         tvFeeInfo.setVisibility(View.VISIBLE);
                         tvAnesthesiaTool.setVisibility(View.VISIBLE);
                         tvAnesthesiaType.setVisibility(View.VISIBLE);
+                        tvAnesthesiaSheet.setVisibility(View.VISIBLE);
                         tvWaitingTimeFee.setVisibility(View.VISIBLE);
                         tvSurgeryFee.setVisibility(View.VISIBLE);
                         tvQuickenFee.setVisibility(View.VISIBLE);
@@ -450,7 +540,7 @@ public class OrderDetailsActivity extends BaseActivity<OrderContract.View, Order
                         tvWaitingTimeFee.setRightString("¥ " + data.getData().getOrder().getWaitMoney() + "元");
                         tvSurgeryFee.setRightString("¥ " + data.getData().getOrder().getSurgeryMoney() + "元");
                         tvQuickenFee.setRightString("¥ " + data.getData().getOrder().getUrgentMoney() + "元");
-                        tvAddFeeFee.setRightString("¥ " + data.getData().getOrder().getPremiumMoney() + "元");
+                        tvAddFeeFee.setRightString("¥ " + data.getData().getOrder().getAhpremiumMoney() + "元");
                         tvSumFee.setRightString("¥ " + data.getData().getOrder().getTotalMoney() + "元");
                         tvPayType.setRightString("1".equals(data.getData().getOrderDetail().get(0).getStatus()) ? "未支付" : "已支付");
                     }
@@ -460,6 +550,7 @@ public class OrderDetailsActivity extends BaseActivity<OrderContract.View, Order
                         tvFeeInfo.setVisibility(View.VISIBLE);
                         tvAnesthesiaTool.setVisibility(View.GONE);
                         tvAnesthesiaType.setVisibility(View.GONE);
+                        tvAnesthesiaSheet.setVisibility(View.GONE);
                         tvWaitingTimeFee.setVisibility(View.VISIBLE);
                         tvSurgeryFee.setVisibility(View.VISIBLE);
                         tvQuickenFee.setVisibility(View.VISIBLE);
@@ -472,7 +563,7 @@ public class OrderDetailsActivity extends BaseActivity<OrderContract.View, Order
                         tvWaitingTimeFee.setRightString("¥ " + data.getData().getOrder().getWaitMoney() + "元");
                         tvSurgeryFee.setRightString("¥ " + data.getData().getOrder().getSurgeryMoney() + "元");
                         tvQuickenFee.setRightString("¥ " + data.getData().getOrder().getUrgentMoney() + "元");
-                        tvAddFeeFee.setRightString("¥ " + data.getData().getOrder().getPremiumMoney() + "元");
+                        tvAddFeeFee.setRightString("¥ " + data.getData().getOrder().getAhpremiumMoney() + "元");
                         tvSumFee.setRightString("¥ " + data.getData().getOrder().getTotalMoney() + "元");
                         tvPayType.setRightString("1".equals(data.getData().getOrderDetail().get(0).getStatus()) ? "未支付" : "已支付");
                     }
@@ -501,32 +592,113 @@ public class OrderDetailsActivity extends BaseActivity<OrderContract.View, Order
 
     @Override
     public void resultCancelOrder(CancelOrderBean data) {
-
+        ToastUtil.showShortToast(data.getMsg());
+        switch (data.getCode()) {
+            case 200:
+                finish();
+                break;
+            case 900:
+                //清除所有临时储存
+                SPUtil.clear(ApplicationUtil.getContext());
+                ApplicationUtil.getManager().finishActivity(MainActivity.class);
+                startActivity(new Intent(this, CaptchaLoginActivity.class));
+                finish();
+                break;
+        }
     }
 
     @Override
     public void resultCancelIsOrder(CancelIsOrderBean data) {
-
+        ToastUtil.showShortToast(data.getMsg());
+        switch (data.getCode()) {
+            case 200:
+                finish();
+                break;
+            case 900:
+                //清除所有临时储存
+                SPUtil.clear(ApplicationUtil.getContext());
+                ApplicationUtil.getManager().finishActivity(MainActivity.class);
+                startActivity(new Intent(this, CaptchaLoginActivity.class));
+                finish();
+                break;
+        }
     }
 
     @Override
     public void resultAddFee(AddFeeBean data) {
-
+        ToastUtil.showShortToast(data.getMsg());
+        switch (data.getCode()) {
+            case 200:
+                initData();
+                break;
+            case 900:
+                //清除所有临时储存
+                SPUtil.clear(ApplicationUtil.getContext());
+                ApplicationUtil.getManager().finishActivity(MainActivity.class);
+                startActivity(new Intent(this, CaptchaLoginActivity.class));
+                finish();
+                break;
+        }
     }
 
     @Override
     public void resultOrderQuick(OrderQuickBean data) {
-
+        ToastUtil.showShortToast(data.getMsg());
+        switch (data.getCode()) {
+            case 200:
+                initData();
+                break;
+            case 900:
+                //清除所有临时储存
+                SPUtil.clear(ApplicationUtil.getContext());
+                ApplicationUtil.getManager().finishActivity(MainActivity.class);
+                startActivity(new Intent(this, CaptchaLoginActivity.class));
+                finish();
+                break;
+        }
     }
 
     @Override
     public void resultSelectFee(SelectFeeBean data) {
-
+        switch (data.getCode()) {
+            case 200:
+                new TwoBtDialog(this, "手术开始前24小时取消免费，之后扣除0.2手续费", "确认") {
+                    @Override
+                    public void confirm() {
+                        TreeMap<String, String> cancelIsOrderMap = new TreeMap<>();
+                        cancelIsOrderMap.put("userId", SPUtil.get(getContext(), USER_ID, "") + "");
+                        cancelIsOrderMap.put("orderId", orderId + "");
+                        cancelIsOrderMap.put("sign", StringUtils.toUpperCase(MD5Utils.encodeMD5(cancelIsOrderMap.toString().replaceAll(" ", "") + SIGN)));
+                        getPresenter().getCancelIsOrder(cancelIsOrderMap, false, false);
+                    }
+                }.show();
+                break;
+            case 900:
+                ToastUtil.showShortToast(data.getMsg());
+                //清除所有临时储存
+                SPUtil.clear(ApplicationUtil.getContext());
+                ApplicationUtil.getManager().finishActivity(MainActivity.class);
+                startActivity(new Intent(this, CaptchaLoginActivity.class));
+                finish();
+                break;
+        }
     }
 
     @Override
     public void resultOrderIsOrver(OrderIsOrverBean data) {
-
+        ToastUtil.showShortToast(data.getMsg());
+        switch (data.getCode()) {
+            case 200:
+                finish();
+                break;
+            case 900:
+                //清除所有临时储存
+                SPUtil.clear(ApplicationUtil.getContext());
+                ApplicationUtil.getManager().finishActivity(MainActivity.class);
+                startActivity(new Intent(this, CaptchaLoginActivity.class));
+                finish();
+                break;
+        }
     }
 
     @Override

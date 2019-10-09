@@ -3,6 +3,7 @@ package com.ipd.xiangzui.activity;
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.view.View;
+import android.widget.LinearLayout;
 
 import androidx.annotation.Nullable;
 import androidx.core.content.ContextCompat;
@@ -26,9 +27,12 @@ import com.ipd.xiangzui.utils.ToastUtil;
 import com.luck.picture.lib.PictureSelector;
 import com.luck.picture.lib.config.PictureConfig;
 import com.luck.picture.lib.config.PictureMimeType;
+import com.luck.picture.lib.entity.LocalMedia;
 import com.tbruyelle.rxpermissions2.RxPermissions;
 import com.xuexiang.xui.widget.imageview.RadiusImageView;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.TreeMap;
 
 import butterknife.BindView;
@@ -40,7 +44,6 @@ import okhttp3.RequestBody;
 import static android.Manifest.permission.CAMERA;
 import static android.Manifest.permission.WRITE_EXTERNAL_STORAGE;
 import static com.ipd.xiangzui.activity.HeadActivity.getImageRequestBody;
-import static com.ipd.xiangzui.common.config.IConstants.AVATAR;
 import static com.ipd.xiangzui.common.config.IConstants.SIGN;
 import static com.ipd.xiangzui.common.config.UrlConfig.BASE_LOCAL_URL;
 import static com.ipd.xiangzui.utils.StringUtils.isEmpty;
@@ -59,9 +62,13 @@ public class AgentCardActivity extends BaseActivity<UploadImgContract.View, Uplo
     RadiusImageView rivPositiveCard;
     @BindView(R.id.riv_negative_card)
     RadiusImageView rivNegativeCard;
+    @BindView(R.id.ll_card)
+    LinearLayout llCard;
 
+    private int type; //0:修改，1:查看
     private int cardType = 0; // 1: 正面，2: 反面
     private String positiveUrl, negativeUrl; //正面图片地址，反面图片地址
+    private List<LocalMedia> medias = new ArrayList<>();
 
     @Override
     public int getLayoutId() {
@@ -85,6 +92,9 @@ public class AgentCardActivity extends BaseActivity<UploadImgContract.View, Uplo
         //防止状态栏和标题重叠
         ImmersionBar.setTitleBar(this, tvAgentCard);
 
+        type = getIntent().getIntExtra("cardImgType", 0);
+        if (type == 1)
+            llCard.setVisibility(View.GONE);
         positiveUrl = getIntent().getStringExtra("positiveUrl");
         negativeUrl = getIntent().getStringExtra("negativeUrl");
         if (!isEmpty(positiveUrl))
@@ -123,46 +133,64 @@ public class AgentCardActivity extends BaseActivity<UploadImgContract.View, Uplo
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.riv_positive_card:
-                cardType = 1;
-                RxPermissions rxPermissions = new RxPermissions(this);
-                rxPermissions.request(CAMERA, WRITE_EXTERNAL_STORAGE).subscribe(new Consumer<Boolean>() {
-                    @Override
-                    public void accept(Boolean granted) throws Exception {
-                        if (granted) {
-                            PictureSelector.create(AgentCardActivity.this)
-                                    .openGallery(PictureMimeType.ofImage())
-                                    .maxSelectNum(1)// 最大图片选择数量 int
-                                    .isCamera(true)
-                                    .compress(true)
-                                    .minimumCompressSize(100)
-                                    .forResult(PictureConfig.CHOOSE_REQUEST);
-                        } else {
-                            // 权限被拒绝
-                            ToastUtil.showLongToast(R.string.permission_rejected);
+                if (type == 0) {
+                    cardType = 1;
+                    RxPermissions rxPermissions = new RxPermissions(this);
+                    rxPermissions.request(CAMERA, WRITE_EXTERNAL_STORAGE).subscribe(new Consumer<Boolean>() {
+                        @Override
+                        public void accept(Boolean granted) throws Exception {
+                            if (granted) {
+                                PictureSelector.create(AgentCardActivity.this)
+                                        .openGallery(PictureMimeType.ofImage())
+                                        .maxSelectNum(1)// 最大图片选择数量 int
+                                        .isCamera(true)
+                                        .compress(true)
+                                        .minimumCompressSize(100)
+                                        .forResult(PictureConfig.CHOOSE_REQUEST);
+                            } else {
+                                // 权限被拒绝
+                                ToastUtil.showLongToast(R.string.permission_rejected);
+                            }
                         }
-                    }
-                });
+                    });
+                } else {
+                    medias.clear();
+                    LocalMedia localMedia = new LocalMedia();
+                    localMedia.setCompressed(true);
+                    localMedia.setCompressPath(BASE_LOCAL_URL + positiveUrl);
+                    medias.add(localMedia);
+                    PictureSelector.create(this).themeStyle(R.style.picture_default_style).openExternalPreview(0, medias);
+                }
                 break;
             case R.id.riv_negative_card:
-                cardType = 2;
-                RxPermissions rxPermissions1 = new RxPermissions(this);
-                rxPermissions1.request(CAMERA, WRITE_EXTERNAL_STORAGE).subscribe(new Consumer<Boolean>() {
-                    @Override
-                    public void accept(Boolean granted) throws Exception {
-                        if (granted) {
-                            PictureSelector.create(AgentCardActivity.this)
-                                    .openGallery(PictureMimeType.ofImage())
-                                    .maxSelectNum(1)// 最大图片选择数量 int
-                                    .isCamera(true)
-                                    .compress(true)
-                                    .minimumCompressSize(100)
-                                    .forResult(PictureConfig.CHOOSE_REQUEST);
-                        } else {
-                            // 权限被拒绝
-                            ToastUtil.showLongToast(R.string.permission_rejected);
+                if (type == 0) {
+                    cardType = 2;
+                    RxPermissions rxPermissions1 = new RxPermissions(this);
+                    rxPermissions1.request(CAMERA, WRITE_EXTERNAL_STORAGE).subscribe(new Consumer<Boolean>() {
+                        @Override
+                        public void accept(Boolean granted) throws Exception {
+                            if (granted) {
+                                PictureSelector.create(AgentCardActivity.this)
+                                        .openGallery(PictureMimeType.ofImage())
+                                        .maxSelectNum(1)// 最大图片选择数量 int
+                                        .isCamera(true)
+                                        .compress(true)
+                                        .minimumCompressSize(100)
+                                        .forResult(PictureConfig.CHOOSE_REQUEST);
+                            } else {
+                                // 权限被拒绝
+                                ToastUtil.showLongToast(R.string.permission_rejected);
+                            }
                         }
-                    }
-                });
+                    });
+                } else {
+                    medias.clear();
+                    LocalMedia localMedia = new LocalMedia();
+                    localMedia.setCompressed(true);
+                    localMedia.setCompressPath(BASE_LOCAL_URL + negativeUrl);
+                    medias.add(localMedia);
+                    PictureSelector.create(this).themeStyle(R.style.picture_default_style).openExternalPreview(0, medias);
+                }
                 break;
             case R.id.sb_confirm:
                 Drawable.ConstantState drawablePositive = rivPositiveCard.getDrawable().getConstantState();

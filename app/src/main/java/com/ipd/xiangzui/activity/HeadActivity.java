@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.graphics.BitmapFactory;
 import android.graphics.drawable.Drawable;
 import android.view.View;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.annotation.Nullable;
@@ -27,10 +28,13 @@ import com.ipd.xiangzui.utils.ToastUtil;
 import com.luck.picture.lib.PictureSelector;
 import com.luck.picture.lib.config.PictureConfig;
 import com.luck.picture.lib.config.PictureMimeType;
+import com.luck.picture.lib.entity.LocalMedia;
 import com.tbruyelle.rxpermissions2.RxPermissions;
 import com.xuexiang.xui.widget.imageview.RadiusImageView;
 
 import java.io.File;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.TreeMap;
 
 import butterknife.BindView;
@@ -60,8 +64,12 @@ public class HeadActivity extends BaseActivity<UploadImgContract.View, UploadImg
     TextView tvTopTitle;
     @BindView(R.id.riv_head)
     RadiusImageView rivHead;
+    @BindView(R.id.ll_head)
+    LinearLayout llHead;
 
+    private int type; //0:修改，1:查看
     private String imgUrl = "";//上传成功后返回的图片地址
+    private List<LocalMedia> medias = new ArrayList<>();
 
     @Override
     public int getLayoutId() {
@@ -85,16 +93,22 @@ public class HeadActivity extends BaseActivity<UploadImgContract.View, UploadImg
         //防止状态栏和标题重叠
         ImmersionBar.setTitleBar(this, tvHead);
 
+        type = getIntent().getIntExtra("oneImgType", 0);
+        if (type == 1)
+            llHead.setVisibility(View.GONE);
         imgUrl = getIntent().getStringExtra("imgUrl");
         if (!isEmpty(imgUrl))
-            Glide.with(ApplicationUtil.getContext()).load(BASE_LOCAL_URL + imgUrl).apply(new RequestOptions().placeholder(R.mipmap.bg_upload_img)).into(rivHead);
+            Glide.with(this).load(BASE_LOCAL_URL + imgUrl).apply(new RequestOptions().placeholder(R.mipmap.bg_upload_img)).into(rivHead);
 
         tvTopTitle.setText(getIntent().getStringExtra("title"));
     }
 
     @Override
     public void initData() {
-
+        LocalMedia localMedia = new LocalMedia();
+        localMedia.setCompressed(true);
+        localMedia.setCompressPath(BASE_LOCAL_URL + imgUrl);
+        medias.add(localMedia);
     }
 
     @Override
@@ -129,24 +143,28 @@ public class HeadActivity extends BaseActivity<UploadImgContract.View, UploadImg
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.riv_head:
-                RxPermissions rxPermissions = new RxPermissions(this);
-                rxPermissions.request(CAMERA, WRITE_EXTERNAL_STORAGE).subscribe(new Consumer<Boolean>() {
-                    @Override
-                    public void accept(Boolean granted) throws Exception {
-                        if (granted) {
-                            PictureSelector.create(HeadActivity.this)
-                                    .openGallery(PictureMimeType.ofImage())
-                                    .maxSelectNum(1)// 最大图片选择数量 int
-                                    .isCamera(true)
-                                    .compress(true)
-                                    .minimumCompressSize(100)
-                                    .forResult(PictureConfig.CHOOSE_REQUEST);
-                        } else {
-                            // 权限被拒绝
-                            ToastUtil.showLongToast(R.string.permission_rejected);
+                if (type == 0) {
+                    RxPermissions rxPermissions = new RxPermissions(this);
+                    rxPermissions.request(CAMERA, WRITE_EXTERNAL_STORAGE).subscribe(new Consumer<Boolean>() {
+                        @Override
+                        public void accept(Boolean granted) throws Exception {
+                            if (granted) {
+                                PictureSelector.create(HeadActivity.this)
+                                        .openGallery(PictureMimeType.ofImage())
+                                        .maxSelectNum(1)// 最大图片选择数量 int
+                                        .isCamera(true)
+                                        .compress(true)
+                                        .minimumCompressSize(100)
+                                        .forResult(PictureConfig.CHOOSE_REQUEST);
+                            } else {
+                                // 权限被拒绝
+                                ToastUtil.showLongToast(R.string.permission_rejected);
+                            }
                         }
-                    }
-                });
+                    });
+                } else {
+                    PictureSelector.create(this).themeStyle(R.style.picture_default_style).openExternalPreview(0, medias);
+                }
                 break;
             case R.id.sb_confirm:
                 setResult(RESULT_OK, new Intent().putExtra("imgUrl", imgUrl));

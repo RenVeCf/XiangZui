@@ -103,6 +103,7 @@ public class MainFragment extends BaseFragment<HomeContract.View, HomeContract.P
     private RecyclerViewBannerAdapter recyclerViewBannerAdapter;
     private List<CharSequence> hornList = new ArrayList<>();//广播
     private int removePosition;
+    private List<HomeBean.DataBean.PictureListBean> listsss = new ArrayList<>();
 
     @Override
     public int getLayoutId() {
@@ -154,6 +155,9 @@ public class MainFragment extends BaseFragment<HomeContract.View, HomeContract.P
         rvMoreOrder.addItemDecoration(new SpacesItemDecoration(1, 50));
         rvMoreOrder.setHasFixedSize(true);// 如果可以确定每个item的高度是固定的，设置这个选项可以提高性能
         rvMoreOrder.setItemAnimator(new DefaultItemAnimator());//加载动画
+
+        recyclerViewBannerAdapter = new RecyclerViewBannerAdapter(listsss);
+        blBanner.setAdapter(recyclerViewBannerAdapter);
     }
 
     @Override
@@ -254,7 +258,7 @@ public class MainFragment extends BaseFragment<HomeContract.View, HomeContract.P
         switch (data.getCode()) {
             case 200:
                 //轮播
-                recyclerViewBannerAdapter = new RecyclerViewBannerAdapter(data.getData().getPictureList());
+                recyclerViewBannerAdapter.addData(data.getData().getPictureList());
                 blBanner.setAdapter(recyclerViewBannerAdapter);
 
                 recyclerViewBannerAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {

@@ -2,6 +2,7 @@ package com.ipd.xiangzui.presenter;
 
 import android.content.Context;
 
+import com.ipd.xiangzui.bean.GetUserInfoBean;
 import com.ipd.xiangzui.bean.VerifiedBean;
 import com.ipd.xiangzui.contract.VerifiedContract;
 import com.ipd.xiangzui.model.VerifiedModel;
@@ -35,6 +36,27 @@ public class VerifiedPresenter extends VerifiedContract.Presenter {
                 //这一步是必须的，判断view是否已经被销毁
                 if (getView() != null) {
                     getView().resultVerified((VerifiedBean) o);
+                }
+            }
+
+            @Override
+            public void onError(ExceptionHandle.ResponeThrowable e) {
+                if (getView() != null) {
+                    //// TODO: 2017/12/28 自定义处理异常
+                    ToastUtil.showShortToast(ExceptionHandle.handleException(e).message);
+                }
+            }
+        });
+    }
+
+    @Override
+    public void getGetUserInfo(TreeMap<String, String> map, boolean isDialog, boolean cancelable) {
+        model.getGetUserInfo(context, map, isDialog, cancelable, getView().bindLifecycle(), new ObserverResponseListener() {
+            @Override
+            public void onNext(Object o) {
+                //这一步是必须的，判断view是否已经被销毁
+                if (getView() != null) {
+                    getView().resultGetUserInfo((GetUserInfoBean) o);
                 }
             }
 

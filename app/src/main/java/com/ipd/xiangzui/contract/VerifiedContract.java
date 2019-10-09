@@ -2,6 +2,7 @@ package com.ipd.xiangzui.contract;
 
 import com.ipd.xiangzui.base.BasePresenter;
 import com.ipd.xiangzui.base.BaseView;
+import com.ipd.xiangzui.bean.GetUserInfoBean;
 import com.ipd.xiangzui.bean.VerifiedBean;
 
 import java.util.TreeMap;
@@ -20,10 +21,14 @@ public interface VerifiedContract {
         //不同的Bean单独处理
         void resultVerified(VerifiedBean data);
 
+        void resultGetUserInfo(GetUserInfoBean data);
+
         <T> ObservableTransformer<T, T> bindLifecycle();
     }
 
     abstract class Presenter extends BasePresenter<View> {
         public abstract void getVerified(TreeMap<String, String> map, boolean isDialog, boolean cancelable);
+
+        public abstract void getGetUserInfo(TreeMap<String, String> map, boolean isDialog, boolean cancelable);
     }
 }

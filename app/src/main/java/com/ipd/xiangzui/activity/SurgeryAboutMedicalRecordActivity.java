@@ -2,6 +2,7 @@ package com.ipd.xiangzui.activity;
 
 import android.content.Intent;
 import android.view.View;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.annotation.Nullable;
@@ -47,8 +48,10 @@ import static android.Manifest.permission.CAMERA;
 import static android.Manifest.permission.WRITE_EXTERNAL_STORAGE;
 import static com.ipd.xiangzui.activity.HeadActivity.getImageRequestBody;
 import static com.ipd.xiangzui.common.config.IConstants.SIGN;
+import static com.ipd.xiangzui.common.config.UrlConfig.BASE_LOCAL_URL;
 import static com.ipd.xiangzui.common.config.UrlConfig.BASE_URL;
 import static com.ipd.xiangzui.common.config.UrlConfig.UPLOAD_IMGS;
+import static com.ipd.xiangzui.utils.StringUtils.isEmpty;
 import static com.ipd.xiangzui.utils.isClickUtil.isFastClick;
 
 /**
@@ -65,7 +68,10 @@ public class SurgeryAboutMedicalRecordActivity extends BaseActivity implements I
     TextView tvTopTitle;
     @BindView(R.id.rv_surgery_about_medical_record)
     RecyclerView rvSurgeryAboutMedicalRecord;
+    @BindView(R.id.ll_confirm)
+    LinearLayout llConfirm;
 
+    private int type; //0:修改，1:查看
     private SweetAlertDialog sad;
     private ImageSelectGridAdapter mAdapter;
 
@@ -92,6 +98,9 @@ public class SurgeryAboutMedicalRecordActivity extends BaseActivity implements I
         ImmersionBar.setTitleBar(this, tvSurgeryAboutMedicalRecord);
 
         tvTopTitle.setText(getIntent().getStringExtra("title"));
+        type = getIntent().getIntExtra("twoImgType", 0);
+        if (type == 1)
+            llConfirm.setVisibility(View.GONE);
 
         //设置RecyclerView方向和是否反转
         GridLayoutManager NotUseList = new GridLayoutManager(this, 4);
@@ -100,6 +109,16 @@ public class SurgeryAboutMedicalRecordActivity extends BaseActivity implements I
         rvSurgeryAboutMedicalRecord.setItemAnimator(new DefaultItemAnimator()); //默认动画
 
         mAdapter = new ImageSelectGridAdapter(this, this);
+        if (!isEmpty(getIntent().getStringExtra("imgUrl"))) {
+            //初始化数据
+            String[] strs = getIntent().getStringExtra("imgUrl").split(",");
+            for (int i = 0; i < strs.length; i++) {
+                LocalMedia localMedia = new LocalMedia();
+                localMedia.setCompressed(true);
+                localMedia.setCompressPath(BASE_LOCAL_URL + strs[i]);
+                mAdapter.setSelectList(localMedia);
+            }
+        }
         mAdapter.setSelectMax(5);
         rvSurgeryAboutMedicalRecord.setAdapter(mAdapter);
     }

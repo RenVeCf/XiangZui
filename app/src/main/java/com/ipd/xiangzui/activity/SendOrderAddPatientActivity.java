@@ -297,10 +297,10 @@ public class SendOrderAddPatientActivity extends BaseActivity<NarcosisListContra
                 showPickerView(3);
                 break;
             case R.id.stv_id_card:
-                startActivityForResult(new Intent(this, AgentCardActivity.class), REQUEST_CODE_97);
+                startActivityForResult(new Intent(this, AgentCardActivity.class).putExtra("positiveUrl", positiveUrl).putExtra("negativeUrl", negativeUrl), REQUEST_CODE_97);
                 break;
             case R.id.stv_insurance_consent:
-                startActivityForResult(new Intent(this, HeadActivity.class).putExtra("title", "保险同意书"), REQUEST_CODE_98);
+                startActivityForResult(new Intent(this, HeadActivity.class).putExtra("title", "保险同意书").putExtra("imgUrl", imgUrl), REQUEST_CODE_98);
                 break;
             case R.id.sb_next:
                 if (!isEmpty(etSurgicalName.toString().trim()) && !isEmpty(etPatientName.toString().trim()) && !"请选择".equals(stvPatientSex.getRightString()) && !"请选择".equals(stvPatientAge.getRightString())) {

@@ -1,5 +1,6 @@
 package com.ipd.xiangzui.activity;
 
+import android.content.Intent;
 import android.view.View;
 
 import androidx.constraintlayout.widget.ConstraintLayout;
@@ -15,6 +16,7 @@ import com.ipd.xiangzui.utils.ApplicationUtil;
 import com.xuexiang.xui.widget.textview.supertextview.SuperTextView;
 
 import butterknife.BindView;
+import butterknife.OnClick;
 
 import static com.ipd.xiangzui.utils.StringUtils.isEmpty;
 
@@ -72,6 +74,7 @@ public class SelectPatientDetailsActivity extends BaseActivity {
     SuperTextView stvRespiratoryDysfunction;
 
     private OrderDetailsBean.DataBean.OrderDetailBean orderDetailsTwo;
+    private String positiveUrl = "", negativeUrl = "", insuranceConsentUrl = "", surgeryAboutMedicalRecordUrl = "", bloodRoutineUrl = "", electrocardiogramUrl = "", coagulationUrl = "", infectiousDiseaseIndexUrl = "";
 
     @Override
     public int getLayoutId() {
@@ -103,37 +106,51 @@ public class SelectPatientDetailsActivity extends BaseActivity {
         stvName.setRightString(orderDetailsTwo.getPatientName());
         stvSex.setRightString("1".equals(orderDetailsTwo.getSex()) ? "男" : "女");
         stvAge.setRightString(orderDetailsTwo.getAge() + "岁");
-        stvHeight.setRightString(orderDetailsTwo.getHeight() + "cm");
-        stvBodyWeight.setRightString(orderDetailsTwo.getWeight() + "kg");
+        stvHeight.setRightString(orderDetailsTwo.getHeight() + " cm");
+        stvBodyWeight.setRightString(orderDetailsTwo.getWeight() + " kg");
         stvAnesthesiaType.setRightString(orderDetailsTwo.getNarcosisType());
 
         if (!isEmpty(orderDetailsTwo.getPositiveCard()) && !isEmpty(orderDetailsTwo.getReverseCard())) {
+            positiveUrl = orderDetailsTwo.getPositiveCard();
+            negativeUrl = orderDetailsTwo.getReverseCard();
             stvIdCard.setRightString("已上传")
                     .setRightTextColor(getResources().getColor(R.color.tx_bottom_navigation_select));
         }
-        if (!isEmpty(orderDetailsTwo.getInsurance()))
+        if (!isEmpty(orderDetailsTwo.getInsurance())) {
+            insuranceConsentUrl = orderDetailsTwo.getInsurance();
             stvInsuranceConsent.setRightString("已上传")
                     .setRightTextColor(getResources().getColor(R.color.tx_bottom_navigation_select));
+        }
 
         switch (orderDetailsTwo.getMedicalRecords()) {
             case "1":
                 clImgUpload.setVisibility(View.VISIBLE);
                 clTxUpload.setVisibility(View.GONE);
-                if (!isEmpty(orderDetailsTwo.getSurgeryRelated()))
+                if (!isEmpty(orderDetailsTwo.getSurgeryRelated())) {
+                    surgeryAboutMedicalRecordUrl = orderDetailsTwo.getSurgeryRelated();
                     stvSurgeryAboutMedicalRecord.setRightString("已上传")
                             .setRightTextColor(getResources().getColor(R.color.tx_bottom_navigation_select));
-                if (!isEmpty(orderDetailsTwo.getRoutineBlood()))
+                }
+                if (!isEmpty(orderDetailsTwo.getRoutineBlood())) {
+                    bloodRoutineUrl = orderDetailsTwo.getRoutineBlood();
                     stvBloodRoutine.setRightString("已上传")
                             .setRightTextColor(getResources().getColor(R.color.tx_bottom_navigation_select));
-                if (!isEmpty(orderDetailsTwo.getEcg()))
+                }
+                if (!isEmpty(orderDetailsTwo.getEcg())) {
+                    electrocardiogramUrl = orderDetailsTwo.getEcg();
                     stvElectrocardiogram.setRightString("已上传")
                             .setRightTextColor(getResources().getColor(R.color.tx_bottom_navigation_select));
-                if (!isEmpty(orderDetailsTwo.getCruor()))
+                }
+                if (!isEmpty(orderDetailsTwo.getCruor())) {
+                    coagulationUrl = orderDetailsTwo.getCruor();
                     stvCoagulation.setRightString("已上传")
                             .setRightTextColor(getResources().getColor(R.color.tx_bottom_navigation_select));
-                if (!isEmpty(orderDetailsTwo.getContagion()))
+                }
+                if (!isEmpty(orderDetailsTwo.getContagion())) {
+                    infectiousDiseaseIndexUrl = orderDetailsTwo.getContagion();
                     stvInfectiousDiseaseIndex.setRightString("已上传")
                             .setRightTextColor(getResources().getColor(R.color.tx_bottom_navigation_select));
+                }
                 break;
             case "2":
                 clImgUpload.setVisibility(View.GONE);
@@ -141,7 +158,7 @@ public class SelectPatientDetailsActivity extends BaseActivity {
                 stvBloodPressure.setRightString(orderDetailsTwo.getMinBloodPressure() + "/" + orderDetailsTwo.getMaxBloodPressure() + "mmHg");
                 stvPulse.setRightString(orderDetailsTwo.getPulse() + "次/分钟");
                 stvBreathe.setRightString(orderDetailsTwo.getBreathe() + "次/分钟");
-                stvBodyTemperature.setRightString(orderDetailsTwo.getAnimalHeat() + "℃");
+                stvBodyTemperature.setRightString(orderDetailsTwo.getAnimalHeat() + " ℃");
                 if ("2".equals(orderDetailsTwo.getDiabetes()))
                     stvDiabetes.setRightString("有")
                             .setRightTextColor(getResources().getColor(R.color.tx_bottom_navigation_select));
@@ -169,5 +186,39 @@ public class SelectPatientDetailsActivity extends BaseActivity {
     @Override
     public void initListener() {
 
+    }
+
+    @OnClick({R.id.stv_surgery_about_medical_record, R.id.stv_blood_routine, R.id.stv_electrocardiogram, R.id.stv_coagulation, R.id.stv_infectious_disease_index, R.id.stv_id_card, R.id.stv_insurance_consent})
+    public void onViewClicked(View view) {
+        switch (view.getId()) {
+            case R.id.stv_surgery_about_medical_record:
+                if (!isEmpty(surgeryAboutMedicalRecordUrl))
+                    startActivity(new Intent(this, SurgeryAboutMedicalRecordActivity.class).putExtra("title", "手术相关病历").putExtra("imgUrl", surgeryAboutMedicalRecordUrl).putExtra("twoImgType", 1));
+                break;
+            case R.id.stv_blood_routine:
+                if (!isEmpty(bloodRoutineUrl))
+                    startActivity(new Intent(this, SurgeryAboutMedicalRecordActivity.class).putExtra("title", "血常规").putExtra("imgUrl", bloodRoutineUrl).putExtra("twoImgType", 1));
+                break;
+            case R.id.stv_electrocardiogram:
+                if (!isEmpty(electrocardiogramUrl))
+                    startActivity(new Intent(this, SurgeryAboutMedicalRecordActivity.class).putExtra("title", "心电图").putExtra("imgUrl", electrocardiogramUrl).putExtra("twoImgType", 1));
+                break;
+            case R.id.stv_coagulation:
+                if (!isEmpty(coagulationUrl))
+                    startActivity(new Intent(this, SurgeryAboutMedicalRecordActivity.class).putExtra("title", "凝血功能").putExtra("imgUrl", coagulationUrl).putExtra("twoImgType", 1));
+                break;
+            case R.id.stv_infectious_disease_index:
+                if (!isEmpty(infectiousDiseaseIndexUrl))
+                    startActivity(new Intent(this, SurgeryAboutMedicalRecordActivity.class).putExtra("title", "传染病指标").putExtra("imgUrl", infectiousDiseaseIndexUrl).putExtra("twoImgType", 1));
+                break;
+            case R.id.stv_id_card:
+                if (!isEmpty(positiveUrl) && !isEmpty(negativeUrl))
+                    startActivity(new Intent(this, AgentCardActivity.class).putExtra("positiveUrl", positiveUrl).putExtra("negativeUrl", negativeUrl).putExtra("cardImgType", 1));
+                break;
+            case R.id.stv_insurance_consent:
+                if (!isEmpty(insuranceConsentUrl))
+                    startActivity(new Intent(this, HeadActivity.class).putExtra("title", "保险同意书").putExtra("imgUrl", insuranceConsentUrl).putExtra("oneImgType", 1));
+                break;
+        }
     }
 }

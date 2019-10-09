@@ -145,6 +145,7 @@
                 app:layout_constraintTop_toBottomOf="@+id/ll_register_address"
                 app:sDividerLineType="none"
                 app:sLeftTextColor="@color/black"
+                app:sRightMaxEms="30"
                 app:sLeftTextString="实际经营地址"
                 app:sRightIconRes="@drawable/ic_right_arrow"
                 app:sRightTextColor="@color/tx_bottom_navigation"

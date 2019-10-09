@@ -100,6 +100,7 @@
     </GridLayout>
 
     <LinearLayout
+        android:id="@+id/ll_card"
         android:layout_width="0dp"
         android:layout_height="@dimen/y150"
         android:background="@color/white"

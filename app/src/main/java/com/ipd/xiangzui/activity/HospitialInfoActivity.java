@@ -128,7 +128,7 @@ public class HospitialInfoActivity extends BaseActivity<ModifyUserInfoContract.V
         @Override
         public void handleMessage(Message msg) {
             super.handleMessage(msg);
-            if (EDIT_OK == msg.what) {
+            if (EDIT_OK == msg.what && !isEmpty(etNickname.getText().toString().trim())) {
                 TreeMap<String, String> modifyUserInfoMap = new TreeMap<>();
                 modifyUserInfoMap.put("userId", SPUtil.get(HospitialInfoActivity.this, USER_ID, "") + "");
                 modifyUserInfoMap.put("nickname", etNickname.getText().toString().trim());

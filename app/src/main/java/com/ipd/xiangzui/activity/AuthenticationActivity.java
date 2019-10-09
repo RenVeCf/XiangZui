@@ -9,6 +9,7 @@ import androidx.annotation.Nullable;
 import com.gyf.immersionbar.ImmersionBar;
 import com.ipd.xiangzui.R;
 import com.ipd.xiangzui.base.BaseActivity;
+import com.ipd.xiangzui.bean.GetUserInfoBean;
 import com.ipd.xiangzui.bean.VerifiedBean;
 import com.ipd.xiangzui.common.view.TopView;
 import com.ipd.xiangzui.contract.VerifiedContract;
@@ -18,6 +19,7 @@ import com.ipd.xiangzui.utils.MD5Utils;
 import com.ipd.xiangzui.utils.SPUtil;
 import com.ipd.xiangzui.utils.StringUtils;
 import com.ipd.xiangzui.utils.ToastUtil;
+import com.xuexiang.xui.widget.textview.supertextview.SuperButton;
 import com.xuexiang.xui.widget.textview.supertextview.SuperTextView;
 
 import java.util.TreeMap;
@@ -64,8 +66,10 @@ public class AuthenticationActivity extends BaseActivity<VerifiedContract.View, 
     SuperTextView stvMedicalInstitutionQualificationCertificate;
     @BindView(R.id.stv_agent_management_authorization)
     SuperTextView stvAgentManagementAuthorization;
+    @BindView(R.id.sb_confirm)
+    SuperButton sbConfirm;
 
-    private String photo, positiveUrl, negativeUrl, businessLicense,medicalInstitutionQualificationCertificate, agentManagementAuthorization, prov, city, dist, address;
+    private String photo = "", positiveUrl = "", negativeUrl = "", businessLicense = "", medicalInstitutionQualificationCertificate = "", agentManagementAuthorization = "", prov = "", city = "", dist = "", address = "";
 
     @Override
     public int getLayoutId() {
@@ -92,7 +96,10 @@ public class AuthenticationActivity extends BaseActivity<VerifiedContract.View, 
 
     @Override
     public void initData() {
-
+        TreeMap<String, String> getUserInfoMap = new TreeMap<>();
+        getUserInfoMap.put("userId", SPUtil.get(this, USER_ID, "") + "");
+        getUserInfoMap.put("sign", StringUtils.toUpperCase(MD5Utils.encodeMD5(getUserInfoMap.toString().replaceAll(" ", "") + SIGN)));
+        getPresenter().getGetUserInfo(getUserInfoMap, false, false);
     }
 
     @Override
@@ -149,19 +156,19 @@ public class AuthenticationActivity extends BaseActivity<VerifiedContract.View, 
                 startActivityForResult(new Intent(this, SelectAddressActivity.class).putExtra("address_type", 1), REQUEST_CODE_108);
                 break;
             case R.id.stv_head: //头像
-                startActivityForResult(new Intent(this, HeadActivity.class).putExtra("title", "照片"), REQUEST_CODE_90);
+                startActivityForResult(new Intent(this, HeadActivity.class).putExtra("title", "照片").putExtra("imgUrl", photo), REQUEST_CODE_90);
                 break;
             case R.id.stv_agent_card: //代理人身份证
-                startActivityForResult(new Intent(this, AgentCardActivity.class), REQUEST_CODE_91);
+                startActivityForResult(new Intent(this, AgentCardActivity.class).putExtra("positiveUrl", positiveUrl).putExtra("negativeUrl", negativeUrl), REQUEST_CODE_91);
                 break;
             case R.id.stv_business_license: //医院营业执照
-                startActivityForResult(new Intent(this, HeadActivity.class).putExtra("title", "医院营业执照"), REQUEST_CODE_92);
+                startActivityForResult(new Intent(this, HeadActivity.class).putExtra("title", "医院营业执照").putExtra("imgUrl", businessLicense), REQUEST_CODE_92);
                 break;
             case R.id.stv_medical_institution_qualification_certificate: //医疗机构资格证
-                startActivityForResult(new Intent(this, HeadActivity.class).putExtra("title", "医疗机构资格证"), REQUEST_CODE_93);
+                startActivityForResult(new Intent(this, HeadActivity.class).putExtra("title", "医疗机构资格证").putExtra("imgUrl", medicalInstitutionQualificationCertificate), REQUEST_CODE_93);
                 break;
             case R.id.stv_agent_management_authorization: //医院代理人管理授权书
-                startActivityForResult(new Intent(this, HeadActivity.class).putExtra("title", "医院代理人管理授权书"), REQUEST_CODE_94);
+                startActivityForResult(new Intent(this, HeadActivity.class).putExtra("title", "医院代理人管理授权书").putExtra("imgUrl", agentManagementAuthorization), REQUEST_CODE_94);
                 break;
             case R.id.sb_confirm:
                 if (!isEmpty(etName.getText().toString().trim()) && !isEmpty(etPhone.getText().toString().trim()) && !isEmpty(etRegisterAddress.getText().toString().trim()) && !"请选择".equals(stvRealAddress.getRightString()) && !isEmpty(photo) && !isEmpty(positiveUrl) && !isEmpty(negativeUrl) && !isEmpty(businessLicense) && !isEmpty(medicalInstitutionQualificationCertificate) && !isEmpty(agentManagementAuthorization)) {
@@ -193,6 +200,86 @@ public class AuthenticationActivity extends BaseActivity<VerifiedContract.View, 
         switch (data.getCode()) {
             case 200:
                 finish();
+                break;
+            case 900:
+                ToastUtil.showLongToast(data.getMsg());
+                //清除所有临时储存
+                SPUtil.clear(ApplicationUtil.getContext());
+                ApplicationUtil.getManager().finishActivity(MainActivity.class);
+                startActivity(new Intent(this, CaptchaLoginActivity.class));
+                finish();
+                break;
+        }
+    }
+
+    @Override
+    public void resultGetUserInfo(GetUserInfoBean data) {
+        switch (data.getCode()) {
+            case 200:
+                if (data.getData().getApproveStatus() == 2) {
+                    switch (data.getData().getApprove().getStatus()){
+                        case "1":
+                            sbConfirm.setText("待审核");
+                            sbConfirm.setEnabled(false);
+                            etName.setText(data.getData().getUser().getNickname());
+                            etName.setFocusable(false);
+                            etPhone.setText(data.getData().getApprove().getTelPhone());
+                            etPhone.setFocusable(false);
+                            etRegisterAddress.setText(data.getData().getApprove().getRegistAddress());
+                            etRegisterAddress.setFocusable(false);
+                            stvRealAddress.setRightString(data.getData().getApprove().getRunAddress());
+                            stvRealAddress.setEnabled(false);
+                            photo = data.getData().getApprove().getPhoto();
+                            stvHead.setRightString("已上传")
+                                    .setRightTextColor(getResources().getColor(R.color.tx_bottom_navigation_select));
+                            positiveUrl = data.getData().getApprove().getPositiveCard();
+                            negativeUrl = data.getData().getApprove().getReverseCard();
+                            stvAgentCard.setRightString("已上传")
+                                    .setRightTextColor(getResources().getColor(R.color.tx_bottom_navigation_select));
+                            businessLicense = data.getData().getApprove().getCertificate();
+                            stvBusinessLicense.setRightString("已上传")
+                                    .setRightTextColor(getResources().getColor(R.color.tx_bottom_navigation_select));
+                            medicalInstitutionQualificationCertificate = data.getData().getApprove().getChestCard();
+                            stvMedicalInstitutionQualificationCertificate.setRightString("已上传")
+                                    .setRightTextColor(getResources().getColor(R.color.tx_bottom_navigation_select));
+                            agentManagementAuthorization = data.getData().getApprove().getHospitalAgent();
+                            stvAgentManagementAuthorization.setRightString("已上传")
+                                    .setRightTextColor(getResources().getColor(R.color.tx_bottom_navigation_select));
+                            break;
+                        case "2":
+                            sbConfirm.setText("审核通过");
+                            sbConfirm.setEnabled(false);
+                            etName.setText(data.getData().getUser().getNickname());
+                            etName.setFocusable(false);
+                            etPhone.setText(data.getData().getApprove().getTelPhone());
+                            etPhone.setFocusable(false);
+                            etRegisterAddress.setText(data.getData().getApprove().getRegistAddress());
+                            etRegisterAddress.setFocusable(false);
+                            stvRealAddress.setRightString(data.getData().getApprove().getRunAddress());
+                            stvRealAddress.setEnabled(false);
+                            photo = data.getData().getApprove().getPhoto();
+                            stvHead.setRightString("已上传")
+                                    .setRightTextColor(getResources().getColor(R.color.tx_bottom_navigation_select));
+                            positiveUrl = data.getData().getApprove().getPositiveCard();
+                            negativeUrl = data.getData().getApprove().getReverseCard();
+                            stvAgentCard.setRightString("已上传")
+                                    .setRightTextColor(getResources().getColor(R.color.tx_bottom_navigation_select));
+                            businessLicense = data.getData().getApprove().getCertificate();
+                            stvBusinessLicense.setRightString("已上传")
+                                    .setRightTextColor(getResources().getColor(R.color.tx_bottom_navigation_select));
+                            medicalInstitutionQualificationCertificate = data.getData().getApprove().getChestCard();
+                            stvMedicalInstitutionQualificationCertificate.setRightString("已上传")
+                                    .setRightTextColor(getResources().getColor(R.color.tx_bottom_navigation_select));
+                            agentManagementAuthorization = data.getData().getApprove().getHospitalAgent();
+                            stvAgentManagementAuthorization.setRightString("已上传")
+                                    .setRightTextColor(getResources().getColor(R.color.tx_bottom_navigation_select));
+                            break;
+                        case "3":
+                            ToastUtil.showShortToast(data.getData().getApprove().getAuditContent());
+                            sbConfirm.setText("重新审核");
+                            break;
+                    }
+                }
                 break;
             case 900:
                 ToastUtil.showLongToast(data.getMsg());

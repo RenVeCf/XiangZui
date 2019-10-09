@@ -353,6 +353,12 @@ public class ModifyMedicalListActivity extends BaseActivity<NarcosisListContract
         super.onActivityResult(requestCode, resultCode, data);
         if (data != null) {
             switch (requestCode) {
+                case REQUEST_CODE_95:
+                    positiveUrl = data.getStringExtra("positiveUrl");
+                    negativeUrl = data.getStringExtra("negativeUrl");
+                    stvIdCard.setRightString("已上传")
+                            .setRightTextColor(getResources().getColor(R.color.tx_bottom_navigation_select));
+                    break;
                 case REQUEST_CODE_103:
                     surgeryAboutMedicalRecordUrl = data.getStringExtra("imgUrl");
                     stvSurgeryAboutMedicalRecord.setRightString("已上传")
@@ -450,22 +456,22 @@ public class ModifyMedicalListActivity extends BaseActivity<NarcosisListContract
                 showPickerView(3);
                 break;
             case R.id.stv_id_card:
-                startActivityForResult(new Intent(this, PatientIdCardActivity.class), REQUEST_CODE_95);
+                startActivityForResult(new Intent(this, AgentCardActivity.class).putExtra("positiveUrl", positiveUrl).putExtra("negativeUrl", negativeUrl), REQUEST_CODE_95);
                 break;
             case R.id.stv_surgery_about_medical_record:
-                startActivityForResult(new Intent(this, SurgeryAboutMedicalRecordActivity.class).putExtra("title", "手术相关病历"), REQUEST_CODE_103);
+                startActivityForResult(new Intent(this, SurgeryAboutMedicalRecordActivity.class).putExtra("title", "手术相关病历").putExtra("imgUrl", surgeryAboutMedicalRecordUrl), REQUEST_CODE_103);
                 break;
             case R.id.stv_blood_routine:
-                startActivityForResult(new Intent(this, SurgeryAboutMedicalRecordActivity.class).putExtra("title", "血常规"), REQUEST_CODE_104);
+                startActivityForResult(new Intent(this, SurgeryAboutMedicalRecordActivity.class).putExtra("title", "血常规").putExtra("imgUrl", bloodRoutineUrl), REQUEST_CODE_104);
                 break;
             case R.id.stv_electrocardiogram:
-                startActivityForResult(new Intent(this, SurgeryAboutMedicalRecordActivity.class).putExtra("title", "心电图"), REQUEST_CODE_105);
+                startActivityForResult(new Intent(this, SurgeryAboutMedicalRecordActivity.class).putExtra("title", "心电图").putExtra("imgUrl", electrocardiogramUrl), REQUEST_CODE_105);
                 break;
             case R.id.stv_coagulation:
-                startActivityForResult(new Intent(this, SurgeryAboutMedicalRecordActivity.class).putExtra("title", "凝血功能"), REQUEST_CODE_106);
+                startActivityForResult(new Intent(this, SurgeryAboutMedicalRecordActivity.class).putExtra("title", "凝血功能").putExtra("imgUrl", coagulationUrl), REQUEST_CODE_106);
                 break;
             case R.id.stv_infectious_disease_index:
-                startActivityForResult(new Intent(this, SurgeryAboutMedicalRecordActivity.class).putExtra("title", "传染病指标"), REQUEST_CODE_107);
+                startActivityForResult(new Intent(this, SurgeryAboutMedicalRecordActivity.class).putExtra("title", "传染病指标").putExtra("imgUrl", infectiousDiseaseIndexUrl), REQUEST_CODE_107);
                 break;
         }
     }

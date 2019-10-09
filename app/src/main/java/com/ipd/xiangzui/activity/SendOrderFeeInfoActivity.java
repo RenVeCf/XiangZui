@@ -145,7 +145,7 @@ public class SendOrderFeeInfoActivity extends BaseActivity<SelectFeeContract.Vie
         stvSurgery.setCheckBoxCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
-                if (!isEmpty(etAddFee.getText().toString().trim()) && Double.parseDouble(etAddFee.getText().toString().trim()) >= 1500) {
+                if (!isEmpty(etAddFee.getText().toString().trim()) && Double.parseDouble(etAddFee.getText().toString().trim()) >= 3500) {
                     if (stvSurgery.getCheckBoxIsChecked()) {
                         double i = Double.parseDouble(etAddFee.getText().toString().trim()) + Double.parseDouble(etAddFee.getText().toString().trim()) * 0.15;
                         i += addFee;
@@ -155,7 +155,7 @@ public class SendOrderFeeInfoActivity extends BaseActivity<SelectFeeContract.Vie
                         tvAddFee.setText("¥ " + i + "元");
                     }
                 } else
-                    ToastUtil.showShortToast("预计费用需大于等于1500元");
+                    ToastUtil.showShortToast("预计费用需大于等于3500元");
             }
         });
     }
@@ -164,7 +164,7 @@ public class SendOrderFeeInfoActivity extends BaseActivity<SelectFeeContract.Vie
         @Override
         public void handleMessage(Message msg) {
             super.handleMessage(msg);
-            if (EDIT_OK == msg.what) {
+            if (EDIT_OK == msg.what && !isEmpty(etAddFee.getText().toString().trim())) {
                 double i = Double.parseDouble(etAddFee.getText().toString().trim()) + Double.parseDouble(etAddFee.getText().toString().trim()) * 0.15;
                 if (stvSurgery.getCheckBoxIsChecked())
                     i += addFee;

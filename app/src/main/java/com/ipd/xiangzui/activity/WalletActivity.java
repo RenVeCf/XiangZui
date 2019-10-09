@@ -105,7 +105,7 @@ public class WalletActivity extends BaseActivity<WalletContract.View, WalletCont
         TreeMap<String, String> walletMap = new TreeMap<>();
         walletMap.put("userId", SPUtil.get(this, USER_ID, "") + "");
         walletMap.put("sign", StringUtils.toUpperCase(MD5Utils.encodeMD5(walletMap.toString().replaceAll(" ", "") + SIGN)));
-        getPresenter().getWallet(walletMap, false, false);
+        getPresenter().getWallet(walletMap, true, false);
     }
 
     @Override

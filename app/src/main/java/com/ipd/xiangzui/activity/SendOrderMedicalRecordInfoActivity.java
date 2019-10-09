@@ -321,19 +321,19 @@ public class SendOrderMedicalRecordInfoActivity extends BaseActivity {
                 stvInfectiousDiseaseIndex.setVisibility(View.VISIBLE);
                 break;
             case R.id.stv_surgery_about_medical_record:
-                startActivityForResult(new Intent(this, SurgeryAboutMedicalRecordActivity.class).putExtra("title", "手术相关病历"), REQUEST_CODE_103);
+                startActivityForResult(new Intent(this, SurgeryAboutMedicalRecordActivity.class).putExtra("title", "手术相关病历").putExtra("imgUrl", surgeryAboutMedicalRecordUrl), REQUEST_CODE_103);
                 break;
             case R.id.stv_blood_routine:
-                startActivityForResult(new Intent(this, SurgeryAboutMedicalRecordActivity.class).putExtra("title", "血常规"), REQUEST_CODE_104);
+                startActivityForResult(new Intent(this, SurgeryAboutMedicalRecordActivity.class).putExtra("title", "血常规").putExtra("imgUrl", bloodRoutineUrl), REQUEST_CODE_104);
                 break;
             case R.id.stv_electrocardiogram:
-                startActivityForResult(new Intent(this, SurgeryAboutMedicalRecordActivity.class).putExtra("title", "心电图"), REQUEST_CODE_105);
+                startActivityForResult(new Intent(this, SurgeryAboutMedicalRecordActivity.class).putExtra("title", "心电图").putExtra("imgUrl", electrocardiogramUrl), REQUEST_CODE_105);
                 break;
             case R.id.stv_coagulation:
-                startActivityForResult(new Intent(this, SurgeryAboutMedicalRecordActivity.class).putExtra("title", "凝血功能"), REQUEST_CODE_106);
+                startActivityForResult(new Intent(this, SurgeryAboutMedicalRecordActivity.class).putExtra("title", "凝血功能").putExtra("imgUrl", coagulationUrl), REQUEST_CODE_106);
                 break;
             case R.id.stv_infectious_disease_index:
-                startActivityForResult(new Intent(this, SurgeryAboutMedicalRecordActivity.class).putExtra("title", "传染病指标"), REQUEST_CODE_107);
+                startActivityForResult(new Intent(this, SurgeryAboutMedicalRecordActivity.class).putExtra("title", "传染病指标").putExtra("imgUrl", infectiousDiseaseIndexUrl), REQUEST_CODE_107);
                 break;
             case R.id.sb_add_patient:
                 if (orderDetails != null && orderDetailsList.size() > 0)

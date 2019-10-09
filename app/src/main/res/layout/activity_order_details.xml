@@ -85,7 +85,7 @@
                 android:textStyle="bold"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/tv_anesthesia_type" />
+                app:layout_constraintTop_toBottomOf="@+id/tv_anesthesia_sheet" />
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/rv_patient_list"
@@ -132,6 +132,26 @@
                 app:sLeftViewGravity="left_center"
                 app:sRightTextColor="@color/black"
                 app:sRightTextSize="12sp"
+                app:sRightViewGravity="right_center"
+                app:sUseShape="true" />
+
+            <com.xuexiang.xui.widget.textview.supertextview.SuperTextView
+                android:id="@+id/tv_anesthesia_sheet"
+                android:layout_width="0dp"
+                android:layout_height="@dimen/y100"
+                android:paddingStart="@dimen/x30"
+                android:paddingEnd="@dimen/x30"
+                android:visibility="gone"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/tv_anesthesia_type"
+                app:sLeftTextColor="@color/tx_bottom_navigation"
+                app:sLeftTextSize="12sp"
+                app:sLeftTextString="麻醉单"
+                app:sLeftViewGravity="left_center"
+                app:sRightTextColor="@color/tx_bottom_navigation_select"
+                app:sRightTextSize="12sp"
+                app:sRightTextString="查看"
                 app:sRightViewGravity="right_center"
                 app:sUseShape="true" />
 
@@ -552,8 +572,7 @@
                 app:sRightTextColor="@color/tx_bottom_navigation"
                 app:sRightTextString="未上传"
                 app:sRightViewGravity="right_center"
-                app:sRightViewMarginRight="@dimen/x20"
-                app:sUseShape="true" />
+                app:sRightViewMarginRight="@dimen/x20" />
 
             <com.xuexiang.xui.widget.textview.supertextview.SuperTextView
                 android:id="@+id/tv_patient_insurance_consent"
@@ -573,8 +592,7 @@
                 app:sRightTextString="未上传"
                 app:sRightTextSize="12sp"
                 app:sRightViewGravity="right_center"
-                app:sRightViewMarginRight="@dimen/x20"
-                app:sUseShape="true" />
+                app:sRightViewMarginRight="@dimen/x20" />
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/cl_bottom"

@@ -102,7 +102,7 @@ public class SendOrderAddPatientDetailsActivity extends BaseActivity<NarcosisLis
     private SendOrderDataBean.TwoOrderBean sendOrderData;
     private OrderDetailsBean.DataBean.OrderDetailBean orderDetailsTwo;
     private static int EDIT_OK = 10011;
-    private String positiveUrl = "", negativeUrl = "", insuranceConsentUrl = "", surgeryAboutMedicalRecordUrl = "", bloodRoutineUrl = "", electrocardiogramUrl, coagulationUrl, infectiousDiseaseIndexUrl;
+    private String positiveUrl = "", negativeUrl = "", insuranceConsentUrl = "", surgeryAboutMedicalRecordUrl = "", bloodRoutineUrl = "", electrocardiogramUrl = "", coagulationUrl = "", infectiousDiseaseIndexUrl = "";
 
     @Override
     public int getLayoutId() {
@@ -257,7 +257,7 @@ public class SendOrderAddPatientDetailsActivity extends BaseActivity<NarcosisLis
         @Override
         public void handleMessage(Message msg) {
             super.handleMessage(msg);
-            if (EDIT_OK == msg.what) {
+            if (EDIT_OK == msg.what && !isEmpty(etPatientHeight.getText().toString().trim()) && !isEmpty(etPatientBodyWeight.getText().toString().trim())) {
                 if (orderDetailsTwo != null) {
                     orderDetailsTwo.setSurgeryName(etSurgicalName.getText().toString().trim());
                     orderDetailsTwo.setPatientName(etPatientName.getText().toString().trim());
