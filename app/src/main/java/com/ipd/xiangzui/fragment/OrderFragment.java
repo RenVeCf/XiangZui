@@ -42,6 +42,7 @@ import com.ipd.xiangzui.bean.OrderIsOrverBean;
 import com.ipd.xiangzui.bean.OrderListBean;
 import com.ipd.xiangzui.bean.OrderQuickBean;
 import com.ipd.xiangzui.bean.SelectFeeBean;
+import com.ipd.xiangzui.common.view.CallPhoneDialog;
 import com.ipd.xiangzui.common.view.EditDialog;
 import com.ipd.xiangzui.common.view.SpacesItemDecoration;
 import com.ipd.xiangzui.common.view.TwoBtDialog;
@@ -304,6 +305,7 @@ public class OrderFragment extends BaseFragment<OrderContract.View, OrderContrac
         if (data != null) {
             switch (requestCode) {
                 case REQUEST_CODE_111:
+                    pageNum = 1;
                     initData();
                     break;
             }
@@ -352,7 +354,7 @@ public class OrderFragment extends BaseFragment<OrderContract.View, OrderContrac
                                     case R.id.stv_name:
                                     case R.id.stv_address:
                                         if (isFastClick())
-                                            startActivity(new Intent(getContext(), OrderDetailsActivity.class).putExtra("order_status", data.getData().getOrderList().get(position).getStatus()).putExtra("orderId", data.getData().getOrderList().get(position).getOrderId()));
+                                            startActivityForResult(new Intent(getContext(), OrderDetailsActivity.class).putExtra("order_status", data.getData().getOrderList().get(position).getStatus()).putExtra("orderId", data.getData().getOrderList().get(position).getOrderId()), REQUEST_CODE_111);
                                         break;
                                     case R.id.bt_first:
                                         switch (orderList.get(position).getStatus()) {
@@ -388,7 +390,7 @@ public class OrderFragment extends BaseFragment<OrderContract.View, OrderContrac
                                             case "6":
                                             case "7":
                                                 if (isFastClick())
-                                                    startActivity(new Intent(getContext(), OrderDetailsActivity.class).putExtra("order_status", data.getData().getOrderList().get(position).getStatus()).putExtra("orderId", data.getData().getOrderList().get(position).getOrderId()));
+                                                    startActivityForResult(new Intent(getContext(), OrderDetailsActivity.class).putExtra("order_status", data.getData().getOrderList().get(position).getStatus()).putExtra("orderId", data.getData().getOrderList().get(position).getOrderId()), REQUEST_CODE_111);
                                                 break;
                                         }
                                         break;
@@ -424,7 +426,8 @@ public class OrderFragment extends BaseFragment<OrderContract.View, OrderContrac
                                                     new TwoBtDialog(getActivity(), "对此订单有异议，是否进行电话咨询?", "确认") {
                                                         @Override
                                                         public void confirm() {
-
+                                                            new CallPhoneDialog(getActivity(), "") {
+                                                            }.show();
                                                         }
                                                     }.show();
                                                 break;
@@ -454,6 +457,8 @@ public class OrderFragment extends BaseFragment<OrderContract.View, OrderContrac
                                                 break;
                                             case "8":
                                             case "2"://联系医生
+                                                new CallPhoneDialog(getActivity(), orderList.get(position).getAdNumber()) {
+                                                }.show();
                                                 break;
                                             case "3":
                                                 break;

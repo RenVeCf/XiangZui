@@ -929,6 +929,7 @@
             android:layout_marginStart="@dimen/x25"
             android:layout_marginEnd="@dimen/x25"
             android:layout_weight="1"
+            android:visibility="gone"
             android:text="补充病历"
             android:textColor="@color/black"
             android:textSize="12sp"

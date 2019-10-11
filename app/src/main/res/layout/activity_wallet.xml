@@ -91,6 +91,7 @@
                         style="@style/SuperButton.Gray"
                         android:layout_width="@dimen/x280"
                         android:layout_height="@dimen/y90"
+                        android:visibility="gone"
                         android:layout_marginBottom="@dimen/y50"
                         android:layout_marginStart="@dimen/x50"
                         android:text="退还保证金"

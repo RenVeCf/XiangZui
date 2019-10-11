@@ -6,7 +6,6 @@ import android.os.Message;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.View;
-import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.TextView;
 
@@ -69,6 +68,7 @@ public class SendOrderFeeInfoActivity extends BaseActivity<SelectFeeContract.Vie
     private double addFee = 0;
     private OrderDetailsBean.DataBean.OrderBean orderDetails;
     private List<OrderDetailsBean.DataBean.OrderDetailBean> orderDetailsList;
+    private boolean isAddFee = false; //是否加急
 
     @Override
     public int getLayoutId() {
@@ -93,9 +93,11 @@ public class SendOrderFeeInfoActivity extends BaseActivity<SelectFeeContract.Vie
         ImmersionBar.setTitleBar(this, tvSendOrderFeeInfo);
 
         sendOrderData = getIntent().getParcelableExtra("sendOrderData");
-        sendOrderType = sendOrderData.getSendOrderType();
-        if (sendOrderType == 1)
-            stvSurgeryNum.setVisibility(View.GONE);
+        if (sendOrderData != null) {
+            sendOrderType = sendOrderData.getSendOrderType();
+            if (sendOrderType == 1)
+                stvSurgeryNum.setVisibility(View.GONE);
+        }
 
         orderDetails = getIntent().getParcelableExtra("orderDetails");
         orderDetailsList = getIntent().getParcelableArrayListExtra("orderDetailsList");
@@ -103,6 +105,15 @@ public class SendOrderFeeInfoActivity extends BaseActivity<SelectFeeContract.Vie
             sendOrderType = Integer.parseInt(orderDetails.getOrderType());
             if (sendOrderType == 1)
                 stvSurgeryNum.setVisibility(View.GONE);
+            etAddFee.setText(orderDetails.getAhMoney() + "");
+            if (!isEmpty(etAddFee.getText().toString().trim())) {
+                double i = Double.parseDouble(etAddFee.getText().toString().trim()) + Double.parseDouble(etAddFee.getText().toString().trim()) * 0.15;
+                if (isAddFee)
+                    i += addFee;
+                tvAddFee.setText("¥ " + i + "元");
+            }
+            etAddFee.setFocusable(false);
+            stvSurgery.setEnabled(false);
         }
     }
 
@@ -141,23 +152,6 @@ public class SendOrderFeeInfoActivity extends BaseActivity<SelectFeeContract.Vie
 
             }
         });
-
-        stvSurgery.setCheckBoxCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
-                if (!isEmpty(etAddFee.getText().toString().trim()) && Double.parseDouble(etAddFee.getText().toString().trim()) >= 3500) {
-                    if (stvSurgery.getCheckBoxIsChecked()) {
-                        double i = Double.parseDouble(etAddFee.getText().toString().trim()) + Double.parseDouble(etAddFee.getText().toString().trim()) * 0.15;
-                        i += addFee;
-                        tvAddFee.setText("¥ " + i + "元");
-                    } else {
-                        double i = Double.parseDouble(etAddFee.getText().toString().trim()) + Double.parseDouble(etAddFee.getText().toString().trim()) * 0.15;
-                        tvAddFee.setText("¥ " + i + "元");
-                    }
-                } else
-                    ToastUtil.showShortToast("预计费用需大于等于3500元");
-            }
-        });
     }
 
     private Handler mHandler = new Handler() {
@@ -166,7 +160,7 @@ public class SendOrderFeeInfoActivity extends BaseActivity<SelectFeeContract.Vie
             super.handleMessage(msg);
             if (EDIT_OK == msg.what && !isEmpty(etAddFee.getText().toString().trim())) {
                 double i = Double.parseDouble(etAddFee.getText().toString().trim()) + Double.parseDouble(etAddFee.getText().toString().trim()) * 0.15;
-                if (stvSurgery.getCheckBoxIsChecked())
+                if (isAddFee)
                     i += addFee;
                 tvAddFee.setText("¥ " + i + "元");
             }
@@ -357,15 +351,20 @@ public class SendOrderFeeInfoActivity extends BaseActivity<SelectFeeContract.Vie
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.stv_surgery:
-                stvSurgery.setCheckBoxChecked(!stvSurgery.getCheckBoxIsChecked());
+                if (!isAddFee)
+                    stvSurgery.setRightIcon(getResources().getDrawable(R.drawable.ic_check_blue));
+                else
+                    stvSurgery.setRightIcon(getResources().getDrawable(R.drawable.ic_check_gray));
                 if (!isEmpty(etAddFee.getText().toString().trim()) && Double.parseDouble(etAddFee.getText().toString().trim()) >= 3500) {
-                    if (stvSurgery.getCheckBoxIsChecked()) {
+                    if (!isAddFee) {
                         double i = Double.parseDouble(etAddFee.getText().toString().trim()) + Double.parseDouble(etAddFee.getText().toString().trim()) * 0.15;
                         i += addFee;
                         tvAddFee.setText("¥ " + i + "元");
+                        isAddFee = true;
                     } else {
                         double i = Double.parseDouble(etAddFee.getText().toString().trim()) + Double.parseDouble(etAddFee.getText().toString().trim()) * 0.15;
                         tvAddFee.setText("¥ " + i + "元");
+                        isAddFee = false;
                     }
                 } else
                     ToastUtil.showShortToast("预计费用需大于等于3500元");
@@ -376,17 +375,26 @@ public class SendOrderFeeInfoActivity extends BaseActivity<SelectFeeContract.Vie
                         TreeMap<String, String> modifyOrderMap = new TreeMap<>();
                         modifyOrderMap.put("userId", SPUtil.get(this, USER_ID, "") + "");
                         modifyOrderMap.put("orderId", orderDetails.getOrderId() + "");
+                        L.i("orderType = "+ sendOrderType);
                         modifyOrderMap.put("orderType", sendOrderType + "");
                         if (sendOrderType == 1)
-                            modifyOrderMap.put("surgeryName", orderDetailsList.get(0).getSurgeryName());
+                            modifyOrderMap.put("surgeryName", orderDetails.getSurgeryName());
+                        L.i("hospitalName = "+ orderDetails.getHospitalName());
                         modifyOrderMap.put("hospitalName", orderDetails.getHospitalName());
+                        L.i("prov = "+ orderDetails.getProv());
                         modifyOrderMap.put("prov", orderDetails.getProv());
+                        L.i("city = "+ orderDetails.getCity());
                         modifyOrderMap.put("city", orderDetails.getCity());
+                        L.i("dist = "+ orderDetails.getDist());
                         modifyOrderMap.put("dist", orderDetails.getDist());
+                        L.i("address = "+ orderDetails.getAddress());
                         modifyOrderMap.put("address", orderDetails.getAddress());
+                        L.i("beginTime = "+ orderDetails.getBeginTime());
                         modifyOrderMap.put("beginTime", orderDetails.getBeginTime());
+                        L.i("duration = "+ orderDetails.getDuration());
                         modifyOrderMap.put("duration", orderDetails.getDuration() + "");
-                        modifyOrderMap.put("urgent", stvSurgery.getCheckBoxIsChecked() ? "2" : "1");
+                        modifyOrderMap.put("urgent", isAddFee ? "2" : "1");
+                        L.i("orderDetails = "+ getOrderDetailsJson(3));
                         modifyOrderMap.put("orderDetails", getOrderDetailsJson(3));
                         modifyOrderMap.put("expectMoney", etAddFee.getText().toString().trim());
                         if (sendOrderType == 2)
@@ -407,7 +415,7 @@ public class SendOrderFeeInfoActivity extends BaseActivity<SelectFeeContract.Vie
                                 sendOrderMap.put("address", sendOrderData.getOneOrderBean().getAddress());
                                 sendOrderMap.put("beginTime", sendOrderData.getOneOrderBean().getSurgicalTime());
                                 sendOrderMap.put("duration", sendOrderData.getOneOrderBean().getSurgicalDuration());
-                                sendOrderMap.put("urgent", stvSurgery.getCheckBoxIsChecked() ? "2" : "1");
+                                sendOrderMap.put("urgent", isAddFee ? "2" : "1");
                                 sendOrderMap.put("orderDetails", getOrderDetailsJson(1));
                                 sendOrderMap.put("expectMoney", etAddFee.getText().toString().trim());
                                 sendOrderMap.put("sign", StringUtils.toUpperCase(MD5Utils.encodeMD5(sendOrderMap.toString().replaceAll(" ", "") + SIGN)));
@@ -431,7 +439,7 @@ public class SendOrderFeeInfoActivity extends BaseActivity<SelectFeeContract.Vie
                                 sendOrderMap1.put("beginTime", sendOrderData.getTwoOrderBean().get(0).getSurgicalTime());
                                 L.i("duration", sendOrderData.getTwoOrderBean().get(0).getSurgicalDuration());
                                 sendOrderMap1.put("duration", sendOrderData.getTwoOrderBean().get(0).getSurgicalDuration());
-                                sendOrderMap1.put("urgent", stvSurgery.getCheckBoxIsChecked() ? "2" : "1");
+                                sendOrderMap1.put("urgent", isAddFee ? "2" : "1");
                                 L.i("orderDetails", getOrderDetailsJson(2));
                                 sendOrderMap1.put("orderDetails", getOrderDetailsJson(2));
                                 sendOrderMap1.put("expectMoney", etAddFee.getText().toString().trim());

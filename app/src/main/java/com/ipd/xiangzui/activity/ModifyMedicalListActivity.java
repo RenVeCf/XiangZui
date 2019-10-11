@@ -172,7 +172,7 @@ public class ModifyMedicalListActivity extends BaseActivity<NarcosisListContract
         narcosisListMap.put("sign", StringUtils.toUpperCase(MD5Utils.encodeMD5(narcosisListMap.toString().replaceAll(" ", "") + SIGN)));
         getPresenter().getNarcosisList(narcosisListMap, false, false);
 
-        if ("1".equals(orderType)) {
+        if ("2".equals(orderType)) {
             etPatientName.setText(orderDetailsList.get(position).getPatientName());
             stvPatientSex.setRightString("1".equals(orderDetailsList.get(position).getSex()) ? "男" : "女");
             stvPatientAge.setRightString(orderDetailsList.get(position).getAge() + "岁");
@@ -232,18 +232,23 @@ public class ModifyMedicalListActivity extends BaseActivity<NarcosisListContract
                     }
                     if (!isEmpty(orderDetailsList.get(position).getDiabetes())) {
                         rbDiabetesStart.setChecked("2".equals(orderDetailsList.get(position).getDiabetes()));
+                        rbDiabetesEnd.setChecked("1".equals(orderDetailsList.get(position).getDiabetes()));
                     }
                     if (!isEmpty(orderDetailsList.get(position).getCerebralInfarction())) {
                         rbBrainStalkStart.setChecked("2".equals(orderDetailsList.get(position).getCerebralInfarction()));
+                        rbBrainStalkEnd.setChecked("1".equals(orderDetailsList.get(position).getCerebralInfarction()));
                     }
                     if (!isEmpty(orderDetailsList.get(position).getHeartDisease())) {
                         rbHeartDiseaseStart.setChecked("2".equals(orderDetailsList.get(position).getHeartDisease()));
+                        rbHeartDiseaseEnd.setChecked("1".equals(orderDetailsList.get(position).getHeartDisease()));
                     }
                     if (!isEmpty(orderDetailsList.get(position).getInfectDisease())) {
                         rbInfectiousDiseaseStart.setChecked("2".equals(orderDetailsList.get(position).getInfectDisease()));
+                        rbInfectiousDiseaseEnd.setChecked("1".equals(orderDetailsList.get(position).getInfectDisease()));
                     }
                     if (!isEmpty(orderDetailsList.get(position).getBreatheFunction())) {
                         rbRespiratoryDysfunctionStart.setChecked("2".equals(orderDetailsList.get(position).getBreatheFunction()));
+                        rbRespiratoryDysfunctionEnd.setChecked("1".equals(orderDetailsList.get(position).getBreatheFunction()));
                     }
                     break;
             }
@@ -415,7 +420,7 @@ public class ModifyMedicalListActivity extends BaseActivity<NarcosisListContract
             case R.id.bt_confirm:
                 orderDetailsList.get(position).setPatientName(etPatientName.getText().toString().trim());
                 orderDetailsList.get(position).setSex("男".equals(stvPatientSex.getRightString()) ? "1" : "2");
-                orderDetailsList.get(position).setAge(Integer.parseInt(stvPatientAge.getRightString().replaceAll("岁", "")));
+                orderDetailsList.get(position).setAge(Integer.parseInt(stvPatientAge.getRightString().replaceAll("岁", "").trim()));
                 orderDetailsList.get(position).setHeight(Double.parseDouble(etPatientHeight.getText().toString().trim()));
                 orderDetailsList.get(position).setWeight(Double.parseDouble(etPatientBodyWeight.getText().toString().trim()));
                 orderDetailsList.get(position).setNarcosisTypeId(narcosisId);

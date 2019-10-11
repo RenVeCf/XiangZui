@@ -46,8 +46,7 @@
         app:sDividerLineType="none"
         app:sLeftTextColor="@color/black"
         app:sLeftTextString="手术加急"
-        app:sRightCheckBoxRes="@drawable/select_radio_check"
-        app:sRightViewType="checkbox" />
+        app:sRightIconRes="@drawable/ic_check_gray" />
 
     <com.xuexiang.xui.widget.textview.supertextview.SuperTextView
         android:id="@+id/stv_surgery_num"

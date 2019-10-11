@@ -33,6 +33,7 @@ import static com.ipd.xiangzui.common.config.IConstants.REQUEST_CODE_105;
 import static com.ipd.xiangzui.common.config.IConstants.REQUEST_CODE_106;
 import static com.ipd.xiangzui.common.config.IConstants.REQUEST_CODE_107;
 import static com.ipd.xiangzui.common.config.IConstants.REQUEST_CODE_109;
+import static com.ipd.xiangzui.common.config.IConstants.REQUEST_CODE_112;
 
 /**
  * Description ：发单-病历信息
@@ -104,6 +105,13 @@ public class SendOrderMedicalRecordInfoActivity extends BaseActivity {
     LinearLayout llRespiratoryDysfunction;
     @BindView(R.id.ll_add_patient)
     LinearLayout llAddPatient;
+    @BindView(R.id.rb_img)
+    RadioButton rbImg;
+    @BindView(R.id.rb_edit)
+    RadioButton rbEdit;
+    @BindView(R.id.rb_none)
+    RadioButton rbNone;
+
 
     private SendOrderDataBean sendOrderData;
     private OrderDetailsBean.DataBean.OrderBean orderDetails;
@@ -149,6 +157,8 @@ public class SendOrderMedicalRecordInfoActivity extends BaseActivity {
 
             switch (orderDetailsList.get(0).getMedicalRecords()) {
                 case "1":
+                    rbImg.setChecked(true);
+                    img();
                     if (!StringUtils.isEmpty(orderDetailsList.get(0).getSurgeryRelated())) {
                         surgeryAboutMedicalRecordUrl = orderDetailsList.get(0).getSurgeryRelated();
                         stvSurgeryAboutMedicalRecord.setRightString("已上传")
@@ -176,38 +186,47 @@ public class SendOrderMedicalRecordInfoActivity extends BaseActivity {
                     }
                     break;
                 case "2":
+                    rbEdit.setChecked(true);
+                    edit();
                     if (orderDetailsList.get(0).getMinBloodPressure() > 0) {
-                        etBloodPressureStart.setText(orderDetailsList.get(0).getMinBloodPressure() +"");
+                        etBloodPressureStart.setText(orderDetailsList.get(0).getMinBloodPressure() + "");
                     }
                     if (orderDetailsList.get(0).getMaxBloodPressure() > 0) {
-                        etBloodPressureEnd.setText(orderDetailsList.get(0).getMaxBloodPressure() +"");
+                        etBloodPressureEnd.setText(orderDetailsList.get(0).getMaxBloodPressure() + "");
                     }
                     if (orderDetailsList.get(0).getPulse() > 0) {
-                        etPulse.setText(orderDetailsList.get(0).getPulse() +"");
+                        etPulse.setText(orderDetailsList.get(0).getPulse() + "");
                     }
                     if (orderDetailsList.get(0).getBreathe() > 0) {
-                        etBreathe.setText(orderDetailsList.get(0).getBreathe() +"");
+                        etBreathe.setText(orderDetailsList.get(0).getBreathe() + "");
                     }
                     if (orderDetailsList.get(0).getAnimalHeat() > 0) {
-                        etBodyTemperature.setText(orderDetailsList.get(0).getAnimalHeat() +"");
+                        etBodyTemperature.setText(orderDetailsList.get(0).getAnimalHeat() + "");
                     }
                     if (!StringUtils.isEmpty(orderDetailsList.get(0).getDiabetes())) {
                         rbDiabetesStart.setChecked("2".equals(orderDetailsList.get(0).getDiabetes()));
+                        rbDiabetesEnd.setChecked("1".equals(orderDetailsList.get(0).getDiabetes()));
                     }
                     if (!StringUtils.isEmpty(orderDetailsList.get(0).getCerebralInfarction())) {
                         rbBrainStalkStart.setChecked("2".equals(orderDetailsList.get(0).getCerebralInfarction()));
+                        rbBrainStalkEnd.setChecked("1".equals(orderDetailsList.get(0).getCerebralInfarction()));
                     }
                     if (!StringUtils.isEmpty(orderDetailsList.get(0).getHeartDisease())) {
                         rbHeartDiseaseStart.setChecked("2".equals(orderDetailsList.get(0).getHeartDisease()));
+                        rbHeartDiseaseEnd.setChecked("1".equals(orderDetailsList.get(0).getHeartDisease()));
                     }
                     if (!StringUtils.isEmpty(orderDetailsList.get(0).getInfectDisease())) {
                         rbInfectiousDiseaseStart.setChecked("2".equals(orderDetailsList.get(0).getInfectDisease()));
+                        rbInfectiousDiseaseEnd.setChecked("1".equals(orderDetailsList.get(0).getInfectDisease()));
                     }
                     if (!StringUtils.isEmpty(orderDetailsList.get(0).getBreatheFunction())) {
                         rbRespiratoryDysfunctionStart.setChecked("2".equals(orderDetailsList.get(0).getBreatheFunction()));
+                        rbRespiratoryDysfunctionEnd.setChecked("1".equals(orderDetailsList.get(0).getBreatheFunction()));
                     }
                     break;
                 case "3":
+                    rbNone.setChecked(true);
+                    none();
                     break;
             }
         }
@@ -256,69 +275,88 @@ public class SendOrderMedicalRecordInfoActivity extends BaseActivity {
                 case REQUEST_CODE_109:
                     sendOrderData = data.getParcelableExtra("sendOrderData");
                     break;
+                case REQUEST_CODE_112:
+                    orderDetails = data.getParcelableExtra("orderDetails");
+                    orderDetailsList = data.getParcelableArrayListExtra("orderDetailsList");
+                    break;
             }
         }
+    }
+
+    //暂无
+    private void none() {
+        //填写上传
+        selectRb = 3;
+        llBloodPressure.setVisibility(View.GONE);
+        llPulse.setVisibility(View.GONE);
+        llBreathe.setVisibility(View.GONE);
+        llBodyTemperature.setVisibility(View.GONE);
+        llDiabetes.setVisibility(View.GONE);
+        llBrainStalk.setVisibility(View.GONE);
+        llHeartDisease.setVisibility(View.GONE);
+        llInfectiousDisease.setVisibility(View.GONE);
+        llRespiratoryDysfunction.setVisibility(View.GONE);
+        //图片上传
+        stvSurgeryAboutMedicalRecord.setVisibility(View.GONE);
+        stvBloodRoutine.setVisibility(View.GONE);
+        stvElectrocardiogram.setVisibility(View.GONE);
+        stvCoagulation.setVisibility(View.GONE);
+        stvInfectiousDiseaseIndex.setVisibility(View.GONE);
+    }
+
+    //填写上传
+    private void edit() {
+        //填写上传
+        selectRb = 2;
+        llBloodPressure.setVisibility(View.VISIBLE);
+        llPulse.setVisibility(View.VISIBLE);
+        llBreathe.setVisibility(View.VISIBLE);
+        llBodyTemperature.setVisibility(View.VISIBLE);
+        llDiabetes.setVisibility(View.VISIBLE);
+        llBrainStalk.setVisibility(View.VISIBLE);
+        llHeartDisease.setVisibility(View.VISIBLE);
+        llInfectiousDisease.setVisibility(View.VISIBLE);
+        llRespiratoryDysfunction.setVisibility(View.VISIBLE);
+        //图片上传
+        stvSurgeryAboutMedicalRecord.setVisibility(View.GONE);
+        stvBloodRoutine.setVisibility(View.GONE);
+        stvElectrocardiogram.setVisibility(View.GONE);
+        stvCoagulation.setVisibility(View.GONE);
+        stvInfectiousDiseaseIndex.setVisibility(View.GONE);
+    }
+
+    //图片上传
+    private void img() {
+        //填写上传
+        selectRb = 1;
+        llBloodPressure.setVisibility(View.GONE);
+        llPulse.setVisibility(View.GONE);
+        llBreathe.setVisibility(View.GONE);
+        llBodyTemperature.setVisibility(View.GONE);
+        llDiabetes.setVisibility(View.GONE);
+        llBrainStalk.setVisibility(View.GONE);
+        llHeartDisease.setVisibility(View.GONE);
+        llInfectiousDisease.setVisibility(View.GONE);
+        llRespiratoryDysfunction.setVisibility(View.GONE);
+        //图片上传
+        stvSurgeryAboutMedicalRecord.setVisibility(View.VISIBLE);
+        stvBloodRoutine.setVisibility(View.VISIBLE);
+        stvElectrocardiogram.setVisibility(View.VISIBLE);
+        stvCoagulation.setVisibility(View.VISIBLE);
+        stvInfectiousDiseaseIndex.setVisibility(View.VISIBLE);
     }
 
     @OnClick({R.id.rb_none, R.id.rb_edit, R.id.rb_img, R.id.stv_surgery_about_medical_record, R.id.stv_blood_routine, R.id.stv_electrocardiogram, R.id.stv_coagulation, R.id.stv_infectious_disease_index, R.id.sb_add_patient, R.id.sb_next})
     public void onViewClicked(View view) {
         switch (view.getId()) {
-            case R.id.rb_none://暂无
-                //填写上传
-                selectRb = 3;
-                llBloodPressure.setVisibility(View.GONE);
-                llPulse.setVisibility(View.GONE);
-                llBreathe.setVisibility(View.GONE);
-                llBodyTemperature.setVisibility(View.GONE);
-                llDiabetes.setVisibility(View.GONE);
-                llBrainStalk.setVisibility(View.GONE);
-                llHeartDisease.setVisibility(View.GONE);
-                llInfectiousDisease.setVisibility(View.GONE);
-                llRespiratoryDysfunction.setVisibility(View.GONE);
-                //图片上传
-                stvSurgeryAboutMedicalRecord.setVisibility(View.GONE);
-                stvBloodRoutine.setVisibility(View.GONE);
-                stvElectrocardiogram.setVisibility(View.GONE);
-                stvCoagulation.setVisibility(View.GONE);
-                stvInfectiousDiseaseIndex.setVisibility(View.GONE);
+            case R.id.rb_none:
+                none();
                 break;
-            case R.id.rb_edit://填写上传
-                //填写上传
-                selectRb = 2;
-                llBloodPressure.setVisibility(View.VISIBLE);
-                llPulse.setVisibility(View.VISIBLE);
-                llBreathe.setVisibility(View.VISIBLE);
-                llBodyTemperature.setVisibility(View.VISIBLE);
-                llDiabetes.setVisibility(View.VISIBLE);
-                llBrainStalk.setVisibility(View.VISIBLE);
-                llHeartDisease.setVisibility(View.VISIBLE);
-                llInfectiousDisease.setVisibility(View.VISIBLE);
-                llRespiratoryDysfunction.setVisibility(View.VISIBLE);
-                //图片上传
-                stvSurgeryAboutMedicalRecord.setVisibility(View.GONE);
-                stvBloodRoutine.setVisibility(View.GONE);
-                stvElectrocardiogram.setVisibility(View.GONE);
-                stvCoagulation.setVisibility(View.GONE);
-                stvInfectiousDiseaseIndex.setVisibility(View.GONE);
+            case R.id.rb_edit:
+                edit();
                 break;
-            case R.id.rb_img://图片上传
-                //填写上传
-                selectRb = 1;
-                llBloodPressure.setVisibility(View.GONE);
-                llPulse.setVisibility(View.GONE);
-                llBreathe.setVisibility(View.GONE);
-                llBodyTemperature.setVisibility(View.GONE);
-                llDiabetes.setVisibility(View.GONE);
-                llBrainStalk.setVisibility(View.GONE);
-                llHeartDisease.setVisibility(View.GONE);
-                llInfectiousDisease.setVisibility(View.GONE);
-                llRespiratoryDysfunction.setVisibility(View.GONE);
-                //图片上传
-                stvSurgeryAboutMedicalRecord.setVisibility(View.VISIBLE);
-                stvBloodRoutine.setVisibility(View.VISIBLE);
-                stvElectrocardiogram.setVisibility(View.VISIBLE);
-                stvCoagulation.setVisibility(View.VISIBLE);
-                stvInfectiousDiseaseIndex.setVisibility(View.VISIBLE);
+            case R.id.rb_img:
+                img();
                 break;
             case R.id.stv_surgery_about_medical_record:
                 startActivityForResult(new Intent(this, SurgeryAboutMedicalRecordActivity.class).putExtra("title", "手术相关病历").putExtra("imgUrl", surgeryAboutMedicalRecordUrl), REQUEST_CODE_103);
@@ -337,7 +375,7 @@ public class SendOrderMedicalRecordInfoActivity extends BaseActivity {
                 break;
             case R.id.sb_add_patient:
                 if (orderDetails != null && orderDetailsList.size() > 0)
-                    startActivityForResult(new Intent(this, SendOrderAddPatientActivity.class).putExtra("orderDetails", orderDetails).putParcelableArrayListExtra("orderDetailsList", (ArrayList<? extends Parcelable>) orderDetailsList).putExtra("selectRb", selectRb), REQUEST_CODE_109);
+                    startActivityForResult(new Intent(this, SendOrderAddPatientActivity.class).putExtra("orderDetails", orderDetails).putParcelableArrayListExtra("orderDetailsList", (ArrayList<? extends Parcelable>) orderDetailsList).putExtra("selectRb", selectRb), REQUEST_CODE_112);
                 else
                     startActivityForResult(new Intent(this, SendOrderAddPatientActivity.class).putExtra("sendOrderData", sendOrderData).putExtra("selectRb", selectRb), REQUEST_CODE_109);
                 break;

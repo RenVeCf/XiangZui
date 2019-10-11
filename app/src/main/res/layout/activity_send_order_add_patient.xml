@@ -21,10 +21,11 @@
 
     <com.ipd.xiangzui.common.view.BounceScrollView
         android:layout_width="0dp"
-        android:layout_height="wrap_content"
+        android:layout_height="0dp"
         android:scrollbars="none"
         android:fillViewport="true"
-        android:layout_marginBottom="@dimen/y150"
+        android:layout_marginBottom="@dimen/y20"
+        app:layout_constraintBottom_toTopOf="@+id/ll_bottom"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tv_send_order_add_patient">
@@ -63,18 +64,18 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/rv_send_order_add_patient">
 
-                <TextView
-                    android:id="@+id/tv_add_patient"
-                    android:layout_width="0dp"
-                    android:layout_height="@dimen/y100"
-                    android:layout_marginStart="@dimen/x50"
-                    android:gravity="center_vertical"
-                    android:text="患者信息"
-                    android:textColor="@color/tx_bottom_navigation"
-                    android:textSize="12sp"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
+<!--                <TextView-->
+<!--                    android:id="@+id/tv_add_patient"-->
+<!--                    android:layout_width="0dp"-->
+<!--                    android:layout_height="@dimen/y100"-->
+<!--                    android:layout_marginStart="@dimen/x50"-->
+<!--                    android:gravity="center_vertical"-->
+<!--                    android:text="患者信息"-->
+<!--                    android:textColor="@color/tx_bottom_navigation"-->
+<!--                    android:textSize="12sp"-->
+<!--                    app:layout_constraintEnd_toEndOf="parent"-->
+<!--                    app:layout_constraintStart_toStartOf="parent"-->
+<!--                    app:layout_constraintTop_toTopOf="parent" />-->
 
                 <LinearLayout
                     android:id="@+id/ll_surgical_name"
@@ -86,7 +87,7 @@
                     android:paddingEnd="@dimen/x50"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/tv_add_patient">
+                    app:layout_constraintTop_toTopOf="parent">
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -293,6 +294,7 @@
     </com.ipd.xiangzui.common.view.BounceScrollView>
 
     <LinearLayout
+        android:id="@+id/ll_bottom"
         android:layout_width="0dp"
         android:layout_height="@dimen/y150"
         android:background="@color/white"

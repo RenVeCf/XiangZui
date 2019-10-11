@@ -62,6 +62,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
+                android:text="上海享醉科技有限公司"
                 android:gravity="end"
                 android:textColor="@color/tx_bottom_navigation" />
         </LinearLayout>
@@ -91,6 +92,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
+                android:text="中国农业银行股份有限公司上海凯旋路支行"
                 android:gravity="end"
                 android:textColor="@color/tx_bottom_navigation" />
         </LinearLayout>
@@ -120,6 +122,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
+                android:text="03383000040016282"
                 android:gravity="end"
                 android:textColor="@color/tx_bottom_navigation" />
         </LinearLayout>
@@ -237,6 +240,14 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintVertical_weight="2">
 
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:gravity="center_vertical"
+                android:text="¥ "
+                android:textColor="@color/tx_bottom_navigation_select"
+                android:textSize="22sp" />
+
             <EditText
                 android:id="@+id/et_service_fee"
                 android:layout_width="0dp"
@@ -246,14 +257,6 @@
                 android:gravity="center_vertical"
                 android:inputType="numberDecimal"
                 android:textColor="@color/black"
-                android:textSize="22sp" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:gravity="center_vertical"
-                android:text="¥ "
-                android:textColor="@color/tx_bottom_navigation_select"
                 android:textSize="22sp" />
         </LinearLayout>
 

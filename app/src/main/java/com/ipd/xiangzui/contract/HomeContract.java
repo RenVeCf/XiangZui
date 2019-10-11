@@ -5,10 +5,13 @@ import com.ipd.xiangzui.base.BaseView;
 import com.ipd.xiangzui.bean.AddFeeBean;
 import com.ipd.xiangzui.bean.CancelIsOrderBean;
 import com.ipd.xiangzui.bean.CancelOrderBean;
+import com.ipd.xiangzui.bean.GetUserInfoBean;
 import com.ipd.xiangzui.bean.HomeBean;
 import com.ipd.xiangzui.bean.HospitalNameBean;
 import com.ipd.xiangzui.bean.OrderDetailsBean;
+import com.ipd.xiangzui.bean.OrderIsOrverBean;
 import com.ipd.xiangzui.bean.OrderQuickBean;
+import com.ipd.xiangzui.bean.SelectFeeBean;
 import com.ipd.xiangzui.bean.VerifiedTypeBean;
 
 import java.util.TreeMap;
@@ -41,6 +44,12 @@ public interface HomeContract {
 
         void resultOrderDetails(OrderDetailsBean data);
 
+        void resultGetUserInfo(GetUserInfoBean data);
+
+        void resultSelectFee(SelectFeeBean data);
+
+        void resultOrderIsOrver(OrderIsOrverBean data);
+
         <T> ObservableTransformer<T, T> bindLifecycle();
     }
 
@@ -60,5 +69,11 @@ public interface HomeContract {
         public abstract void getOrderQuick(TreeMap<String, String> map, boolean isDialog, boolean cancelable);
 
         public abstract void getOrderDetails(TreeMap<String, String> map, boolean isDialog, boolean cancelable);
+
+        public abstract void getGetUserInfo(TreeMap<String, String> map, boolean isDialog, boolean cancelable);
+
+        public abstract void getSelectFee(TreeMap<String, String> map, boolean isDialog, boolean cancelable);
+
+        public abstract void getOrderIsOrver(TreeMap<String, String> map, boolean isDialog, boolean cancelable);
     }
 }

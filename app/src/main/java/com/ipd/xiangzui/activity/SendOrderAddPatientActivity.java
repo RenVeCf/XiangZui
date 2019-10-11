@@ -9,6 +9,7 @@ import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.annotation.Nullable;
@@ -87,6 +88,8 @@ public class SendOrderAddPatientActivity extends BaseActivity<NarcosisListContra
     SuperTextView stvInsuranceConsent;
     @BindView(R.id.cl_add_patient)
     ConstraintLayout clAddPatient;
+    @BindView(R.id.ll_surgical_name)
+    LinearLayout llSurgicalName;
 
     private SendOrderDataBean sendOrderData;
     private List<String> listData;
@@ -144,11 +147,33 @@ public class SendOrderAddPatientActivity extends BaseActivity<NarcosisListContra
         narcosisListMap.put("sign", StringUtils.toUpperCase(MD5Utils.encodeMD5(narcosisListMap.toString().replaceAll(" ", "") + SIGN)));
         getPresenter().getNarcosisList(narcosisListMap, false, false);
 
-        if (getIntent().getIntExtra("add_gone", 0) == 1)
-            clAddPatient.setVisibility(View.GONE);
-        if (orderDetails != null && orderDetailsList.size() > 0)
+        if (orderDetails != null && orderDetailsList.size() > 0) {
             rvSendOrderAddPatient.setAdapter(selectOrderAddPatientAdapter = new SelectOrderAddPatientAdapter(orderDetailsList, 1));
-        else
+            if ("2".equals(orderDetails.getOrderType()))
+                clAddPatient.setVisibility(View.GONE);
+            else {
+                rvSendOrderAddPatient.setVisibility(View.GONE);
+                llSurgicalName.setVisibility(View.GONE);
+
+                etPatientName.setText(orderDetailsList.get(0).getPatientName());
+                stvPatientSex.setRightString("1".equals(orderDetailsList.get(0).getSex()) ? "男" : "女");
+                stvPatientAge.setRightString(orderDetailsList.get(0).getAge() + "岁");
+                etPatientHeight.setText(orderDetailsList.get(0).getHeight() + "");
+                etPatientBodyWeight.setText(orderDetailsList.get(0).getWeight() + "");
+                stvAnesthesiaType.setRightString(orderDetailsList.get(0).getNarcosisType());
+                if (!isEmpty(orderDetailsList.get(0).getPositiveCard()) && !isEmpty(orderDetailsList.get(0).getReverseCard())) {
+                    positiveUrl = orderDetailsList.get(0).getPositiveCard();
+                    negativeUrl = orderDetailsList.get(0).getReverseCard();
+                    stvIdCard.setRightString("已上传")
+                            .setRightTextColor(getResources().getColor(R.color.tx_bottom_navigation_select));
+                }
+                if (!isEmpty(orderDetailsList.get(0).getInsurance())) {
+                    imgUrl = orderDetailsList.get(0).getInsurance();
+                    stvInsuranceConsent.setRightString("已上传")
+                            .setRightTextColor(getResources().getColor(R.color.tx_bottom_navigation_select));
+                }
+            }
+        } else
             rvSendOrderAddPatient.setAdapter(selectOrderAddPatientAdapter = new SelectOrderAddPatientAdapter(sendOrderData.getTwoOrderBean(), 1));
         selectOrderAddPatientAdapter.bindToRecyclerView(rvSendOrderAddPatient);
         selectOrderAddPatientAdapter.openLoadAnimation();
@@ -303,7 +328,7 @@ public class SendOrderAddPatientActivity extends BaseActivity<NarcosisListContra
                 startActivityForResult(new Intent(this, HeadActivity.class).putExtra("title", "保险同意书").putExtra("imgUrl", imgUrl), REQUEST_CODE_98);
                 break;
             case R.id.sb_next:
-                if (!isEmpty(etSurgicalName.toString().trim()) && !isEmpty(etPatientName.toString().trim()) && !"请选择".equals(stvPatientSex.getRightString()) && !"请选择".equals(stvPatientAge.getRightString())) {
+                if (!isEmpty(etSurgicalName.getText().toString().trim()) && !isEmpty(etPatientName.getText().toString().trim()) && !"请选择".equals(stvPatientSex.getRightString()) && !"请选择".equals(stvPatientAge.getRightString()) && sendOrderData != null) {
                     SendOrderDataBean.TwoOrderBean oneOrder = new SendOrderDataBean.TwoOrderBean();
                     oneOrder.setHospitalName(sendOrderData.getTwoOrderBean().get(0).getHospitalName());
                     oneOrder.setProv(sendOrderData.getTwoOrderBean().get(0).getProv());
@@ -336,23 +361,36 @@ public class SendOrderAddPatientActivity extends BaseActivity<NarcosisListContra
                         setResult(RESULT_OK, new Intent().putExtra("sendOrderData", sendOrderData));
                         finish();
                     }
-                } else if (!isEmpty(etSurgicalName.toString().trim()) && !isEmpty(etPatientName.toString().trim()) && !"请选择".equals(stvPatientSex.getRightString()) && !"请选择".equals(stvPatientAge.getRightString()) && orderDetails != null && orderDetailsList.size() > 0) {
+                } else if (!isEmpty(etSurgicalName.getText().toString().trim()) && !isEmpty(etPatientName.getText().toString().trim()) && !"请选择".equals(stvPatientSex.getRightString()) && !"请选择".equals(stvPatientAge.getRightString()) && orderDetails != null && orderDetailsList.size() > 0) {
                     OrderDetailsBean.DataBean.OrderDetailBean orderDetail = new OrderDetailsBean.DataBean.OrderDetailBean();
-                    orderDetail.setSurgeryName(etSurgicalName.toString().trim());
-                    orderDetail.setPatientName(etPatientName.toString().trim());
+                    orderDetail.setSurgeryName(etSurgicalName.getText().toString().trim());
+                    orderDetail.setPatientName(etPatientName.getText().toString().trim());
                     orderDetail.setSex("男".equals(stvPatientSex.getRightString()) ? "1" : "2");
-                    orderDetail.setAge(Integer.parseInt(stvPatientAge.getRightString().replaceAll("岁", "")));
-                    orderDetail.setHeight(Double.parseDouble(etPatientHeight.toString().trim()));
-                    orderDetail.setWeight(Double.parseDouble(etPatientBodyWeight.toString().trim()));
+                    orderDetail.setAge(Integer.parseInt(stvPatientAge.getRightString().replaceAll("岁", "").trim()));
+                    orderDetail.setHeight(Double.parseDouble(etPatientHeight.getText().toString().trim()));
+                    orderDetail.setWeight(Double.parseDouble(etPatientBodyWeight.getText().toString().trim()));
                     orderDetail.setNarcosisTypeId(narcosisId);
                     orderDetail.setPositiveCard(positiveUrl);
                     orderDetail.setReverseCard(negativeUrl);
                     orderDetail.setInsurance(imgUrl);
                     orderDetailsList.add(orderDetail);
 
+                    setResult(RESULT_OK, new Intent().putExtra("orderDetails", orderDetails).putParcelableArrayListExtra("orderDetailsList", (ArrayList<? extends Parcelable>) orderDetailsList));
+                    finish();
+                } else if (orderDetails != null && orderDetailsList.size() > 0 && clAddPatient.getVisibility() == View.GONE) {
                     startActivity(new Intent(this, SendOrderMedicalRecordInfoActivity.class).putExtra("orderDetails", orderDetails).putParcelableArrayListExtra("orderDetailsList", (ArrayList<? extends Parcelable>) orderDetailsList));
                     finish();
-                } else if (orderDetails != null && orderDetailsList.size() > 0) {
+                } else if (orderDetails != null && orderDetailsList.size() > 0 && rvSendOrderAddPatient.getVisibility() == View.GONE && "1".equals(orderDetails.getOrderType())) {
+                    orderDetailsList.get(0).setPatientName(etPatientName.getText().toString().trim());
+                    orderDetailsList.get(0).setSex("男".equals(stvPatientSex.getRightString()) ? "1" : "2");
+                    orderDetailsList.get(0).setAge(Integer.parseInt(stvPatientAge.getRightString().replaceAll("岁", "").trim()));
+                    orderDetailsList.get(0).setHeight(Double.parseDouble(etPatientHeight.getText().toString().trim()));
+                    orderDetailsList.get(0).setWeight(Double.parseDouble(etPatientBodyWeight.getText().toString().trim()));
+                    orderDetailsList.get(0).setNarcosisTypeId(narcosisId);
+                    orderDetailsList.get(0).setPositiveCard(positiveUrl);
+                    orderDetailsList.get(0).setReverseCard(negativeUrl);
+                    orderDetailsList.get(0).setInsurance(imgUrl);
+
                     startActivity(new Intent(this, SendOrderMedicalRecordInfoActivity.class).putExtra("orderDetails", orderDetails).putParcelableArrayListExtra("orderDetailsList", (ArrayList<? extends Parcelable>) orderDetailsList));
                     finish();
                 } else

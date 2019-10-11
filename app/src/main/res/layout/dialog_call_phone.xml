@@ -8,10 +8,10 @@
     android:orientation="vertical">
 
     <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/tv_call_num"
         android:layout_width="match_parent"
         android:layout_height="@dimen/y300"
         android:gravity="center"
-        android:text="拨打 8888888888"
         android:textColor="@color/black"
         android:textSize="18sp" />
 

@@ -13,6 +13,7 @@ import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
 
+import androidx.appcompat.widget.AppCompatTextView;
 import androidx.core.app.ActivityCompat;
 import androidx.fragment.app.FragmentActivity;
 
@@ -25,6 +26,7 @@ import io.reactivex.functions.Consumer;
 
 import static android.Manifest.permission.CALL_PHONE;
 import static com.ipd.xiangzui.common.config.IConstants.SERVICE_PHONE;
+import static com.ipd.xiangzui.utils.StringUtils.isEmpty;
 import static com.ipd.xiangzui.utils.isClickUtil.isFastClick;
 
 /**
@@ -35,11 +37,14 @@ import static com.ipd.xiangzui.utils.isClickUtil.isFastClick;
  */
 public abstract class CallPhoneDialog extends Dialog implements View.OnClickListener {
     private SuperButton btCancel, btConfirm;
+    private AppCompatTextView tvCallNum;
     private Activity activity;
+    private String phoneNum;//医生电话
 
-    public CallPhoneDialog(Activity activity) {
+    public CallPhoneDialog(Activity activity, String phoneNum) {
         super(activity, R.style.MyDialogTheme);
         this.activity = activity;
+        this.phoneNum = phoneNum;
     }
 
     @Override
@@ -47,8 +52,14 @@ public abstract class CallPhoneDialog extends Dialog implements View.OnClickList
         super.onCreate(savedInstanceState);
         setContentView(R.layout.dialog_call_phone);
 
+        tvCallNum = (AppCompatTextView) findViewById(R.id.tv_call_num);
         btCancel = (SuperButton) findViewById(R.id.bt_cancel);
         btConfirm = (SuperButton) findViewById(R.id.bt_confirm);
+
+        if (!isEmpty(phoneNum))
+            tvCallNum.setText("拨打 " + phoneNum);
+        else
+            tvCallNum.setText("拨打 " + SERVICE_PHONE);
 
         btCancel.setOnClickListener(this);
         btConfirm.setOnClickListener(this);
@@ -91,7 +102,11 @@ public abstract class CallPhoneDialog extends Dialog implements View.OnClickList
     //打电话
     private void callPhone() {
         Intent intent = new Intent(Intent.ACTION_CALL);
-        Uri data = Uri.parse("tel:" + SERVICE_PHONE);//TODO  客服电话
+        Uri data;
+        if (!isEmpty(phoneNum))
+            data = Uri.parse("tel:" + phoneNum);
+        else
+            data = Uri.parse("tel:" + SERVICE_PHONE);
         intent.setData(data);
         if (ActivityCompat.checkSelfPermission(activity, CALL_PHONE) != PackageManager.PERMISSION_GRANTED) {
             // TODO: Consider calling

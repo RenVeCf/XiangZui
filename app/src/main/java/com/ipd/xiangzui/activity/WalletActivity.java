@@ -6,6 +6,7 @@ import android.view.View;
 import android.widget.CompoundButton;
 import android.widget.TextView;
 
+import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -25,6 +26,7 @@ import com.ipd.xiangzui.utils.MD5Utils;
 import com.ipd.xiangzui.utils.SPUtil;
 import com.ipd.xiangzui.utils.StringUtils;
 import com.ipd.xiangzui.utils.ToastUtil;
+import com.xuexiang.xui.widget.textview.supertextview.SuperButton;
 import com.xuexiang.xui.widget.textview.supertextview.SuperTextView;
 
 import java.util.ArrayList;
@@ -35,6 +37,7 @@ import butterknife.BindView;
 import butterknife.OnClick;
 import io.reactivex.ObservableTransformer;
 
+import static com.ipd.xiangzui.common.config.IConstants.REQUEST_CODE_113;
 import static com.ipd.xiangzui.common.config.IConstants.SIGN;
 import static com.ipd.xiangzui.common.config.IConstants.USER_ID;
 import static com.ipd.xiangzui.utils.isClickUtil.isFastClick;
@@ -63,6 +66,8 @@ public class WalletActivity extends BaseActivity<WalletContract.View, WalletCont
     SuperTextView stvConsumerDetails;
     @BindView(R.id.rv_consumer_details)
     RecyclerView rvConsumerDetails;
+    @BindView(R.id.sb_refund_deposit)
+    SuperButton sbRefundDeposit;
 
     private List<WalletBean.DataBean.BalaListBean> balaList = new ArrayList<>();
     private ConsumerDetailsAdapter consumerDetailsAdapter;
@@ -129,6 +134,18 @@ public class WalletActivity extends BaseActivity<WalletContract.View, WalletCont
         });
     }
 
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (data != null) {
+            switch (requestCode) {
+                case REQUEST_CODE_113:
+                    initData();
+                    break;
+            }
+        }
+    }
+
     @OnClick({R.id.stv_account_balance_type, R.id.sb_refund_deposit, R.id.sb_withdraw, R.id.sb_recharge})
     public void onViewClicked(View view) {
         switch (view.getId()) {
@@ -144,15 +161,15 @@ public class WalletActivity extends BaseActivity<WalletContract.View, WalletCont
                     new TwoBtDialog(this, "保证金不足时无法发单，是否确认退还保证金？", "确认") {
                         @Override
                         public void confirm() {
-                            startActivity(new Intent(WalletActivity.this, WithdrawActivity.class).putExtra("type", 2));
+                            startActivityForResult(new Intent(WalletActivity.this, WithdrawActivity.class).putExtra("type", 2), REQUEST_CODE_113);
                         }
                     }.show();
                 break;
             case R.id.sb_withdraw: //提现
-                startActivity(new Intent(this, WithdrawActivity.class).putExtra("type", 1));
+                startActivityForResult(new Intent(this, WithdrawActivity.class).putExtra("type", 1), REQUEST_CODE_113);
                 break;
             case R.id.sb_recharge: //充值
-                startActivity(new Intent(this, RechargeActivity.class));
+                startActivityForResult(new Intent(this, RechargeActivity.class), REQUEST_CODE_113);
                 break;
         }
     }
@@ -164,6 +181,8 @@ public class WalletActivity extends BaseActivity<WalletContract.View, WalletCont
                 balance = data.getData().getBalance() + "";
                 stvAccountBalance.setCenterString(data.getData().getBalance() + "");
                 tvEarnestMoney.setText(data.getData().getMargin() + "");
+                if (data.getData().getMargin() > 0)
+                    sbRefundDeposit.setVisibility(View.VISIBLE);
                 tvSumIncome.setText(data.getData().getIncome() + "");
                 tvSumExpenditure.setText(data.getData().getExpend() + "");
 

@@ -31,6 +31,7 @@ import com.ipd.xiangzui.bean.OrderDetailsBean;
 import com.ipd.xiangzui.bean.SendOrderDataBean;
 import com.ipd.xiangzui.common.view.TopView;
 import com.ipd.xiangzui.utils.ApplicationUtil;
+import com.ipd.xiangzui.utils.L;
 import com.ipd.xiangzui.utils.SPUtil;
 import com.ipd.xiangzui.utils.ToastUtil;
 import com.xuexiang.xui.widget.textview.supertextview.SuperTextView;
@@ -323,7 +324,7 @@ public class SendOrderSurgicalInfoActivity extends BaseActivity {
                     if ("1".equals(orderDetails.getOrderType()))
                         orderDetails.setSurgeryName(etSurgicalName.getText().toString().trim());
                     orderDetails.setHospitalName(etHospitalName.getText().toString().trim());
-                    startActivity(new Intent(this, SendOrderAddPatientActivity.class).putExtra("orderDetails", orderDetails).putParcelableArrayListExtra("orderDetailsList", (ArrayList<? extends Parcelable>) orderDetailsList).putExtra("add_gone", 1));
+                    startActivity(new Intent(this, SendOrderAddPatientActivity.class).putExtra("orderDetails", orderDetails).putParcelableArrayListExtra("orderDetailsList", (ArrayList<? extends Parcelable>) orderDetailsList));
                 } else
                     ToastUtil.showShortToast("请将资料填写完整!");
                 break;

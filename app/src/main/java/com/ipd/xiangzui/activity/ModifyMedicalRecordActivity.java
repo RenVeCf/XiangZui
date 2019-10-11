@@ -279,18 +279,23 @@ public class ModifyMedicalRecordActivity extends BaseActivity<ModifyMedicalContr
                     }
                     if (!isEmpty(orderDetailsList.get(0).getDiabetes())) {
                         rbDiabetesStart.setChecked("2".equals(orderDetailsList.get(0).getDiabetes()));
+                        rbDiabetesEnd.setChecked("1".equals(orderDetailsList.get(0).getDiabetes()));
                     }
                     if (!isEmpty(orderDetailsList.get(0).getCerebralInfarction())) {
                         rbBrainStalkStart.setChecked("2".equals(orderDetailsList.get(0).getCerebralInfarction()));
+                        rbBrainStalkEnd.setChecked("1".equals(orderDetailsList.get(0).getCerebralInfarction()));
                     }
                     if (!isEmpty(orderDetailsList.get(0).getHeartDisease())) {
                         rbHeartDiseaseStart.setChecked("2".equals(orderDetailsList.get(0).getHeartDisease()));
+                        rbHeartDiseaseEnd.setChecked("1".equals(orderDetailsList.get(0).getHeartDisease()));
                     }
                     if (!isEmpty(orderDetailsList.get(0).getInfectDisease())) {
                         rbInfectiousDiseaseStart.setChecked("2".equals(orderDetailsList.get(0).getInfectDisease()));
+                        rbInfectiousDiseaseEnd.setChecked("1".equals(orderDetailsList.get(0).getInfectDisease()));
                     }
                     if (!isEmpty(orderDetailsList.get(0).getBreatheFunction())) {
                         rbRespiratoryDysfunctionStart.setChecked("2".equals(orderDetailsList.get(0).getBreatheFunction()));
+                        rbRespiratoryDysfunctionEnd.setChecked("1".equals(orderDetailsList.get(0).getBreatheFunction()));
                     }
                     break;
             }
@@ -441,31 +446,32 @@ public class ModifyMedicalRecordActivity extends BaseActivity<ModifyMedicalContr
     private String getOrderDetailsJson() {
         List<Map<String, String>> listMap = new ArrayList<>();
         for (OrderDetailsBean.DataBean.OrderDetailBean data : orderDetailsList) {
-            Map<String, String> map = new HashMap<>();
-            map.put("patientName", etPatientName.getText().toString().trim());
-            map.put("sex", "男".equals(stvPatientSex.getRightString()) ? "1" : "2");
-            map.put("age", stvPatientAge.getRightString().replaceAll("岁", "").trim());
-            map.put("orderDetailId", data.getOrderDetailId() + "");
-            if (!isEmpty(etPatientHeight.getText().toString().trim()))
-                map.put("height", etPatientHeight.getText().toString().trim());
-            if (!isEmpty(etPatientBodyWeight.getText().toString().trim()))
-                map.put("weight", etPatientBodyWeight.getText().toString().trim());
-            if (narcosisId > 0)
-                map.put("narcosisTypeId", narcosisId + "");
-            if (!isEmpty(positiveUrl))
-                map.put("positiveCard", positiveUrl);
-            if (!isEmpty(negativeUrl))
-                map.put("reverseCard", negativeUrl);
-            if (!isEmpty(surgeryAboutMedicalRecordUrl))
-                map.put("surgeryRelated", surgeryAboutMedicalRecordUrl);
-            if (!isEmpty(bloodRoutineUrl))
-                map.put("routineBlood", bloodRoutineUrl);
-            if (!isEmpty(electrocardiogramUrl))
-                map.put("ecg", electrocardiogramUrl);
-            if (!isEmpty(coagulationUrl))
-                map.put("cruor", coagulationUrl);
-            if (!isEmpty(infectiousDiseaseIndexUrl))
-                map.put("contagion", infectiousDiseaseIndexUrl);
+            if ("1".equals(orderDetails.getOrderType())) {
+                Map<String, String> map = new HashMap<>();
+                map.put("patientName", etPatientName.getText().toString().trim());
+                map.put("sex", "男".equals(stvPatientSex.getRightString()) ? "1" : "2");
+                map.put("age", stvPatientAge.getRightString().replaceAll("岁", "").trim());
+                map.put("orderDetailId", data.getOrderDetailId() + "");
+                if (!isEmpty(etPatientHeight.getText().toString().trim()))
+                    map.put("height", etPatientHeight.getText().toString().trim());
+                if (!isEmpty(etPatientBodyWeight.getText().toString().trim()))
+                    map.put("weight", etPatientBodyWeight.getText().toString().trim());
+                if (narcosisId > 0)
+                    map.put("narcosisTypeId", narcosisId + "");
+                if (!isEmpty(positiveUrl))
+                    map.put("positiveCard", positiveUrl);
+                if (!isEmpty(negativeUrl))
+                    map.put("reverseCard", negativeUrl);
+                if (!isEmpty(surgeryAboutMedicalRecordUrl))
+                    map.put("surgeryRelated", surgeryAboutMedicalRecordUrl);
+                if (!isEmpty(bloodRoutineUrl))
+                    map.put("routineBlood", bloodRoutineUrl);
+                if (!isEmpty(electrocardiogramUrl))
+                    map.put("ecg", electrocardiogramUrl);
+                if (!isEmpty(coagulationUrl))
+                    map.put("cruor", coagulationUrl);
+                if (!isEmpty(infectiousDiseaseIndexUrl))
+                    map.put("contagion", infectiousDiseaseIndexUrl);
 //            if (data.getMinBloodPressure() > 0)
 //                map1.put("minBloodPressure", data.getMinBloodPressure() + "");
 //            if (data.getMaxBloodPressure() > 0)
@@ -486,7 +492,55 @@ public class ModifyMedicalRecordActivity extends BaseActivity<ModifyMedicalContr
 //                map1.put("infectDisease", data.getInfectDisease());
 //            if (!isEmpty(data.getBreatheFunction()))
 //                map1.put("breatheFunction", data.getBreatheFunction());
-            listMap.add(map);
+                listMap.add(map);
+            } else {
+                Map<String, String> map = new HashMap<>();
+                map.put("patientName", data.getPatientName());
+                map.put("sex", data.getSex());
+                map.put("age", data.getAge() + "");
+                map.put("orderDetailId", data.getOrderDetailId() + "");
+                if (data.getHeight() > 0)
+                    map.put("height", data.getHeight() + "");
+                if (data.getWeight() > 0)
+                    map.put("weight", data.getWeight() + "");
+                if (data.getNarcosisTypeId() > 0)
+                    map.put("narcosisTypeId", data.getNarcosisTypeId() + "");
+                if (!isEmpty(data.getPositiveCard()))
+                    map.put("positiveCard", data.getPositiveCard());
+                if (!isEmpty(data.getReverseCard()))
+                    map.put("reverseCard", data.getReverseCard());
+                if (!isEmpty(data.getSurgeryRelated()))
+                    map.put("surgeryRelated", data.getSurgeryRelated());
+                if (!isEmpty(data.getRoutineBlood()))
+                    map.put("routineBlood", data.getRoutineBlood());
+                if (!isEmpty(data.getEcg()))
+                    map.put("ecg", data.getEcg());
+                if (!isEmpty(data.getCruor()))
+                    map.put("cruor", data.getCruor());
+                if (!isEmpty(data.getContagion()))
+                    map.put("contagion", data.getContagion());
+//            if (data.getMinBloodPressure() > 0)
+//                map1.put("minBloodPressure", data.getMinBloodPressure() + "");
+//            if (data.getMaxBloodPressure() > 0)
+//                map1.put("maxBloodPressure", data.getMaxBloodPressure() + "");
+//            if (data.getPulse() > 0)
+//                map1.put("pulse", data.getPulse() + "");
+//            if (data.getBreathe() > 0)
+//                map1.put("breathe", data.getBreathe() + "");
+//            if (data.getAnimalHeat() > 0)
+//                map1.put("animalHeat", data.getAnimalHeat() + "");
+//            if (!isEmpty(data.getDiabetes()))
+//                map1.put("diabetes", data.getDiabetes());
+//            if (!isEmpty(data.getCerebralInfarction()))
+//                map1.put("cerebralInfarction", data.getCerebralInfarction());
+//            if (!isEmpty(data.getHeartDisease()))
+//                map1.put("heartDisease", data.getHeartDisease());
+//            if (!isEmpty(data.getInfectDisease()))
+//                map1.put("infectDisease", data.getInfectDisease());
+//            if (!isEmpty(data.getBreatheFunction()))
+//                map1.put("breatheFunction", data.getBreatheFunction());
+                listMap.add(map);
+            }
         }
         if (listMap.size() <= 0)
             return "";

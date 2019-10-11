@@ -155,7 +155,7 @@ public class OrderListBean {
             private int version;
             private String orderNo;
             private String ahNumber;
-            private Object adNumber;
+            private String adNumber;
             private double overtimeMoney;
             private double invoicepayMoney;
             private double promptMoney;
@@ -489,11 +489,11 @@ public class OrderListBean {
                 this.ahNumber = ahNumber;
             }
 
-            public Object getAdNumber() {
+            public String getAdNumber() {
                 return adNumber;
             }
 
-            public void setAdNumber(Object adNumber) {
+            public void setAdNumber(String adNumber) {
                 this.adNumber = adNumber;
             }
 

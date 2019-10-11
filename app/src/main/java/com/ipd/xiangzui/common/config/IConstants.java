@@ -18,12 +18,12 @@ public interface IConstants {
      */
     String FIRST_APP = "is_first"; //第一次进应用
     String IS_LOGIN = "is_login"; //已经登录
-    String IS_SUPPLEMENT_INFO = "is_supplement_info"; // 1 未认证 2认证了
+    String IS_SUPPLEMENT_INFO = "is_supplement_info"; // 1:未认证, 2:认证了
     String USER_ID = "user_id"; //用户标识
     String NAME = "name"; //用户真实姓名
     String NIKE_NAME = "nike_name"; //用户姓名
     String PHONE = "phone"; //用户手机号码
-    String SERVICE_PHONE = "service_phone"; //咨询客服号码
+    String SERVICE_PHONE = "15139877951"; //咨询客服号码
     String AVATAR = "avatar"; //头像
     String LATIUDE = "latitude"; //经度
     String LONGTITUDE = "longtitude"; //纬度
@@ -63,6 +63,9 @@ public interface IConstants {
     int REQUEST_CODE_109 = 109;//连台添加患者时的回跳
     int REQUEST_CODE_110 = 110;//补充病历连台回跳
     int REQUEST_CODE_111 = 111;//补充病历回跳
+    int REQUEST_CODE_112 = 112;//连台修改患者时的回跳
+    int REQUEST_CODE_113 = 113;//钱包回跳刷新
+    int REQUEST_CODE_114 = 114;//返回主页刷新
 
     /**
      * resultCode

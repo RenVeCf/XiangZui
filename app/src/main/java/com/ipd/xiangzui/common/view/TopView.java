@@ -98,6 +98,7 @@ public class TopView extends RelativeLayout implements View.OnClickListener {
                 }
                 break;
             case R.id.ib_top_customer_service:
+                new CallPhoneDialog(ApplicationUtil.getManager().currentActivity(), ""){}.show();
                 //                ApplicationUtil.getContext().startActivity(new Intent(ApplicationUtil.getContext(), CustomerServiceActivity.class).addFlags(Intent.FLAG_ACTIVITY_NEW_TASK));
                 break;
             case R.id.bt_top_withdrawals_record:

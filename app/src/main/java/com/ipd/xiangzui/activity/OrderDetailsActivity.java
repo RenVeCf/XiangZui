@@ -1,6 +1,7 @@
 package com.ipd.xiangzui.activity;
 
 import android.content.Intent;
+import android.os.Parcelable;
 import android.view.View;
 
 import androidx.appcompat.widget.AppCompatTextView;
@@ -162,6 +163,7 @@ public class OrderDetailsActivity extends BaseActivity<OrderContract.View, Order
     private SelectOrderAddPatientAdapter selectOrderAddPatientAdapter;
     private List<SendOrderDataBean.TwoOrderBean> str1 = new ArrayList<>();
     private int orderId;
+    private OrderDetailsBean orderDetailsBean;
     private String positiveUrl = "", negativeUrl = "", insuranceConsentUrl = "", surgeryAboutMedicalRecordUrl = "", bloodRoutineUrl = "", electrocardiogramUrl = "", coagulationUrl = "", infectiousDiseaseIndexUrl = "";
 
     @Override
@@ -291,7 +293,7 @@ public class OrderDetailsActivity extends BaseActivity<OrderContract.View, Order
 
     }
 
-    @OnClick({R.id.tv_patient_id_card, R.id.tv_patient_insurance_consent, R.id.stv_surgery_about_medical_record, R.id.stv_blood_routine, R.id.stv_electrocardiogram, R.id.stv_coagulation, R.id.stv_infectious_disease_index, R.id.bt_customer_service, R.id.bt_objection, R.id.bt_confirm, R.id.bt_cancel, R.id.bt_modify, R.id.bt_quicken, R.id.bt_add_fee, R.id.bt_cancel_1, R.id.bt_medical_record, R.id.bt_call_doctor})
+    @OnClick({R.id.tv_patient_id_card, R.id.tv_patient_insurance_consent, R.id.stv_surgery_about_medical_record, R.id.stv_blood_routine, R.id.stv_electrocardiogram, R.id.stv_coagulation, R.id.stv_infectious_disease_index, R.id.bt_objection, R.id.bt_confirm, R.id.bt_cancel, R.id.bt_modify, R.id.bt_quicken, R.id.bt_add_fee, R.id.bt_cancel_1, R.id.bt_medical_record, R.id.bt_call_doctor, R.id.bt_customer_service})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.tv_patient_id_card:
@@ -322,16 +324,12 @@ public class OrderDetailsActivity extends BaseActivity<OrderContract.View, Order
                 if (!isEmpty(infectiousDiseaseIndexUrl))
                     startActivity(new Intent(this, SurgeryAboutMedicalRecordActivity.class).putExtra("title", "传染病指标").putExtra("imgUrl", infectiousDiseaseIndexUrl).putExtra("twoImgType", 1));
                 break;
-            case R.id.bt_customer_service:
-                if (isFastClick())
-                    new CallPhoneDialog(this) {
-                    }.show();
-                break;
             case R.id.bt_objection:
                 new TwoBtDialog(this, "对此订单有异议，是否进行电话咨询?", "确认") {
                     @Override
                     public void confirm() {
-
+                        new CallPhoneDialog(OrderDetailsActivity.this, "") {
+                        }.show();
                     }
                 }.show();
                 break;
@@ -359,7 +357,7 @@ public class OrderDetailsActivity extends BaseActivity<OrderContract.View, Order
                 break;
             case R.id.bt_modify:
                 if (isFastClick())
-                    startActivity(new Intent(this, SendOrderActivity.class));
+                    startActivity(new Intent(this, SendOrderSurgicalInfoActivity.class).putExtra("orderDetails", orderDetailsBean.getData().getOrder()).putParcelableArrayListExtra("orderDetailsList", (ArrayList<? extends Parcelable>) orderDetailsBean.getData().getOrderDetail()));
                 break;
             case R.id.bt_quicken:
                 if (isFastClick())
@@ -406,14 +404,19 @@ public class OrderDetailsActivity extends BaseActivity<OrderContract.View, Order
                     new TwoBtDialog(this, "对此订单有异议，是否进行电话咨询？", "确认") {
                         @Override
                         public void confirm() {
-                            new CallPhoneDialog(OrderDetailsActivity.this) {
+                            new CallPhoneDialog(OrderDetailsActivity.this, "") {
                             }.show();
                         }
                     }.show();
                 break;
             case R.id.bt_call_doctor:
                 if (isFastClick())
-                    new CallPhoneDialog(this) {
+                    new CallPhoneDialog(this, orderDetailsBean.getData().getOrder().getAdNumber()) {
+                    }.show();
+                break;
+            case R.id.bt_customer_service:
+                if (isFastClick())
+                    new CallPhoneDialog(this, "") {
                     }.show();
                 break;
         }
@@ -428,6 +431,7 @@ public class OrderDetailsActivity extends BaseActivity<OrderContract.View, Order
     public void resultOrderDetails(OrderDetailsBean data) {
         switch (data.getCode()) {
             case 200:
+                orderDetailsBean = data;
                 tvOrderCode.setRightString(data.getData().getOrder().getOrderNo());
                 tvHospitalName.setRightString(data.getData().getOrder().getHospitalName());
                 tvHospitalAddress.setRightString(data.getData().getOrder().getAddress());
@@ -595,6 +599,7 @@ public class OrderDetailsActivity extends BaseActivity<OrderContract.View, Order
         ToastUtil.showShortToast(data.getMsg());
         switch (data.getCode()) {
             case 200:
+                setResult(RESULT_OK, new Intent().putExtra("refresh", 1));
                 finish();
                 break;
             case 900:
@@ -612,6 +617,7 @@ public class OrderDetailsActivity extends BaseActivity<OrderContract.View, Order
         ToastUtil.showShortToast(data.getMsg());
         switch (data.getCode()) {
             case 200:
+                setResult(RESULT_OK, new Intent().putExtra("refresh", 1));
                 finish();
                 break;
             case 900:
@@ -689,6 +695,7 @@ public class OrderDetailsActivity extends BaseActivity<OrderContract.View, Order
         ToastUtil.showShortToast(data.getMsg());
         switch (data.getCode()) {
             case 200:
+                setResult(RESULT_OK, new Intent().putExtra("refresh", 1));
                 finish();
                 break;
             case 900:
