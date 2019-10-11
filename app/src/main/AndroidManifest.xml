@@ -16,7 +16,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:replace="android:icon, android:allowBackup, theme, label">
-        <activity android:name=".activity.ModifyMedicalListActivity"></activity>
+
         <activity
             android:name=".activity.CaptchaLoginActivity"
             android:configChanges="screenSize|keyboardHidden|orientation|keyboard"
@@ -283,6 +283,11 @@
             android:configChanges="screenSize|keyboardHidden|orientation|keyboard"
             android:exported="false"
             android:launchMode="singleTask" />
+        <activity
+            android:name=".activity.ModifyMedicalListActivity"
+            android:configChanges="screenSize|keyboardHidden|orientation|keyboard"
+            android:exported="false"
+            android:launchMode="singleTask" />
 
         <meta-data
             android:name="channel"
@@ -303,6 +308,7 @@
             android:name="design_height_in_dp"
             android:value="640" />
     </application>
+
     <uses-permission android:name="android.permission.CALL_PHONE" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
